@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.ML.Probabilistic" Version="0.4.2203.202" />
+    <PackageReference Include="Microsoft.ML.Probabilistic.Compiler" Version="0.4.2203.202" />
+    <PackageReference Include="Microsoft.ML.Probabilistic.Learners" Version="0.4.2203.202" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\MattEland.Util\MattEland.Util.csproj" />
   </ItemGroup>
 
