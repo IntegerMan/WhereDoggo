@@ -7,7 +7,7 @@ public class TextEvent : GameEventBase
 {
     public string Message { get; }
 
-    public TextEvent(string message)
+    public TextEvent(GamePhase phase, string message) : base(phase)
     {
         Message = message;
     }

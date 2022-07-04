@@ -5,7 +5,8 @@ public class LoneDoggoObservedCenterCardEvent : GameEventBase
     public RoleContainerBase ObservedSlot { get; }
     public GameRoleBase ObservedRole { get; }
 
-    public LoneDoggoObservedCenterCardEvent(GamePlayer player, RoleContainerBase observedSlot, GameRoleBase observedRole) : base(player)
+    public LoneDoggoObservedCenterCardEvent(GamePlayer player, RoleContainerBase observedSlot, GameRoleBase observedRole) 
+        : base(GamePhase.Night, player)
     {
         if (player == null) throw new ArgumentNullException(nameof(player));
 

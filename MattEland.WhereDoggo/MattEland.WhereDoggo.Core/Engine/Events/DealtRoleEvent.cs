@@ -4,7 +4,8 @@ public class DealtRoleEvent : GameEventBase
 {
     public GameRoleBase Role { get; }
 
-    public DealtRoleEvent(GamePlayer player, GameRoleBase role) : base(player)
+    public DealtRoleEvent(GamePlayer player, GameRoleBase role) 
+        : base(GamePhase.Setup, player)
     {
         if (player == null) throw new ArgumentNullException(nameof(player));
 

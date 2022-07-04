@@ -27,7 +27,7 @@ public sealed class OneNightWhereDoggoGame : GameBase
 
         List<GameRoleBase> roles = this.Roles.OrderBy(r => _random.Next() + _random.Next() + _random.Next()).ToList();
 
-        string[] playerNames = {"Alice", "Bob", "Rufus", "Jimothy", "Wonko the Sane"};
+        string[] playerNames = { "Alice", "Bob", "Rufus", "Jimothy", "Wonko the Sane" };
 
         List<RoleContainerBase> players = new(numPlayers + NumCenterCards);
 
@@ -75,9 +75,17 @@ public sealed class OneNightWhereDoggoGame : GameBase
     public void PerformNightPhase()
     {
         LogEvent("Night Phase Starting");
+        CurrentPhase = GamePhase.Night;
 
-        List<GamePlayer> doggos = this.Players.Where(p => p.InitialRole.IsDoggo).ToList();
+        WakeDoggos();
 
+        LogEvent("Night Phase Ending");
+        CurrentPhase = GamePhase.Day;
+    }
+
+    private void WakeDoggos()
+    {
+        List<GamePlayer> doggos = Players.Where(p => p.InitialRole.IsDoggo).ToList();
         switch (doggos.Count)
         {
             case 0:
@@ -93,8 +101,6 @@ public sealed class OneNightWhereDoggoGame : GameBase
                 HandleMultipleDoggosWake(doggos);
                 break;
         }
-
-        LogEvent("Night Phase Ending");
     }
 
     private void HandleLoneDoggoWakes(IEnumerable<GamePlayer> doggos)
@@ -114,7 +120,7 @@ public sealed class OneNightWhereDoggoGame : GameBase
             {
                 if (otherPlayer.StartedAsDoggo)
                 {
-                    LogEvent(new KnowsRoleEvent(player, otherPlayer, otherPlayer.CurrentRole));
+                    LogEvent(new KnowsRoleEvent(CurrentPhase, player, otherPlayer, otherPlayer.CurrentRole));
                 }
                 else
                 {
@@ -123,4 +129,9 @@ public sealed class OneNightWhereDoggoGame : GameBase
             }
         }
     }
+
+    public List<GameEventBase> FindEventsForPhase(GamePhase phase) =>
+        Events.Where(e => e.Phase == phase)
+            .OrderBy(e => e.Id)
+            .ToList();
 }

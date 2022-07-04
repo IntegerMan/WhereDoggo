@@ -4,7 +4,8 @@ public class SawNotDoggoEvent : GameEventBase
 {
     public RoleContainerBase Target { get; }
 
-    public SawNotDoggoEvent(GamePlayer observer, RoleContainerBase target) : base(observer)
+    public SawNotDoggoEvent(GamePlayer observer, RoleContainerBase target) 
+        : base(GamePhase.Night, observer)
     {
         Target = target;
     }

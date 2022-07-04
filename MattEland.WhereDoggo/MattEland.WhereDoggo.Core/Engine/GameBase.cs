@@ -27,6 +27,9 @@ public abstract class GameBase
 
     public void Start()
     {
+        if (CurrentPhase != GamePhase.Setup) 
+            throw new InvalidOperationException("Game must be in setup phase");
+
         LogEvent($"{Name} started");
 
         foreach (GamePlayer player in this._players)
@@ -39,9 +42,10 @@ public abstract class GameBase
 
     protected void LogEvent(string message)
     {
-        LogEvent(new TextEvent(message));
+        LogEvent(new TextEvent(CurrentPhase, message));
     }
 
+    public GamePhase CurrentPhase { get; protected set; } = GamePhase.Setup;
     private int _nextEventId = 0;
     protected void LogEvent(GameEventBase @event)
     {

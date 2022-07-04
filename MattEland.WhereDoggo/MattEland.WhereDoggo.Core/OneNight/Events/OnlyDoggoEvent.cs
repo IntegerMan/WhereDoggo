@@ -2,7 +2,8 @@
 
 public class OnlyDoggoEvent : GameEventBase
 {
-    public OnlyDoggoEvent(GamePlayer player) : base(player)
+    public OnlyDoggoEvent(GamePlayer player) 
+        : base(GamePhase.Night, player)
     {
         
     }

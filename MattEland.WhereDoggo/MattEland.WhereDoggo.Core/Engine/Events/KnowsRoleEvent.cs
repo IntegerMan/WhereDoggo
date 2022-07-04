@@ -5,7 +5,8 @@ public class KnowsRoleEvent : GameEventBase
     public GamePlayer ObservedPlayer { get; }
     public GameRoleBase ObservedRole { get; }
 
-    public KnowsRoleEvent(GamePlayer observingPlayer, GamePlayer observedPlayer, GameRoleBase observedRole) : base(observingPlayer)
+    public KnowsRoleEvent(GamePhase phase, GamePlayer observingPlayer, GamePlayer observedPlayer, GameRoleBase observedRole) 
+        : base(phase, observingPlayer)
     {
         ObservedPlayer = observedPlayer;
         ObservedRole = observedRole;

@@ -25,14 +25,23 @@ public static class OneNightWhereDoggoDisplayHelpers
         Console.WriteLine();
     }
 
+    public static void DisplayNightActions(this OneNightWhereDoggoGame game)
+    {
+        Console.WriteLine("During the Night:");
+        List<GameEventBase> events = game.FindEventsForPhase(GamePhase.Night);
+        foreach (GameEventBase e in events)
+        {
+            Console.WriteLine($"\t{e}");
+        }
+        Console.WriteLine();
+    }
+
     public static void DisplayPlayerKnowledge(this OneNightWhereDoggoGame game)
     {
         foreach (GamePlayer player in game.Players)
         {
             player.DisplayPlayerKnowledge();
         }
-
-        Console.WriteLine();
     }    
     
     public static void DisplayAllEvents(this OneNightWhereDoggoGame game)

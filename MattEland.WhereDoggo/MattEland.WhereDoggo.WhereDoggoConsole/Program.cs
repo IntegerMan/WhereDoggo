@@ -12,10 +12,11 @@ game.DisplayGameState();
 
 // Carry out night phase
 game.PerformNightPhase();
-Console.WriteLine("After night phase...");
-Console.WriteLine();
+game.DisplayNightActions();
 
 // Show game state prior to vote
+Console.WriteLine("After night phase...");
+Console.WriteLine();
 game.DisplayPlayerKnowledge();
 
 // Carry out vote phase
