@@ -1,4 +1,4 @@
-﻿namespace MattEland.WhereDoggo.Core.OneNight.Events;
+﻿namespace MattEland.WhereDoggo.Core.Engine.Events;
 
 public class LoneDoggoObservedCenterCardEvent : GameEventBase
 {

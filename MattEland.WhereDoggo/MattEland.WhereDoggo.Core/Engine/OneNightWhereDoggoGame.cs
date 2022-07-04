@@ -1,4 +1,4 @@
-﻿namespace MattEland.WhereDoggo.Core.OneNight;
+﻿namespace MattEland.WhereDoggo.Core.Engine;
 
 public class OneNightWhereDoggoGame
 {
@@ -22,6 +22,31 @@ public class OneNightWhereDoggoGame
     {
         this.LoadRoles();
         this.LoadRoleContainers();
+    }
+
+    public void SetUp(IList<GameRoleBase> roles)
+    {
+        _roles = roles.ToList();
+        string[] playerNames = { "Alice", "Bob", "Rufus", "Jimothy", "Wonko the Sane" };
+
+        _roleContainers = new(NumPlayers + NumCenterCards);
+
+        int centerIndex = 1;
+        for (int i = 0; i < roles.Count; i++)
+        {
+            if (i < NumPlayers)
+            {
+                _roleContainers.Add(new GamePlayer(playerNames[i], roles[i]));
+            }
+            else
+            {
+                RoleSlot slot = new("Center Card " + (centerIndex++), roles[i]);
+                _roleContainers.Add(slot);
+                _centerSlots.Add(slot);
+            }
+        }
+
+        _players = _roleContainers.OfType<GamePlayer>().ToList();
     }
 
     public int NumPlayers { get; }
@@ -70,30 +95,6 @@ public class OneNightWhereDoggoGame
         List<GameRoleBase> roles = this.Roles.OrderBy(r => _random.Next() + _random.Next() + _random.Next()).ToList();
 
         SetUp(roles);
-    }
-
-    public void SetUp(IList<GameRoleBase> roles)
-    {
-        string[] playerNames = {"Alice", "Bob", "Rufus", "Jimothy", "Wonko the Sane"};
-
-        _roleContainers = new(NumPlayers + NumCenterCards);
-
-        int centerIndex = 1;
-        for (int i = 0; i < roles.Count; i++)
-        {
-            if (i < NumPlayers)
-            {
-                _roleContainers.Add(new GamePlayer(playerNames[i], roles[i]));
-            }
-            else
-            {
-                RoleSlot slot = new("Center Card " + (centerIndex++), roles[i]);
-                _roleContainers.Add(slot);
-                _centerSlots.Add(slot);
-            }
-        }
-
-        _players = _roleContainers.OfType<GamePlayer>().ToList();
     }
 
     public List<GameRoleBase> LoadRoles()
