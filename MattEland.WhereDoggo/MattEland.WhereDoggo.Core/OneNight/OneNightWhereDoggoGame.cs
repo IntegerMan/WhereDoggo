@@ -1,75 +1,117 @@
 ﻿namespace MattEland.WhereDoggo.Core.OneNight;
 
-public sealed class OneNightWhereDoggoGame : GameBase
+public class OneNightWhereDoggoGame
 {
+
+    private List<GamePlayer> _players = new();
+    private List<GameRoleBase> _roles = new();
+    private readonly List<GameEventBase> _events = new();
+    private List<RoleContainerBase> _roleContainers = new();
+
+    public IList<GamePlayer> Players => _players.AsReadOnly();
+    public IList<GameRoleBase> Roles => _roles.AsReadOnly();
+    public IList<RoleContainerBase> Entities => _roleContainers.AsReadOnly();
+    public IList<GameEventBase> Events => _events.AsReadOnly();
+
+    public OneNightWhereDoggoGame(int numPlayers)
+    {
+        this.NumPlayers = numPlayers;
+    }
+
+    public void SetUp()
+    {
+        this.LoadRoles();
+        this.LoadRoleContainers();
+    }
+
+    public int NumPlayers { get; }
+
+    public void Start()
+    {
+        if (CurrentPhase != GamePhase.Setup)
+            throw new InvalidOperationException("Game must be in setup phase");
+
+        LogEvent($"{Name} started");
+
+        foreach (GamePlayer player in this._players)
+        {
+            LogEvent(new DealtRoleEvent(player, player.InitialRole));
+        }
+
+        LogEvent($"{Name} initialized");
+    }
+
+    protected void LogEvent(string message)
+    {
+        LogEvent(new TextEvent(CurrentPhase, message));
+    }
+
+    public GamePhase CurrentPhase { get; protected set; } = GamePhase.Setup;
+    private int _nextEventId = 0;
+    protected void LogEvent(GameEventBase @event)
+    {
+        @event.Id = _nextEventId++;
+
+        _events.Add(@event);
+
+        // The player involved should know about this event
+        @event.Player?.AddEvent(@event);
+    }
+
     private readonly Random _random = new();
     private readonly List<RoleSlot> _centerSlots = new(NumCenterCards);
 
     public const int NumCenterCards = 3;
 
-    public OneNightWhereDoggoGame(int numPlayers) : base(numPlayers)
+    public string Name => "One Night Ultimate Where Doggo?";
+
+    public void LoadRoleContainers()
     {
-    }
-
-    public override string Name => "One Night Ultimate Where Doggo?";
-
-    public override List<RoleContainerBase> LoadRoleContainers(int numPlayers)
-    {
-        if (numPlayers is < 3 or > 5)
-        {
-            throw new ArgumentOutOfRangeException(nameof(numPlayers), "Must have between 3 and 5 players");
-        }
-
-        if (Roles.Count < numPlayers)
-        {
-            throw new InvalidOperationException("Tried to load players but the number of players was less than the number of roles");
-        }
-
         List<GameRoleBase> roles = this.Roles.OrderBy(r => _random.Next() + _random.Next() + _random.Next()).ToList();
 
-        string[] playerNames = { "Alice", "Bob", "Rufus", "Jimothy", "Wonko the Sane" };
+        SetUp(roles);
+    }
 
-        List<RoleContainerBase> players = new(numPlayers + NumCenterCards);
+    public void SetUp(IList<GameRoleBase> roles)
+    {
+        string[] playerNames = {"Alice", "Bob", "Rufus", "Jimothy", "Wonko the Sane"};
+
+        _roleContainers = new(NumPlayers + NumCenterCards);
 
         int centerIndex = 1;
         for (int i = 0; i < roles.Count; i++)
         {
-            if (i < numPlayers)
+            if (i < NumPlayers)
             {
-                players.Add(new GamePlayer(playerNames[i], roles[i]));
+                _roleContainers.Add(new GamePlayer(playerNames[i], roles[i]));
             }
             else
             {
-                RoleSlot slot = new RoleSlot("Center Card " + (centerIndex++), roles[i]);
-                players.Add(slot);
+                RoleSlot slot = new("Center Card " + (centerIndex++), roles[i]);
+                _roleContainers.Add(slot);
                 _centerSlots.Add(slot);
             }
         }
 
-        return players;
+        _players = _roleContainers.OfType<GamePlayer>().ToList();
     }
 
-    public override List<GameRoleBase> LoadRoles(int numPlayers)
+    public List<GameRoleBase> LoadRoles()
     {
-        if (numPlayers is < 3 or > 5)
-        {
-            throw new ArgumentOutOfRangeException(nameof(numPlayers), "Must have between 3 and 5 players");
-        }
-
-        List<GameRoleBase> roles = new();
+        _roles = new();
 
         const int numDoggos = 2;
 
         for (int i = 0; i < numDoggos; i++)
         {
-            roles.Add(new DoggoRole());
+            _roles.Add(new DoggoRole());
         }
-        for (int i = 0; i < numPlayers - numDoggos + NumCenterCards; i++)
+        for (int i = 0; i < NumPlayers - numDoggos + NumCenterCards; i++)
         {
-            roles.Add(new RabbitRole());
+            _roles.Add(new RabbitRole());
         }
 
-        return roles;
+        return _roles;
     }
 
     public void PerformNightPhase()

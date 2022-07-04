@@ -1,6 +1,7 @@
 ﻿const int numPlayers = 4;
 
 OneNightWhereDoggoGame game = new(numPlayers);
+game.SetUp();
 
 Console.WriteLine($"Starting a new game of \"{game.Name}\"");
 Console.WriteLine();
