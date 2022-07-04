@@ -1,22 +1,20 @@
 ﻿using MattEland.WhereDoggo.Core.Engine;
+using MattEland.WhereDoggo.Core.Engine.Events;
 
 namespace MattEland.WhereDoggo.Core.OneNight;
 
 public sealed class OneNightWhereDoggoGame : GameBase
 {
     private readonly Random _random = new();
-    private readonly List<GameRoleBase> _centerRoles = new(NumCenterCards);
 
     public const int NumCenterCards = 3;
 
     public OneNightWhereDoggoGame(int numPlayers) : base(numPlayers)
     {
     }
-
-    public IList<GameRoleBase> CenterRoles => _centerRoles;
     public override string Name => "One Night Ultimate Where Doggo?";
 
-    public override List<GamePlayer> LoadPlayers(int numPlayers)
+    public override List<RoleContainerBase> LoadRoleContainers(int numPlayers)
     {
         if (numPlayers is < 3 or > 5)
         {
@@ -32,8 +30,9 @@ public sealed class OneNightWhereDoggoGame : GameBase
 
         string[] playerNames = {"Alice", "Bob", "Rufus", "Jimothy", "Wonko the Sane"};
 
-        List<GamePlayer> players = new(numPlayers);
+        List<RoleContainerBase> players = new(numPlayers + NumCenterCards);
 
+        int centerIndex = 1;
         for (int i = 0; i < roles.Count; i++)
         {
             if (i < numPlayers)
@@ -42,7 +41,7 @@ public sealed class OneNightWhereDoggoGame : GameBase
             }
             else
             {
-                _centerRoles.Add(roles[i]);
+                players.Add(new RoleSlot("Center Card " + (centerIndex++), roles[i]));
             }
         }
 

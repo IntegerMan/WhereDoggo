@@ -4,15 +4,9 @@ public static class OneNightWhereDoggoDisplayHelpers
 {
     public static void DisplayGameState(this OneNightWhereDoggoGame game)
     {
-        foreach (GamePlayer player in game.Players)
+        foreach (RoleContainerBase container in game.Entities)
         {
-            Console.WriteLine($"{player.Name} is a {player.InitialRole}");
-        }
-
-        int slotNumber = 1;
-        foreach (GameRoleBase role in game.CenterRoles)
-        {
-            Console.WriteLine($"Center Slot #{slotNumber++} is holding {role}");
+            Console.WriteLine($"{container} is a {container.CurrentRole}");
         }
 
         Console.WriteLine();

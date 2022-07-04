@@ -6,8 +6,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\MattEland.Util\MattEland.Util.csproj" />
-  </ItemGroup>
-
 </Project>

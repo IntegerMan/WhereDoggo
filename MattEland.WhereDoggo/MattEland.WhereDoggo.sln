@@ -3,16 +3,18 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32104.313
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MattEland.WhereDoggo.WhereDoggoConsole", "MattEland.WhereDoggo.WhereDoggoConsole\MattEland.WhereDoggo.WhereDoggoConsole.csproj", "{DAFF3F49-6575-4164-9AC0-FAEDE3F6D21A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MattEland.WhereDoggo.WhereDoggoConsole", "MattEland.WhereDoggo.WhereDoggoConsole\MattEland.WhereDoggo.WhereDoggoConsole.csproj", "{DAFF3F49-6575-4164-9AC0-FAEDE3F6D21A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E372DFCE-61FB-44BA-ADEE-4C4AFBF463C6}"
 	ProjectSection(SolutionItems) = preProject
 		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MattEland.WhereDoggo.Core", "MattEland.WhereDoggo.Core\MattEland.WhereDoggo.Core.csproj", "{A3BA418F-C40D-43CB-9D00-71FB76F74F44}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MattEland.WhereDoggo.Core", "MattEland.WhereDoggo.Core\MattEland.WhereDoggo.Core.csproj", "{A3BA418F-C40D-43CB-9D00-71FB76F74F44}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MattEland.WhereDoggo.Core.Tests", "MattEland.WhereDoggo.Core.Tests\MattEland.WhereDoggo.Core.Tests.csproj", "{49B0325D-5276-4197-900C-6EB8B1FF0814}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MattEland.WhereDoggo.Core.Tests", "MattEland.WhereDoggo.Core.Tests\MattEland.WhereDoggo.Core.Tests.csproj", "{49B0325D-5276-4197-900C-6EB8B1FF0814}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MattEland.Util", "MattEland.Util\MattEland.Util.csproj", "{A59B7B80-B3B6-4771-9740-491921257ACB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,14 +34,15 @@ Global
 		{49B0325D-5276-4197-900C-6EB8B1FF0814}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{49B0325D-5276-4197-900C-6EB8B1FF0814}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{49B0325D-5276-4197-900C-6EB8B1FF0814}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A59B7B80-B3B6-4771-9740-491921257ACB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A59B7B80-B3B6-4771-9740-491921257ACB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A59B7B80-B3B6-4771-9740-491921257ACB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A59B7B80-B3B6-4771-9740-491921257ACB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8A4B9F6F-551D-4052-83DA-95C322608682}
-	EndGlobalSection
-	GlobalSection(NDepend) = preSolution
-		Project = ".\MattEland.WhereDoggo.ndproj"
 	EndGlobalSection
 EndGlobal

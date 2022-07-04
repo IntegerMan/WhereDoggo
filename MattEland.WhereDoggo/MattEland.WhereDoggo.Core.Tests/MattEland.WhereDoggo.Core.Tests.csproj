@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MattEland.Util\MattEland.Util.csproj" />
     <ProjectReference Include="..\MattEland.WhereDoggo.Core\MattEland.WhereDoggo.Core.csproj" />
   </ItemGroup>
 
