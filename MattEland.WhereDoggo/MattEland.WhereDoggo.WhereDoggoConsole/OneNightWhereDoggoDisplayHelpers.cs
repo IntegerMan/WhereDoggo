@@ -36,11 +36,27 @@ public static class OneNightWhereDoggoDisplayHelpers
         Console.WriteLine();
     }
 
-    public static void DisplayPlayerKnowledge(this OneNightWhereDoggoGame game)
+    public static void DisplayPlayerKnowledge(this OneNightWhereDoggoGame game, bool includeProbabilities)
     {
         foreach (GamePlayer player in game.Players)
         {
             player.DisplayPlayerKnowledge();
+
+
+            if (includeProbabilities)
+            {
+                Console.WriteLine($"{player.Name} Assumed Probabilities:");
+                
+                IDictionary<RoleContainerBase, ContainerRoleProbabilities> probabilities =
+                    player.Brain.BuildFinalRoleProbabilities(player, game);
+
+                foreach (KeyValuePair<RoleContainerBase, ContainerRoleProbabilities> kvp in probabilities)
+                {
+                    Console.WriteLine($"\t{kvp.Key.Name} probabilities ({kvp.Value})");
+                }
+
+                Console.WriteLine();
+            }
         }
     }    
     

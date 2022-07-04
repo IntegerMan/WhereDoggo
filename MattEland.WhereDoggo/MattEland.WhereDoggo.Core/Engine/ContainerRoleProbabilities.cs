@@ -18,4 +18,6 @@ public class ContainerRoleProbabilities
             ProbabilityDoggo = 0;
         }
     }
+
+    public override string ToString() => $"Rabbit: {ProbabilityRabbit:P}, Doggo: {ProbabilityDoggo:P}";
 }

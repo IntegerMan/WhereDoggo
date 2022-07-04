@@ -15,4 +15,5 @@ public class GamePlayer : RoleContainerBase
 
     public IList<GameEventBase> Events => _events.AsReadOnly();
     public bool StartedAsDoggo => InitialRole.IsDoggo;
+    public GameInferenceEngine Brain { get; } = new();
 }

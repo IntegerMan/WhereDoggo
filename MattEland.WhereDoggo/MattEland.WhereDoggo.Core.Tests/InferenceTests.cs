@@ -89,11 +89,10 @@ public class InferenceTests
         };
         game.SetUp(assignedRoles);
         GamePlayer player = game.Players.First();
-        GameInferenceEngine inferrer = new();
 
         // Act
         IDictionary<RoleContainerBase, ContainerRoleProbabilities> probabilities =
-            inferrer.BuildFinalRoleProbabilities(player, game);
+            player.Brain.BuildFinalRoleProbabilities(player, game);
 
         // Assert
         // 2 Doggos, 3 Rabbits
