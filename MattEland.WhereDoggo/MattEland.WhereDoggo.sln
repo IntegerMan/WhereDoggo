@@ -39,4 +39,7 @@ Global
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8A4B9F6F-551D-4052-83DA-95C322608682}
 	EndGlobalSection
+	GlobalSection(NDepend) = preSolution
+		Project = ".\MattEland.WhereDoggo.ndproj"
+	EndGlobalSection
 EndGlobal
