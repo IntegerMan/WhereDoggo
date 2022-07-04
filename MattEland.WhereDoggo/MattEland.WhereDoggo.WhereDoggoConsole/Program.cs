@@ -1,7 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
-
-using MattEland.WhereDoggo.Core.Engine;
-const int numPlayers = 4;
+﻿const int numPlayers = 4;
 
 OneNightWhereDoggoGame game = new(numPlayers);
 
@@ -11,3 +8,5 @@ Console.WriteLine();
 Console.WriteLine("After game start...");
 Console.WriteLine();
 game.DisplayGameState();
+game.DisplayAllEvents();
+game.DisplayPlayerKnowledge();

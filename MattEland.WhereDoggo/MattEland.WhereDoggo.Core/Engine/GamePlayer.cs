@@ -2,6 +2,8 @@
 
 public class GamePlayer
 {
+    private readonly List<GameEventBase> _events = new();
+
     public GamePlayer(string name, GameRoleBase initialRole)
     {
         this.Name = name;
@@ -11,4 +13,11 @@ public class GamePlayer
     public string Name { get; }
 
     public GameRoleBase InitialRole { get; }
+
+    public void AddEvent(GameEventBase eventBase)
+    {
+        this._events.Add(eventBase);
+    }
+
+    public IList<GameEventBase> Events => _events.AsReadOnly();
 }
