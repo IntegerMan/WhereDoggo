@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32104.313
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MattEland.WhereDoggo.WhereDoggoConsole", "MattEland.WhereDoggo.WhereDoggoConsole\MattEland.WhereDoggo.WhereDoggoConsole.csproj", "{DAFF3F49-6575-4164-9AC0-FAEDE3F6D21A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E372DFCE-61FB-44BA-ADEE-4C4AFBF463C6}"
+	ProjectSection(SolutionItems) = preProject
+		..\README.md = ..\README.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MattEland.WhereDoggo.Core", "MattEland.WhereDoggo.Core\MattEland.WhereDoggo.Core.csproj", "{A3BA418F-C40D-43CB-9D00-71FB76F74F44}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MattEland.WhereDoggo.Core.Tests", "MattEland.WhereDoggo.Core.Tests\MattEland.WhereDoggo.Core.Tests.csproj", "{49B0325D-5276-4197-900C-6EB8B1FF0814}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DAFF3F49-6575-4164-9AC0-FAEDE3F6D21A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DAFF3F49-6575-4164-9AC0-FAEDE3F6D21A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DAFF3F49-6575-4164-9AC0-FAEDE3F6D21A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DAFF3F49-6575-4164-9AC0-FAEDE3F6D21A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3BA418F-C40D-43CB-9D00-71FB76F74F44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3BA418F-C40D-43CB-9D00-71FB76F74F44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3BA418F-C40D-43CB-9D00-71FB76F74F44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3BA418F-C40D-43CB-9D00-71FB76F74F44}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49B0325D-5276-4197-900C-6EB8B1FF0814}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49B0325D-5276-4197-900C-6EB8B1FF0814}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49B0325D-5276-4197-900C-6EB8B1FF0814}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49B0325D-5276-4197-900C-6EB8B1FF0814}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8A4B9F6F-551D-4052-83DA-95C322608682}
+	EndGlobalSection
+EndGlobal
