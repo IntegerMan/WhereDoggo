@@ -15,6 +15,11 @@ public class ContainerRoleProbabilities
     {
         ProbabilityRabbit = numRabbits / (decimal)numRoles;
         ProbabilityDoggo = numDoggos / (decimal)numRoles;
+
+        if (ProbabilityDoggo >= 1 || ProbabilityRabbit >= 1)
+        {
+            IsCertain = true;
+        }
     }
 
     public decimal ProbabilityDoggo { get; set; }

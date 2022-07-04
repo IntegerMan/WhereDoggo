@@ -40,7 +40,7 @@ public class OneNightWhereDoggoGame
         {
             if (i < NumPlayers)
             {
-                _roleContainers.Add(new GamePlayer(playerNames[i], roles[i]));
+                _roleContainers.Add(new GamePlayer(playerNames[i], roles[i], _random));
             }
             else
             {
@@ -159,7 +159,7 @@ public class OneNightWhereDoggoGame
             LogEvent(new SawNotDoggoEvent(loneDoggo, otherPlayer));
         }
 
-        RoleSlot slot = _centerSlots.GetRandomElement(_random)!;
+        RoleSlot slot = loneDoggo.LoneWolfSlotSelectionStrategy.SelectSlot(_centerSlots);
         LogEvent(new LoneDoggoObservedCenterCardEvent(loneDoggo, slot, slot.CurrentRole));
     }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MattEland.WhereDoggo.Core.Engine;
 using MattEland.WhereDoggo.Core.Engine.Roles;
+using MattEland.WhereDoggo.Core.Engine.Strategies;
 using NUnit.Framework;
 using Shouldly;
 
@@ -72,6 +73,41 @@ public class InferenceTests
         // Assert
         probabilities[player].ProbabilityDoggo.ShouldBe(1);
         probabilities[player].ProbabilityRabbit.ShouldBe(0);
+    }
+    
+    [Test]
+    public void LoneWolfWhoSeesAWolfWithOnlyVillagersShouldKnowAllRoles()
+    {
+        // Arrange
+        const int numPlayers = 3;
+        OneNightWhereDoggoGame game = new(numPlayers);
+        GameRoleBase[] assignedRoles =
+        {
+            // Player Roles
+            new DoggoRole(),
+            new RabbitRole(),
+            new RabbitRole(),
+            // Center Cards
+            new DoggoRole(), 
+            new RabbitRole(), 
+            new RabbitRole()
+        };
+        game.SetUp(assignedRoles);
+        GamePlayer player = game.Players.First();
+        player.LoneWolfSlotSelectionStrategy = new SelectSpecificSlotLoneWolfStrategy(0);
+
+        game.Start();
+        game.PerformNightPhase();
+
+        // Act
+        IDictionary<RoleContainerBase, ContainerRoleProbabilities> probabilities = 
+            player.Brain.BuildFinalRoleProbabilities(player, game);
+
+        // Assert
+        foreach (KeyValuePair<RoleContainerBase, ContainerRoleProbabilities> kvp in probabilities)
+        {
+            kvp.Value.IsCertain.ShouldBeTrue("Was not certain of role " + kvp.Value);
+        }
     }       
     
     [Test]
@@ -95,11 +131,10 @@ public class InferenceTests
         game.Start();
         game.PerformNightPhase();
         GamePlayer player = game.Players.First();
-        GameInferenceEngine inferrer = new();
 
         // Act
         IDictionary<RoleContainerBase, ContainerRoleProbabilities> probabilities = 
-            inferrer.BuildFinalRoleProbabilities(player, game);
+            player.Brain.BuildFinalRoleProbabilities(player, game);
 
         // Assert
         GamePlayer player2 = game.Players[1];
