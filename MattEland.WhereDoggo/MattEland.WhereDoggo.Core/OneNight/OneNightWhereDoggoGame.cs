@@ -10,6 +10,7 @@ public sealed class OneNightWhereDoggoGame : GameBase
     public OneNightWhereDoggoGame(int numPlayers) : base(numPlayers)
     {
     }
+
     public override string Name => "One Night Ultimate Where Doggo?";
 
     public override List<RoleContainerBase> LoadRoleContainers(int numPlayers)
@@ -73,47 +74,53 @@ public sealed class OneNightWhereDoggoGame : GameBase
 
     public void PerformNightPhase()
     {
-        LogEvent(new TextEvent("Night Phase Starting"));
+        LogEvent("Night Phase Starting");
 
         List<GamePlayer> doggos = this.Players.Where(p => p.InitialRole.IsDoggo).ToList();
 
         switch (doggos.Count)
         {
             case 0:
-                LogEvent(new TextEvent("No doggos awoke"));
+                LogEvent("No doggos awoke");
                 break;
 
             case 1:
-                GamePlayer loneDoggo = doggos[0];
-                LogEvent(new OnlyDoggoEvent(loneDoggo));
-
-                RoleSlot slot = _centerSlots.GetRandomElement(_random)!;
-                LogEvent(new LoneDoggoObservedCenterCardEvent(loneDoggo, slot, slot.CurrentRole));
-
+                HandleLoneDoggoWakes(doggos);
                 break;
 
             case > 1:
-            {
                 // Each doggo knows each other doggo is a doggo
-                foreach (GamePlayer player in doggos)
-                {
-                    foreach (GamePlayer otherPlayer in Players.Where(otherPlayer => otherPlayer != player))
-                    {
-                        if (otherPlayer.StartedAsDoggo)
-                        {
-                            LogEvent(new KnowsRoleEvent(player, otherPlayer, otherPlayer.CurrentRole));
-                        }
-                        else
-                        {
-                            LogEvent(new SawNotDoggoEvent(player, otherPlayer));
-                        }
-                    }
-                }
-
+                HandleMultipleDoggosWake(doggos);
                 break;
-            }
         }
 
-        LogEvent(new TextEvent("Night Phase Ending"));
+        LogEvent("Night Phase Ending");
+    }
+
+    private void HandleLoneDoggoWakes(IEnumerable<GamePlayer> doggos)
+    {
+        GamePlayer loneDoggo = doggos.Single();
+        LogEvent(new OnlyDoggoEvent(loneDoggo));
+
+        RoleSlot slot = _centerSlots.GetRandomElement(_random)!;
+        LogEvent(new LoneDoggoObservedCenterCardEvent(loneDoggo, slot, slot.CurrentRole));
+    }
+
+    private void HandleMultipleDoggosWake(List<GamePlayer> doggos)
+    {
+        foreach (GamePlayer player in doggos)
+        {
+            foreach (GamePlayer otherPlayer in Players.Where(otherPlayer => otherPlayer != player))
+            {
+                if (otherPlayer.StartedAsDoggo)
+                {
+                    LogEvent(new KnowsRoleEvent(player, otherPlayer, otherPlayer.CurrentRole));
+                }
+                else
+                {
+                    LogEvent(new SawNotDoggoEvent(player, otherPlayer));
+                }
+            }
+        }
     }
 }

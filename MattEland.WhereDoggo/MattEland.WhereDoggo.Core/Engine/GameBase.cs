@@ -23,21 +23,30 @@ public abstract class GameBase
         this._roles = this.LoadRoles(numPlayers);
         this._roleContainers = this.LoadRoleContainers(numPlayers);
         this._players = _roleContainers.OfType<GamePlayer>().ToList();
+    }
 
-        LogEvent(new TextEvent($"{Name} started"));
+    public void Start()
+    {
+        LogEvent($"{Name} started");
 
         foreach (GamePlayer player in this._players)
         {
-            DealtRoleEvent dealtEvent = new(player, player.InitialRole);
-
-            LogEvent(dealtEvent);
+            LogEvent(new DealtRoleEvent(player, player.InitialRole));
         }
 
-        LogEvent(new TextEvent($"{Name} initialized"));
+        LogEvent($"{Name} initialized");
     }
 
+    protected void LogEvent(string message)
+    {
+        LogEvent(new TextEvent(message));
+    }
+
+    private int _nextEventId = 0;
     protected void LogEvent(GameEventBase @event)
     {
+        @event.Id = _nextEventId++;
+
         _events.Add(@event);
 
         // The player involved should know about this event
