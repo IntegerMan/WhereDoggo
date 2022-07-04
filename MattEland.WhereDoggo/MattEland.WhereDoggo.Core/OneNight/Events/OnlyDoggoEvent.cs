@@ -1,4 +1,4 @@
-﻿namespace MattEland.WhereDoggo.Core.Engine.Events;
+﻿namespace MattEland.WhereDoggo.Core.OneNight.Events;
 
 public class OnlyDoggoEvent : GameEventBase
 {

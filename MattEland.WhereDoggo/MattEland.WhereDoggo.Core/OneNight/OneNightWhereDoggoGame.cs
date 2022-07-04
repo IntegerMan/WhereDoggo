@@ -1,11 +1,9 @@
-﻿using MattEland.WhereDoggo.Core.Engine;
-using MattEland.WhereDoggo.Core.Engine.Events;
-
-namespace MattEland.WhereDoggo.Core.OneNight;
+﻿namespace MattEland.WhereDoggo.Core.OneNight;
 
 public sealed class OneNightWhereDoggoGame : GameBase
 {
     private readonly Random _random = new();
+    private readonly List<RoleSlot> _centerSlots = new(NumCenterCards);
 
     public const int NumCenterCards = 3;
 
@@ -41,7 +39,9 @@ public sealed class OneNightWhereDoggoGame : GameBase
             }
             else
             {
-                players.Add(new RoleSlot("Center Card " + (centerIndex++), roles[i]));
+                RoleSlot slot = new RoleSlot("Center Card " + (centerIndex++), roles[i]);
+                players.Add(slot);
+                _centerSlots.Add(slot);
             }
         }
 
@@ -84,9 +84,11 @@ public sealed class OneNightWhereDoggoGame : GameBase
                 break;
 
             case 1:
-                LogEvent(new OnlyDoggoEvent(doggos[0]));
+                GamePlayer loneDoggo = doggos[0];
+                LogEvent(new OnlyDoggoEvent(loneDoggo));
 
-                // TODO: Doggo should be able to look at a center card
+                RoleSlot slot = _centerSlots.GetRandomElement(_random)!;
+                LogEvent(new LoneDoggoObservedCenterCardEvent(loneDoggo, slot, slot.CurrentRole));
 
                 break;
 
@@ -95,9 +97,16 @@ public sealed class OneNightWhereDoggoGame : GameBase
                 // Each doggo knows each other doggo is a doggo
                 foreach (GamePlayer player in doggos)
                 {
-                    foreach (GamePlayer otherPlayer in doggos.Where(otherPlayer => otherPlayer != player))
+                    foreach (GamePlayer otherPlayer in Players.Where(otherPlayer => otherPlayer != player))
                     {
-                        LogEvent(new KnowsRoleEvent(player, otherPlayer, otherPlayer.CurrentRole));
+                        if (otherPlayer.StartedAsDoggo)
+                        {
+                            LogEvent(new KnowsRoleEvent(player, otherPlayer, otherPlayer.CurrentRole));
+                        }
+                        else
+                        {
+                            LogEvent(new SawNotDoggoEvent(player, otherPlayer));
+                        }
                     }
                 }
 

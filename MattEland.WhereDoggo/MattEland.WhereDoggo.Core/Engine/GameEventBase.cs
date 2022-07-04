@@ -1,4 +1,4 @@
-﻿using MattEland.WhereDoggo.Core.Engine;
+﻿namespace MattEland.WhereDoggo.Core.Engine;
 
 public abstract class GameEventBase
 {
