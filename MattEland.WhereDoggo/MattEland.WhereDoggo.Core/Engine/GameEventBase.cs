@@ -2,9 +2,9 @@
 
 public abstract class GameEventBase
 {
-    public GamePlayer Player { get; }
+    public GamePlayer? Player { get; }
 
-    protected GameEventBase(GamePlayer player)
+    protected GameEventBase(GamePlayer? player = null)
     {
         Player = player;
     }

@@ -72,4 +72,40 @@ public sealed class OneNightWhereDoggoGame : GameBase
         return roles;
     }
 
+    public void PerformNightPhase()
+    {
+        LogEvent(new TextEvent("Night Phase Starting"));
+
+        List<GamePlayer> doggos = this.Players.Where(p => p.InitialRole.IsDoggo).ToList();
+
+        switch (doggos.Count)
+        {
+            case 0:
+                LogEvent(new TextEvent("No doggos awoke"));
+                break;
+
+            case 1:
+                LogEvent(new OnlyDoggoEvent(doggos[0]));
+
+                // TODO: Doggo should be able to look at a center card
+
+                break;
+
+            case > 1:
+            {
+                // Each doggo knows each other doggo is a doggo
+                foreach (GamePlayer player in doggos)
+                {
+                    foreach (GamePlayer otherPlayer in doggos.Where(otherPlayer => otherPlayer != player))
+                    {
+                        LogEvent(new KnowsRoleEvent(player, otherPlayer, otherPlayer.CurrentRole));
+                    }
+                }
+
+                break;
+            }
+        }
+
+        LogEvent(new TextEvent("Night Phase Ending"));
+    }
 }

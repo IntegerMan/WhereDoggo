@@ -8,6 +8,7 @@ public class GamePlayer
     {
         this.Name = name;
         this.InitialRole = initialRole;
+        this.CurrentRole = initialRole;
     }
 
     public string Name { get; }
@@ -20,4 +21,7 @@ public class GamePlayer
     }
 
     public IList<GameEventBase> Events => _events.AsReadOnly();
+    public GameRoleBase CurrentRole { get; set; }
+
+    public override string ToString() => Name;
 }

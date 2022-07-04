@@ -26,8 +26,9 @@ public static class OneNightWhereDoggoDisplayHelpers
         foreach (GameEventBase @event in player.Events)
         {
             Console.WriteLine($"\t{@event}");
-            Console.WriteLine();
         }
+
+        Console.WriteLine();
     }
 
     public static void DisplayPlayerKnowledge(this OneNightWhereDoggoGame game)

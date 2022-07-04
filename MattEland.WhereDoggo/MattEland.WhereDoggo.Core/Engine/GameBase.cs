@@ -19,12 +19,23 @@ public abstract class GameBase
         this._roles = this.LoadRoles(numPlayers);
         this._players = this.LoadPlayers(numPlayers);
 
+        LogEvent(new TextEvent($"{Name} started"));
+
         foreach (GamePlayer player in this._players)
         {
             DealtRoleEvent dealtEvent = new(player, player.InitialRole);
 
-            _events.Add(dealtEvent);
-            player.AddEvent(dealtEvent);
+            LogEvent(dealtEvent);
         }
+
+        LogEvent(new TextEvent($"{Name} initialized"));
+    }
+
+    protected void LogEvent(GameEventBase @event)
+    {
+        _events.Add(@event);
+
+        // The player involved should know about this event
+        @event.Player?.AddEvent(@event);
     }
 }

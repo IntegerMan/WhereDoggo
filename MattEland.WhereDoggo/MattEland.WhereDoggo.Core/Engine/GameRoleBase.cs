@@ -2,5 +2,5 @@
 
 public abstract class GameRoleBase
 {
-
+    public virtual bool IsDoggo => false;
 }
