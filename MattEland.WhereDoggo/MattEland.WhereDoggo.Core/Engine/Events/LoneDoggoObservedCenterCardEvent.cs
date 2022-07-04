@@ -15,4 +15,12 @@ public class LoneDoggoObservedCenterCardEvent : GameEventBase
     }
 
     public override string ToString() => $"{Player} saw {ObservedRole} in {ObservedSlot}";
+
+    public override void UpdatePlayerPerceptions(GamePlayer observer, RoleContainerBase target, ContainerRoleProbabilities probabilities)
+    {
+        if (target == ObservedSlot)
+        {
+            probabilities.MarkAsCertainOfRole(ObservedRole);
+        }
+    }
 }

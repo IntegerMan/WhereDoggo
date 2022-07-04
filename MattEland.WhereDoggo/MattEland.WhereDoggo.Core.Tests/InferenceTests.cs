@@ -28,6 +28,8 @@ public class InferenceTests
             new RabbitRole()
         };
         game.SetUp(assignedRoles);
+        game.Start();
+        game.PerformNightPhase();
         GamePlayer player = game.Players.First();
         GameInferenceEngine inferrer = new();
 
@@ -58,6 +60,8 @@ public class InferenceTests
             new RabbitRole()
         };
         game.SetUp(assignedRoles);
+        game.Start();
+        game.PerformNightPhase();
         GamePlayer player = game.Players.First();
         GameInferenceEngine inferrer = new();
 
@@ -66,8 +70,44 @@ public class InferenceTests
             inferrer.BuildFinalRoleProbabilities(player, game);
 
         // Assert
-        probabilities[player].ProbabilityRabbit.ShouldBe(0);
         probabilities[player].ProbabilityDoggo.ShouldBe(1);
+        probabilities[player].ProbabilityRabbit.ShouldBe(0);
+    }       
+    
+    [Test]
+    public void WerewolvesShouldKnowOthersAreVillagers()
+    {
+        // Arrange
+        const int numPlayers = 3;
+        OneNightWhereDoggoGame game = new(numPlayers);
+        GameRoleBase[] assignedRoles =
+        {
+            // Player Roles
+            new DoggoRole(),
+            new RabbitRole(),
+            new RabbitRole(),
+            // Center Cards
+            new DoggoRole(), 
+            new RabbitRole(), 
+            new RabbitRole()
+        };
+        game.SetUp(assignedRoles);
+        game.Start();
+        game.PerformNightPhase();
+        GamePlayer player = game.Players.First();
+        GameInferenceEngine inferrer = new();
+
+        // Act
+        IDictionary<RoleContainerBase, ContainerRoleProbabilities> probabilities = 
+            inferrer.BuildFinalRoleProbabilities(player, game);
+
+        // Assert
+        GamePlayer player2 = game.Players[1];
+        probabilities[player2].ProbabilityRabbit.ShouldBe(1);
+        probabilities[player2].ProbabilityDoggo.ShouldBe(0);
+        GamePlayer player3 = game.Players[2];
+        probabilities[player3].ProbabilityRabbit.ShouldBe(1);
+        probabilities[player3].ProbabilityDoggo.ShouldBe(0);
     }
 
     [Test]
@@ -88,6 +128,8 @@ public class InferenceTests
             new RabbitRole()
         };
         game.SetUp(assignedRoles);
+        game.Start();
+        game.PerformNightPhase();
         GamePlayer player = game.Players.First();
 
         // Act
@@ -95,7 +137,7 @@ public class InferenceTests
             player.Brain.BuildFinalRoleProbabilities(player, game);
 
         // Assert
-        // 2 Doggos, 3 Rabbits
+        // 2 Doggos, 3 Rabbits in 5 other players
         GamePlayer secondPlayer = game.Players[1];
         probabilities[secondPlayer].ProbabilityRabbit.ShouldBe(3.0M/5.0M);
         probabilities[secondPlayer].ProbabilityDoggo.ShouldBe(2.0M/5.0M);

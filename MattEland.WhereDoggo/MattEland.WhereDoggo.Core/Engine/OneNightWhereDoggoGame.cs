@@ -1,4 +1,8 @@
-﻿namespace MattEland.WhereDoggo.Core.Engine;
+﻿using MattEland.Util;
+using MattEland.WhereDoggo.Core.Engine.Events;
+using MattEland.WhereDoggo.Core.Engine.Roles;
+
+namespace MattEland.WhereDoggo.Core.Engine;
 
 public class OneNightWhereDoggoGame
 {
@@ -150,6 +154,10 @@ public class OneNightWhereDoggoGame
     {
         GamePlayer loneDoggo = doggos.Single();
         LogEvent(new OnlyDoggoEvent(loneDoggo));
+        foreach (GamePlayer otherPlayer in Players.Where(p => p != loneDoggo))
+        {
+            LogEvent(new SawNotDoggoEvent(loneDoggo, otherPlayer));
+        }
 
         RoleSlot slot = _centerSlots.GetRandomElement(_random)!;
         LogEvent(new LoneDoggoObservedCenterCardEvent(loneDoggo, slot, slot.CurrentRole));

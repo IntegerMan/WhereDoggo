@@ -1,4 +1,4 @@
-﻿const int numPlayers = 4;
+﻿const int numPlayers = 3;
 
 OneNightWhereDoggoGame game = new(numPlayers);
 game.SetUp();

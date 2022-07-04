@@ -11,4 +11,9 @@ public abstract class GameEventBase
         Phase = phase;
         Player = player;
     }
+
+    public virtual void UpdatePlayerPerceptions(GamePlayer observer, RoleContainerBase target, ContainerRoleProbabilities probabilities)
+    {
+        // No updates by default
+    }
 }
