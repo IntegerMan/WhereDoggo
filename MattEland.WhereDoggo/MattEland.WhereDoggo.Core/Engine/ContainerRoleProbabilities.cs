@@ -42,6 +42,7 @@ public class ContainerRoleProbabilities
     }
 
     public bool IsCertain { get; set; }
+    public bool BelievedToBeWerewolf => ProbabilityDoggo > 0.5M;
 
     public override string ToString()
     {

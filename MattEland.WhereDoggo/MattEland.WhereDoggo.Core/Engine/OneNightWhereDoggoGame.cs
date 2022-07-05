@@ -1,8 +1,4 @@
-﻿using MattEland.Util;
-using MattEland.WhereDoggo.Core.Engine.Events;
-using MattEland.WhereDoggo.Core.Engine.Roles;
-
-namespace MattEland.WhereDoggo.Core.Engine;
+﻿namespace MattEland.WhereDoggo.Core.Engine;
 
 public class OneNightWhereDoggoGame
 {
@@ -87,6 +83,26 @@ public class OneNightWhereDoggoGame
         @event.Player?.AddEvent(@event);
     }
 
+    protected void BroadcastEvent(string message)
+    {
+        TextEvent @event = new(CurrentPhase, message);
+
+        BroadcastEvent(@event);
+    }
+
+    protected void BroadcastEvent(GameEventBase @event)
+    {
+        @event.Id = _nextEventId++;
+
+        _events.Add(@event);
+
+        // All players need to know about this event
+        foreach (GamePlayer player in Players)
+        {
+            player.AddEvent(@event);
+        }
+    }
+
     private readonly Random _random = new();
     private readonly List<RoleSlot> _centerSlots = new(NumCenterCards);
 
@@ -119,15 +135,70 @@ public class OneNightWhereDoggoGame
         return _roles;
     }
 
+
+    public GameResult PerformDayPhase()
+    {
+        LogEvent("Day Phase Starting");
+        CurrentPhase = GamePhase.Day;
+
+
+        LogEvent("Voting Phase Starting");
+        CurrentPhase = GamePhase.Voting;
+
+        // Create a dictionary of votes without any votes in it
+        Dictionary<GamePlayer, int> votes = new();
+        foreach (GamePlayer player in Players)
+        {
+            votes[player] = 0;
+        }
+
+        // Get votes for individual players
+        foreach (GamePlayer player in Players)
+        {
+            GamePlayer votedPlayer = player.DetermineVoteTarget(this, _random);
+
+            VotedEvent votedEvent = new(player, votedPlayer);
+            LogEvent(votedEvent);
+
+            votes[votedPlayer] += 1;
+        }
+
+        int maxVotes = votes.Values.Max();
+        IEnumerable<GamePlayer> votedPlayers = votes.Where(kvp => kvp.Value == maxVotes).Select(kvp => kvp.Key);
+        foreach (GamePlayer votedPlayer in votedPlayers)
+        {
+            BroadcastEvent(new VotedOutEvent(votedPlayer));
+        }
+
+        IEnumerable<GamePlayer> villagers = Players.Where(p => !p.CurrentRole.IsDoggo);
+        IEnumerable<GamePlayer> wolves = Players.Where(p => p.CurrentRole.IsDoggo);
+
+        bool wwVoted = votedPlayers.Any(p => p.CurrentRole.IsDoggo);
+        Result = new GameResult
+        {
+            WerewolfKilled = wwVoted,
+            Winners = wwVoted ? villagers : wolves
+        };
+
+        BroadcastEvent(wwVoted
+            ? "The village wins!"
+            : "The werewolves win!");
+
+        BroadcastEvent(Result.Winners.Any()
+            ? $"The winners are {string.Join(", ", Result.Winners.Select(w => $"{w.Name} ({w.CurrentRole})"))}"
+            : "No players won.");
+
+        return Result;
+    }
+
+    public GameResult? Result { get; set; }
+
     public void PerformNightPhase()
     {
         LogEvent("Night Phase Starting");
         CurrentPhase = GamePhase.Night;
 
         WakeDoggos();
-
-        LogEvent("Night Phase Ending");
-        CurrentPhase = GamePhase.Day;
     }
 
     private void WakeDoggos()
@@ -185,4 +256,5 @@ public class OneNightWhereDoggoGame
         Events.Where(e => e.Phase == phase)
             .OrderBy(e => e.Id)
             .ToList();
+
 }

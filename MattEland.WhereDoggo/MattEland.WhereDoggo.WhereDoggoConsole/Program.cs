@@ -21,6 +21,7 @@ Console.WriteLine();
 game.DisplayPlayerKnowledge(true);
 
 // Carry out vote phase
+game.PerformDayPhase();
 
 // Log all game events
 game.DisplayAllEvents();
