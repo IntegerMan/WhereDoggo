@@ -1,27 +1,65 @@
 ﻿const int numPlayers = 3;
 
-OneNightWhereDoggoGame game = new(numPlayers);
-game.SetUp();
+static GameResult RunAndShowGame(int numPlayers, bool showUI)
+{
+    OneNightWhereDoggoGame game = new(numPlayers);
+    game.SetUp();
 
-Console.WriteLine($"Starting a new game of \"{game.Name}\"");
-Console.WriteLine();
-game.Start();
+    if (showUI)
+    {
+        Console.WriteLine($"Starting a new game of \"{game.Name}\"");
+        Console.WriteLine();
+    }
+    game.Start();
 
-Console.WriteLine("After game start...");
-Console.WriteLine();
-game.DisplayGameState();
+    if (showUI)
+    {
+        Console.WriteLine("After game start...");
+        Console.WriteLine();
+        game.DisplayGameState();
+    }
 
-// Carry out night phase
-game.PerformNightPhase();
-game.DisplayNightActions();
+    // Carry out night phase
+    game.PerformNightPhase();
 
-// Show game state prior to vote
-Console.WriteLine("After night phase...");
-Console.WriteLine();
-game.DisplayPlayerKnowledge(true);
+    if (showUI)
+    {
+        game.DisplayNightActions();
 
-// Carry out vote phase
-game.PerformDayPhase();
+        // Show game state prior to vote
+        Console.WriteLine("After night phase...");
+        Console.WriteLine();
+        game.DisplayPlayerKnowledge(true);
+    }
 
-// Log all game events
-game.DisplayAllEvents();
+    // Carry out vote phase
+    game.PerformDayPhase();
+
+    // Log all game events
+    if (showUI)
+    {
+        game.DisplayAllEvents();
+    }
+
+    return game.Result!;
+}
+
+int numRuns = 100000;
+int villageWins = 0;
+int wolfWins = 0;
+
+for (int i = 0; i < numRuns; i++)
+{
+    GameResult result = RunAndShowGame(numPlayers, false);
+
+    if (result.WerewolfKilled)
+    {
+        villageWins++;
+    }
+    else
+    {
+        wolfWins++;
+    }
+}
+
+Console.WriteLine($"After {numRuns} runs, there were {villageWins} village wins and {wolfWins} wolf wins.");
