@@ -100,3 +100,9 @@ Planned features:
 - [ ] Dream wolf special slot
 - [ ] Witch will sometimes take dream wolf card
 - [ ] Drunk will sometimes take dream wolf card
+
+## Code Architecture
+
+Details coming as the development phase stabilizes, but here's a cloud of the various files:
+
+![File Chart](diagram.svg)
