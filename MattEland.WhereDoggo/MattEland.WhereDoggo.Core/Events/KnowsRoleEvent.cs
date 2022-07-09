@@ -1,4 +1,7 @@
-﻿namespace MattEland.WhereDoggo.Core.Engine.Events;
+﻿using MattEland.WhereDoggo.Core.Gamespace;
+using MattEland.WhereDoggo.Core.Roles;
+
+namespace MattEland.WhereDoggo.Core.Events;
 
 public class KnowsRoleEvent : GameEventBase
 {
@@ -18,7 +21,7 @@ public class KnowsRoleEvent : GameEventBase
     {
         if (target == ObservedPlayer)
         {
-            probabilities.MarkAsCertainOfRole(ObservedRole);
+            probabilities.MarkAsCertainOfRole(ObservedRole.RoleType);
         }
     }
 }

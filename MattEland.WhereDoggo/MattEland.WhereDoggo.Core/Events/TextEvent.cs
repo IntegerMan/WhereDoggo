@@ -1,4 +1,4 @@
-﻿namespace MattEland.WhereDoggo.Core.Engine.Events;
+﻿namespace MattEland.WhereDoggo.Core.Events;
 
 /// <summary>
 /// This is a simple event just used for debugging purposes. It should have no impact on AI decisions.

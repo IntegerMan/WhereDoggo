@@ -1,4 +1,6 @@
-﻿namespace MattEland.WhereDoggo.Core.Engine.Events;
+﻿using MattEland.WhereDoggo.Core.Gamespace;
+
+namespace MattEland.WhereDoggo.Core.Events;
 
 public class VotedOutEvent : GameEventBase
 {

@@ -1,10 +1,13 @@
-﻿namespace MattEland.WhereDoggo.Core.Engine.Events;
+﻿using MattEland.WhereDoggo.Core.Gamespace;
+using MattEland.WhereDoggo.Core.Roles;
 
-public class SawNotDoggoEvent : GameEventBase
+namespace MattEland.WhereDoggo.Core.Events;
+
+public class SawNotWerewolfEvent : GameEventBase
 {
     public RoleContainerBase Target { get; }
 
-    public SawNotDoggoEvent(GamePlayer observer, RoleContainerBase target) 
+    public SawNotWerewolfEvent(GamePlayer observer, RoleContainerBase target) 
         : base(GamePhase.Night, observer)
     {
         Target = target;
@@ -16,7 +19,7 @@ public class SawNotDoggoEvent : GameEventBase
     {
         if (target == Target)
         {
-            probabilities.MarkAsCannotBeRole(RoleTypes.Doggo);
+            probabilities.MarkAsCannotBeRole(RoleTypes.Werewolf);
         }
     }
 }

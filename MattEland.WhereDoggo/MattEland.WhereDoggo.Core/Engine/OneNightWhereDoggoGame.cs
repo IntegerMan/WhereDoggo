@@ -1,4 +1,8 @@
-﻿namespace MattEland.WhereDoggo.Core.Engine;
+﻿using MattEland.WhereDoggo.Core.Events;
+using MattEland.WhereDoggo.Core.Gamespace;
+using MattEland.WhereDoggo.Core.Roles;
+
+namespace MattEland.WhereDoggo.Core.Engine;
 
 public class OneNightWhereDoggoGame
 {
@@ -18,18 +22,17 @@ public class OneNightWhereDoggoGame
         this.NumPlayers = numPlayers;
     }
 
-    public void SetUp()
-    {
-        this.LoadRoles();
-        this.LoadRoleContainers();
-    }
-
-    public void SetUp(IList<GameRoleBase> roles)
+    public void SetUp(IList<GameRoleBase> roles, bool randomizeSlots = true)
     {
         _roles = roles.ToList();
         string[] playerNames = { "Alice", "Bob", "Rufus", "Jimothy", "Wonko the Sane" };
 
         _roleContainers = new(NumPlayers + NumCenterCards);
+
+        if (randomizeSlots)
+        {
+            _roles = _roles.OrderBy(r => _random.Next() * _random.Next()).ToList();
+        }
 
         int centerIndex = 1;
         for (int i = 0; i < roles.Count; i++)
@@ -40,7 +43,7 @@ public class OneNightWhereDoggoGame
             }
             else
             {
-                RoleSlot slot = new("Center Card " + (centerIndex++), roles[i]);
+                RoleSlot slot = new($"Center Card {centerIndex++}", roles[i]);
                 _roleContainers.Add(slot);
                 _centerSlots.Add(slot);
             }
@@ -110,32 +113,6 @@ public class OneNightWhereDoggoGame
 
     public string Name => "One Night Ultimate Where Doggo?";
 
-    public void LoadRoleContainers()
-    {
-        List<GameRoleBase> roles = this.Roles.OrderBy(r => _random.Next() + _random.Next() + _random.Next()).ToList();
-
-        SetUp(roles);
-    }
-
-    public List<GameRoleBase> LoadRoles()
-    {
-        _roles = new();
-
-        const int numDoggos = 2;
-
-        for (int i = 0; i < numDoggos; i++)
-        {
-            _roles.Add(new DoggoRole());
-        }
-        for (int i = 0; i < NumPlayers - numDoggos + NumCenterCards; i++)
-        {
-            _roles.Add(new RabbitRole());
-        }
-
-        return _roles;
-    }
-
-
     public GameResult PerformDayPhase()
     {
         LogEvent("Day Phase Starting");
@@ -170,15 +147,11 @@ public class OneNightWhereDoggoGame
             BroadcastEvent(new VotedOutEvent(votedPlayer));
         }
 
-        IEnumerable<GamePlayer> villagers = Players.Where(p => !p.CurrentRole.IsDoggo);
-        IEnumerable<GamePlayer> wolves = Players.Where(p => p.CurrentRole.IsDoggo);
+        IEnumerable<GamePlayer> villagers = Players.Where(p => p.CurrentTeam == Teams.Villagers);
+        IEnumerable<GamePlayer> wolves = Players.Where(p =>  p.CurrentTeam == Teams.Werewolves);
 
-        bool wwVoted = votedPlayers.Any(p => p.CurrentRole.IsDoggo);
-        Result = new GameResult
-        {
-            WerewolfKilled = wwVoted,
-            Winners = wwVoted ? villagers : wolves
-        };
+        bool wwVoted = votedPlayers.Any(p => p.CurrentRole.RoleType == RoleTypes.Werewolf);
+        Result = new GameResult(wwVoted, wwVoted ? villagers : wolves);
 
         BroadcastEvent(wwVoted
             ? "The village wins!"
@@ -198,12 +171,22 @@ public class OneNightWhereDoggoGame
         LogEvent("Night Phase Starting");
         CurrentPhase = GamePhase.Night;
 
-        WakeDoggos();
+        WakeWerewolves();
+        WakeInsomniac();
     }
 
-    private void WakeDoggos()
+    private void WakeInsomniac()
     {
-        List<GamePlayer> doggos = Players.Where(p => p.InitialRole.IsDoggo).ToList();
+        List<GamePlayer> insomniacs = Players.Where(p => p.InitialRole.RoleType == RoleTypes.Insomniac).ToList();
+        foreach (GamePlayer insomniac in insomniacs)
+        {
+            LogEvent(new InsomniacSawOwnCardEvent(insomniac));
+        }
+    }
+
+    private void WakeWerewolves()
+    {
+        List<GamePlayer> doggos = Players.Where(p => p.InitialTeam == Teams.Werewolves).ToList();
         switch (doggos.Count)
         {
             case 0:
@@ -211,7 +194,7 @@ public class OneNightWhereDoggoGame
                 break;
 
             case 1:
-                HandleLoneDoggoWakes(doggos);
+                HandleLoneWolfWakes(doggos);
                 break;
 
             case > 1:
@@ -221,17 +204,17 @@ public class OneNightWhereDoggoGame
         }
     }
 
-    private void HandleLoneDoggoWakes(IEnumerable<GamePlayer> doggos)
+    private void HandleLoneWolfWakes(IEnumerable<GamePlayer> doggos)
     {
         GamePlayer loneDoggo = doggos.Single();
-        LogEvent(new OnlyDoggoEvent(loneDoggo));
+        LogEvent(new OnlyWolfEvent(loneDoggo));
         foreach (GamePlayer otherPlayer in Players.Where(p => p != loneDoggo))
         {
-            LogEvent(new SawNotDoggoEvent(loneDoggo, otherPlayer));
+            LogEvent(new SawNotWerewolfEvent(loneDoggo, otherPlayer));
         }
 
         RoleSlot slot = loneDoggo.LoneWolfSlotSelectionStrategy.SelectSlot(_centerSlots);
-        LogEvent(new LoneDoggoObservedCenterCardEvent(loneDoggo, slot, slot.CurrentRole));
+        LogEvent(new LoneWolfObservedCenterCardEvent(loneDoggo, slot, slot.CurrentRole));
     }
 
     private void HandleMultipleDoggosWake(List<GamePlayer> doggos)
@@ -240,13 +223,13 @@ public class OneNightWhereDoggoGame
         {
             foreach (GamePlayer otherPlayer in Players.Where(otherPlayer => otherPlayer != player))
             {
-                if (otherPlayer.StartedAsDoggo)
+                if (otherPlayer.InitialRole.RoleType == RoleTypes.Werewolf)
                 {
                     LogEvent(new KnowsRoleEvent(CurrentPhase, player, otherPlayer, otherPlayer.CurrentRole));
                 }
                 else
                 {
-                    LogEvent(new SawNotDoggoEvent(player, otherPlayer));
+                    LogEvent(new SawNotWerewolfEvent(player, otherPlayer));
                 }
             }
         }

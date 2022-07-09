@@ -1,4 +1,7 @@
-﻿namespace MattEland.WhereDoggo.WhereDoggoConsole;
+﻿using MattEland.WhereDoggo.Core.Events;
+using MattEland.WhereDoggo.Core.Gamespace;
+
+namespace MattEland.WhereDoggo.WhereDoggoConsole;
 
 public static class OneNightWhereDoggoDisplayHelpers
 {

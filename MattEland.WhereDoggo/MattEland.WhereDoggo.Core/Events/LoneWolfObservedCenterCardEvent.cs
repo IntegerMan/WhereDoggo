@@ -1,11 +1,14 @@
-﻿namespace MattEland.WhereDoggo.Core.Engine.Events;
+﻿using MattEland.WhereDoggo.Core.Gamespace;
+using MattEland.WhereDoggo.Core.Roles;
 
-public class LoneDoggoObservedCenterCardEvent : GameEventBase
+namespace MattEland.WhereDoggo.Core.Events;
+
+public class LoneWolfObservedCenterCardEvent : GameEventBase
 {
     public RoleContainerBase ObservedSlot { get; }
     public GameRoleBase ObservedRole { get; }
 
-    public LoneDoggoObservedCenterCardEvent(GamePlayer player, RoleContainerBase observedSlot, GameRoleBase observedRole) 
+    public LoneWolfObservedCenterCardEvent(GamePlayer player, RoleContainerBase observedSlot, GameRoleBase observedRole) 
         : base(GamePhase.Night, player)
     {
         if (player == null) throw new ArgumentNullException(nameof(player));
@@ -20,7 +23,7 @@ public class LoneDoggoObservedCenterCardEvent : GameEventBase
     {
         if (target == ObservedSlot)
         {
-            probabilities.MarkAsCertainOfRole(ObservedRole);
+            probabilities.MarkAsCertainOfRole(ObservedRole.RoleType);
         }
     }
 }
