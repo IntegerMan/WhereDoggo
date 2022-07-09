@@ -2,7 +2,6 @@
 
 public class VillagerRole : GameRoleBase
 {
-    public override string ToString() => "Villager";
     public override Teams Team => Teams.Villagers;
     public override RoleTypes RoleType => RoleTypes.Villager;
 }

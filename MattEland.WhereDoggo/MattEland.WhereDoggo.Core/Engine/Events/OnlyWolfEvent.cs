@@ -1,8 +1,8 @@
 ﻿namespace MattEland.WhereDoggo.Core.Engine.Events;
 
-public class OnlyDoggoEvent : GameEventBase
+public class OnlyWolfEvent : GameEventBase
 {
-    public OnlyDoggoEvent(GamePlayer player) 
+    public OnlyWolfEvent(GamePlayer player) 
         : base(GamePhase.Night, player)
     {
         

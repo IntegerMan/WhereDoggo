@@ -218,14 +218,14 @@ public class OneNightWhereDoggoGame
     private void HandleLoneDoggoWakes(IEnumerable<GamePlayer> doggos)
     {
         GamePlayer loneDoggo = doggos.Single();
-        LogEvent(new OnlyDoggoEvent(loneDoggo));
+        LogEvent(new OnlyWolfEvent(loneDoggo));
         foreach (GamePlayer otherPlayer in Players.Where(p => p != loneDoggo))
         {
-            LogEvent(new SawNotDoggoEvent(loneDoggo, otherPlayer));
+            LogEvent(new SawNotWerewolfEvent(loneDoggo, otherPlayer));
         }
 
         RoleSlot slot = loneDoggo.LoneWolfSlotSelectionStrategy.SelectSlot(_centerSlots);
-        LogEvent(new LoneDoggoObservedCenterCardEvent(loneDoggo, slot, slot.CurrentRole));
+        LogEvent(new LoneWolfObservedCenterCardEvent(loneDoggo, slot, slot.CurrentRole));
     }
 
     private void HandleMultipleDoggosWake(List<GamePlayer> doggos)
@@ -240,7 +240,7 @@ public class OneNightWhereDoggoGame
                 }
                 else
                 {
-                    LogEvent(new SawNotDoggoEvent(player, otherPlayer));
+                    LogEvent(new SawNotWerewolfEvent(player, otherPlayer));
                 }
             }
         }

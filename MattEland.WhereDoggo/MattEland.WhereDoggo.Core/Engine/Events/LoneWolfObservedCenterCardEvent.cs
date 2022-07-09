@@ -1,11 +1,11 @@
 ﻿namespace MattEland.WhereDoggo.Core.Engine.Events;
 
-public class LoneDoggoObservedCenterCardEvent : GameEventBase
+public class LoneWolfObservedCenterCardEvent : GameEventBase
 {
     public RoleContainerBase ObservedSlot { get; }
     public GameRoleBase ObservedRole { get; }
 
-    public LoneDoggoObservedCenterCardEvent(GamePlayer player, RoleContainerBase observedSlot, GameRoleBase observedRole) 
+    public LoneWolfObservedCenterCardEvent(GamePlayer player, RoleContainerBase observedSlot, GameRoleBase observedRole) 
         : base(GamePhase.Night, player)
     {
         if (player == null) throw new ArgumentNullException(nameof(player));

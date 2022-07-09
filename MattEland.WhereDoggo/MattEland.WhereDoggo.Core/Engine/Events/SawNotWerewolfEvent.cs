@@ -1,10 +1,10 @@
 ﻿namespace MattEland.WhereDoggo.Core.Engine.Events;
 
-public class SawNotDoggoEvent : GameEventBase
+public class SawNotWerewolfEvent : GameEventBase
 {
     public RoleContainerBase Target { get; }
 
-    public SawNotDoggoEvent(GamePlayer observer, RoleContainerBase target) 
+    public SawNotWerewolfEvent(GamePlayer observer, RoleContainerBase target) 
         : base(GamePhase.Night, observer)
     {
         Target = target;
