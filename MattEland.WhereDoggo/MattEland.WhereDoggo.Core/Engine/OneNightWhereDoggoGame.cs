@@ -111,7 +111,7 @@ public class OneNightWhereDoggoGame
 
     public const int NumCenterCards = 3;
 
-    public string Name => "One Night Ultimate Where Doggo?";
+    public string Name => "One Night Ultimate Werewolf";
 
     public GameResult PerformDayPhase()
     {
@@ -186,44 +186,44 @@ public class OneNightWhereDoggoGame
 
     private void WakeWerewolves()
     {
-        List<GamePlayer> doggos = Players.Where(p => p.InitialTeam == Teams.Werewolves).ToList();
-        switch (doggos.Count)
+        List<GamePlayer> wolves = Players.Where(p => p.InitialTeam == Teams.Werewolves).ToList();
+        switch (wolves.Count)
         {
             case 0:
-                LogEvent("No doggos awoke");
+                LogEvent("No werewolves awoke");
                 break;
 
             case 1:
-                HandleLoneWolfWakes(doggos);
+                HandleLoneWolfWakes(wolves);
                 break;
 
             case > 1:
-                // Each doggo knows each other doggo is a doggo
-                HandleMultipleDoggosWake(doggos);
+                // Each wolf knows each other wolf is on team werewolf
+                HandleMultipleWolvesWake(wolves);
                 break;
         }
     }
 
     private void HandleLoneWolfWakes(IEnumerable<GamePlayer> doggos)
     {
-        GamePlayer loneDoggo = doggos.Single();
-        LogEvent(new OnlyWolfEvent(loneDoggo));
-        foreach (GamePlayer otherPlayer in Players.Where(p => p != loneDoggo))
+        GamePlayer wolf = doggos.Single();
+        LogEvent(new OnlyWolfEvent(wolf));
+        foreach (GamePlayer otherPlayer in Players.Where(p => p != wolf))
         {
-            LogEvent(new SawNotWerewolfEvent(loneDoggo, otherPlayer));
+            LogEvent(new SawNotWerewolfEvent(wolf, otherPlayer));
         }
 
-        RoleSlot slot = loneDoggo.LoneWolfSlotSelectionStrategy.SelectSlot(_centerSlots);
-        LogEvent(new LoneWolfObservedCenterCardEvent(loneDoggo, slot, slot.CurrentRole));
+        RoleSlot slot = wolf.LoneWolfSlotSelectionStrategy.SelectSlot(_centerSlots);
+        LogEvent(new LoneWolfObservedCenterCardEvent(wolf, slot, slot.CurrentRole));
     }
 
-    private void HandleMultipleDoggosWake(List<GamePlayer> doggos)
+    private void HandleMultipleWolvesWake(List<GamePlayer> doggos)
     {
         foreach (GamePlayer player in doggos)
         {
             foreach (GamePlayer otherPlayer in Players.Where(otherPlayer => otherPlayer != player))
             {
-                if (otherPlayer.InitialRole.RoleType == RoleTypes.Werewolf)
+                if (otherPlayer.InitialTeam == Teams.Werewolves)
                 {
                     LogEvent(new KnowsRoleEvent(CurrentPhase, player, otherPlayer, otherPlayer.CurrentRole));
                 }

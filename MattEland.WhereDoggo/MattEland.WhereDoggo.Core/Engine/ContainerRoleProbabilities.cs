@@ -1,21 +1,21 @@
-using MattEland.WhereDoggo.Core.Roles;
-
 namespace MattEland.WhereDoggo.Core.Engine;
 
 public class ContainerRoleProbabilities
 {
+    private readonly int _numRoles;
+
     public ContainerRoleProbabilities(OneNightWhereDoggoGame game)
     {
-        int numRoles = game.Entities.Count;
+        _numRoles = game.Entities.Count;
 
         Dictionary<RoleTypes, int> roleCounts = game.BuildRoleCounts();
 
-        RecalculateProbability(numRoles, roleCounts);
+        RecalculateProbability(roleCounts);
     }
 
     public IDictionary<RoleTypes, decimal> Probabilities { get; } = new Dictionary<RoleTypes, decimal>();
 
-    public void RecalculateProbability(int numRoles, IDictionary<RoleTypes, int> roleCounts)
+    public void RecalculateProbability(IDictionary<RoleTypes, int> roleCounts)
     {
         Probabilities.Clear();
 
@@ -35,7 +35,7 @@ public class ContainerRoleProbabilities
             }
             else
             {
-                Probabilities[kvp.Key] = kvp.Value / (decimal)numRoles;
+                Probabilities[kvp.Key] = kvp.Value / (decimal)_numRoles;
             }
         }
 
