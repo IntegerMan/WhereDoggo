@@ -4,7 +4,11 @@
     <projectFile>MattEland.WhereDoggo.WhereDoggoConsole/MattEland.WhereDoggo.WhereDoggoConsole.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="58511d50-a789-4c31-886d-3b01f01ee2c4" name="Changes" comment="" />
+    <list default="true" id="b356feb1-3f3c-4ecd-8365-ce591e66879d" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.MattEland.WhereDoggo/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MattEland.WhereDoggo/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MattEland.WhereDoggo.Core.Tests/ProbabilityTests.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MattEland.WhereDoggo.Core.Tests/ProbabilityTests.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MattEland.WhereDoggo.Core/Engine/ContainerRoleProbabilities.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MattEland.WhereDoggo.Core/Engine/ContainerRoleProbabilities.cs" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -22,7 +26,7 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="2Bh35Sb91KSwoaFlhNx7HiP7ZnF" />
-  <component name="ProjectLevelVcsManager">
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="1" id="Add" />
   </component>
   <component name="ProjectViewState">
@@ -63,7 +67,7 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="58511d50-a789-4c31-886d-3b01f01ee2c4" name="Changes" comment="" />
+      <changelist id="b356feb1-3f3c-4ecd-8365-ce591e66879d" name="Changes" comment="" />
       <created>1657344310851</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -73,6 +77,7 @@
       <workItem from="1657398825086" duration="106000" />
       <workItem from="1657399031292" duration="70000" />
       <workItem from="1657399160955" duration="1105000" />
+      <workItem from="1657402296422" duration="926000" />
     </task>
     <servers />
   </component>
@@ -82,24 +87,5 @@
   <component name="UnityUnitTestConfiguration" currentTestLauncher="NUnit" />
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/MattEland.WhereDoggo.Core.Tests/ProbabilityTests.cs</url>
-          <line>39</line>
-          <properties documentPath="C:\dev\WhereDoggo\MattEland.WhereDoggo\MattEland.WhereDoggo.Core.Tests\ProbabilityTests.cs" initialLine="39" containingFunctionPresentation="method 'ProbabilityWithTwoRolesShouldDefaultToOtherRoleWhenOneRoleRuledOut'">
-            <startOffsets>
-              <option value="1128" />
-            </startOffsets>
-            <endOffsets>
-              <option value="1189" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

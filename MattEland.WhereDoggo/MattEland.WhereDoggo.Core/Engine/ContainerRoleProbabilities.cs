@@ -1,5 +1,10 @@
 namespace MattEland.WhereDoggo.Core.Engine;
 
+/// <summary>
+/// Represents the probabilities one player places on a <see cref="RoleContainerBase"/> being each role that is in play
+/// This allows us to track the perceived probability that a card (player or center card) is each role.
+/// This information is then used for deductive reasoning by AI agents.
+/// </summary>
 public class ContainerRoleProbabilities
 {
     private readonly int _numRoles;
@@ -13,9 +18,11 @@ public class ContainerRoleProbabilities
         RecalculateProbability(roleCounts);
     }
 
-    public ContainerRoleProbabilities(int numRoles)
+    public ContainerRoleProbabilities(IDictionary<RoleTypes, int> roleCounts)
     {
-        _numRoles = numRoles;
+        _numRoles = roleCounts.Values.Sum();
+
+        RecalculateProbability(roleCounts);
     }
 
     public IDictionary<RoleTypes, decimal> Probabilities { get; } = new Dictionary<RoleTypes, decimal>();
@@ -26,6 +33,7 @@ public class ContainerRoleProbabilities
 
         int remainingRoles = roleCounts.Values.Sum();
         
+        // If we have eliminated roles from consideration, do not consider them at all
         foreach (KeyValuePair<RoleTypes, int> kvp in roleCounts)
         {
             if (CannotBe.Contains(kvp.Key))
@@ -35,6 +43,7 @@ public class ContainerRoleProbabilities
             }
         }
 
+        // Now allocate probabilities based on the total of each card that is unaccounted for
         foreach (KeyValuePair<RoleTypes, int> kvp in roleCounts)
         {
             if (CannotBe.Contains(kvp.Key))
@@ -51,12 +60,18 @@ public class ContainerRoleProbabilities
             }
         }
 
+        // If we're certain of any card, mark it as certain
         if (Probabilities.Values.Any(p => p >= 1.0m))
         {
             IsCertain = true;
         }
     }
 
+    /// <summary>
+    /// Marks that we are certain that a container has a specific role in it.
+    /// This will set its probability to 100%, other role probabilities to 0%, and mark IsCertain as true.
+    /// </summary>
+    /// <param name="role">The role we are certain of.</param>
     public void MarkAsCertainOfRole(RoleTypes role)
     {
         foreach (KeyValuePair<RoleTypes, decimal> kvp in Probabilities)
@@ -64,16 +79,21 @@ public class ContainerRoleProbabilities
             if (kvp.Key == role)
             {
                 Probabilities[kvp.Key] = 1;
+                CannotBe.Remove(kvp.Key);
             }
             else
             {
                 Probabilities[kvp.Key] = 0;
+                CannotBe.Add(kvp.Key);
             }
         }
 
         IsCertain = true;
     }
 
+    /// <summary>
+    /// Determines whether or not we are certain of a specific role probability
+    /// </summary>
     public bool IsCertain { get; private set; }
 
     public IDictionary<Teams, decimal> TeamProbabilities
