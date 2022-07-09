@@ -20,13 +20,13 @@ public class InferenceTests
         GameRoleBase[] assignedRoles =
         {
             // Player Roles
-            new RabbitRole(), 
+            new VillagerRole(), 
             new WerewolfRole(), 
-            new RabbitRole(),
+            new VillagerRole(),
             // Center Cards
             new WerewolfRole(), 
-            new RabbitRole(), 
-            new RabbitRole()
+            new VillagerRole(), 
+            new VillagerRole()
         };
         game.SetUp(assignedRoles);
         game.Start();
@@ -39,8 +39,8 @@ public class InferenceTests
             inferrer.BuildFinalRoleProbabilities(player, game);
 
         // Assert
-        probabilities[player].ProbabilityRabbit.ShouldBe(1);
-        probabilities[player].ProbabilityDoggo.ShouldBe(0);
+        probabilities[player].Probabilities[RoleTypes.Villager].ShouldBe(1);
+        probabilities[player].Probabilities[RoleTypes.Werewolf].ShouldBe(0);
     }        
         
     [Test]
@@ -53,12 +53,12 @@ public class InferenceTests
         {
             // Player Roles
             new WerewolfRole(),
-            new RabbitRole(),
-            new RabbitRole(),
+            new VillagerRole(),
+            new VillagerRole(),
             // Center Cards
             new WerewolfRole(), 
-            new RabbitRole(), 
-            new RabbitRole()
+            new VillagerRole(), 
+            new VillagerRole()
         };
         game.SetUp(assignedRoles);
         game.Start();
@@ -71,8 +71,8 @@ public class InferenceTests
             inferrer.BuildFinalRoleProbabilities(player, game);
 
         // Assert
-        probabilities[player].ProbabilityDoggo.ShouldBe(1);
-        probabilities[player].ProbabilityRabbit.ShouldBe(0);
+        probabilities[player].Probabilities[RoleTypes.Werewolf].ShouldBe(1);
+        probabilities[player].Probabilities[RoleTypes.Villager].ShouldBe(0);
     }
     
     [Test]
@@ -85,12 +85,12 @@ public class InferenceTests
         {
             // Player Roles
             new WerewolfRole(),
-            new RabbitRole(),
-            new RabbitRole(),
+            new VillagerRole(),
+            new VillagerRole(),
             // Center Cards
             new WerewolfRole(), 
-            new RabbitRole(), 
-            new RabbitRole()
+            new VillagerRole(), 
+            new VillagerRole()
         };
         game.SetUp(assignedRoles);
         GamePlayer player = game.Players.First();
@@ -120,12 +120,12 @@ public class InferenceTests
         {
             // Player Roles
             new WerewolfRole(),
-            new RabbitRole(),
-            new RabbitRole(),
+            new VillagerRole(),
+            new VillagerRole(),
             // Center Cards
             new WerewolfRole(), 
-            new RabbitRole(), 
-            new RabbitRole()
+            new VillagerRole(), 
+            new VillagerRole()
         };
         game.SetUp(assignedRoles);
         game.Start();
@@ -138,11 +138,11 @@ public class InferenceTests
 
         // Assert
         GamePlayer player2 = game.Players[1];
-        probabilities[player2].ProbabilityRabbit.ShouldBe(1);
-        probabilities[player2].ProbabilityDoggo.ShouldBe(0);
+        probabilities[player2].Probabilities[RoleTypes.Villager].ShouldBe(1);
+        probabilities[player2].Probabilities[RoleTypes.Werewolf].ShouldBe(0);
         GamePlayer player3 = game.Players[2];
-        probabilities[player3].ProbabilityRabbit.ShouldBe(1);
-        probabilities[player3].ProbabilityDoggo.ShouldBe(0);
+        probabilities[player3].Probabilities[RoleTypes.Villager].ShouldBe(1);
+        probabilities[player3].Probabilities[RoleTypes.Werewolf].ShouldBe(0);
     }
 
     [Test]
@@ -154,13 +154,13 @@ public class InferenceTests
         GameRoleBase[] assignedRoles =
         {
             // Player Roles
-            new RabbitRole(),
+            new VillagerRole(),
             new WerewolfRole(),
-            new RabbitRole(),
+            new VillagerRole(),
             // Center Cards
             new WerewolfRole(),
-            new RabbitRole(),
-            new RabbitRole()
+            new VillagerRole(),
+            new VillagerRole()
         };
         game.SetUp(assignedRoles);
         game.Start();
@@ -174,7 +174,7 @@ public class InferenceTests
         // Assert
         // 2 Doggos, 3 Rabbits in 5 other players
         GamePlayer secondPlayer = game.Players[1];
-        probabilities[secondPlayer].ProbabilityRabbit.ShouldBe(3.0M/5.0M);
-        probabilities[secondPlayer].ProbabilityDoggo.ShouldBe(2.0M/5.0M);
+        probabilities[secondPlayer].Probabilities[RoleTypes.Villager].ShouldBe(3.0M/5.0M);
+        probabilities[secondPlayer].Probabilities[RoleTypes.Werewolf].ShouldBe(2.0M/5.0M);
     }
 }
