@@ -105,8 +105,12 @@ public class InferenceTests : GameTestsBase
             new VillagerRole(), 
             new VillagerRole()
         };
-        OneNightWhereDoggoGame game = RunGame(assignedRoles);
+        OneNightWhereDoggoGame game = new(3);
+        game.SetUp(assignedRoles, randomizeSlots: false);
         GamePlayer player = game.Players.First();
+        player.LoneWolfSlotSelectionStrategy = new SelectSpecificSlotLoneWolfStrategy(1);
+        game.Start();
+        game.PerformNightPhase();
 
         // Act
         IDictionary<RoleContainerBase, ContainerRoleProbabilities> probabilities = 

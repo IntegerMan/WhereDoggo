@@ -12,6 +12,6 @@ public class OnlyWolfEvent : GameEventBase
 
     public override string ToString()
     {
-        return $"{Player} saw that they were the only doggo";
+        return $"{Player} saw that they were the only player on the werewolf team";
     }
 }

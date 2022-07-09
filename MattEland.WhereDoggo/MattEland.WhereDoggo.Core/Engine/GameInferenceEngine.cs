@@ -8,8 +8,7 @@ public class GameInferenceEngine
     {
         Dictionary<RoleContainerBase, ContainerRoleProbabilities> dicts = new();
 
-        int numRoles = game.Entities.Count;
-        var counts = game.BuildRoleCounts();
+        Dictionary<RoleTypes, int> counts = game.BuildRoleCounts();
 
         // Initial pass
         foreach (RoleContainerBase role in game.Entities)
@@ -23,7 +22,6 @@ public class GameInferenceEngine
 
             if (probabilities.IsCertain)
             {
-                numRoles--;
                 counts[probabilities.LikelyRole] -= 1;
             }
 
@@ -36,7 +34,7 @@ public class GameInferenceEngine
         {
             if (!kvp.Value.IsCertain)
             {
-                kvp.Value.RecalculateProbability(numRoles, counts);
+                kvp.Value.RecalculateProbability(counts);
             }
         }
 
@@ -46,16 +44,5 @@ public class GameInferenceEngine
     private static int CountRolesOfType(OneNightWhereDoggoGame game, RoleTypes role)
     {
         return game.Roles.Count(r => r.RoleType == role);
-    }
-
-    private static int CountOtherRolesOfType(GamePlayer player, OneNightWhereDoggoGame game, RoleTypes role)
-    {
-        int count = CountRolesOfType(game, role);
-        if (player.InitialRole.RoleType == role)
-        {
-            count -= 1;
-        }
-
-        return count;
     }
 }
