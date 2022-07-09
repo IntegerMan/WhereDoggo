@@ -8,7 +8,7 @@ public abstract class GameTestsBase
         
         OneNightWhereDoggoGame game = new(numPlayers);
         
-        game.SetUp(orderedRoles);
+        game.SetUp(orderedRoles, randomizeSlots: false);
         game.Start();
         game.PerformNightPhase();
 

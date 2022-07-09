@@ -22,18 +22,17 @@ public class OneNightWhereDoggoGame
         this.NumPlayers = numPlayers;
     }
 
-    public void SetUp()
-    {
-        this.LoadRoles();
-        this.LoadRoleContainers();
-    }
-
-    public void SetUp(IList<GameRoleBase> roles)
+    public void SetUp(IList<GameRoleBase> roles, bool randomizeSlots = true)
     {
         _roles = roles.ToList();
         string[] playerNames = { "Alice", "Bob", "Rufus", "Jimothy", "Wonko the Sane" };
 
         _roleContainers = new(NumPlayers + NumCenterCards);
+
+        if (randomizeSlots)
+        {
+            _roles = _roles.OrderBy(r => _random.Next() * _random.Next()).ToList();
+        }
 
         int centerIndex = 1;
         for (int i = 0; i < roles.Count; i++)
@@ -113,30 +112,6 @@ public class OneNightWhereDoggoGame
     public const int NumCenterCards = 3;
 
     public string Name => "One Night Ultimate Where Doggo?";
-
-    public void LoadRoleContainers()
-    {
-        List<GameRoleBase> roles = this.Roles.OrderBy(r => _random.Next() + _random.Next() + _random.Next()).ToList();
-
-        SetUp(roles);
-    }
-
-    public void LoadRoles()
-    {
-        _roles = new();
-
-        const int numDoggos = 2;
-
-        for (int i = 0; i < numDoggos; i++)
-        {
-            _roles.Add(new WerewolfRole());
-        }
-        for (int i = 0; i < NumPlayers - numDoggos + NumCenterCards; i++)
-        {
-            _roles.Add(new VillagerRole());
-        }
-    }
-
 
     public GameResult PerformDayPhase()
     {

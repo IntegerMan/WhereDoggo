@@ -73,7 +73,7 @@ public class InferenceTests : GameTestsBase
             new VillagerRole(), 
             new VillagerRole()
         };
-        game.SetUp(assignedRoles);
+        game.SetUp(assignedRoles, randomizeSlots: false);
         GamePlayer player = game.Players.First();
         player.LoneWolfSlotSelectionStrategy = new SelectSpecificSlotLoneWolfStrategy(0);
         game.Start();

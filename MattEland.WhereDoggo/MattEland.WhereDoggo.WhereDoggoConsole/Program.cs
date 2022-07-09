@@ -1,9 +1,22 @@
-﻿const int numPlayers = 3;
+﻿using MattEland.WhereDoggo.Core.Roles;
+
+const int numPlayers = 3;
 
 static GameResult RunAndShowGame(int numPlayers, bool showUI)
 {
     OneNightWhereDoggoGame game = new(numPlayers);
-    game.SetUp();
+    GameRoleBase[] assignedRoles =
+    {
+        // Player Roles
+        new InsomniacRole(),
+        new WerewolfRole(),
+        new VillagerRole(),
+        // Center Cards
+        new WerewolfRole(),
+        new VillagerRole(),
+        new VillagerRole()
+    };
+    game.SetUp(assignedRoles);
 
     if (showUI)
     {
