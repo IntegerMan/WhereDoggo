@@ -44,13 +44,13 @@ static GameResult RunAndShowGame(int numPlayers, bool showUI)
     return game.Result!;
 }
 
-int numRuns = 100000;
+int numRuns = 1;
 int villageWins = 0;
 int wolfWins = 0;
 
 for (int i = 0; i < numRuns; i++)
 {
-    GameResult result = RunAndShowGame(numPlayers, false);
+    GameResult result = RunAndShowGame(numPlayers, true);
 
     if (result.WerewolfKilled)
     {

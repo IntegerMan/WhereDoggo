@@ -18,7 +18,7 @@ public class DealtRoleEvent : GameEventBase
     {
         if (observer == target)
         {
-            probabilities.MarkAsCertainOfRole(Role);
+            probabilities.MarkAsCertainOfRole(Role.RoleType);
         }
     }
 }

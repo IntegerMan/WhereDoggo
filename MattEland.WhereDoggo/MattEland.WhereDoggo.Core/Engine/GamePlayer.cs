@@ -17,9 +17,9 @@ public class GamePlayer : RoleContainerBase
     }
 
     public IList<GameEventBase> Events => _events.AsReadOnly();
-    public bool StartedAsDoggo => InitialRole.IsDoggo;
     public GameInferenceEngine Brain { get; } = new();
     public LoneWolfCardSelectionStrategyBase LoneWolfSlotSelectionStrategy { get; set; }
+    public Teams CurrentTeam => CurrentRole.Team;
 
     public GamePlayer DetermineVoteTarget(OneNightWhereDoggoGame game, Random random)
     {
@@ -27,11 +27,7 @@ public class GamePlayer : RoleContainerBase
             Brain.BuildFinalRoleProbabilities(this, game);
 
         // Try to figure out which team the player is on
-        bool isVillage = true;
-        if (probabilities[this].BelievedToBeWerewolf)
-        {
-            isVillage = false;
-        }
+        Teams probableTeams = probabilities[this].ProbableTeams;
 
         // Remove the player from the set of probabilities since self-voting is illegal
         probabilities.Remove(this);
@@ -42,20 +38,28 @@ public class GamePlayer : RoleContainerBase
             probabilities.Remove(key);
         }
 
-        List<RoleContainerBase> options = new List<RoleContainerBase>();
-        if (isVillage)
+        List<RoleContainerBase> options = new();
+        switch (probableTeams)
         {
-            decimal max = probabilities.Values.Max(p => p.ProbabilityDoggo);
-            options = probabilities.Where(kvp => kvp.Value.ProbabilityDoggo == max)
-                .Select(kvp => kvp.Key)
-                .ToList();
-        }
-        else
-        {
-            decimal max = probabilities.Values.Max(p => p.ProbabilityRabbit);
-            options = probabilities.Where(kvp => kvp.Value.ProbabilityRabbit == max)
-                .Select(kvp => kvp.Key)
-                .ToList();
+            case Teams.Villagers:
+            {
+                decimal max = probabilities.Values.Max(p => p.CalculateTeamProbability(Teams.Werewolves));
+                options = probabilities.Where(kvp => kvp.Value.CalculateTeamProbability(Teams.Werewolves) == max)
+                    .Select(kvp => kvp.Key)
+                    .ToList();
+                break;
+            }
+            case Teams.Werewolves:
+            {
+                decimal max = probabilities.Values.Max(p => p.CalculateTeamProbability(Teams.Villagers));
+                options = probabilities.Where(kvp => kvp.Value.CalculateTeamProbability(Teams.Villagers) == max)
+                    .Select(kvp => kvp.Key)
+                    .ToList();
+                break;
+            }
+            default:
+                options = probabilities.Select(p => p.Key).ToList();
+                break;
         }
 
         return (GamePlayer) options.GetRandomElement(random)!;

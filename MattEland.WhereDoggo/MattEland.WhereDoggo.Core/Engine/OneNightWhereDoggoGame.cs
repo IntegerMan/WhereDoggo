@@ -117,7 +117,7 @@ public class OneNightWhereDoggoGame
         SetUp(roles);
     }
 
-    public List<GameRoleBase> LoadRoles()
+    public void LoadRoles()
     {
         _roles = new();
 
@@ -125,14 +125,12 @@ public class OneNightWhereDoggoGame
 
         for (int i = 0; i < numDoggos; i++)
         {
-            _roles.Add(new DoggoRole());
+            _roles.Add(new WerewolfRole());
         }
         for (int i = 0; i < NumPlayers - numDoggos + NumCenterCards; i++)
         {
-            _roles.Add(new RabbitRole());
+            _roles.Add(new VillagerRole());
         }
-
-        return _roles;
     }
 
 
@@ -170,10 +168,10 @@ public class OneNightWhereDoggoGame
             BroadcastEvent(new VotedOutEvent(votedPlayer));
         }
 
-        IEnumerable<GamePlayer> villagers = Players.Where(p => !p.CurrentRole.IsDoggo);
-        IEnumerable<GamePlayer> wolves = Players.Where(p => p.CurrentRole.IsDoggo);
+        IEnumerable<GamePlayer> villagers = Players.Where(p => p.CurrentTeam == Teams.Villagers);
+        IEnumerable<GamePlayer> wolves = Players.Where(p =>  p.CurrentTeam == Teams.Werewolves);
 
-        bool wwVoted = votedPlayers.Any(p => p.CurrentRole.IsDoggo);
+        bool wwVoted = votedPlayers.Any(p => p.CurrentRole.RoleType == RoleTypes.Werewolf);
         Result = new GameResult
         {
             WerewolfKilled = wwVoted,
@@ -203,7 +201,7 @@ public class OneNightWhereDoggoGame
 
     private void WakeDoggos()
     {
-        List<GamePlayer> doggos = Players.Where(p => p.InitialRole.IsDoggo).ToList();
+        List<GamePlayer> doggos = Players.Where(p => p.InitialRole.RoleType == RoleTypes.Werewolf).ToList();
         switch (doggos.Count)
         {
             case 0:
@@ -240,7 +238,7 @@ public class OneNightWhereDoggoGame
         {
             foreach (GamePlayer otherPlayer in Players.Where(otherPlayer => otherPlayer != player))
             {
-                if (otherPlayer.StartedAsDoggo)
+                if (otherPlayer.InitialRole.RoleType == RoleTypes.Werewolf)
                 {
                     LogEvent(new KnowsRoleEvent(CurrentPhase, player, otherPlayer, otherPlayer.CurrentRole));
                 }

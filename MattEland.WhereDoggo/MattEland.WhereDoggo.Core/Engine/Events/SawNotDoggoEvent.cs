@@ -16,7 +16,7 @@ public class SawNotDoggoEvent : GameEventBase
     {
         if (target == Target)
         {
-            probabilities.MarkAsCannotBeRole(RoleTypes.Doggo);
+            probabilities.MarkAsCannotBeRole(RoleTypes.Werewolf);
         }
     }
 }

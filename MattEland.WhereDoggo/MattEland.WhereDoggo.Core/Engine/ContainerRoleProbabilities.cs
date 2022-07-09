@@ -5,57 +5,94 @@ public class ContainerRoleProbabilities
     public ContainerRoleProbabilities(OneNightWhereDoggoGame game)
     {
         int numRoles = game.Entities.Count;
-        int numRabbits = CountRolesOfType(game, RoleTypes.Rabbit);
-        int numDoggos = CountRolesOfType(game, RoleTypes.Doggo);
 
-        RecalculateProbability(numRoles, numRabbits, numDoggos);
+        Dictionary<RoleTypes, int> roleCounts = game.BuildRoleCounts();
+
+        RecalculateProbability(numRoles, roleCounts);
     }
 
-    public void RecalculateProbability(int numRoles, int numRabbits, int numDoggos)
-    {
-        ProbabilityRabbit = numRabbits / (decimal)numRoles;
-        ProbabilityDoggo = numDoggos / (decimal)numRoles;
+    public IDictionary<RoleTypes, decimal> Probabilities { get; } = new Dictionary<RoleTypes, decimal>();
 
-        if (ProbabilityDoggo >= 1 || ProbabilityRabbit >= 1)
+    public void RecalculateProbability(int numRoles, IDictionary<RoleTypes, int> roleCounts)
+    {
+        Probabilities.Clear();
+
+        foreach (KeyValuePair<RoleTypes, int> kvp in roleCounts)
+        {
+            Probabilities[kvp.Key] = kvp.Value / (decimal)numRoles;
+        }
+
+        if (Probabilities.Values.Any(p => p >= 1.0m))
         {
             IsCertain = true;
         }
     }
 
-    public decimal ProbabilityDoggo { get; set; }
-    public decimal ProbabilityRabbit { get; set; }
-
-    public void MarkAsCertainOfRole(GameRoleBase role)
+    public void MarkAsCertainOfRole(RoleTypes role)
     {
-        if (role.IsDoggo)
+        foreach (var kvp in Probabilities)
         {
-            ProbabilityRabbit = 0;
-            ProbabilityDoggo = 1;
-        }
-        else
-        {
-            ProbabilityRabbit = 1;
-            ProbabilityDoggo = 0;
+            if (kvp.Key == role)
+            {
+                Probabilities[kvp.Key] = 1;
+            }
+            else
+            {
+                Probabilities[kvp.Key] = 0;
+            }
         }
 
         IsCertain = true;
     }
 
-    public bool IsCertain { get; set; }
-    public bool BelievedToBeWerewolf => ProbabilityDoggo > 0.5M;
+    public bool IsCertain { get; private set; }
+
+    public IDictionary<Teams, decimal> TeamProbabilities
+    {
+        get
+        {
+            Dictionary<Teams, decimal> teamProbabilities = new();
+
+            foreach (Teams team in Enum.GetValues<Teams>())
+            {
+                teamProbabilities[team] = 0;
+            }
+            
+            foreach (KeyValuePair<RoleTypes, decimal> kvp in Probabilities)
+            {
+                Teams teams = kvp.Key.DetermineTeam();
+
+                teamProbabilities[teams] += kvp.Value;
+            }
+
+            return teamProbabilities;
+        }
+    }
+
+    public Teams ProbableTeams
+    {
+        get
+        {
+            IDictionary<Teams,decimal> probabilities = TeamProbabilities;
+            
+            decimal maxProbability = probabilities.Values.Max();
+
+            return probabilities.FirstOrDefault(kvp => kvp.Value >= maxProbability).Key;
+        }
+    }
+
+    public RoleTypes LikelyRole => Probabilities.MaxBy(kvp => kvp.Value).Key;
 
     public override string ToString()
     {
         StringBuilder sb = new();
 
-        if (ProbabilityDoggo > 0)
+        foreach (KeyValuePair<RoleTypes, decimal> kvp in Probabilities.OrderByDescending(kvp => kvp.Value))
         {
-            sb.Append($"Doggo: {ProbabilityDoggo:P1} ");
-        }
-
-        if (ProbabilityRabbit > 0)
-        {
-            sb.Append($"Rabbit: {ProbabilityRabbit:P1} ");
+            if (kvp.Value > 0)
+            {
+                sb.Append($"{kvp.Key}: {kvp.Value:P1} ");
+            }
         }
 
         if (IsCertain)
@@ -66,24 +103,10 @@ public class ContainerRoleProbabilities
         return sb.ToString().Trim();
     }
 
-    private static int CountRolesOfType(OneNightWhereDoggoGame game, RoleTypes role)
-    {
-        return game.Roles.Count(r => r.Role == role);
-    }
-
     public void MarkAsCannotBeRole(RoleTypes role)
     {
-        if (role == RoleTypes.Rabbit)
-        {
-            ProbabilityRabbit = 0;
-            ProbabilityDoggo = 1;
-        }
-        else
-        {
-            ProbabilityRabbit = 1;
-            ProbabilityDoggo = 0;
-        }
-
-        IsCertain = true;
+        Probabilities[role] = 0;
     }
+
+    public decimal CalculateTeamProbability(Teams teams) => TeamProbabilities[teams];
 }

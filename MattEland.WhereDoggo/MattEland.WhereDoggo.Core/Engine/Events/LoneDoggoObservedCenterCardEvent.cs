@@ -20,7 +20,7 @@ public class LoneDoggoObservedCenterCardEvent : GameEventBase
     {
         if (target == ObservedSlot)
         {
-            probabilities.MarkAsCertainOfRole(ObservedRole);
+            probabilities.MarkAsCertainOfRole(ObservedRole.RoleType);
         }
     }
 }

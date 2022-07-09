@@ -21,10 +21,10 @@ public class InferenceTests
         {
             // Player Roles
             new RabbitRole(), 
-            new DoggoRole(), 
+            new WerewolfRole(), 
             new RabbitRole(),
             // Center Cards
-            new DoggoRole(), 
+            new WerewolfRole(), 
             new RabbitRole(), 
             new RabbitRole()
         };
@@ -52,11 +52,11 @@ public class InferenceTests
         GameRoleBase[] assignedRoles =
         {
             // Player Roles
-            new DoggoRole(),
+            new WerewolfRole(),
             new RabbitRole(),
             new RabbitRole(),
             // Center Cards
-            new DoggoRole(), 
+            new WerewolfRole(), 
             new RabbitRole(), 
             new RabbitRole()
         };
@@ -84,11 +84,11 @@ public class InferenceTests
         GameRoleBase[] assignedRoles =
         {
             // Player Roles
-            new DoggoRole(),
+            new WerewolfRole(),
             new RabbitRole(),
             new RabbitRole(),
             // Center Cards
-            new DoggoRole(), 
+            new WerewolfRole(), 
             new RabbitRole(), 
             new RabbitRole()
         };
@@ -119,11 +119,11 @@ public class InferenceTests
         GameRoleBase[] assignedRoles =
         {
             // Player Roles
-            new DoggoRole(),
+            new WerewolfRole(),
             new RabbitRole(),
             new RabbitRole(),
             // Center Cards
-            new DoggoRole(), 
+            new WerewolfRole(), 
             new RabbitRole(), 
             new RabbitRole()
         };
@@ -155,10 +155,10 @@ public class InferenceTests
         {
             // Player Roles
             new RabbitRole(),
-            new DoggoRole(),
+            new WerewolfRole(),
             new RabbitRole(),
             // Center Cards
-            new DoggoRole(),
+            new WerewolfRole(),
             new RabbitRole(),
             new RabbitRole()
         };

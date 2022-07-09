@@ -18,7 +18,7 @@ public class KnowsRoleEvent : GameEventBase
     {
         if (target == ObservedPlayer)
         {
-            probabilities.MarkAsCertainOfRole(ObservedRole);
+            probabilities.MarkAsCertainOfRole(ObservedRole.RoleType);
         }
     }
 }

@@ -2,6 +2,6 @@
 
 public abstract class GameRoleBase
 {
-    public virtual bool IsDoggo => false;
-    public abstract RoleTypes Role { get; }
+    public abstract RoleTypes RoleType { get; }
+    public abstract Teams Team { get; }
 }

@@ -2,6 +2,7 @@
 
 public enum RoleTypes
 {
-    Rabbit,
-    Doggo
+    Villager,
+    Werewolf,
+    Insomniac
 }
