@@ -28,6 +28,26 @@ Players currently build a probabilistic model of what every card in the game mig
 
 At the end of the round, each player randomly votes for one of the cards they believe are most likely to be a werewolf
 
+## High Level Approach
+
+This section will be greatly expanded in the future as the engine's capabilities evolve.
+
+For now, the system uses an _event-based_ approach to build a _probabilistic model_ of where each card in play might be.
+
+### Probabilistic Modeling
+
+Each agent has their own unique probabilistic model of what every card in the game might be (including their own). Various observed events can impact the information known or believed about each card, which helps players narrow down who they should vote for as well as what team they wound up on (once roles that move cards are part of the simulation in phase 3).
+
+### Event-Based System
+
+Everything that happens in the game is represented as an event, from players looking at their initial roles to werewolves waking up, to the insomniac looking at her card, to players claiming roles or voting.
+
+Not all players see every event, so each player has their own internally known set of events.
+
+The set of known events is used to build the probabilistic model of what each card contains.
+
+In the future, AIs will be able to consider events they didn't witness directly into their reasoning, as we add in support for moving cards in Phase 3.
+
 ## Roadmap
 
 ### Phase 1 - Basic Roles
