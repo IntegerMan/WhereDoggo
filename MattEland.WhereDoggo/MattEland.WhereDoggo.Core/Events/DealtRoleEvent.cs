@@ -1,4 +1,7 @@
-﻿namespace MattEland.WhereDoggo.Core.Engine.Events;
+﻿using MattEland.WhereDoggo.Core.Gamespace;
+using MattEland.WhereDoggo.Core.Roles;
+
+namespace MattEland.WhereDoggo.Core.Events;
 
 public class DealtRoleEvent : GameEventBase
 {

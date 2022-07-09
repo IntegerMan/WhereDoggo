@@ -1,4 +1,4 @@
-﻿namespace MattEland.WhereDoggo.Core.Engine;
+﻿namespace MattEland.WhereDoggo.Core.Roles;
 
 public enum RoleTypes
 {

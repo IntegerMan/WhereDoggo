@@ -1,4 +1,6 @@
-﻿namespace MattEland.WhereDoggo.Core.Engine;
+﻿using MattEland.WhereDoggo.Core.Roles;
+
+namespace MattEland.WhereDoggo.Core.Gamespace;
 
 /// <summary>
 /// Represents a non-playable entity containing a game role only.

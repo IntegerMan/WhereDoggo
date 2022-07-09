@@ -1,4 +1,4 @@
-﻿namespace MattEland.WhereDoggo.Core.Engine.Roles;
+﻿namespace MattEland.WhereDoggo.Core.Roles;
 
 public class VillagerRole : GameRoleBase
 {

@@ -1,6 +1,8 @@
-﻿using MattEland.WhereDoggo.Core.Engine.Strategies;
+﻿using MattEland.WhereDoggo.Core.Events;
+using MattEland.WhereDoggo.Core.Roles;
+using MattEland.WhereDoggo.Core.Strategies;
 
-namespace MattEland.WhereDoggo.Core.Engine;
+namespace MattEland.WhereDoggo.Core.Gamespace;
 
 public class GamePlayer : RoleContainerBase
 {
@@ -20,6 +22,7 @@ public class GamePlayer : RoleContainerBase
     public GameInferenceEngine Brain { get; } = new();
     public LoneWolfCardSelectionStrategyBase LoneWolfSlotSelectionStrategy { get; set; }
     public Teams CurrentTeam => CurrentRole.Team;
+    public Teams InitialTeam => InitialRole.Team;
 
     public GamePlayer DetermineVoteTarget(OneNightWhereDoggoGame game, Random random)
     {

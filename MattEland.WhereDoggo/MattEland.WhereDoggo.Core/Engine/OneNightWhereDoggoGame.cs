@@ -1,4 +1,8 @@
-﻿namespace MattEland.WhereDoggo.Core.Engine;
+﻿using MattEland.WhereDoggo.Core.Events;
+using MattEland.WhereDoggo.Core.Gamespace;
+using MattEland.WhereDoggo.Core.Roles;
+
+namespace MattEland.WhereDoggo.Core.Engine;
 
 public class OneNightWhereDoggoGame
 {
@@ -40,7 +44,7 @@ public class OneNightWhereDoggoGame
             }
             else
             {
-                RoleSlot slot = new("Center Card " + (centerIndex++), roles[i]);
+                RoleSlot slot = new($"Center Card {centerIndex++}", roles[i]);
                 _roleContainers.Add(slot);
                 _centerSlots.Add(slot);
             }
@@ -192,12 +196,22 @@ public class OneNightWhereDoggoGame
         LogEvent("Night Phase Starting");
         CurrentPhase = GamePhase.Night;
 
-        WakeDoggos();
+        WakeWerewolves();
+        WakeInsomniac();
     }
 
-    private void WakeDoggos()
+    private void WakeInsomniac()
     {
-        List<GamePlayer> doggos = Players.Where(p => p.InitialRole.RoleType == RoleTypes.Werewolf).ToList();
+        List<GamePlayer> insomniacs = Players.Where(p => p.InitialRole.RoleType == RoleTypes.Insomniac).ToList();
+        foreach (GamePlayer insomniac in insomniacs)
+        {
+            LogEvent(new InsomniacSawOwnCardEvent(insomniac));
+        }
+    }
+
+    private void WakeWerewolves()
+    {
+        List<GamePlayer> doggos = Players.Where(p => p.InitialTeam == Teams.Werewolves).ToList();
         switch (doggos.Count)
         {
             case 0:
@@ -205,7 +219,7 @@ public class OneNightWhereDoggoGame
                 break;
 
             case 1:
-                HandleLoneDoggoWakes(doggos);
+                HandleLoneWolfWakes(doggos);
                 break;
 
             case > 1:
@@ -215,7 +229,7 @@ public class OneNightWhereDoggoGame
         }
     }
 
-    private void HandleLoneDoggoWakes(IEnumerable<GamePlayer> doggos)
+    private void HandleLoneWolfWakes(IEnumerable<GamePlayer> doggos)
     {
         GamePlayer loneDoggo = doggos.Single();
         LogEvent(new OnlyWolfEvent(loneDoggo));

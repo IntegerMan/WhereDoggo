@@ -1,4 +1,6 @@
-﻿namespace MattEland.WhereDoggo.Core.Engine;
+﻿using MattEland.WhereDoggo.Core.Gamespace;
+
+namespace MattEland.WhereDoggo.Core.Engine;
 
 public class GameResult
 {

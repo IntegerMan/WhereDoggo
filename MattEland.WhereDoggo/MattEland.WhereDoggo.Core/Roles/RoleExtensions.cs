@@ -1,4 +1,4 @@
-﻿namespace MattEland.WhereDoggo.Core.Engine;
+﻿namespace MattEland.WhereDoggo.Core.Roles;
 
 public static class RoleExtensions
 {
@@ -21,7 +21,7 @@ public static class RoleExtensions
     {
         Dictionary<RoleTypes, int> roleCounts = new();
 
-        foreach (RoleTypes role in Enum.GetValues<RoleTypes>())
+        foreach (RoleTypes role in game.Roles.Select(r => r.RoleType).Distinct())
         {
             int count = game.CountRolesOfType(role);
             roleCounts[role] = count;

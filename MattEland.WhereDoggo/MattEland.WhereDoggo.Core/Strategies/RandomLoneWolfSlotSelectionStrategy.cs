@@ -1,4 +1,6 @@
-﻿namespace MattEland.WhereDoggo.Core.Engine.Strategies;
+﻿using MattEland.WhereDoggo.Core.Gamespace;
+
+namespace MattEland.WhereDoggo.Core.Strategies;
 
 public class RandomLoneWolfSlotSelectionStrategy : LoneWolfCardSelectionStrategyBase
 {

@@ -5,6 +5,4 @@ global using System.Text;
 global using System.Threading.Tasks;
 
 global using MattEland.WhereDoggo.Core.Engine;
-global using MattEland.WhereDoggo.Core.Engine.Events;
-global using MattEland.WhereDoggo.Core.Engine.Roles;
 global using MattEland.Util;
