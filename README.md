@@ -38,14 +38,16 @@ Planned roles in Phase 1 are:
 
 - [x] Werewolves
 - [x] Villager
-- [x] Insomniac
+- [x] Insomniac*
+- [ ] Sentinel*
 - [ ] Masons
 - [ ] Apprentice Seer
 - [ ] Mystic Wolf
 - [ ] Revealer
 - [ ] Exposer
 - [ ] Seer
-- [ ] Sentinel
+
+_Note: the **Insomniac** and **Sentinel** roles don't make complete sense until paired with card moving abilities and will be expanded as features grow, but adding them early helped establish baseline AI deductive capabilities_
 
 Planned features in Phase 1 are:
 
