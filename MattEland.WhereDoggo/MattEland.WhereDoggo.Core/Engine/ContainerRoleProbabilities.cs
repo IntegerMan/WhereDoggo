@@ -19,7 +19,22 @@ public class ContainerRoleProbabilities
 
         foreach (KeyValuePair<RoleTypes, int> kvp in roleCounts)
         {
-            Probabilities[kvp.Key] = kvp.Value / (decimal)numRoles;
+            if (CannotBe.Contains(kvp.Key))
+            {
+                roleCounts[kvp.Key] -= kvp.Value;
+            }
+        }
+
+        foreach (KeyValuePair<RoleTypes, int> kvp in roleCounts)
+        {
+            if (CannotBe.Contains(kvp.Key))
+            {
+                Probabilities[kvp.Key] = 0;
+            }
+            else
+            {
+                Probabilities[kvp.Key] = kvp.Value / (decimal)numRoles;
+            }
         }
 
         if (Probabilities.Values.Any(p => p >= 1.0m))
@@ -30,7 +45,7 @@ public class ContainerRoleProbabilities
 
     public void MarkAsCertainOfRole(RoleTypes role)
     {
-        foreach (var kvp in Probabilities)
+        foreach (KeyValuePair<RoleTypes, decimal> kvp in Probabilities)
         {
             if (kvp.Key == role)
             {
@@ -106,7 +121,10 @@ public class ContainerRoleProbabilities
     public void MarkAsCannotBeRole(RoleTypes role)
     {
         Probabilities[role] = 0;
+        CannotBe.Add(role);
     }
+
+    private HashSet<RoleTypes> CannotBe { get; } = new();
 
     public decimal CalculateTeamProbability(Teams teams) => TeamProbabilities[teams];
 }

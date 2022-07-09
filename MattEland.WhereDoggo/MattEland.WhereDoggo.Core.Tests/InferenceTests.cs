@@ -146,7 +146,7 @@ public class InferenceTests
     }
 
     [Test]
-    public void RabbitsShouldHaveMixedProbabilitiesOnOtherPlayers()
+    public void VillagersShouldHaveMixedProbabilitiesOnOtherPlayers()
     {
         // Arrange
         const int numPlayers = 3;
