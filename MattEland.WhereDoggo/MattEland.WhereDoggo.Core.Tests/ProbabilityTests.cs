@@ -6,12 +6,12 @@ public class ProbabilityTests
     public void ProbabilityShouldBeSplitBetweenAllRoles()
     {
         // Arrange
-        ContainerRoleProbabilities probabilities = new(6);
         Dictionary<RoleTypes, int> roleCounts = new()
         {
             [RoleTypes.Werewolf] = 2,
             [RoleTypes.Villager] = 4
         };
+        ContainerRoleProbabilities probabilities = new(roleCounts.Values.Sum());
 
         // Act
         probabilities.RecalculateProbability(roleCounts);
@@ -25,12 +25,12 @@ public class ProbabilityTests
     public void ProbabilityWithTwoRolesShouldDefaultToOtherRoleWhenOneRoleRuledOut()
     {
         // Arrange
-        ContainerRoleProbabilities probabilities = new(6);
         Dictionary<RoleTypes, int> roleCounts = new()
         {
             [RoleTypes.Werewolf] = 2,
             [RoleTypes.Villager] = 4
         };
+        ContainerRoleProbabilities probabilities = new(roleCounts.Values.Sum());
 
         // Act
         probabilities.MarkAsCannotBeRole(RoleTypes.Werewolf);

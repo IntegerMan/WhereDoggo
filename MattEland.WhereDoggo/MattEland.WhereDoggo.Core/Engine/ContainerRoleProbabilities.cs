@@ -24,10 +24,13 @@ public class ContainerRoleProbabilities
     {
         Probabilities.Clear();
 
+        int remainingRoles = roleCounts.Values.Sum();
+        
         foreach (KeyValuePair<RoleTypes, int> kvp in roleCounts)
         {
             if (CannotBe.Contains(kvp.Key))
             {
+                remainingRoles -= kvp.Value;
                 roleCounts[kvp.Key] -= kvp.Value;
             }
         }
@@ -38,9 +41,13 @@ public class ContainerRoleProbabilities
             {
                 Probabilities[kvp.Key] = 0;
             }
+            else if (remainingRoles <= 0) // Shouldn't happen, but guard against div / 0 exceptions
+            {
+                Probabilities[kvp.Key] = 0;
+            }
             else
             {
-                Probabilities[kvp.Key] = kvp.Value / (decimal)_numRoles;
+                Probabilities[kvp.Key] = kvp.Value / (decimal)remainingRoles;
             }
         }
 
