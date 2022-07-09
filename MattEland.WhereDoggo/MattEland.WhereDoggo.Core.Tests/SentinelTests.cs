@@ -35,5 +35,21 @@ public class SentinelTests : GameTestsBase
         finalProbabilities[player].Probabilities[RoleTypes.Villager].ShouldBe(0);
     }
 
+    [Test]
+    public void SentinelThatPlacesTokenShouldResultInCardWithToken()
+    {
+        Assert.Inconclusive("Not Implemented yet");
+    }
 
+    [Test]
+    public void SentinelThatPlacesTokenShouldHaveAppropriateEvent()
+    {
+        Assert.Inconclusive("Not Implemented yet");
+    }
+    
+    [Test]
+    public void SentinelMayChooseToNotPlaceTokenShouldHaveAppropriateEvent()
+    {
+        Assert.Inconclusive("Not Implemented yet");
+    }
 }
