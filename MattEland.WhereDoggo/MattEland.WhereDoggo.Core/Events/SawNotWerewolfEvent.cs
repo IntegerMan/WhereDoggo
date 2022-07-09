@@ -1,7 +1,4 @@
-﻿using MattEland.WhereDoggo.Core.Gamespace;
-using MattEland.WhereDoggo.Core.Roles;
-
-namespace MattEland.WhereDoggo.Core.Events;
+﻿namespace MattEland.WhereDoggo.Core.Events;
 
 public class SawNotWerewolfEvent : GameEventBase
 {
@@ -13,7 +10,7 @@ public class SawNotWerewolfEvent : GameEventBase
         Target = target;
     }
 
-    public override string ToString() => $"{Player} saw that {Target} is not a Doggo";
+    public override string ToString() => $"{Player} saw that {Target} is not a werewolf";
 
     public override void UpdatePlayerPerceptions(GamePlayer observer, RoleContainerBase target, ContainerRoleProbabilities probabilities)
     {

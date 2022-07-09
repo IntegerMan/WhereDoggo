@@ -4,33 +4,42 @@
     <projectFile>MattEland.WhereDoggo.WhereDoggoConsole/MattEland.WhereDoggo.WhereDoggoConsole.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="58511d50-a789-4c31-886d-3b01f01ee2c4" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/MattEland.WhereDoggo.Core.Tests/InferenceTests.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MattEland.WhereDoggo.Core.Tests/InferenceTests.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MattEland.WhereDoggo.Core/Engine/ContainerRoleProbabilities.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MattEland.WhereDoggo.Core/Engine/ContainerRoleProbabilities.cs" afterDir="false" />
-    </list>
+    <list default="true" id="58511d50-a789-4c31-886d-3b01f01ee2c4" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/MattEland.WhereDoggo.Core.Tests/InferenceTests.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/MattEland.WhereDoggo.Core.Tests/ProbabilityTests.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/MattEland.WhereDoggo.Core/Engine/ContainerRoleProbabilities.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/MattEland.WhereDoggo.Core/Engine/GameResult.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/MattEland.WhereDoggo.Core/Engine/OneNightWhereDoggoGame.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/MattEland.WhereDoggo.Core/ProjectUsings.cs" root0="FORCE_HIGHLIGHTING" />
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="2Bh35Sb91KSwoaFlhNx7HiP7ZnF" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="autoscrollFromSource" value="true" />
     <option name="autoscrollToSource" value="true" />
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected=".NET Project.MattEland.WhereDoggo.WhereDoggoConsole">
     <configuration name="MattEland.WhereDoggo.WhereDoggoConsole" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
@@ -60,6 +69,10 @@
       <option name="presentableId" value="Default" />
       <updated>1657344310851</updated>
       <workItem from="1657344320645" duration="1604000" />
+      <workItem from="1657398630429" duration="129000" />
+      <workItem from="1657398825086" duration="106000" />
+      <workItem from="1657399031292" duration="70000" />
+      <workItem from="1657399160955" duration="1105000" />
     </task>
     <servers />
   </component>
@@ -69,5 +82,24 @@
   <component name="UnityUnitTestConfiguration" currentTestLauncher="NUnit" />
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/MattEland.WhereDoggo.Core.Tests/ProbabilityTests.cs</url>
+          <line>39</line>
+          <properties documentPath="C:\dev\WhereDoggo\MattEland.WhereDoggo\MattEland.WhereDoggo.Core.Tests\ProbabilityTests.cs" initialLine="39" containingFunctionPresentation="method 'ProbabilityWithTwoRolesShouldDefaultToOtherRoleWhenOneRoleRuledOut'">
+            <startOffsets>
+              <option value="1128" />
+            </startOffsets>
+            <endOffsets>
+              <option value="1189" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

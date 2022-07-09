@@ -1,7 +1,4 @@
-﻿using MattEland.WhereDoggo.Core.Gamespace;
-using MattEland.WhereDoggo.Core.Roles;
-
-namespace MattEland.WhereDoggo.Core.Events;
+﻿namespace MattEland.WhereDoggo.Core.Events;
 
 public class KnowsRoleEvent : GameEventBase
 {

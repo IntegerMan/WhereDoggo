@@ -1,28 +1,36 @@
-using MattEland.WhereDoggo.Core.Roles;
-
 namespace MattEland.WhereDoggo.Core.Engine;
 
 public class ContainerRoleProbabilities
 {
+    private readonly int _numRoles;
+
     public ContainerRoleProbabilities(OneNightWhereDoggoGame game)
     {
-        int numRoles = game.Entities.Count;
+        _numRoles = game.Entities.Count;
 
         Dictionary<RoleTypes, int> roleCounts = game.BuildRoleCounts();
 
-        RecalculateProbability(numRoles, roleCounts);
+        RecalculateProbability(roleCounts);
+    }
+
+    public ContainerRoleProbabilities(int numRoles)
+    {
+        _numRoles = numRoles;
     }
 
     public IDictionary<RoleTypes, decimal> Probabilities { get; } = new Dictionary<RoleTypes, decimal>();
 
-    public void RecalculateProbability(int numRoles, IDictionary<RoleTypes, int> roleCounts)
+    public void RecalculateProbability(IDictionary<RoleTypes, int> roleCounts)
     {
         Probabilities.Clear();
 
+        int remainingRoles = roleCounts.Values.Sum();
+        
         foreach (KeyValuePair<RoleTypes, int> kvp in roleCounts)
         {
             if (CannotBe.Contains(kvp.Key))
             {
+                remainingRoles -= kvp.Value;
                 roleCounts[kvp.Key] -= kvp.Value;
             }
         }
@@ -33,9 +41,13 @@ public class ContainerRoleProbabilities
             {
                 Probabilities[kvp.Key] = 0;
             }
+            else if (remainingRoles <= 0) // Shouldn't happen, but guard against div / 0 exceptions
+            {
+                Probabilities[kvp.Key] = 0;
+            }
             else
             {
-                Probabilities[kvp.Key] = kvp.Value / (decimal)numRoles;
+                Probabilities[kvp.Key] = kvp.Value / (decimal)remainingRoles;
             }
         }
 
