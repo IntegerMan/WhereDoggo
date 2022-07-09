@@ -13,6 +13,11 @@ public class ContainerRoleProbabilities
         RecalculateProbability(roleCounts);
     }
 
+    public ContainerRoleProbabilities(int numRoles)
+    {
+        _numRoles = numRoles;
+    }
+
     public IDictionary<RoleTypes, decimal> Probabilities { get; } = new Dictionary<RoleTypes, decimal>();
 
     public void RecalculateProbability(IDictionary<RoleTypes, int> roleCounts)
