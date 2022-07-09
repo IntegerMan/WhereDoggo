@@ -2,6 +2,12 @@
 
 public class GameResult
 {
-    public bool WerewolfKilled { get; set; }
-    public IEnumerable<GamePlayer> Winners { get; set; }
+    public GameResult(bool werewolfKilled, IEnumerable<GamePlayer> winners)
+    {
+        WerewolfKilled = werewolfKilled;
+        Winners = winners;
+    }
+
+    public bool WerewolfKilled { get; }
+    public IEnumerable<GamePlayer> Winners { get; }
 }

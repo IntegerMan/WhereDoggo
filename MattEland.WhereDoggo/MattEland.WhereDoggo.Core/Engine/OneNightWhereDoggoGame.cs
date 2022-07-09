@@ -172,11 +172,7 @@ public class OneNightWhereDoggoGame
         IEnumerable<GamePlayer> wolves = Players.Where(p =>  p.CurrentTeam == Teams.Werewolves);
 
         bool wwVoted = votedPlayers.Any(p => p.CurrentRole.RoleType == RoleTypes.Werewolf);
-        Result = new GameResult
-        {
-            WerewolfKilled = wwVoted,
-            Winners = wwVoted ? villagers : wolves
-        };
+        Result = new GameResult(wwVoted, wwVoted ? villagers : wolves);
 
         BroadcastEvent(wwVoted
             ? "The village wins!"
