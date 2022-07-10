@@ -1,11 +1,12 @@
 ﻿using System;
 using MattEland.WhereDoggo.Core.Events;
 
-namespace MattEland.WhereDoggo.Core.Tests;
+namespace MattEland.WhereDoggo.Core.Tests.Roles;
 
 /// <summary>
 /// Tests related to the Sentinel Role
 /// </summary>
+[Category("Roles")]
 public class SentinelTests : GameTestsBase
 {
     [Test]
@@ -34,7 +35,7 @@ public class SentinelTests : GameTestsBase
         finalProbabilities[player].Probabilities[RoleTypes.Werewolf].ShouldBe(0);
         finalProbabilities[player].Probabilities[RoleTypes.Villager].ShouldBe(0);
     }
-    
+
     [Test]
     public void SentinelThatPlacesTokenShouldResultInCardWithToken()
     {
@@ -110,8 +111,8 @@ public class SentinelTests : GameTestsBase
 
         // Assert
         game.Players.Any(p => p.HasSentinelToken).ShouldBeFalse();
-    }    
-    
+    }
+
     [Test]
     public void SentinelMayChooseToNotPlaceTokenShouldHaveAppropriateEvent()
     {
@@ -162,9 +163,9 @@ public class SentinelTests : GameTestsBase
         GamePlayer ww = game.Players[1];
         IDictionary<RoleContainerBase, CardProbabilities> probabilities = ww.Brain.BuildFinalRoleProbabilities();
         probabilities[game.CenterSlots.First()].Probabilities[RoleTypes.Sentinel].ShouldBe(0);
-        probabilities[game.Players.First()].Probabilities[RoleTypes.Sentinel].ShouldBeGreaterThan(1M/assignedRoles.Length);
-    }  
-    
+        probabilities[game.Players.First()].Probabilities[RoleTypes.Sentinel].ShouldBeGreaterThan(1M / assignedRoles.Length);
+    }
+
     [Test]
     [TestCase(0, GamePhase.Night)] // Sentinel
     [TestCase(1, GamePhase.Night)] // Werewolf
@@ -218,5 +219,5 @@ public class SentinelTests : GameTestsBase
         {
             game.Run();
         }, Throws.TypeOf<InvalidOperationException>());
-    }    
+    }
 }

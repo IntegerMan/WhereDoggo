@@ -1,7 +1,8 @@
 ﻿using MattEland.WhereDoggo.Core.Events;
 
-namespace MattEland.WhereDoggo.Core.Tests;
+namespace MattEland.WhereDoggo.Core.Tests.Roles;
 
+[Category("Roles")]
 public class InsomniacTests : GameTestsBase
 {
     [Test]
