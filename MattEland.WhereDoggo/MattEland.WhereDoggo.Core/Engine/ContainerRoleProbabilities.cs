@@ -9,7 +9,7 @@ public class ContainerRoleProbabilities
 {
     private readonly int _numRoles;
 
-    public ContainerRoleProbabilities(OneNightWhereDoggoGame game)
+    public ContainerRoleProbabilities(Game game)
     {
         _numRoles = game.Entities.Count;
 

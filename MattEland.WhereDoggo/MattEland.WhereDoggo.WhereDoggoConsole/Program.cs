@@ -4,7 +4,7 @@ const int numPlayers = 3;
 
 static GameResult RunAndShowGame(int numPlayers, bool showUI)
 {
-    OneNightWhereDoggoGame game = new(numPlayers);
+    Game game = new(numPlayers);
     GameRoleBase[] assignedRoles =
     {
         // Player Roles

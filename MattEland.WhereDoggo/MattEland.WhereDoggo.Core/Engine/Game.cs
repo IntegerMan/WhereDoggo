@@ -1,12 +1,10 @@
-﻿using MattEland.WhereDoggo.Core.Events;
-using MattEland.WhereDoggo.Core.Gamespace;
-using MattEland.WhereDoggo.Core.Roles;
+﻿namespace MattEland.WhereDoggo.Core.Engine;
 
-namespace MattEland.WhereDoggo.Core.Engine;
-
-public class OneNightWhereDoggoGame
+/// <summary>
+/// Represents a single game of One Night Ultimate Werewolf
+/// </summary>
+public class Game
 {
-
     private List<GamePlayer> _players = new();
     private List<GameRoleBase> _roles = new();
     private readonly List<GameEventBase> _events = new();
@@ -17,9 +15,15 @@ public class OneNightWhereDoggoGame
     public IList<RoleContainerBase> Entities => _roleContainers.AsReadOnly();
     public IList<GameEventBase> Events => _events.AsReadOnly();
 
-    public OneNightWhereDoggoGame(int numPlayers)
+    public Game(int numPlayers)
     {
         this.NumPlayers = numPlayers;
+    }
+    
+    public Game(ICollection<RoleTypes> roles, bool randomizeSlots = true)
+    {
+        this.NumPlayers = roles.Count - NumCenterCards;
+        SetUp(roles, randomizeSlots);
     }
 
     public void SetUp(IList<GameRoleBase> roles, bool randomizeSlots = true)
@@ -50,6 +54,12 @@ public class OneNightWhereDoggoGame
         }
 
         _players = _roleContainers.OfType<GamePlayer>().ToList();
+    }
+    
+    public void SetUp(IEnumerable<RoleTypes> roles, bool randomizeSlots = true)
+    {
+        List<GameRoleBase> gameRoles = roles.Select(r => r.BuildGameRole()).ToList();
+        SetUp(gameRoles, randomizeSlots);
     }
 
     public int NumPlayers { get; }
@@ -171,16 +181,42 @@ public class OneNightWhereDoggoGame
         LogEvent("Night Phase Starting");
         CurrentPhase = GamePhase.Night;
 
+        // TODO: This should really be a list of phases we cycle through
+        WakeSentinels();
         WakeWerewolves();
         WakeInsomniac();
     }
 
+    private void WakeSentinels()
+    {
+        List<GamePlayer> players = GetPlayersOfInitialRole(RoleTypes.Sentinel);
+        foreach (GamePlayer player in players)
+        {
+            GamePlayer? target = player.Strategies.SentinelTokenPlacementStrategy.SelectSlot(_players) as GamePlayer;
+
+            if (target == null)
+            {
+                // TODO: Log an event 
+            }
+            else
+            {
+                target.HasSentinelToken = true;
+                // TODO: Log an event
+            }
+        }
+    }
+
+    private List<GamePlayer> GetPlayersOfInitialRole(RoleTypes roleTypes)
+    {
+        return Players.Where(p => p.InitialRole.RoleType == roleTypes).ToList();
+    }
+
     private void WakeInsomniac()
     {
-        List<GamePlayer> insomniacs = Players.Where(p => p.InitialRole.RoleType == RoleTypes.Insomniac).ToList();
-        foreach (GamePlayer insomniac in insomniacs)
+        List<GamePlayer> players = Players.Where(p => p.InitialRole.RoleType == RoleTypes.Insomniac).ToList();
+        foreach (GamePlayer player in players)
         {
-            LogEvent(new InsomniacSawOwnCardEvent(insomniac));
+            LogEvent(new InsomniacSawOwnCardEvent(player));
         }
     }
 
@@ -213,7 +249,13 @@ public class OneNightWhereDoggoGame
             LogEvent(new SawNotWerewolfEvent(wolf, otherPlayer));
         }
 
-        RoleSlot slot = wolf.LoneWolfSlotSelectionStrategy.SelectSlot(_centerSlots);
+        RoleContainerBase? slot = wolf.Strategies.LoneWolfCenterCardStrategy.SelectSlot(_centerSlots);
+
+        if (slot == null)
+        {
+            throw new InvalidOperationException("A lone werewolf did not pick a center card to look at");
+        }
+        
         LogEvent(new LoneWolfObservedCenterCardEvent(wolf, slot, slot.CurrentRole));
     }
 

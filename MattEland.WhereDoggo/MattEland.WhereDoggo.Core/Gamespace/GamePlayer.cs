@@ -1,16 +1,15 @@
-﻿using MattEland.WhereDoggo.Core.Events;
-using MattEland.WhereDoggo.Core.Roles;
-using MattEland.WhereDoggo.Core.Strategies;
+﻿namespace MattEland.WhereDoggo.Core.Gamespace;
 
-namespace MattEland.WhereDoggo.Core.Gamespace;
-
+/// <summary>
+/// Represents a player within the game world.
+/// </summary>
 public class GamePlayer : RoleContainerBase
 {
     private readonly List<GameEventBase> _events = new();
 
-    public GamePlayer(string name, GameRoleBase initialRole, Random random) : base(name, initialRole)
+    public GamePlayer(string name, GameRoleBase initialRole, Random randomizer) : base(name, initialRole)
     {
-        this.LoneWolfSlotSelectionStrategy = new RandomLoneWolfSlotSelectionStrategy(random);
+        Strategies = new GameStrategies(randomizer);
     }
 
     public void AddEvent(GameEventBase eventBase)
@@ -20,11 +19,17 @@ public class GamePlayer : RoleContainerBase
 
     public IList<GameEventBase> Events => _events.AsReadOnly();
     public GameInferenceEngine Brain { get; } = new();
-    public LoneWolfCardSelectionStrategyBase LoneWolfSlotSelectionStrategy { get; set; }
     public Teams CurrentTeam => CurrentRole.Team;
     public Teams InitialTeam => InitialRole.Team;
 
-    public GamePlayer DetermineVoteTarget(OneNightWhereDoggoGame game, Random random)
+    /// <summary>
+    /// Whether or not the sentinel token has been placed on the card
+    /// </summary>
+    public bool HasSentinelToken { get; set;  }
+
+    public GameStrategies Strategies { get; }
+
+    public GamePlayer DetermineVoteTarget(Game game, Random random)
     {
         IDictionary<RoleContainerBase, ContainerRoleProbabilities> probabilities = 
             Brain.BuildFinalRoleProbabilities(this, game);
@@ -41,7 +46,7 @@ public class GamePlayer : RoleContainerBase
             probabilities.Remove(key);
         }
 
-        List<RoleContainerBase> options = new();
+        List<RoleContainerBase> options;
         switch (probableTeams)
         {
             case Teams.Villagers:

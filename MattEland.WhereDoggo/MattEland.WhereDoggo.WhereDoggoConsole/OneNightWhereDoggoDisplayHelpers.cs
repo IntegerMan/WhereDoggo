@@ -5,7 +5,7 @@ namespace MattEland.WhereDoggo.WhereDoggoConsole;
 
 public static class OneNightWhereDoggoDisplayHelpers
 {
-    public static void DisplayGameState(this OneNightWhereDoggoGame game)
+    public static void DisplayGameState(this Game game)
     {
         foreach (RoleContainerBase container in game.Entities)
         {
@@ -28,7 +28,7 @@ public static class OneNightWhereDoggoDisplayHelpers
         Console.WriteLine();
     }
 
-    public static void DisplayNightActions(this OneNightWhereDoggoGame game)
+    public static void DisplayNightActions(this Game game)
     {
         Console.WriteLine("During the Night:");
         List<GameEventBase> events = game.FindEventsForPhase(GamePhase.Night);
@@ -39,7 +39,7 @@ public static class OneNightWhereDoggoDisplayHelpers
         Console.WriteLine();
     }
 
-    public static void DisplayPlayerKnowledge(this OneNightWhereDoggoGame game, bool includeProbabilities)
+    public static void DisplayPlayerKnowledge(this Game game, bool includeProbabilities)
     {
         foreach (GamePlayer player in game.Players)
         {
@@ -63,7 +63,7 @@ public static class OneNightWhereDoggoDisplayHelpers
         }
     }    
     
-    public static void DisplayAllEvents(this OneNightWhereDoggoGame game)
+    public static void DisplayAllEvents(this Game game)
     {
         Console.WriteLine("All Game Events:");
 

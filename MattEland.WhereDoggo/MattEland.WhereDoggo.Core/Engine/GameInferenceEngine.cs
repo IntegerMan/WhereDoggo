@@ -4,7 +4,7 @@ namespace MattEland.WhereDoggo.Core.Engine;
 public class GameInferenceEngine
 {
     public IDictionary<RoleContainerBase, ContainerRoleProbabilities>
-        BuildFinalRoleProbabilities(GamePlayer player, OneNightWhereDoggoGame game)
+        BuildFinalRoleProbabilities(GamePlayer player, Game game)
     {
         Dictionary<RoleContainerBase, ContainerRoleProbabilities> dicts = new();
 
@@ -41,7 +41,7 @@ public class GameInferenceEngine
         return dicts;
     }
 
-    private static int CountRolesOfType(OneNightWhereDoggoGame game, RoleTypes role)
+    private static int CountRolesOfType(Game game, RoleTypes role)
     {
         return game.Roles.Count(r => r.RoleType == role);
     }

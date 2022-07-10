@@ -1,4 +1,5 @@
-﻿using MattEland.WhereDoggo.Core.Events;
+﻿using System;
+using MattEland.WhereDoggo.Core.Events;
 
 namespace MattEland.WhereDoggo.Core.Tests;
 
@@ -11,18 +12,18 @@ public class SentinelTests : GameTestsBase
     public void SentinelsShouldKnowTheyAreSentinels()
     {
         // Arrange
-        GameRoleBase[] assignedRoles =
+        RoleTypes[] assignedRoles =
         {
             // Player Roles
-            new SentinelRole(),
-            new WerewolfRole(),
-            new VillagerRole(),
+            RoleTypes.Sentinel,
+            RoleTypes.Werewolf,
+            RoleTypes.Villager,
             // Center Cards
-            new WerewolfRole(),
-            new VillagerRole(),
-            new VillagerRole()
+            RoleTypes.Werewolf,
+            RoleTypes.Villager,
+            RoleTypes.Villager
         };
-        OneNightWhereDoggoGame game = RunGame(assignedRoles);
+        Game game = RunGame(assignedRoles);
         GamePlayer player = game.Players.First();
 
         // Act
@@ -34,11 +35,32 @@ public class SentinelTests : GameTestsBase
         finalProbabilities[player].Probabilities[RoleTypes.Werewolf].ShouldBe(0);
         finalProbabilities[player].Probabilities[RoleTypes.Villager].ShouldBe(0);
     }
-
+    
     [Test]
     public void SentinelThatPlacesTokenShouldResultInCardWithToken()
     {
-        Assert.Inconclusive("Not Implemented yet");
+        // Arrange
+        RoleTypes[] assignedRoles =
+        {
+            // Player Roles
+            RoleTypes.Sentinel,
+            RoleTypes.Werewolf,
+            RoleTypes.Villager,
+            // Center Cards
+            RoleTypes.Werewolf,
+            RoleTypes.Villager,
+            RoleTypes.Villager
+        };
+        Game game = new(assignedRoles, randomizeSlots: false);
+        GamePlayer player = game.Players.First();
+        player.Strategies.SentinelTokenPlacementStrategy = new SelectSpecificSlotPlacementStrategy(1); // WW player
+        game.Start();
+
+        // Act
+        game.PerformNightPhase();
+
+        // Assert
+        game.Players[1].HasSentinelToken.ShouldBeTrue();
     }
 
     [Test]
@@ -52,4 +74,19 @@ public class SentinelTests : GameTestsBase
     {
         Assert.Inconclusive("Not Implemented yet");
     }
+
+    [Test]
+    public void SentinelTokenCausesNonSentinelsToKnowSentinelNotInCenter()
+    {
+        Assert.Inconclusive("Not Implemented yet");
+    }  
+    
+    [Test]
+    public void SentinelThrowsInvalidOperationExceptionWhenForcedToPutTokenOnThemselves()
+    {
+        Assert.That(() =>
+        {
+            
+        }, Throws.TypeOf<InvalidOperationException>());
+    }    
 }
