@@ -21,6 +21,7 @@ Currently partial or complete support for the following roles is implemented:
 - Werewolf
 - Villager
 - Insomniac
+- Sentinel
 
 ### Supported Capabilities
 
@@ -59,7 +60,7 @@ Planned roles in Phase 1 are:
 - [x] Werewolves
 - [x] Villager
 - [x] Insomniac*
-- [ ] Sentinel*
+- [x] Sentinel*
 - [ ] Masons
 - [ ] Apprentice Seer
 - [ ] Mystic Wolf
