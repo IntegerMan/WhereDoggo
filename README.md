@@ -79,12 +79,12 @@ Planned features in Phase 1 are:
 - [x] Probabilistic model of what cards are at play start
 - [x] Simple voting
 - [ ] Claiming Roles
-- [ ] Wolves Falsely Claiming Roles
+- [ ] Wolves Falsely Claiming Roles (most probable center card given existing claims)
+- [ ] Suspecting fake claims
 - [ ] Players sharing their suspicions
 - [ ] Voting factoring in suspicions of others
 - [ ] Voting in a Circle (if thinking no werewolves present)
 - [ ] Seer / Apprentice Seer Claims share what card they viewed
-- [ ] Suspecting fake claims
 
 ### Phase 2 - Added Duplicity
 
