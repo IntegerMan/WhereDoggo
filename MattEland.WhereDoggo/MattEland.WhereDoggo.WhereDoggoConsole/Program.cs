@@ -1,8 +1,6 @@
 ﻿using MattEland.WhereDoggo.Core.Roles;
 
-const int numPlayers = 3;
-
-static GameResult RunAndShowGame(int numPlayers, bool showUi)
+static GameResult RunAndShowGame(bool showUi)
 {
     RoleTypes[] assignedRoles =
     {
@@ -32,19 +30,19 @@ static GameResult RunAndShowGame(int numPlayers, bool showUi)
 
     // Carry out night phase
     game.PerformNightPhase();
+    game.PerformDayPhase();
 
     if (showUi)
     {
         game.DisplayNightActions();
 
         // Show game state prior to vote
-        Console.WriteLine("After night phase...");
+        Console.WriteLine("Before voting...");
         Console.WriteLine();
         game.DisplayPlayerKnowledge(true);
     }
 
     // Carry out vote phase
-    game.PerformDayPhase();
     game.PerformVotePhase();
 
     // Log all game events
@@ -62,7 +60,7 @@ int wolfWins = 0;
 
 for (int i = 0; i < numRuns; i++)
 {
-    GameResult result = RunAndShowGame(numPlayers, true);
+    GameResult result = RunAndShowGame(true);
 
     if (result.WerewolfKilled)
     {

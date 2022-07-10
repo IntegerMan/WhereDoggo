@@ -82,7 +82,7 @@ public class GamePlayer : RoleContainerBase
         {
             if (!player.HasSentinelToken) continue;
 
-            if (!this.Events.Any(e => e is SentinelTokenObservedEvent sto && sto.Target == player))
+            if (!Events.Any(e => e is SentinelTokenObservedEvent sto && sto.Target == player))
             {
                 _game.LogEvent(new SentinelTokenObservedEvent(this, player, _game.CurrentPhase));
             }

@@ -21,5 +21,7 @@ public class SentinelTokenObservedEvent : GameEventBase
         }
     }
 
-    public override string ToString() => $"{Player} saw a sentinel token on {Target}";
+    public override string ToString() => Target == Player 
+            ? $"{Player} saw a sentinel token on themselves" 
+            : $"{Player} saw a sentinel token on {Target}";
 }

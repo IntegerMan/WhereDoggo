@@ -15,8 +15,5 @@ public class SentinelTokenPlacedEvent : GameEventBase
         Target = target;
     }
 
-    public override string ToString()
-    {
-        return $"{Player} placed a sentinel token on {Target}";
-    }
+    public override string ToString() => $"{Player} placed a sentinel token on {Target}";
 }
