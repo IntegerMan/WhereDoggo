@@ -34,5 +34,10 @@ public enum RoleTypes
     /// <summary>
     /// The <see cref="MasonRole" />.
     /// </summary>
-    Mason
+    Mason,
+    
+    /// <summary>
+    /// The <see cref="RevealerRole"/>
+    /// </summary>
+    Revealer
 }
