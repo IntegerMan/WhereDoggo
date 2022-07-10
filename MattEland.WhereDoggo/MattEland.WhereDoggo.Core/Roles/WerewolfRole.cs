@@ -41,10 +41,12 @@ public class WerewolfRole : GameRoleBase
 
         if (slot == null)
         {
-            throw new InvalidOperationException("A lone werewolf did not pick a center card to look at");
+            game.LogEvent(new SkippedNightActionEvent(player));
         }
-
-        game.LogEvent(new ObservedCenterCardEvent(player, slot));
+        else
+        {
+            game.LogEvent(new ObservedCenterCardEvent(player, slot));
+        }
     }
 
     private static void HandleMultipleWolvesWake(Game game, GamePlayer player, List<GamePlayer> wolves)

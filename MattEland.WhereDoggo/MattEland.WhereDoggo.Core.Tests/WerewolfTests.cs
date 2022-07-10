@@ -49,8 +49,7 @@ public class WerewolfTests : GameTestsBase
         Game game = new(assignedRoles, randomizeSlots: false);
         GamePlayer player = game.Players.First();
         player.Strategies.PickSingleCardFromCenterStrategy = new SelectSpecificSlotPlacementStrategy(0);
-        game.Start();
-        game.PerformNightPhase();
+        game.Run();
 
         // Act
         IDictionary<RoleContainerBase, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();
@@ -85,6 +84,31 @@ public class WerewolfTests : GameTestsBase
         GamePlayer player = game.Players.First();
         player.Events.ShouldContain(e => e is ObservedCenterCardEvent);
         player.Events.ShouldNotContain(e => e is SkippedNightActionEvent);
+    }
+
+    [Test]
+    public void LoneWolfWhoSkipsShouldHaveCorrectEvent()
+    {
+        // Arrange
+        RoleTypes[] assignedRoles =
+        {
+            // Player Roles
+            RoleTypes.Werewolf,
+            RoleTypes.Villager,
+            RoleTypes.Villager,
+            // Center Cards
+            RoleTypes.Werewolf,
+            RoleTypes.Villager,
+            RoleTypes.Villager
+        };
+        Game game = new(assignedRoles, randomizeSlots: false);
+        GamePlayer player = game.Players.First();
+        player.Strategies.PickSingleCardFromCenterStrategy = new OptOutSlotSelectionStrategy();
+        game.Run();
+
+        // Assert
+        player.Events.ShouldContain(e => e is SkippedNightActionEvent);
+        player.Events.ShouldNotContain(e => e is ObservedCenterCardEvent);
     }
 
     [Test]
