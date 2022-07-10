@@ -17,7 +17,7 @@ public class KnowsRoleEvent : TargetedEventBase
     /// <param name="phase">The phase of the game</param>
     /// <param name="observingPlayer">The player observing the other player</param>
     /// <param name="observedPlayer">The player being observed</param>
-    public KnowsRoleEvent(GamePhase phase, GamePlayer observingPlayer, GamePlayer observedPlayer) 
+    public KnowsRoleEvent(GamePhase phase, GamePlayer observingPlayer, RoleContainerBase observedPlayer) 
         : base(phase, observingPlayer, observedPlayer)
     {
         ObservedRole = observedPlayer.CurrentRole;

@@ -103,9 +103,9 @@ public class GamePlayer : RoleContainerBase
         {
             if (!player.IsRevealed) continue;
             
-            if (!Events.Any(e => e is KnowsRoleEvent kre && kre.Target == player))
+            if (!Events.Any(e => e is RevealedRoleObservedEvent obs && obs.Target == player))
             {
-                _game.LogEvent(new KnowsRoleEvent(_game.CurrentPhase, this, player));
+                _game.LogEvent(new RevealedRoleObservedEvent(_game.CurrentPhase, this, player));
             }
         }
     }

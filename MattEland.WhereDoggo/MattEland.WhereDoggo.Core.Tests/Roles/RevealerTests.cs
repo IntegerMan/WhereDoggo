@@ -112,7 +112,7 @@ public class RevealerTests : GameTestsBase
         // Assert
         foreach (GamePlayer p in game.Players)
         {
-            p.Events.Where(e => e is KnowsRoleEvent).Cast<KnowsRoleEvent>().ShouldContain(e => e.Target == game.Players[1]);
+            p.Events.Any(e => e is RevealedRoleObservedEvent obs && obs.Target == game.Players[1]).ShouldBeTrue();
         }
     }
     
