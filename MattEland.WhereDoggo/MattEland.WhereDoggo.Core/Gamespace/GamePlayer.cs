@@ -80,6 +80,9 @@ public class GamePlayer : RoleContainerBase
         return (GamePlayer) options.GetRandomElement(random)!;
     }
 
+    /// <summary>
+    /// Occurs when a player wakes up - either in the night or in the morning
+    /// </summary>
     public void Wake()
     {
         _game.LogEvent(new WokeUpEvent(_game.CurrentPhase, this));
@@ -92,6 +95,17 @@ public class GamePlayer : RoleContainerBase
             if (!Events.Any(e => e is SentinelTokenObservedEvent sto && sto.Target == player))
             {
                 _game.LogEvent(new SentinelTokenObservedEvent(this, player, _game.CurrentPhase));
+            }
+        }
+        
+        // Allow for players to observe revealed roles
+        foreach (GamePlayer player in _game.Players)
+        {
+            if (!player.IsRevealed) continue;
+            
+            if (!Events.Any(e => e is KnowsRoleEvent kre && kre.Target == player))
+            {
+                _game.LogEvent(new KnowsRoleEvent(_game.CurrentPhase, this, player));
             }
         }
     }

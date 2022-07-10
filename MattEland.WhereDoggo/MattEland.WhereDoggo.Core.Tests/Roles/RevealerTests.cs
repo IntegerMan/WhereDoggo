@@ -82,8 +82,8 @@ public class RevealerTests : GameTestsBase
         {
             IDictionary<RoleContainerBase, CardProbabilities> probabilities = p.Brain.BuildFinalRoleProbabilities();
             // Assert
-            probabilities[game.Players[2]].LikelyRole.ShouldBe(RoleTypes.Villager);
-            probabilities[game.Players[2]].IsCertain.ShouldBeTrue();
+            probabilities[game.Players[1]].LikelyRole.ShouldBe(RoleTypes.Villager);
+            probabilities[game.Players[1]].IsCertain.ShouldBeTrue();
         }
     }
     

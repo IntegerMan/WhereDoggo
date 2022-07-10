@@ -26,12 +26,22 @@ public class RevealerRole : RoleBase
         {
             // TODO: Is this optional?
         }
+        else if (target == player)
+        {
+            throw new InvalidOperationException("Cannot reveal your own card.");
+        }
         else
         {
             GamePlayer targetPlayer = (GamePlayer)target;
 
             targetPlayer.IsRevealed = true;
             game.LogEvent(new KnowsRoleEvent(game.CurrentPhase, player, targetPlayer));
+
+            // Werewolves should not be revealed
+            if (targetPlayer.CurrentTeam == Teams.Werewolves)
+            {
+                targetPlayer.IsRevealed = false;
+            }
         }
     }
 }
