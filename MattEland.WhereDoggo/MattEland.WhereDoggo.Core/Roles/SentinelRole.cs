@@ -4,14 +4,19 @@
 /// The sentinel from One Night Ultimate Werewolf Daybreak
 /// The sentinel may optionally place a shield token on a player during the night
 /// </summary>
-/// <seealso cref="http://onenightultimate.com/?p=43"/>
+/// <href>http://onenightultimate.com/?p=43</href>
 public class SentinelRole : GameRoleBase
 {
+    /// <inheritdoc />
     public override Teams Team => Teams.Villagers;
+
+    /// <inheritdoc />
     public override RoleTypes RoleType => RoleTypes.Sentinel;
 
+    /// <inheritdoc />
     public override decimal? NightActionOrder => 0.1m;
 
+    /// <inheritdoc />
     public override void PerformNightAction(Game game, GamePlayer player)
     {
         // Sentinels may choose to skip placing their token

@@ -6,6 +6,7 @@
 /// </summary>
 public abstract class GameRoleBase
 {
+    /// <inheritdoc />
     public override string ToString() => RoleType.GetFriendlyName();
     
     /// <summary>

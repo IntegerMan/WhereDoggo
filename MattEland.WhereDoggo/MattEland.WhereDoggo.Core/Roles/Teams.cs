@@ -5,6 +5,12 @@
 /// </summary>
 public enum Teams
 {
+    /// <summary>
+    /// The villager team. Villagers win if at least one werewolf is killed.
+    /// </summary>
     Villagers,
+    /// <summary>
+    /// The werewolf team. The werewolves wins if no werewolves are killed.
+    /// </summary>
     Werewolves
 }

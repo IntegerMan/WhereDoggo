@@ -2,11 +2,16 @@
 
 public class WerewolfRole : GameRoleBase
 {
+    /// <inheritdoc />
     public override Teams Team => Teams.Werewolves;
 
+    /// <inheritdoc />
     public override RoleTypes RoleType => RoleTypes.Werewolf;
 
+    /// <inheritdoc />
     public override decimal? NightActionOrder => 2m;
+
+    /// <inheritdoc />
     public override void PerformNightAction(Game game, GamePlayer player)
     {
         List<GamePlayer> wolves = game.Players.Where(p => p.InitialTeam == Teams.Werewolves).ToList();

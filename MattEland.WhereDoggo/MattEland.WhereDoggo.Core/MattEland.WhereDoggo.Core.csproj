@@ -4,7 +4,24 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <PackageProjectUrl>https://github.com/IntegerMan/WhereDoggo</PackageProjectUrl>
+    <Copyright>Copyright (c) Matt Eland 2022</Copyright>
+    <Description>An AI simulation of a variant of the popular Werewolf and One Night Ultimate Werewolf games. by Bezier Games</Description>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/IntegerMan/WhereDoggo.git</RepositoryUrl>
+    <PackageTags>ai;simulation;dotnet;werewolf-game;onuw;social-deduction</PackageTags>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.ML.Probabilistic" Version="0.4.2203.202" />
