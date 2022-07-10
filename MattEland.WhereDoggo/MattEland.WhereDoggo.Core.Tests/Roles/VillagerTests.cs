@@ -1,5 +1,6 @@
-namespace MattEland.WhereDoggo.Core.Tests;
+namespace MattEland.WhereDoggo.Core.Tests.Roles;
 
+[Category("Roles")]
 public class VillagerTests : GameTestsBase
 {
     [Test]
@@ -52,7 +53,7 @@ public class VillagerTests : GameTestsBase
         // Assert
         // 2 Doggos, 3 Rabbits in 5 other players
         GamePlayer secondPlayer = game.Players[1];
-        probabilities[secondPlayer].Probabilities[RoleTypes.Villager].ShouldBe(3.0M/5.0M);
-        probabilities[secondPlayer].Probabilities[RoleTypes.Werewolf].ShouldBe(2.0M/5.0M);
+        probabilities[secondPlayer].Probabilities[RoleTypes.Villager].ShouldBe(3.0M / 5.0M);
+        probabilities[secondPlayer].Probabilities[RoleTypes.Werewolf].ShouldBe(2.0M / 5.0M);
     }
 }

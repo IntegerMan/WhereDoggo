@@ -5,7 +5,7 @@
 /// The sentinel may optionally place a shield token on a player during the night
 /// </summary>
 /// <href>http://onenightultimate.com/?p=43</href>
-public class SentinelRole : GameRoleBase
+public class SentinelRole : RoleBase
 {
     /// <inheritdoc />
     public override Teams Team => Teams.Villagers;

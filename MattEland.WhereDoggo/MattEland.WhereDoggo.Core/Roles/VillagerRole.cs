@@ -1,6 +1,6 @@
 ﻿namespace MattEland.WhereDoggo.Core.Roles;
 
-public class VillagerRole : GameRoleBase
+public class VillagerRole : RoleBase
 {
     /// <inheritdoc />
     public override Teams Team => Teams.Villagers;

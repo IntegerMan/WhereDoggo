@@ -23,6 +23,7 @@ Currently partial or complete support for the following roles is implemented:
 - Insomniac
 - Sentinel
 - Apprentice Seer
+- Mason
 
 ### Supported Capabilities
 
@@ -63,8 +64,8 @@ Planned roles in Phase 1 are:
 - [x] Insomniac*
 - [x] Sentinel*
 - [x] Apprentice Seer
+- [x] Masons
 - [ ] Mystic Wolf
-- [ ] Masons
 - [ ] Revealer
 - [ ] Exposer
 - [ ] Seer
@@ -140,31 +141,35 @@ Planned features:
 
 ### Roles not currently roadmapped
 
-- Doppleganger 
-- Vampire
-- Pickpocket
-- Gremlin
-- Priest
-- Marksman
-- Copycat
-- The Count
-- Cupid
-- Diseased
-- Renfield
-- The Master
-- Investigator
-- Assassin
-- Apprentice Assassin
-- Alien
-- Synthetic Alien
-- Zerb (Alien)
-- Groob (Alien)
-- Cow
-- Leader
-- Oracle
-- Empath
-- Nostradamus
-- Body Snatcher
+- Mark-Related Roles
+	- Vampire
+	- Pickpocket
+	- Gremlin
+	- Priest
+	- Marksman
+	- Copycat
+	- The Count
+	- Cupid
+	- Diseased
+	- Renfield
+	- The Master
+	- Investigator
+	- Assassin
+	- Apprentice Assassin
+- Alien-Related Roles
+	- Alien
+	- Synthetic Alien
+	- Zerb (Alien)
+	- Groob (Alien)
+	- Cow
+	- Leader
+	- Body Snatcher
+	- Nostradamus
+- Misc. Roles
+	- Doppleganger 
+	- Oracle
+	- Empath
+
 
 ## Technology
 
