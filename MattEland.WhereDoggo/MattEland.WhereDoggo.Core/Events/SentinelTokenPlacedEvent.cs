@@ -3,16 +3,15 @@
 /// <summary>
 /// This event is generated for the sentinel only when they place a token.
 /// </summary>
-public class SentinelTokenPlacedEvent : GameEventBase
+public class SentinelTokenPlacedEvent : TargetedEventBase
 {
     /// <summary>
-    /// The player that received the token.
+    /// Instantiates a new instance of the <see cref="SentinelTokenPlacedEvent"/> class.
     /// </summary>
-    public GamePlayer Target { get; }
-
-    public SentinelTokenPlacedEvent(GamePlayer player, GamePlayer target) : base(GamePhase.Night, player)
+    /// <param name="player">The sentinel player</param>
+    /// <param name="target">The player receiving the token</param>
+    public SentinelTokenPlacedEvent(GamePlayer player, GamePlayer target) : base(GamePhase.Night, player, target)
     {
-        Target = target;
     }
 
     /// <inheritdoc />

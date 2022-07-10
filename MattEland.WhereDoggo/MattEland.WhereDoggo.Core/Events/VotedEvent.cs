@@ -1,12 +1,17 @@
 ﻿namespace MattEland.WhereDoggo.Core.Events;
 
-public class VotedEvent : GameEventBase
+/// <summary>
+/// Represents a vote by one player on a specific target.
+/// </summary>
+public class VotedEvent : TargetedEventBase
 {
-    public GamePlayer Target { get; }
-
-    public VotedEvent(GamePlayer player, GamePlayer target) : base(GamePhase.Voting, player)
+    /// <summary>
+    /// Instantiates a new instance of the <see cref="VotedEvent"/> class.
+    /// </summary>
+    /// <param name="player">The player voting</param>
+    /// <param name="target">The player they voted for</param>
+    public VotedEvent(GamePlayer player, GamePlayer target) : base(GamePhase.Voting, player, target)
     {
-        Target = target;
     }
 
     /// <inheritdoc />

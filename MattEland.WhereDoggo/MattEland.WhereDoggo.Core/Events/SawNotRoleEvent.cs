@@ -4,13 +4,8 @@
 /// An event indicating that a player knows for certain a target does not have a given role.
 /// Used by the <see cref="WerewolfRole"/> and the <see cref="MasonRole"/>
 /// </summary>
-public class SawNotRoleEvent : GameEventBase
+public class SawNotRoleEvent : TargetedEventBase
 {
-    /// <summary>
-    /// The target we know cannot be the role
-    /// </summary>
-    public RoleContainerBase Target { get; }
-
     /// <summary>
     /// The role that it is not possible for the target to have
     /// </summary>
@@ -23,9 +18,8 @@ public class SawNotRoleEvent : GameEventBase
     /// <param name="target">The target that cannot be the role</param>
     /// <param name="impossibleRole">The role that is not possible for the target to have</param>
     public SawNotRoleEvent(GamePlayer observer, RoleContainerBase target, RoleTypes impossibleRole) 
-        : base(GamePhase.Night, observer)
+        : base(GamePhase.Night, observer, target)
     {
-        Target = target;
         ImpossibleRole = impossibleRole;
     }
 

@@ -5,12 +5,17 @@
 /// </summary>
 public class TextEvent : GameEventBase
 {
+    /// <summary>
+    /// The message that was logged.
+    /// </summary>
     public string Message { get; }
 
-    public TextEvent(GamePhase phase, string message) : base(phase)
-    {
-        Message = message;
-    }
+    /// <summary>
+    /// Instantiates a new instance of the <see cref="TextEvent"/> class.
+    /// </summary>
+    /// <param name="phase">The phase the event occurred in</param>
+    /// <param name="message">The message to be logged</param>
+    public TextEvent(GamePhase phase, string message) : base(phase) => Message = message;
 
     /// <inheritdoc />
     public override string ToString() => Message;

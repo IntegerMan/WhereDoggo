@@ -10,6 +10,12 @@ public class RevealerTests : GameTestsBase
     {
         Assert.Inconclusive("Not Implemented");
     }
+
+    [Test] 
+    public void AllPlayersShouldKnowRevealedRoles()
+    {
+        Assert.Inconclusive("Not Implemented");
+    }
     
     [Test]
     public void RevealerShouldNotRevealWerewolves()
