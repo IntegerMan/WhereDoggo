@@ -42,7 +42,8 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"IntegerMan_WhereDoggo" /o:"integerman-github" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"IntegerMan_WhereDoggo" /o:"integerman-github" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml
           dotnet build ./MattEland.WhereDoggo/MattEland.WhereDoggo.sln
-          dotnet test ./MattEland.WhereDoggo/MattEland.WhereDoggo.Core.Tests/MattEland.WhereDoggo.Core.Tests.csproj --collect "Code Coverage"
+          dotnet tool install --global dotnet-coverage
+          dotnet-coverage collect 'dotnet test MattEland.WhereDoggo' -f xml  -o 'coverage.xml'
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
