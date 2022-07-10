@@ -218,7 +218,7 @@ public class Game
         // Get votes for individual players
         foreach (GamePlayer player in Players)
         {
-            GamePlayer votedPlayer = player.DetermineVoteTarget(this, _random);
+            GamePlayer votedPlayer = player.DetermineVoteTarget(_random);
 
             VotedEvent votedEvent = new(player, votedPlayer);
             LogEvent(votedEvent);

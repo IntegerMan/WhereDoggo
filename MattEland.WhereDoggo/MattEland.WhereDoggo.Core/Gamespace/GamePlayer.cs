@@ -32,7 +32,12 @@ public class GamePlayer : RoleContainerBase
 
     public GameStrategies Strategies { get; }
 
-    public GamePlayer DetermineVoteTarget(Game game, Random random)
+    /// <summary>
+    /// Returns which player the player wants to vote for
+    /// </summary>
+    /// <param name="random">The randomizer used to break ties when the player is split</param>
+    /// <returns>The player to vote for</returns>
+    public GamePlayer DetermineVoteTarget(Random random)
     {
         IDictionary<RoleContainerBase, CardProbabilities> probabilities = Brain.BuildFinalRoleProbabilities();
 

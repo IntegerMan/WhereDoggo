@@ -215,9 +215,6 @@ public class SentinelTests : GameTestsBase
         GamePlayer player = game.Players.First();
         player.Strategies.SentinelTokenPlacementStrategy = new SelectSpecificSlotPlacementStrategy(0); // Sentinel
 
-        Assert.That(() =>
-        {
-            game.Run();
-        }, Throws.TypeOf<InvalidOperationException>());
+        Assert.That(() => game.Run(), Throws.TypeOf<InvalidOperationException>());
     }
 }
