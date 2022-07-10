@@ -15,13 +15,13 @@ public class GamePlayer : RoleContainerBase
     {
         _game = game;
         Strategies = new GameStrategies(randomizer, this);
-        Brain = new GameInferenceEngine(this, game);
+        Brain = new PlayerInferenceEngine(this, game);
     }
 
     public void AddEvent(GameEventBase eventBase) => _events.Add(eventBase);
 
     public IList<GameEventBase> Events => _events.AsReadOnly();
-    public GameInferenceEngine Brain { get; }
+    public PlayerInferenceEngine Brain { get; }
     public Teams CurrentTeam => CurrentRole.Team;
     public Teams InitialTeam => InitialRole.Team;
 
