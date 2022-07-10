@@ -1,16 +1,18 @@
-﻿using MattEland.WhereDoggo.Core.Events;
-using MattEland.WhereDoggo.Core.Roles;
-using MattEland.WhereDoggo.Core.Strategies;
+﻿namespace MattEland.WhereDoggo.Core.Gamespace;
 
-namespace MattEland.WhereDoggo.Core.Gamespace;
-
+/// <summary>
+/// Represents a player within the game world.
+/// </summary>
 public class GamePlayer : RoleContainerBase
 {
+    private readonly Game _game;
     private readonly List<GameEventBase> _events = new();
 
-    public GamePlayer(string name, GameRoleBase initialRole, Random random) : base(name, initialRole)
+    public GamePlayer(string name, GameRoleBase initialRole, Game game, Random randomizer) : base(name, initialRole)
     {
-        this.LoneWolfSlotSelectionStrategy = new RandomLoneWolfSlotSelectionStrategy(random);
+        _game = game;
+        Strategies = new GameStrategies(randomizer, this);
+        Brain = new GameInferenceEngine(this, game);
     }
 
     public void AddEvent(GameEventBase eventBase)
@@ -19,15 +21,20 @@ public class GamePlayer : RoleContainerBase
     }
 
     public IList<GameEventBase> Events => _events.AsReadOnly();
-    public GameInferenceEngine Brain { get; } = new();
-    public LoneWolfCardSelectionStrategyBase LoneWolfSlotSelectionStrategy { get; set; }
+    public GameInferenceEngine Brain { get; }
     public Teams CurrentTeam => CurrentRole.Team;
     public Teams InitialTeam => InitialRole.Team;
 
-    public GamePlayer DetermineVoteTarget(OneNightWhereDoggoGame game, Random random)
+    /// <summary>
+    /// Whether or not the sentinel token has been placed on the card
+    /// </summary>
+    public bool HasSentinelToken { get; set;  }
+
+    public GameStrategies Strategies { get; }
+
+    public GamePlayer DetermineVoteTarget(Game game, Random random)
     {
-        IDictionary<RoleContainerBase, ContainerRoleProbabilities> probabilities = 
-            Brain.BuildFinalRoleProbabilities(this, game);
+        IDictionary<RoleContainerBase, CardProbabilities> probabilities = Brain.BuildFinalRoleProbabilities();
 
         // Try to figure out which team the player is on
         Teams probableTeams = probabilities[this].ProbableTeams;
@@ -41,7 +48,7 @@ public class GamePlayer : RoleContainerBase
             probabilities.Remove(key);
         }
 
-        List<RoleContainerBase> options = new();
+        List<RoleContainerBase> options;
         switch (probableTeams)
         {
             case Teams.Villagers:
@@ -66,5 +73,19 @@ public class GamePlayer : RoleContainerBase
         }
 
         return (GamePlayer) options.GetRandomElement(random)!;
+    }
+
+    public void Wake()
+    {
+        // Allow for players to observe sentinel tokens
+        foreach (GamePlayer player in _game.Players)
+        {
+            if (!player.HasSentinelToken) continue;
+
+            if (!Events.Any(e => e is SentinelTokenObservedEvent sto && sto.Target == player))
+            {
+                _game.LogEvent(new SentinelTokenObservedEvent(this, player, _game.CurrentPhase));
+            }
+        }
     }
 }

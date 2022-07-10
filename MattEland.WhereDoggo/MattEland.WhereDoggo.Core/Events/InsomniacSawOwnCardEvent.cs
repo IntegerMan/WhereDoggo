@@ -9,7 +9,7 @@ public class InsomniacSawOwnCardEvent : GameEventBase
 
     public GameRoleBase FinalRole { get; }
 
-    public override void UpdatePlayerPerceptions(GamePlayer observer, RoleContainerBase target, ContainerRoleProbabilities probabilities)
+    public override void UpdatePlayerPerceptions(GamePlayer observer, RoleContainerBase target, CardProbabilities probabilities)
     {
         if (observer == target)
         {

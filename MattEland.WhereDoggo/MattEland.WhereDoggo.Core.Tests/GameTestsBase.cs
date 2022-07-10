@@ -2,16 +2,12 @@ namespace MattEland.WhereDoggo.Core.Tests;
 
 public abstract class GameTestsBase
 {
-    protected OneNightWhereDoggoGame RunGame(GameRoleBase[] orderedRoles)
+    protected Game RunGame(ICollection<RoleTypes> assignedRoles)
     {
-        int numPlayers = orderedRoles.Length - OneNightWhereDoggoGame.NumCenterCards;
-        
-        OneNightWhereDoggoGame game = new(numPlayers);
-        
-        game.SetUp(orderedRoles, randomizeSlots: false);
-        game.Start();
-        game.PerformNightPhase();
+        Game game = new(assignedRoles, randomizeSlots: false);
+        game.Run();
 
         return game;
     }
+    
 }

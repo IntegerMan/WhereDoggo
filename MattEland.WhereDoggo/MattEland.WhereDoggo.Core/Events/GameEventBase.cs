@@ -14,7 +14,7 @@ public abstract class GameEventBase
         Player = player;
     }
 
-    public virtual void UpdatePlayerPerceptions(GamePlayer observer, RoleContainerBase target, ContainerRoleProbabilities probabilities)
+    public virtual void UpdatePlayerPerceptions(GamePlayer observer, RoleContainerBase target, CardProbabilities probabilities)
     {
         // No updates by default
     }

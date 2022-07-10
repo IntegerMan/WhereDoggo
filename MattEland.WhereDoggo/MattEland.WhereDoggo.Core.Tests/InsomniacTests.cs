@@ -8,23 +8,22 @@ public class InsomniacTests : GameTestsBase
     public void InsomniacShouldKnowThemselvesWhenNotMoved()
     {
         // Arrange
-        GameRoleBase[] assignedRoles =
+        RoleTypes[] assignedRoles =
         {
             // Player Roles
-            new InsomniacRole(),
-            new WerewolfRole(),
-            new VillagerRole(),
+            RoleTypes.Insomniac,
+            RoleTypes.Werewolf,
+            RoleTypes.Villager,
             // Center Cards
-            new WerewolfRole(),
-            new VillagerRole(),
-            new VillagerRole()
+            RoleTypes.Werewolf,
+            RoleTypes.Villager,
+            RoleTypes.Villager
         };
-        OneNightWhereDoggoGame game = RunGame(assignedRoles);
+        Game game = RunGame(assignedRoles);
         GamePlayer player = game.Players.First();
 
         // Act
-        IDictionary<RoleContainerBase, ContainerRoleProbabilities> finalProbabilities =
-            player.Brain.BuildFinalRoleProbabilities(player, game);
+        IDictionary<RoleContainerBase, CardProbabilities> finalProbabilities = player.Brain.BuildFinalRoleProbabilities();
 
         // Assert
         finalProbabilities[player].Probabilities[RoleTypes.Insomniac].ShouldBe(1);
@@ -36,20 +35,20 @@ public class InsomniacTests : GameTestsBase
     public void InsomniacShouldHaveAnInsomniacSawOwnCardEvent()
     {
         // Arrange
-        GameRoleBase[] assignedRoles =
+        RoleTypes[] assignedRoles =
         {
             // Player Roles
-            new InsomniacRole(),
-            new WerewolfRole(),
-            new VillagerRole(),
+            RoleTypes.Insomniac,
+            RoleTypes.Werewolf,
+            RoleTypes.Villager,
             // Center Cards
-            new WerewolfRole(),
-            new VillagerRole(),
-            new VillagerRole()
+            RoleTypes.Werewolf,
+            RoleTypes.Villager,
+            RoleTypes.Villager
         };
 
         // Act
-        OneNightWhereDoggoGame game = RunGame(assignedRoles);
+        Game game = RunGame(assignedRoles);
 
         // Assert
         GamePlayer player = game.Players.First();

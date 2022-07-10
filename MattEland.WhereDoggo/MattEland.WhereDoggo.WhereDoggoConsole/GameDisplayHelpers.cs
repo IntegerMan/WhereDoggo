@@ -3,9 +3,9 @@ using MattEland.WhereDoggo.Core.Gamespace;
 
 namespace MattEland.WhereDoggo.WhereDoggoConsole;
 
-public static class OneNightWhereDoggoDisplayHelpers
+public static class GameDisplayHelpers
 {
-    public static void DisplayGameState(this OneNightWhereDoggoGame game)
+    public static void DisplayGameState(this Game game)
     {
         foreach (RoleContainerBase container in game.Entities)
         {
@@ -28,7 +28,7 @@ public static class OneNightWhereDoggoDisplayHelpers
         Console.WriteLine();
     }
 
-    public static void DisplayNightActions(this OneNightWhereDoggoGame game)
+    public static void DisplayNightActions(this Game game)
     {
         Console.WriteLine("During the Night:");
         List<GameEventBase> events = game.FindEventsForPhase(GamePhase.Night);
@@ -39,31 +39,28 @@ public static class OneNightWhereDoggoDisplayHelpers
         Console.WriteLine();
     }
 
-    public static void DisplayPlayerKnowledge(this OneNightWhereDoggoGame game, bool includeProbabilities)
+    public static void DisplayPlayerKnowledge(this Game game, bool includeProbabilities)
     {
         foreach (GamePlayer player in game.Players)
         {
             player.DisplayPlayerKnowledge();
 
-
-            if (includeProbabilities)
-            {
-                Console.WriteLine($"{player.Name} Assumed Probabilities:");
+            if (!includeProbabilities) continue;
+            
+            Console.WriteLine($"{player.Name} Assumed Probabilities:");
                 
-                IDictionary<RoleContainerBase, ContainerRoleProbabilities> probabilities =
-                    player.Brain.BuildFinalRoleProbabilities(player, game);
+            IDictionary<RoleContainerBase, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();
 
-                foreach (KeyValuePair<RoleContainerBase, ContainerRoleProbabilities> kvp in probabilities)
-                {
-                    Console.WriteLine($"\t{kvp.Key.Name} probabilities ({kvp.Value})");
-                }
-
-                Console.WriteLine();
+            foreach (KeyValuePair<RoleContainerBase, CardProbabilities> kvp in probabilities)
+            {
+                Console.WriteLine($"\t{kvp.Key.Name} probabilities ({kvp.Value})");
             }
+
+            Console.WriteLine();
         }
     }    
     
-    public static void DisplayAllEvents(this OneNightWhereDoggoGame game)
+    public static void DisplayAllEvents(this Game game)
     {
         Console.WriteLine("All Game Events:");
 

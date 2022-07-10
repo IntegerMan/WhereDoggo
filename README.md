@@ -21,6 +21,7 @@ Currently partial or complete support for the following roles is implemented:
 - Werewolf
 - Villager
 - Insomniac
+- Sentinel
 
 ### Supported Capabilities
 
@@ -59,13 +60,14 @@ Planned roles in Phase 1 are:
 - [x] Werewolves
 - [x] Villager
 - [x] Insomniac*
-- [ ] Sentinel*
+- [x] Sentinel*
 - [ ] Masons
 - [ ] Apprentice Seer
 - [ ] Mystic Wolf
 - [ ] Revealer
 - [ ] Exposer
 - [ ] Seer
+- [ ] The Thing
 
 _Note: the **Insomniac** and **Sentinel** roles don't make complete sense until paired with card moving abilities and will be expanded as features grow, but adding them early helped establish baseline AI deductive capabilities_
 
@@ -89,17 +91,24 @@ This phase focuses on additional roles that want to be detected / voted.
 
 Planned roles:
 
+- [ ] Beholder*
+- [ ] Squire*
 - [ ] Hunter
 - [ ] Minion
 - [ ] Bodyguard
 - [ ] Tanner
 - [ ] Apprentice Tanner
-- [ ] Mortitian
+- [ ] Mortician
+- [ ] Paranormal Investigator
+- [ ] Psychic
+- [ ] Blob
+
+_Note: the **beholder**, and **squire** roles don't make complete sense until paired with card moving abilities and will be expanded as features grow, but adding them early helped establish baseline AI deductive capabilities_
 
 Planned features:
 
 - [ ] Tanner AI
-- [ ] Mortitian Randomness
+- [ ] Mortician Randomness
 - [ ] Windows Client
 
 ### Phase 3 - Card Moving
@@ -109,9 +118,11 @@ Planned roles:
 - [ ] Robber
 - [ ] Troublemaker
 - [ ] Witch
-- [ ] Drunk
 - [ ] Alpha Wolf
 - [ ] Dream Wolf
+- [ ] Drunk
+- [ ] Village Idiot
+- [ ] Rascal
 
 Planned features:
 
@@ -123,7 +134,38 @@ Planned features:
 - [ ] Witch will sometimes take dream wolf card
 - [ ] Drunk will sometimes take dream wolf card
 
-## Code Architecture
+### Roles not currently roadmapped
+
+- Doppleganger 
+- Vampire
+- Pickpocket
+- Gremlin
+- Priest
+- Marksman
+- Copycat
+- The Count
+- Cupid
+- Diseased
+- Renfield
+- The Master
+- Investigator
+- Assassin
+- Apprentice Assassin
+- Alien
+- Synthetic Alien
+- Zerb (Alien)
+- Groob (Alien)
+- Cow
+- Leader
+- Oracle
+
+## Technology
+
+This application is built in C# on .NET 6 in Visual Studio 2022 and JetBrains Rider, but the core architecture is part of a class library and should be portable to other versions of .NET.
+
+Unit testing is performed in [NUnit](https://nunit.org/) with [Shouldly](https://docs.shouldly.io/) assertions.
+
+### Code Architecture
 
 Details coming as the development phase stabilizes, but here's a cloud of the various files:
 

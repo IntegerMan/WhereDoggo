@@ -11,7 +11,7 @@ public class ProbabilityTests
             [RoleTypes.Werewolf] = 2,
             [RoleTypes.Villager] = 4
         };
-        ContainerRoleProbabilities probabilities = new(roleCounts);
+        CardProbabilities probabilities = new(roleCounts);
 
         // Act
         probabilities.RecalculateProbability(roleCounts);
@@ -30,7 +30,7 @@ public class ProbabilityTests
             [RoleTypes.Werewolf] = 2,
             [RoleTypes.Villager] = 4
         };
-        ContainerRoleProbabilities probabilities = new(roleCounts);
+        CardProbabilities probabilities = new(roleCounts);
 
         // Act
         probabilities.MarkAsCannotBeRole(RoleTypes.Werewolf);
@@ -51,7 +51,7 @@ public class ProbabilityTests
             [RoleTypes.Villager] = 3,
             [RoleTypes.Insomniac] = 1
         };
-        ContainerRoleProbabilities probabilities = new(roleCounts);
+        CardProbabilities probabilities = new(roleCounts);
 
         // Act
         probabilities.MarkAsCertainOfRole(RoleTypes.Insomniac);

@@ -1,31 +1,27 @@
 ﻿using MattEland.WhereDoggo.Core.Roles;
 
-const int numPlayers = 3;
-
-static GameResult RunAndShowGame(int numPlayers, bool showUI)
+static GameResult RunAndShowGame(bool showUi)
 {
-    OneNightWhereDoggoGame game = new(numPlayers);
-    GameRoleBase[] assignedRoles =
+    RoleTypes[] assignedRoles =
     {
         // Player Roles
-        new InsomniacRole(),
-        new WerewolfRole(),
-        new VillagerRole(),
-        // Center Cards
-        new WerewolfRole(),
-        new VillagerRole(),
-        new VillagerRole()
+        RoleTypes.Insomniac,
+        RoleTypes.Werewolf,
+        RoleTypes.Werewolf,
+        RoleTypes.Sentinel,
+        RoleTypes.Villager,
+        RoleTypes.Villager,
     };
-    game.SetUp(assignedRoles);
+    Game game = new(assignedRoles);
 
-    if (showUI)
+    if (showUi)
     {
         Console.WriteLine($"Starting a new game of \"{game.Name}\"");
         Console.WriteLine();
     }
     game.Start();
 
-    if (showUI)
+    if (showUi)
     {
         Console.WriteLine("After game start...");
         Console.WriteLine();
@@ -34,22 +30,23 @@ static GameResult RunAndShowGame(int numPlayers, bool showUI)
 
     // Carry out night phase
     game.PerformNightPhase();
+    game.PerformDayPhase();
 
-    if (showUI)
+    if (showUi)
     {
         game.DisplayNightActions();
 
         // Show game state prior to vote
-        Console.WriteLine("After night phase...");
+        Console.WriteLine("Before voting...");
         Console.WriteLine();
         game.DisplayPlayerKnowledge(true);
     }
 
     // Carry out vote phase
-    game.PerformDayPhase();
+    game.PerformVotePhase();
 
     // Log all game events
-    if (showUI)
+    if (showUi)
     {
         game.DisplayAllEvents();
     }
@@ -63,7 +60,7 @@ int wolfWins = 0;
 
 for (int i = 0; i < numRuns; i++)
 {
-    GameResult result = RunAndShowGame(numPlayers, true);
+    GameResult result = RunAndShowGame(true);
 
     if (result.WerewolfKilled)
     {

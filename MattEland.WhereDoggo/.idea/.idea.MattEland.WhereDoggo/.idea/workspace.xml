@@ -5,7 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b356feb1-3f3c-4ecd-8365-ce591e66879d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.MattEland.WhereDoggo/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MattEland.WhereDoggo/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MattEland.WhereDoggo.Core.Tests/GameTestsBase.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MattEland.WhereDoggo.Core.Tests/GameTestsBase.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MattEland.WhereDoggo.Core.Tests/SentinelTests.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MattEland.WhereDoggo.Core.Tests/SentinelTests.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MattEland.WhereDoggo.Core/Engine/OneNightWhereDoggoGame.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MattEland.WhereDoggo.Core/Engine/OneNightWhereDoggoGame.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MattEland.WhereDoggo.Core/Roles/RoleExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MattEland.WhereDoggo.Core/Roles/RoleExtensions.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -75,7 +79,7 @@
       <workItem from="1657398825086" duration="106000" />
       <workItem from="1657399031292" duration="70000" />
       <workItem from="1657399160955" duration="1105000" />
-      <workItem from="1657402296422" duration="1416000" />
+      <workItem from="1657402296422" duration="4748000" />
     </task>
     <servers />
   </component>
