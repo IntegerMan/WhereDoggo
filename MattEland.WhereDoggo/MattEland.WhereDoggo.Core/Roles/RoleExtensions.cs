@@ -21,6 +21,8 @@ public static class RoleExtensions
             case RoleTypes.Insomniac:
             case RoleTypes.Sentinel:
             case RoleTypes.ApprenticeSeer:
+            case RoleTypes.Mason:
+            case RoleTypes.Revealer:
             default:
                 return Teams.Villagers;
         }
@@ -49,6 +51,8 @@ public static class RoleExtensions
                 return new ApprenticeSeerRole();
             case RoleTypes.Mason:
                 return new MasonRole();
+            case RoleTypes.Revealer:
+                return new RevealerRole();
             default:
                 throw new NotSupportedException($"{nameof(BuildGameRole)} doesn't know how to create a role for {roleType}");
         }

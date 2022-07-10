@@ -6,6 +6,10 @@ One Night Ultimate Werewolf is copyright by Bezier Games Inc. This project is a 
 
 The purpose of this project is to try to build AI bots that can make reasoned deductions in a social deduction type of game and decieve each other and potentially even human players.
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=IntegerMan_WhereDoggo&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=IntegerMan_WhereDoggo)
+
+![File Chart](diagram.svg)
+
 ## Current Features
 
 ### Modes
@@ -24,6 +28,7 @@ Currently partial or complete support for the following roles is implemented:
 - Sentinel
 - Apprentice Seer
 - Mason
+- Revealer
 
 ### Supported Capabilities
 
@@ -65,11 +70,11 @@ Planned roles in Phase 1 are:
 - [x] Sentinel*
 - [x] Apprentice Seer
 - [x] Masons
-- [ ] Mystic Wolf
-- [ ] Revealer
+- [x] Revealer
 - [ ] Exposer
-- [ ] Seer
+- [ ] Mystic Wolf
 - [ ] The Thing
+- [ ] Seer
 
 _Note: the **Insomniac** and **Sentinel** roles don't make complete sense until paired with card moving abilities and will be expanded as features grow, but adding them early helped establish baseline AI deductive capabilities_
 
@@ -80,12 +85,10 @@ Planned features in Phase 1 are:
 - [x] Probabilistic model of what cards are at play start
 - [x] Simple voting
 - [ ] Claiming Roles
-- [ ] Seer / Apprentice Seer Claims share what card they viewed
 - [ ] Wolves Falsely Claiming Roles (most probable center card given existing claims)
-- [ ] Suspecting fake claims
-- [ ] Players sharing their suspicions
-- [ ] Voting factoring in suspicions of others
+- [ ] Seer / Apprentice Seer Claims share what card they viewed
 - [ ] Voting in a Circle (if thinking no werewolves present)
+- [ ] Random Game Generator
 
 ### Phase 2 - Added Duplicity
 
@@ -112,6 +115,9 @@ _Note: the **beholder**, and **squire** roles don't make complete sense until pa
 
 Planned features:
 
+- [ ] Suspecting fake claims
+- [ ] Players sharing their suspicions
+- [ ] Voting factoring in suspicions of others
 - [ ] Tanner AI
 - [ ] Mortician Randomness
 - [ ] Windows Client
@@ -176,9 +182,3 @@ Planned features:
 This application is built in C# on .NET 6 in Visual Studio 2022 and JetBrains Rider, but the core architecture is part of a class library and should be portable to other versions of .NET.
 
 Unit testing is performed in [NUnit](https://nunit.org/) with [Shouldly](https://docs.shouldly.io/) assertions.
-
-### Code Architecture
-
-Details coming as the development phase stabilizes, but here's a cloud of the various files:
-
-![File Chart](diagram.svg)

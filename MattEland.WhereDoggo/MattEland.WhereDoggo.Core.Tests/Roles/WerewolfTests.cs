@@ -49,7 +49,7 @@ public class WerewolfTests : GameTestsBase
         };
         Game game = new(assignedRoles, randomizeSlots: false);
         GamePlayer player = game.Players.First();
-        player.Strategies.PickSingleCardFromCenterStrategy = new SelectSpecificSlotPlacementStrategy(0);
+        player.Strategies.PickSingleCardStrategy = new SelectSpecificSlotPlacementStrategy(0);
         game.Run();
 
         // Act
@@ -104,7 +104,7 @@ public class WerewolfTests : GameTestsBase
         };
         Game game = new(assignedRoles, randomizeSlots: false);
         GamePlayer player = game.Players.First();
-        player.Strategies.PickSingleCardFromCenterStrategy = new OptOutSlotSelectionStrategy();
+        player.Strategies.PickSingleCardStrategy = new OptOutSlotSelectionStrategy();
         game.Run();
 
         // Assert
@@ -129,7 +129,7 @@ public class WerewolfTests : GameTestsBase
         };
         Game game = new(assignedRoles, randomizeSlots: false);
         GamePlayer player = game.Players.First();
-        player.Strategies.PickSingleCardFromCenterStrategy = new SelectSpecificSlotPlacementStrategy(1);
+        player.Strategies.PickSingleCardStrategy = new SelectSpecificSlotPlacementStrategy(1);
         game.Start();
         game.PerformNightPhase();
 

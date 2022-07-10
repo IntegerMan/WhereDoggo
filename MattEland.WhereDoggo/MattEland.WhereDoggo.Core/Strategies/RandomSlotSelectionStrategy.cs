@@ -12,6 +12,6 @@ public class RandomSlotSelectionStrategy : SlotSelectionStrategyBase
         _random = random;
     }
 
-    public override RoleContainerBase? SelectSlot(IEnumerable<RoleContainerBase> slots) 
+    public override RoleContainerBase? SelectCard(IEnumerable<RoleContainerBase> slots) 
         => slots.ToList().GetRandomElement(_random)!;
 }

@@ -10,12 +10,37 @@ public class Game
     private readonly List<GamePlayer> _players;
     private readonly List<RoleBase> _roles;
 
+    /// <summary>
+    /// Gets the players in the game
+    /// </summary>
     public IList<GamePlayer> Players => _players.AsReadOnly();
-    public IList<RoleBase> Roles => _roles.AsReadOnly();
+    
+    /// <summary>
+    /// Gets the roles that were specified for the game.
+    /// If roles occur more than once, they will be duplicated in this list.
+    /// </summary>
+    public IEnumerable<RoleBase> Roles => _roles.AsReadOnly();
+    
+    /// <summary>
+    /// Gets a list of cards in the center slots
+    /// </summary>
     public IList<CenterCardSlot> CenterSlots => _centerSlots.AsReadOnly();
-    public IList<RoleContainerBase> Entities => _roleContainers.AsReadOnly();
-    public IList<GameEventBase> Events => _events.AsReadOnly();
+    
+    /// <summary>
+    /// Gets all players and center slots
+    /// </summary>
+    public IEnumerable<RoleContainerBase> Entities => _roleContainers.AsReadOnly();
+    
+    /// <summary>
+    /// Gets all events that have occurred in the game, regardless of player they occurred to.
+    /// </summary>
+    public IEnumerable<GameEventBase> Events => _events.AsReadOnly();
 
+    /// <summary>
+    /// Instantiates a new game with the specified roles.
+    /// </summary>
+    /// <param name="roles">The roles to include in the game</param>
+    /// <param name="randomizeSlots">Whether or not the roles should be shuffled into different slots. Defaults to true, but can be false for testing</param>
     public Game(ICollection<RoleTypes> roles, bool randomizeSlots = true)
     {
         this.NumPlayers = roles.Count - NumCenterCards;
@@ -54,6 +79,9 @@ public class Game
         return _roleContainers.OfType<GamePlayer>().ToList();
     }
 
+    /// <summary>
+    /// Gets the number of players playing. This will be the number of cards minus the count of cards in the center
+    /// </summary>
     public int NumPlayers { get; }
 
     /// <summary>
@@ -70,10 +98,15 @@ public class Game
         return PerformVotePhase();
     }
 
+    /// <summary>
+    /// Starts the game by assigning cards to players and the center slots.
+    /// </summary>
+    /// <exception cref="InvalidOperationException">
+    ///Thrown if the game is not in the setup phase.
+    /// </exception>
     public void Start()
     {
-        if (CurrentPhase != GamePhase.Setup)
-            throw new InvalidOperationException("Game must be in setup phase");
+        if (CurrentPhase != GamePhase.Setup) throw new InvalidOperationException("Game must be in setup phase");
 
         LogEvent($"{Name} started");
 
@@ -87,11 +120,22 @@ public class Game
         LogEvent($"{Name} initialized");
     }
 
+    /// <summary>
+    /// Tracks the current phase of the game.
+    /// </summary>
     public GamePhase CurrentPhase { get; private set; } = GamePhase.Setup;
     private int _nextEventId;
 
+    /// <summary>
+    /// Logs a new <see cref="TextEvent"/> at the game level
+    /// </summary>
+    /// <param name="message">The message to log</param>
     internal void LogEvent(string message) => LogEvent(new TextEvent(CurrentPhase, message));
 
+    /// <summary>
+    /// Logs an event that occurred in the game
+    /// </summary>
+    /// <param name="event">The event that occurred</param>
     internal void LogEvent(GameEventBase @event)
     {
         @event.Id = _nextEventId++;
@@ -102,6 +146,10 @@ public class Game
         @event.Player?.AddEvent(@event);
     }
 
+    /// <summary>
+    /// Broadcasts a message event to all players
+    /// </summary>
+    /// <param name="message">The message</param>
     internal void BroadcastEvent(string message)
     {
         TextEvent @event = new(CurrentPhase, message);
@@ -109,6 +157,10 @@ public class Game
         BroadcastEvent(@event);
     }
 
+    /// <summary>
+    /// Broadcasts an event to all players
+    /// </summary>
+    /// <param name="event">The event to broadcast</param>
     internal void BroadcastEvent(GameEventBase @event)
     {
         @event.Id = _nextEventId++;
@@ -125,10 +177,20 @@ public class Game
     private readonly Random _random = new();
     private readonly List<CenterCardSlot> _centerSlots = new(NumCenterCards);
 
+    /// <summary>
+    /// The number of cards in the center
+    /// </summary>
     public const int NumCenterCards = 3;
 
+    /// <summary>
+    /// Gets the name of the game
+    /// </summary>
     public string Name => "One Night Ultimate Werewolf";
 
+    /// <summary>
+    /// Performs the day phase of the game where players wake up and look for events
+    /// and discuss their roles and actions.
+    /// </summary>
     public void PerformDayPhase()
     {
         LogEvent("Day Phase Starting");
@@ -137,6 +199,10 @@ public class Game
         _players.ForEach(p => p.Wake());
     }
 
+    /// <summary>
+    /// Carries out the voting phase of the game and returns the result of the game.
+    /// </summary>
+    /// <returns>The result of the game</returns>
     public GameResult PerformVotePhase()
     {
         LogEvent("Voting Phase Starting");
@@ -152,7 +218,7 @@ public class Game
         // Get votes for individual players
         foreach (GamePlayer player in Players)
         {
-            GamePlayer votedPlayer = player.DetermineVoteTarget(this, _random);
+            GamePlayer votedPlayer = player.DetermineVoteTarget(_random);
 
             VotedEvent votedEvent = new(player, votedPlayer);
             LogEvent(votedEvent);
@@ -184,8 +250,14 @@ public class Game
         return Result;
     }
 
-    public GameResult? Result { get; set; }
+    /// <summary>
+    /// The result of the game. This will be null if the game is not over
+    /// </summary>
+    public GameResult? Result { get; private set; }
 
+    /// <summary>
+    /// Performs the night phase where players wake up and perform their night actions
+    /// </summary>
     public void PerformNightPhase()
     {
         LogEvent("Night Phase Starting");
@@ -197,5 +269,4 @@ public class Game
             player.InitialRole.PerformNightAction(this, player);
         }
     }
-
 }

@@ -3,13 +3,16 @@
 /// <summary>
 /// This event is added to all players when they first see a sentinel token on a card.
 /// </summary>
-public class SentinelTokenObservedEvent : GameEventBase
+public class SentinelTokenObservedEvent : TargetedEventBase
 {
-    public GamePlayer Target { get; }
-
-    public SentinelTokenObservedEvent(GamePlayer player, GamePlayer target, GamePhase phase) : base(phase, player)
+    /// <summary>
+    /// Instantiates a new instance of the <see cref="SentinelTokenObservedEvent"/> class.
+    /// </summary>
+    /// <param name="player">The player observing the token</param>
+    /// <param name="target">The player that has the token</param>
+    /// <param name="phase">The phase the token was first observed. Can be night or day.</param>
+    public SentinelTokenObservedEvent(GamePlayer player, GamePlayer target, GamePhase phase) : base(phase, player, target)
     {
-        Target = target;
     }
 
     /// <inheritdoc />

@@ -45,7 +45,7 @@ public class WerewolfRole : RoleBase
             game.LogEvent(new SawNotRoleEvent(player, otherPlayer, RoleTypes.Werewolf));
         }
 
-        RoleContainerBase? slot = player.Strategies.PickSingleCardFromCenterStrategy.SelectSlot(game.CenterSlots);
+        RoleContainerBase? slot = player.Strategies.PickSingleCardStrategy.SelectCard(game.CenterSlots);
 
         if (slot == null)
         {

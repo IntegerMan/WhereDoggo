@@ -13,14 +13,14 @@ public class GameStrategies
     /// <param name="self">The player making the choices</param>
     public GameStrategies(Random random, GamePlayer self)
     {
-        PickSingleCardFromCenterStrategy = new RandomSlotSelectionStrategy(random);
+        PickSingleCardStrategy = new RandomSlotSelectionStrategy(random);
         SentinelTokenPlacementStrategy = new RandomNotSelfSlotSelectionStrategy(random, self);
     }
 
     /// <summary>
     /// The strategy the lone wolf should use when they get to peek at a center card
     /// </summary>
-    public SlotSelectionStrategyBase PickSingleCardFromCenterStrategy { get; set; }
+    public SlotSelectionStrategyBase PickSingleCardStrategy { get; set; }
 
     /// <summary>
     /// The strategy the sentinel should use when they get to place their token

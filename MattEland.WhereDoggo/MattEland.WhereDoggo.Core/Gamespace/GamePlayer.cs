@@ -32,7 +32,12 @@ public class GamePlayer : RoleContainerBase
 
     public GameStrategies Strategies { get; }
 
-    public GamePlayer DetermineVoteTarget(Game game, Random random)
+    /// <summary>
+    /// Returns which player the player wants to vote for
+    /// </summary>
+    /// <param name="random">The randomizer used to break ties when the player is split</param>
+    /// <returns>The player to vote for</returns>
+    public GamePlayer DetermineVoteTarget(Random random)
     {
         IDictionary<RoleContainerBase, CardProbabilities> probabilities = Brain.BuildFinalRoleProbabilities();
 
@@ -75,6 +80,9 @@ public class GamePlayer : RoleContainerBase
         return (GamePlayer) options.GetRandomElement(random)!;
     }
 
+    /// <summary>
+    /// Occurs when a player wakes up - either in the night or in the morning
+    /// </summary>
     public void Wake()
     {
         _game.LogEvent(new WokeUpEvent(_game.CurrentPhase, this));
@@ -87,6 +95,17 @@ public class GamePlayer : RoleContainerBase
             if (!Events.Any(e => e is SentinelTokenObservedEvent sto && sto.Target == player))
             {
                 _game.LogEvent(new SentinelTokenObservedEvent(this, player, _game.CurrentPhase));
+            }
+        }
+        
+        // Allow for players to observe revealed roles
+        foreach (GamePlayer player in _game.Players)
+        {
+            if (!player.IsRevealed) continue;
+            
+            if (!Events.Any(e => e is RevealedRoleObservedEvent obs && obs.Target == player))
+            {
+                _game.LogEvent(new RevealedRoleObservedEvent(_game.CurrentPhase, this, player));
             }
         }
     }

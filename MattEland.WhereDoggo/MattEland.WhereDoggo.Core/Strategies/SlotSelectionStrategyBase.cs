@@ -2,5 +2,5 @@
 
 public abstract class SlotSelectionStrategyBase
 {
-    public abstract RoleContainerBase? SelectSlot(IEnumerable<RoleContainerBase> slots);
+    public abstract RoleContainerBase? SelectCard(IEnumerable<RoleContainerBase> slots);
 }

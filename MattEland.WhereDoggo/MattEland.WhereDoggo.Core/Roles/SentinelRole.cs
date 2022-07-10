@@ -20,7 +20,7 @@ public class SentinelRole : RoleBase
     public override void PerformNightAction(Game game, GamePlayer player)
     {
         // Sentinels may choose to skip placing their token
-        if (player.Strategies.SentinelTokenPlacementStrategy.SelectSlot(game.Players) is GamePlayer target)
+        if (player.Strategies.SentinelTokenPlacementStrategy.SelectCard(game.Players) is GamePlayer target)
         {
             if (target.InitialRole.RoleType == RoleTypes.Sentinel)
             {
