@@ -46,7 +46,7 @@ public class WerewolfTests : GameTestsBase
         };
         Game game = new(assignedRoles, randomizeSlots: false);
         GamePlayer player = game.Players.First();
-        player.Strategies.LoneWolfCenterCardStrategy = new SelectSpecificSlotPlacementStrategy(0);
+        player.Strategies.PickSingleCardFromCenterStrategy = new SelectSpecificSlotPlacementStrategy(0);
         game.Start();
         game.PerformNightPhase();
 
@@ -77,7 +77,7 @@ public class WerewolfTests : GameTestsBase
         };
         Game game = new(assignedRoles, randomizeSlots: false);
         GamePlayer player = game.Players.First();
-        player.Strategies.LoneWolfCenterCardStrategy = new SelectSpecificSlotPlacementStrategy(1);
+        player.Strategies.PickSingleCardFromCenterStrategy = new SelectSpecificSlotPlacementStrategy(1);
         game.Start();
         game.PerformNightPhase();
 
