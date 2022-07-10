@@ -1,5 +1,13 @@
 ﻿namespace MattEland.WhereDoggo.Core.Roles;
 
+/// <summary>
+/// Represents a werewolf from One Night Ultimate Werewolf (base game).
+/// Werewolves try not to get voted out by the villagers.
+/// 
+/// Werewolves wake in the night and see other werewolves. In the event that only one werewolf wakes,
+/// they may look at a center card.
+/// </summary>
+/// <href>http://onenightultimate.com/?p=33</href>
 public class WerewolfRole : GameRoleBase
 {
     /// <inheritdoc />

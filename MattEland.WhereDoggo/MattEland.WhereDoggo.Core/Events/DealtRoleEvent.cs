@@ -15,8 +15,12 @@ public class DealtRoleEvent : GameEventBase
         Role = role;
     }
 
-    public override string ToString() => $"{Player!.Name} was dealt {Role}";
+    /// <inheritdoc />
 
+    public override string ToString() => $"{Player!.Name} was dealt {Role}";
+    
+
+    /// <inheritdoc />
     public override void UpdatePlayerPerceptions(GamePlayer observer, RoleContainerBase target, CardProbabilities probabilities)
     {
         if (observer == target)

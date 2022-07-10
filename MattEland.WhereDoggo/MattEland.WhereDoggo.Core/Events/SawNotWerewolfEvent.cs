@@ -10,8 +10,10 @@ public class SawNotWerewolfEvent : GameEventBase
         Target = target;
     }
 
+    /// <inheritdoc />
     public override string ToString() => $"{Player} saw that {Target} is not a werewolf";
 
+    /// <inheritdoc />
     public override void UpdatePlayerPerceptions(GamePlayer observer, RoleContainerBase target, CardProbabilities probabilities)
     {
         if (target == Target)

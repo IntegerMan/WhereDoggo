@@ -12,12 +12,9 @@ namespace MattEland.WhereDoggo.Core.Events
         {
         }
 
-        public override string ToString()
-        {
-            return Phase == GamePhase.Day 
+        /// <inheritdoc />
+        public override string ToString() => Phase == GamePhase.Day 
                 ? $"{Player} woke up in the morning." 
                 : $"{Player} woke up in the {Phase}.";
-        }
-
     }
 }
