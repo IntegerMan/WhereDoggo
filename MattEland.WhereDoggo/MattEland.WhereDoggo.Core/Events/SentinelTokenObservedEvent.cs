@@ -12,6 +12,7 @@ public class SentinelTokenObservedEvent : GameEventBase
         Target = target;
     }
 
+    /// <inheritdoc />
     public override void UpdatePlayerPerceptions(GamePlayer observer, RoleContainerBase target, CardProbabilities probabilities)
     {
         // If we see a sentinel token, we know the sentinel cannot be in the center
@@ -21,6 +22,7 @@ public class SentinelTokenObservedEvent : GameEventBase
         }
     }
 
+    /// <inheritdoc />
     public override string ToString() => Target == Player 
             ? $"{Player} saw a sentinel token on themselves" 
             : $"{Player} saw a sentinel token on {Target}";

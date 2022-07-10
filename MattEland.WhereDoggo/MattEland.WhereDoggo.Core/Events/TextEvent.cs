@@ -12,5 +12,6 @@ public class TextEvent : GameEventBase
         Message = message;
     }
 
+    /// <inheritdoc />
     public override string ToString() => Message;
 }

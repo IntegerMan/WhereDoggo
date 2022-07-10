@@ -9,8 +9,6 @@ public class VotedEvent : GameEventBase
         Target = target;
     }
 
-    public override string ToString()
-    {
-        return $"{Player} voted for {Target}";
-    }
+    /// <inheritdoc />
+    public override string ToString() => $"{Player} voted for {Target}";
 }

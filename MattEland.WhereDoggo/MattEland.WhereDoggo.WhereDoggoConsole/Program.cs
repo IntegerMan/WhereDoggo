@@ -10,7 +10,7 @@ static GameResult RunAndShowGame(bool showUi)
         RoleTypes.Werewolf,
         RoleTypes.Sentinel,
         RoleTypes.Villager,
-        RoleTypes.Villager,
+        RoleTypes.ApprenticeSeer,
     };
     Game game = new(assignedRoles);
 

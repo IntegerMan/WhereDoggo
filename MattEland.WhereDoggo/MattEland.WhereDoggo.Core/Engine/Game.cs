@@ -191,113 +191,11 @@ public class Game
         LogEvent("Night Phase Starting");
         CurrentPhase = GamePhase.Night;
 
-        // TODO: This should really be a list of phases we cycle through
-        WakeSentinels();
-        WakeWerewolves();
-        WakeInsomniac();
-    }
-
-    private void WakeSentinels()
-    {
-        List<GamePlayer> players = GetPlayersOfInitialRole(RoleTypes.Sentinel);
-        foreach (GamePlayer player in players)
+        foreach (GamePlayer player in Players.Where(p => p.InitialRole.HasNightAction).OrderBy(p => p.InitialRole.NightActionOrder))
         {
             player.Wake();
-
-            // Sentinels may choose to skip placing their token
-            if (player.Strategies.SentinelTokenPlacementStrategy.SelectSlot(_players) is GamePlayer target)
-            {
-                if (target.InitialRole.RoleType == RoleTypes.Sentinel)
-                {
-                    throw new InvalidOperationException($"{player} attempted to place a sentinel token on themselves");
-                }
-
-                target.HasSentinelToken = true;
-                LogEvent(new SentinelTokenPlacedEvent(player, target));
-                LogEvent(new SentinelTokenObservedEvent(player, target, CurrentPhase));
-            }
-            else
-            {
-                LogEvent(new SentinelSkippedTokenPlacementEvent(player));
-            }
+            player.InitialRole.PerformNightAction(this, player);
         }
     }
-
-    private List<GamePlayer> GetPlayersOfInitialRole(RoleTypes roleTypes)
-        => Players.Where(p => p.InitialRole.RoleType == roleTypes).ToList();
-
-    private void WakeInsomniac()
-    {
-        List<GamePlayer> players = Players.Where(p => p.InitialRole.RoleType == RoleTypes.Insomniac).ToList();
-        foreach (GamePlayer player in players)
-        {
-            player.Wake();
-            LogEvent(new InsomniacSawOwnCardEvent(player));
-        }
-    }
-
-    private void WakeWerewolves()
-    {
-        List<GamePlayer> wolves = Players.Where(p => p.InitialTeam == Teams.Werewolves).ToList();
-        wolves.ForEach(w => w.Wake());
-
-        switch (wolves.Count)
-        {
-            case 0:
-                LogEvent("No werewolves awoke");
-                break;
-
-            case 1:
-                HandleLoneWolfWakes(wolves);
-                break;
-
-            case > 1:
-                // Each wolf knows each other wolf is on team werewolf
-                HandleMultipleWolvesWake(wolves);
-                break;
-        }
-    }
-
-    private void HandleLoneWolfWakes(IEnumerable<GamePlayer> doggos)
-    {
-        GamePlayer wolf = doggos.Single();
-        LogEvent(new OnlyWolfEvent(wolf));
-        foreach (GamePlayer otherPlayer in Players.Where(p => p != wolf))
-        {
-            LogEvent(new SawNotWerewolfEvent(wolf, otherPlayer));
-        }
-
-        RoleContainerBase? slot = wolf.Strategies.LoneWolfCenterCardStrategy.SelectSlot(_centerSlots);
-
-        if (slot == null)
-        {
-            throw new InvalidOperationException("A lone werewolf did not pick a center card to look at");
-        }
-
-        LogEvent(new LoneWolfObservedCenterCardEvent(wolf, slot, slot.CurrentRole));
-    }
-
-    private void HandleMultipleWolvesWake(List<GamePlayer> doggos)
-    {
-        foreach (GamePlayer player in doggos)
-        {
-            foreach (GamePlayer otherPlayer in Players.Where(otherPlayer => otherPlayer != player))
-            {
-                if (otherPlayer.InitialTeam == Teams.Werewolves)
-                {
-                    LogEvent(new KnowsRoleEvent(CurrentPhase, player, otherPlayer, otherPlayer.CurrentRole));
-                }
-                else
-                {
-                    LogEvent(new SawNotWerewolfEvent(player, otherPlayer));
-                }
-            }
-        }
-    }
-
-    public List<GameEventBase> FindEventsForPhase(GamePhase phase) =>
-        Events.Where(e => e.Phase == phase)
-            .OrderBy(e => e.Id)
-            .ToList();
 
 }

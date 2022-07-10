@@ -15,5 +15,6 @@ public class SentinelTokenPlacedEvent : GameEventBase
         Target = target;
     }
 
+    /// <inheritdoc />
     public override string ToString() => $"{Player} placed a sentinel token on {Target}";
 }

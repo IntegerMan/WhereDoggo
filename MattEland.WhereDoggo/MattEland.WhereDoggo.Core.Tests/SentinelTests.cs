@@ -20,7 +20,7 @@ public class SentinelTests : GameTestsBase
             RoleTypes.Villager,
             // Center Cards
             RoleTypes.Werewolf,
-            RoleTypes.Villager,
+            RoleTypes.ApprenticeSeer,
             RoleTypes.Villager
         };
         Game game = RunGame(assignedRoles);
@@ -83,7 +83,7 @@ public class SentinelTests : GameTestsBase
         // Assert
         GamePlayer player = game.Players.First();
         player.Events.FirstOrDefault(e => e is SentinelTokenPlacedEvent).ShouldNotBeNull();
-        player.Events.FirstOrDefault(e => e is SentinelSkippedTokenPlacementEvent).ShouldBeNull();
+        player.Events.FirstOrDefault(e => e is SkippedNightActionEvent).ShouldBeNull();
     }
 
     [Test]
@@ -135,8 +135,8 @@ public class SentinelTests : GameTestsBase
         game.Run();
 
         // Assert
-        player.Events.FirstOrDefault(e => e is SentinelSkippedTokenPlacementEvent).ShouldNotBeNull();
-        player.Events.FirstOrDefault(e => e is SentinelTokenPlacedEvent).ShouldBeNull();
+        player.Events.ShouldContain(e => e is SkippedNightActionEvent);
+        player.Events.ShouldNotContain(e => e is SentinelTokenPlacedEvent);
     }
 
     [Test]
