@@ -3,21 +3,29 @@ namespace MattEland.WhereDoggo.Core.Engine;
 
 public class GameInferenceEngine
 {
-    public IDictionary<RoleContainerBase, ContainerRoleProbabilities>
-        BuildFinalRoleProbabilities(GamePlayer player, Game game)
-    {
-        Dictionary<RoleContainerBase, ContainerRoleProbabilities> dicts = new();
+    private readonly GamePlayer _player;
+    private readonly Game _game;
 
-        Dictionary<RoleTypes, int> counts = game.BuildRoleCounts();
+    public GameInferenceEngine(GamePlayer player, Game game)
+    {
+        _player = player;
+        _game = game;
+    }
+
+    public IDictionary<RoleContainerBase, CardProbabilities> BuildFinalRoleProbabilities()
+    {
+        Dictionary<RoleContainerBase, CardProbabilities> cardProbabilities = new();
+
+        Dictionary<RoleTypes, int> counts = _game.BuildRoleCounts();
 
         // Initial pass
-        foreach (RoleContainerBase role in game.Entities)
+        foreach (RoleContainerBase role in _game.Entities)
         {
-            ContainerRoleProbabilities probabilities = new(game);
+            CardProbabilities probabilities = new(_game);
 
-            foreach (GameEventBase @event in player.Events)
+            foreach (GameEventBase @event in _player.Events)
             {
-                @event.UpdatePlayerPerceptions(player, role, probabilities);
+                @event.UpdatePlayerPerceptions(_player, role, probabilities);
             }
 
             if (probabilities.IsCertain)
@@ -25,12 +33,12 @@ public class GameInferenceEngine
                 counts[probabilities.LikelyRole] -= 1;
             }
 
-            dicts[role] = probabilities;
+            cardProbabilities[role] = probabilities;
         }
 
 
         // Firm up uncertain probabilities
-        foreach (KeyValuePair<RoleContainerBase, ContainerRoleProbabilities> kvp in dicts)
+        foreach (KeyValuePair<RoleContainerBase, CardProbabilities> kvp in cardProbabilities)
         {
             if (!kvp.Value.IsCertain)
             {
@@ -38,11 +46,6 @@ public class GameInferenceEngine
             }
         }
 
-        return dicts;
-    }
-
-    private static int CountRolesOfType(Game game, RoleTypes role)
-    {
-        return game.Roles.Count(r => r.RoleType == role);
+        return cardProbabilities;
     }
 }

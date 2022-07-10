@@ -47,6 +47,7 @@ static GameResult RunAndShowGame(int numPlayers, bool showUI)
 
     // Carry out vote phase
     game.PerformDayPhase();
+    game.PerformVotePhase();
 
     // Log all game events
     if (showUI)

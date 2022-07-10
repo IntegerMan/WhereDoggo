@@ -45,21 +45,18 @@ public static class OneNightWhereDoggoDisplayHelpers
         {
             player.DisplayPlayerKnowledge();
 
-
-            if (includeProbabilities)
-            {
-                Console.WriteLine($"{player.Name} Assumed Probabilities:");
+            if (!includeProbabilities) continue;
+            
+            Console.WriteLine($"{player.Name} Assumed Probabilities:");
                 
-                IDictionary<RoleContainerBase, ContainerRoleProbabilities> probabilities =
-                    player.Brain.BuildFinalRoleProbabilities(player, game);
+            IDictionary<RoleContainerBase, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();
 
-                foreach (KeyValuePair<RoleContainerBase, ContainerRoleProbabilities> kvp in probabilities)
-                {
-                    Console.WriteLine($"\t{kvp.Key.Name} probabilities ({kvp.Value})");
-                }
-
-                Console.WriteLine();
+            foreach (KeyValuePair<RoleContainerBase, CardProbabilities> kvp in probabilities)
+            {
+                Console.WriteLine($"\t{kvp.Key.Name} probabilities ({kvp.Value})");
             }
+
+            Console.WriteLine();
         }
     }    
     

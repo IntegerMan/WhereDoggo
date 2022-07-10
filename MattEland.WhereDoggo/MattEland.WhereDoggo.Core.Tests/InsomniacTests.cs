@@ -23,8 +23,7 @@ public class InsomniacTests : GameTestsBase
         GamePlayer player = game.Players.First();
 
         // Act
-        IDictionary<RoleContainerBase, ContainerRoleProbabilities> finalProbabilities =
-            player.Brain.BuildFinalRoleProbabilities(player, game);
+        IDictionary<RoleContainerBase, CardProbabilities> finalProbabilities = player.Brain.BuildFinalRoleProbabilities();
 
         // Assert
         finalProbabilities[player].Probabilities[RoleTypes.Insomniac].ShouldBe(1);

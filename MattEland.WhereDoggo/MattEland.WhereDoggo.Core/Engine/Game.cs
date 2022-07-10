@@ -19,7 +19,7 @@ public class Game
     {
         this.NumPlayers = numPlayers;
     }
-    
+
     public Game(ICollection<RoleTypes> roles, bool randomizeSlots = true)
     {
         this.NumPlayers = roles.Count - NumCenterCards;
@@ -31,7 +31,7 @@ public class Game
         _roles = roles.ToList();
         string[] playerNames = { "Alice", "Bob", "Rufus", "Jimothy", "Wonko the Sane" };
 
-        _roleContainers = new(NumPlayers + NumCenterCards);
+        _roleContainers = new List<RoleContainerBase>(NumPlayers + NumCenterCards);
 
         if (randomizeSlots)
         {
@@ -43,7 +43,7 @@ public class Game
         {
             if (i < NumPlayers)
             {
-                _roleContainers.Add(new GamePlayer(playerNames[i], roles[i], _random));
+                _roleContainers.Add(new GamePlayer(playerNames[i], roles[i], this, _random));
             }
             else
             {
@@ -55,7 +55,7 @@ public class Game
 
         _players = _roleContainers.OfType<GamePlayer>().ToList();
     }
-    
+
     public void SetUp(IEnumerable<RoleTypes> roles, bool randomizeSlots = true)
     {
         List<GameRoleBase> gameRoles = roles.Select(r => r.BuildGameRole()).ToList();
@@ -63,6 +63,18 @@ public class Game
     }
 
     public int NumPlayers { get; }
+
+    /// <summary>
+    /// Carries out all phases of a game and returns the result of the game
+    /// </summary>
+    /// <returns>The result of the game</returns>
+    public GameResult Run()
+    {
+        Start();
+        PerformNightPhase();
+        PerformDayPhase();
+        return PerformVotePhase();
+    }
 
     public void Start()
     {
@@ -79,14 +91,12 @@ public class Game
         LogEvent($"{Name} initialized");
     }
 
-    protected void LogEvent(string message)
-    {
-        LogEvent(new TextEvent(CurrentPhase, message));
-    }
+    public GamePhase CurrentPhase { get; private set; } = GamePhase.Setup;
+    private int _nextEventId;
 
-    public GamePhase CurrentPhase { get; protected set; } = GamePhase.Setup;
-    private int _nextEventId = 0;
-    protected void LogEvent(GameEventBase @event)
+    internal void LogEvent(string message) => LogEvent(new TextEvent(CurrentPhase, message));
+
+    internal void LogEvent(GameEventBase @event)
     {
         @event.Id = _nextEventId++;
 
@@ -96,14 +106,14 @@ public class Game
         @event.Player?.AddEvent(@event);
     }
 
-    protected void BroadcastEvent(string message)
+    internal void BroadcastEvent(string message)
     {
         TextEvent @event = new(CurrentPhase, message);
 
         BroadcastEvent(@event);
     }
 
-    protected void BroadcastEvent(GameEventBase @event)
+    internal void BroadcastEvent(GameEventBase @event)
     {
         @event.Id = _nextEventId++;
 
@@ -123,12 +133,16 @@ public class Game
 
     public string Name => "One Night Ultimate Werewolf";
 
-    public GameResult PerformDayPhase()
+    public void PerformDayPhase()
     {
         LogEvent("Day Phase Starting");
         CurrentPhase = GamePhase.Day;
 
+        _players.ForEach(p => p.Wake());
+    }
 
+    public GameResult PerformVotePhase()
+    {
         LogEvent("Voting Phase Starting");
         CurrentPhase = GamePhase.Voting;
 
@@ -158,7 +172,7 @@ public class Game
         }
 
         IEnumerable<GamePlayer> villagers = Players.Where(p => p.CurrentTeam == Teams.Villagers);
-        IEnumerable<GamePlayer> wolves = Players.Where(p =>  p.CurrentTeam == Teams.Werewolves);
+        IEnumerable<GamePlayer> wolves = Players.Where(p => p.CurrentTeam == Teams.Werewolves);
 
         bool wwVoted = votedPlayers.Any(p => p.CurrentRole.RoleType == RoleTypes.Werewolf);
         Result = new GameResult(wwVoted, wwVoted ? villagers : wolves);
@@ -192,30 +206,31 @@ public class Game
         List<GamePlayer> players = GetPlayersOfInitialRole(RoleTypes.Sentinel);
         foreach (GamePlayer player in players)
         {
-            GamePlayer? target = player.Strategies.SentinelTokenPlacementStrategy.SelectSlot(_players) as GamePlayer;
+            player.Wake();
 
-            if (target == null)
+            // Sentinels may choose to skip placing their token
+            if (player.Strategies.SentinelTokenPlacementStrategy.SelectSlot(_players) is GamePlayer target)
             {
-                // TODO: Log an event 
+                target.HasSentinelToken = true;
+                LogEvent(new SentinelTokenPlacedEvent(player, target));
+                LogEvent(new SentinelTokenObservedEvent(player, target, CurrentPhase));
             }
             else
             {
-                target.HasSentinelToken = true;
-                // TODO: Log an event
+                LogEvent(new SentinelSkippedTokenPlacementEvent(player));
             }
         }
     }
 
     private List<GamePlayer> GetPlayersOfInitialRole(RoleTypes roleTypes)
-    {
-        return Players.Where(p => p.InitialRole.RoleType == roleTypes).ToList();
-    }
+        => Players.Where(p => p.InitialRole.RoleType == roleTypes).ToList();
 
     private void WakeInsomniac()
     {
         List<GamePlayer> players = Players.Where(p => p.InitialRole.RoleType == RoleTypes.Insomniac).ToList();
         foreach (GamePlayer player in players)
         {
+            player.Wake();
             LogEvent(new InsomniacSawOwnCardEvent(player));
         }
     }
@@ -223,6 +238,8 @@ public class Game
     private void WakeWerewolves()
     {
         List<GamePlayer> wolves = Players.Where(p => p.InitialTeam == Teams.Werewolves).ToList();
+        wolves.ForEach(w => w.Wake());
+
         switch (wolves.Count)
         {
             case 0:
@@ -255,7 +272,7 @@ public class Game
         {
             throw new InvalidOperationException("A lone werewolf did not pick a center card to look at");
         }
-        
+
         LogEvent(new LoneWolfObservedCenterCardEvent(wolf, slot, slot.CurrentRole));
     }
 

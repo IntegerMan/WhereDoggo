@@ -22,8 +22,7 @@ public class WerewolfTests : GameTestsBase
         GamePlayer player = game.Players.First();
 
         // Act
-        IDictionary<RoleContainerBase, ContainerRoleProbabilities> probabilities =
-            player.Brain.BuildFinalRoleProbabilities(player, game);
+        IDictionary<RoleContainerBase, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();
 
         // Assert
         probabilities[player].Probabilities[RoleTypes.Werewolf].ShouldBe(1);
@@ -52,11 +51,10 @@ public class WerewolfTests : GameTestsBase
         game.PerformNightPhase();
 
         // Act
-        IDictionary<RoleContainerBase, ContainerRoleProbabilities> probabilities =
-            player.Brain.BuildFinalRoleProbabilities(player, game);
+        IDictionary<RoleContainerBase, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();
 
         // Assert
-        foreach (KeyValuePair<RoleContainerBase, ContainerRoleProbabilities> kvp in probabilities)
+        foreach (KeyValuePair<RoleContainerBase, CardProbabilities> kvp in probabilities)
         {
             kvp.Value.IsCertain.ShouldBeTrue($"Was not certain of role {kvp.Value}");
         }
@@ -84,8 +82,7 @@ public class WerewolfTests : GameTestsBase
         game.PerformNightPhase();
 
         // Act
-        IDictionary<RoleContainerBase, ContainerRoleProbabilities> probabilities =
-            player.Brain.BuildFinalRoleProbabilities(player, game);
+        IDictionary<RoleContainerBase, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();
 
         // Assert
         GamePlayer player2 = game.Players[1];

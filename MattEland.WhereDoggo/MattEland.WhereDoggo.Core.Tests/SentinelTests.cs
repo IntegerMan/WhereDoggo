@@ -27,8 +27,7 @@ public class SentinelTests : GameTestsBase
         GamePlayer player = game.Players.First();
 
         // Act
-        IDictionary<RoleContainerBase, ContainerRoleProbabilities> finalProbabilities =
-            player.Brain.BuildFinalRoleProbabilities(player, game);
+        IDictionary<RoleContainerBase, CardProbabilities> finalProbabilities = player.Brain.BuildFinalRoleProbabilities();
 
         // Assert
         finalProbabilities[player].Probabilities[RoleTypes.Sentinel].ShouldBe(1);
@@ -66,21 +65,138 @@ public class SentinelTests : GameTestsBase
     [Test]
     public void SentinelThatPlacesTokenShouldHaveAppropriateEvent()
     {
-        Assert.Inconclusive("Not Implemented yet");
+        // Arrange
+        RoleTypes[] assignedRoles =
+        {
+            // Player Roles
+            RoleTypes.Sentinel,
+            RoleTypes.Werewolf,
+            RoleTypes.Villager,
+            // Center Cards
+            RoleTypes.Werewolf,
+            RoleTypes.Villager,
+            RoleTypes.Villager
+        };
+
+        // Act
+        Game game = RunGame(assignedRoles);
+
+        // Assert
+        GamePlayer player = game.Players.First();
+        player.Events.FirstOrDefault(e => e is SentinelTokenPlacedEvent).ShouldNotBeNull();
+        player.Events.FirstOrDefault(e => e is SentinelSkippedTokenPlacementEvent).ShouldBeNull();
     }
+
+    [Test]
+    public void SentinelMayChooseToNotPlaceTokenShouldResultInNoTokens()
+    {
+        // Arrange
+        RoleTypes[] assignedRoles =
+        {
+            // Player Roles
+            RoleTypes.Sentinel,
+            RoleTypes.Werewolf,
+            RoleTypes.Villager,
+            // Center Cards
+            RoleTypes.Werewolf,
+            RoleTypes.Villager,
+            RoleTypes.Villager
+        };
+        Game game = new(assignedRoles, randomizeSlots: false);
+        GamePlayer player = game.Players.First();
+        player.Strategies.SentinelTokenPlacementStrategy = new OptOutSlotSelectionStrategy();
+        game.Start();
+
+        // Act
+        game.PerformNightPhase();
+
+        // Assert
+        game.Players.Any(p => p.HasSentinelToken).ShouldBeFalse();
+    }    
     
     [Test]
     public void SentinelMayChooseToNotPlaceTokenShouldHaveAppropriateEvent()
     {
-        Assert.Inconclusive("Not Implemented yet");
+        // Arrange
+        RoleTypes[] assignedRoles =
+        {
+            // Player Roles
+            RoleTypes.Sentinel,
+            RoleTypes.Werewolf,
+            RoleTypes.Villager,
+            // Center Cards
+            RoleTypes.Werewolf,
+            RoleTypes.Villager,
+            RoleTypes.Villager
+        };
+        Game game = new(assignedRoles, randomizeSlots: false);
+        GamePlayer player = game.Players.First();
+        player.Strategies.SentinelTokenPlacementStrategy = new OptOutSlotSelectionStrategy();
+        game.Start();
+
+        // Act
+        game.PerformNightPhase();
+
+        // Assert
+        player.Events.FirstOrDefault(e => e is SentinelSkippedTokenPlacementEvent).ShouldNotBeNull();
+        player.Events.FirstOrDefault(e => e is SentinelTokenPlacedEvent).ShouldBeNull();
     }
 
     [Test]
     public void SentinelTokenCausesNonSentinelsToKnowSentinelNotInCenter()
     {
-        Assert.Inconclusive("Not Implemented yet");
+        // Arrange
+        RoleTypes[] assignedRoles =
+        {
+            // Player Roles
+            RoleTypes.Sentinel,
+            RoleTypes.Werewolf,
+            RoleTypes.Villager,
+            // Center Cards
+            RoleTypes.Werewolf,
+            RoleTypes.Villager,
+            RoleTypes.Villager
+        };
+
+        // Act
+        Game game = RunGame(assignedRoles);
+
+        // Assert
+        GamePlayer ww = game.Players[1];
+        IDictionary<RoleContainerBase, CardProbabilities> probabilities = ww.Brain.BuildFinalRoleProbabilities();
+        probabilities[game.Players.Last()].Probabilities[RoleTypes.Sentinel].ShouldBe(0);
+        probabilities[game.Players.First()].Probabilities[RoleTypes.Sentinel].ShouldBeGreaterThan(1M/assignedRoles.Length);
     }  
     
+    [Test]
+    [TestCase(0, GamePhase.Night)] // Sentinel
+    [TestCase(1, GamePhase.Night)] // Werewolf
+    [TestCase(2, GamePhase.Day)]   // Villager
+    public void SentinelTokenCausesPlayersToSeeTokenOnCard(int playerIndex, GamePhase expectedPhase)
+    {
+        // Arrange
+        RoleTypes[] assignedRoles =
+        {
+            // Player Roles
+            RoleTypes.Sentinel,
+            RoleTypes.Werewolf,
+            RoleTypes.Villager,
+            // Center Cards
+            RoleTypes.Werewolf,
+            RoleTypes.Villager,
+            RoleTypes.Villager
+        };
+
+        // Act
+        Game game = RunGame(assignedRoles);
+
+        // Assert
+        GamePlayer observer = game.Players[playerIndex];
+        GameEventBase? observedEvent = observer.Events.FirstOrDefault(e => e is SentinelTokenObservedEvent);
+        observedEvent.ShouldNotBeNull();
+        observedEvent.Phase.ShouldBe(expectedPhase);
+    }
+
     [Test]
     public void SentinelThrowsInvalidOperationExceptionWhenForcedToPutTokenOnThemselves()
     {

@@ -10,10 +10,11 @@ public class GameStrategies
     /// Initializes a new instance of the <see cref="GameStrategies"/> class.
     /// </summary>
     /// <param name="random">The randomizer</param>
-    public GameStrategies(Random random)
+    /// <param name="self">The player making the choices</param>
+    public GameStrategies(Random random, GamePlayer self)
     {
         LoneWolfCenterCardStrategy = new RandomSlotSelectionStrategy(random);
-        SentinelTokenPlacementStrategy = new RandomSlotSelectionStrategy(random);
+        SentinelTokenPlacementStrategy = new RandomNotSelfSlotSelectionStrategy(random, self);
     }
 
     /// <summary>

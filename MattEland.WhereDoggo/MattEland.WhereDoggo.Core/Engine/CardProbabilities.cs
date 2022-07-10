@@ -5,11 +5,11 @@ namespace MattEland.WhereDoggo.Core.Engine;
 /// This allows us to track the perceived probability that a card (player or center card) is each role.
 /// This information is then used for deductive reasoning by AI agents.
 /// </summary>
-public class ContainerRoleProbabilities
+public class CardProbabilities
 {
     private readonly int _numRoles;
 
-    public ContainerRoleProbabilities(Game game)
+    public CardProbabilities(Game game)
     {
         _numRoles = game.Entities.Count;
 
@@ -18,7 +18,7 @@ public class ContainerRoleProbabilities
         RecalculateProbability(roleCounts);
     }
 
-    public ContainerRoleProbabilities(IDictionary<RoleTypes, int> roleCounts)
+    public CardProbabilities(IDictionary<RoleTypes, int> roleCounts)
     {
         _numRoles = roleCounts.Values.Sum();
 
