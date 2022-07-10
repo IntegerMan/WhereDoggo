@@ -42,7 +42,7 @@ public class WerewolfRole : RoleBase
         game.LogEvent(new OnlyWolfEvent(player));
         foreach (GamePlayer otherPlayer in game.Players.Where(p => p != player))
         {
-            game.LogEvent(new SawNotWerewolfEvent(player, otherPlayer));
+            game.LogEvent(new SawNotRoleEvent(player, otherPlayer, RoleTypes.Werewolf));
         }
 
         RoleContainerBase? slot = player.Strategies.PickSingleCardFromCenterStrategy.SelectSlot(game.CenterSlots);
@@ -57,17 +57,17 @@ public class WerewolfRole : RoleBase
         }
     }
 
-    private static void HandleMultipleWolvesWake(Game game, GamePlayer player, List<GamePlayer> wolves)
+    private static void HandleMultipleWolvesWake(Game game, GamePlayer player, IEnumerable<GamePlayer> wolves)
     {
-        foreach (GamePlayer otherPlayer in game.Players.Where(otherPlayer => otherPlayer != player))
+        foreach (GamePlayer otherPlayer in wolves.Where(otherPlayer => otherPlayer != player))
         {
             if (otherPlayer.InitialTeam == Teams.Werewolves)
             {
-                game.LogEvent(new KnowsRoleEvent(game.CurrentPhase, player, otherPlayer, otherPlayer.CurrentRole));
+                game.LogEvent(new KnowsRoleEvent(game.CurrentPhase, player, otherPlayer));
             }
             else
             {
-                game.LogEvent(new SawNotWerewolfEvent(player, otherPlayer));
+                game.LogEvent(new SawNotRoleEvent(player, otherPlayer, RoleTypes.Werewolf));
             }
         }
     }

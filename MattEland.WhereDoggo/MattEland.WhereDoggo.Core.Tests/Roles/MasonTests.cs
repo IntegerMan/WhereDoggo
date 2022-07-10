@@ -9,25 +9,108 @@ public class MasonTests : GameTestsBase
     [Test]
     public void LoneMasonShouldKnowAllOtherPlayersAreNotMasons()
     {
-        Assert.Inconclusive("Not Implemented");
+        // Arrange
+        RoleTypes[] assignedRoles =
+        {
+            // Player Roles
+            RoleTypes.Mason,
+            RoleTypes.Werewolf,
+            RoleTypes.Villager,
+            // Center Cards
+            RoleTypes.Werewolf,
+            RoleTypes.Villager,
+            RoleTypes.Mason
+        };
+        Game game = RunGame(assignedRoles);
+        GamePlayer player = game.Players.First();
+
+        // Act
+        IDictionary<RoleContainerBase, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();
+
+        // Assert
+        probabilities[game.Players[1]].Probabilities[RoleTypes.Mason].ShouldBe(0);
+        probabilities[game.Players[2]].Probabilities[RoleTypes.Mason].ShouldBe(0);
     }
 
     [Test]
     public void LoneMasonShouldInferOtherMasonInCenter()
     {
-        Assert.Inconclusive("Not Implemented");
+        // Arrange
+        RoleTypes[] assignedRoles =
+        {
+            // Player Roles
+            RoleTypes.Mason,
+            RoleTypes.Villager,
+            RoleTypes.Werewolf,
+            // Center Cards
+            RoleTypes.Werewolf,
+            RoleTypes.Mason,
+            RoleTypes.Villager
+        };
+        Game game = RunGame(assignedRoles);
+        GamePlayer player = game.Players.First();
+
+        // Act
+        IDictionary<RoleContainerBase, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();
+
+        // Assert
+        foreach (CenterCardSlot slot in game.CenterSlots)
+        {
+            probabilities[slot].Probabilities[RoleTypes.Mason].ShouldBe(1m/Game.NumCenterCards);
+        }
     }
 
     [Test]
     public void DualMasonsShouldKnowOtherMason()
     {
-        Assert.Inconclusive("Not Implemented");
+        // Arrange
+        RoleTypes[] assignedRoles =
+        {
+            // Player Roles
+            RoleTypes.Mason,
+            RoleTypes.Mason,
+            RoleTypes.Werewolf,
+            // Center Cards
+            RoleTypes.Werewolf,
+            RoleTypes.Villager,
+            RoleTypes.Villager
+        };
+        Game game = RunGame(assignedRoles);
+        GamePlayer player = game.Players.First();
+
+        // Act
+        IDictionary<RoleContainerBase, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();
+
+        // Assert
+        probabilities[game.Players[1]].Probabilities[RoleTypes.Mason].ShouldBe(1);
     }
 
     [Test]
     public void DualMasonsShouldKnowOthersNotMasons()
     {
-        Assert.Inconclusive("Not Implemented");
+        // Arrange
+        RoleTypes[] assignedRoles =
+        {
+            // Player Roles
+            RoleTypes.Mason,
+            RoleTypes.Mason,
+            RoleTypes.Werewolf,
+            // Center Cards
+            RoleTypes.Werewolf,
+            RoleTypes.Villager,
+            RoleTypes.Villager
+        };
+        Game game = RunGame(assignedRoles);
+        GamePlayer player = game.Players.First();
+
+        // Act
+        IDictionary<RoleContainerBase, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();
+        
+        // Assert
+        foreach (CenterCardSlot slot in game.CenterSlots)
+        {
+            probabilities[slot].Probabilities[RoleTypes.Mason].ShouldBe(0);
+        }
     }
 
     [Test]
