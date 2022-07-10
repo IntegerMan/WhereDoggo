@@ -9,6 +9,6 @@ public class SelectSpecificSlotPlacementStrategy : SlotSelectionStrategyBase
         Index = index;
     }
 
-    public override RoleContainerBase? SelectSlot(IEnumerable<RoleContainerBase> slots) 
+    public override RoleContainerBase? SelectCard(IEnumerable<RoleContainerBase> slots) 
         => slots.ToList()[Index];
 }

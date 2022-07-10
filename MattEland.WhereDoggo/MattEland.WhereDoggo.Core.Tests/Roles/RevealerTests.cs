@@ -25,7 +25,7 @@ public class RevealerTests : GameTestsBase
         };
         Game game = new(assignedRoles, randomizeSlots: false);
         GamePlayer player = game.Players.First();
-        player.Strategies.PickSingleCardFromCenterStrategy = new SelectSpecificSlotPlacementStrategy(1);
+        player.Strategies.PickSingleCardStrategy = new SelectSpecificSlotPlacementStrategy(1);
 
         // Act
         game.Run();
@@ -51,7 +51,7 @@ public class RevealerTests : GameTestsBase
         };
         Game game = new(assignedRoles, randomizeSlots: false);
         GamePlayer player = game.Players.First();
-        player.Strategies.PickSingleCardFromCenterStrategy = new SelectSpecificSlotPlacementStrategy(0);
+        player.Strategies.PickSingleCardStrategy = new SelectSpecificSlotPlacementStrategy(0);
 
         // Act / Assert
         Assert.That(() => game.Run(), Throws.TypeOf<InvalidOperationException>());
@@ -74,7 +74,7 @@ public class RevealerTests : GameTestsBase
         };
         Game game = new(assignedRoles, randomizeSlots: false);
         GamePlayer player = game.Players.First();
-        player.Strategies.PickSingleCardFromCenterStrategy = new SelectSpecificSlotPlacementStrategy(1);
+        player.Strategies.PickSingleCardStrategy = new SelectSpecificSlotPlacementStrategy(1);
         game.Run();
 
         // Act
@@ -104,7 +104,7 @@ public class RevealerTests : GameTestsBase
         };
         Game game = new(assignedRoles, randomizeSlots: false);
         GamePlayer player = game.Players.First();
-        player.Strategies.PickSingleCardFromCenterStrategy = new SelectSpecificSlotPlacementStrategy(1);
+        player.Strategies.PickSingleCardStrategy = new SelectSpecificSlotPlacementStrategy(1);
         
         // Act
         game.Run();
@@ -133,7 +133,7 @@ public class RevealerTests : GameTestsBase
         };
         Game game = new(assignedRoles, randomizeSlots: false);
         GamePlayer player = game.Players.First();
-        player.Strategies.PickSingleCardFromCenterStrategy = new SelectSpecificSlotPlacementStrategy(2);
+        player.Strategies.PickSingleCardStrategy = new SelectSpecificSlotPlacementStrategy(2);
 
         // Act
         game.Run();
@@ -159,7 +159,7 @@ public class RevealerTests : GameTestsBase
         };
         Game game = new(assignedRoles, randomizeSlots: false);
         GamePlayer player = game.Players.First();
-        player.Strategies.PickSingleCardFromCenterStrategy = new SelectSpecificSlotPlacementStrategy(2);
+        player.Strategies.PickSingleCardStrategy = new SelectSpecificSlotPlacementStrategy(2);
         game.Run();
 
         // Act

@@ -13,4 +13,25 @@ public class RevealerRole : RoleBase
 
     /// <inheritdoc />
     public override Teams Team => Teams.Villagers;
+
+    /// <inheritdoc />
+    public override decimal? NightActionOrder => 10m;
+    
+    /// <inheritdoc />
+    public override void PerformNightAction(Game game, GamePlayer player)
+    {
+        RoleContainerBase? target = player.Strategies.PickSingleCardStrategy.SelectCard(game.Players);
+
+        if (target == null)
+        {
+            // TODO: Is this optional?
+        }
+        else
+        {
+            GamePlayer targetPlayer = (GamePlayer)target;
+
+            targetPlayer.IsRevealed = true;
+            game.LogEvent(new KnowsRoleEvent(game.CurrentPhase, player, targetPlayer));
+        }
+    }
 }
