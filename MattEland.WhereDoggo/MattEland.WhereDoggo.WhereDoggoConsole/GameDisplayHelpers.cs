@@ -28,6 +28,17 @@ public static class GameDisplayHelpers
         Console.WriteLine();
     }
 
+    /// <summary>
+    /// Gets a list of events that occurred inside the game during a specific phase.
+    /// </summary>
+    /// <param name="game">The game. Usable as an extension method</param>
+    /// <param name="phase">The phase to search for</param>
+    /// <returns>Events that occurred during that phase</returns>
+    public static List<GameEventBase> FindEventsForPhase(this Game game, GamePhase phase) =>
+        game.Events.Where(e => e.Phase == phase)
+            .OrderBy(e => e.Id)
+            .ToList();
+    
     public static void DisplayNightActions(this Game game)
     {
         Console.WriteLine("During the Night:");

@@ -1,4 +1,6 @@
-﻿namespace MattEland.WhereDoggo.Core.Roles;
+﻿using System.ComponentModel;
+
+namespace MattEland.WhereDoggo.Core.Roles;
 
 public enum RoleTypes
 {
@@ -6,5 +8,6 @@ public enum RoleTypes
     Werewolf,
     Insomniac,
     Sentinel,
+    [Description("Apprentice Seer")]
     ApprenticeSeer
 }

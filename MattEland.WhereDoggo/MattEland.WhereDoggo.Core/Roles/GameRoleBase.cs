@@ -6,7 +6,7 @@
 /// </summary>
 public abstract class GameRoleBase
 {
-    public override string ToString() => RoleType.ToString(); // TODO: Use Friendly Name
+    public override string ToString() => RoleType.GetFriendlyName();
     
     /// <summary>
     /// The <see cref="RoleTypes"/> associated with the role instance

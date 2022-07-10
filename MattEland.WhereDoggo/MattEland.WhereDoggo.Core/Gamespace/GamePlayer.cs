@@ -1,8 +1,11 @@
-﻿namespace MattEland.WhereDoggo.Core.Gamespace;
+﻿using System.Diagnostics;
+
+namespace MattEland.WhereDoggo.Core.Gamespace;
 
 /// <summary>
 /// Represents a player within the game world.
 /// </summary>
+[DebuggerDisplay("{Name} ({CurrentRole})")]
 public class GamePlayer : RoleContainerBase
 {
     private readonly Game _game;
@@ -15,10 +18,7 @@ public class GamePlayer : RoleContainerBase
         Brain = new GameInferenceEngine(this, game);
     }
 
-    public void AddEvent(GameEventBase eventBase)
-    {
-        this._events.Add(eventBase);
-    }
+    public void AddEvent(GameEventBase eventBase) => _events.Add(eventBase);
 
     public IList<GameEventBase> Events => _events.AsReadOnly();
     public GameInferenceEngine Brain { get; }
@@ -77,6 +77,8 @@ public class GamePlayer : RoleContainerBase
 
     public void Wake()
     {
+        _game.LogEvent(new WokeUpEvent(_game.CurrentPhase, this));
+
         // Allow for players to observe sentinel tokens
         foreach (GamePlayer player in _game.Players)
         {
