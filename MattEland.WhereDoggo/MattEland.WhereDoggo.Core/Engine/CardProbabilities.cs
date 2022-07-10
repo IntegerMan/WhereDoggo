@@ -21,9 +21,15 @@ public class CardProbabilities
 
     public IDictionary<RoleTypes, decimal> Probabilities { get; } = new Dictionary<RoleTypes, decimal>();
 
-    public void RecalculateProbability(IDictionary<RoleTypes, int> roleCounts)
+    public void RecalculateProbability(IDictionary<RoleTypes, int> originalCounts)
     {
         Probabilities.Clear();
+
+        Dictionary<RoleTypes, int> roleCounts = new();
+        foreach (KeyValuePair<RoleTypes, int> kvp in originalCounts)
+        {
+            roleCounts[kvp.Key] = kvp.Value;
+        }
 
         int remainingRoles = roleCounts.Values.Sum();
         
@@ -126,6 +132,7 @@ public class CardProbabilities
 
     public RoleTypes LikelyRole => Probabilities.MaxBy(kvp => kvp.Value).Key;
 
+    /// <inheritdoc />
     public override string ToString()
     {
         StringBuilder sb = new();
@@ -134,7 +141,7 @@ public class CardProbabilities
         {
             if (kvp.Value > 0)
             {
-                sb.Append($"{kvp.Key}: {kvp.Value:P1} ");
+                sb.Append($"{kvp.Key.GetFriendlyName()}: {kvp.Value:P1} ");
             }
         }
 

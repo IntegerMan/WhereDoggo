@@ -5,10 +5,10 @@ static GameResult RunAndShowGame(bool showUi)
     RoleTypes[] assignedRoles =
     {
         // Player Roles
-        RoleTypes.Insomniac,
+        RoleTypes.Mason,
+        RoleTypes.Mason,
         RoleTypes.Werewolf,
         RoleTypes.Werewolf,
-        RoleTypes.Sentinel,
         RoleTypes.Villager,
         RoleTypes.ApprenticeSeer,
     };

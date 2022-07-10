@@ -1,4 +1,6 @@
-﻿namespace MattEland.WhereDoggo.Core.Tests.Roles;
+﻿using MattEland.WhereDoggo.Core.Events;
+
+namespace MattEland.WhereDoggo.Core.Tests.Roles;
 
 /// <summary>
 /// Tests related to the <see cref="MasonRole"/> in One Night Ultimate Werewolf
@@ -33,6 +35,30 @@ public class MasonTests : GameTestsBase
     }
 
     [Test]
+    public void LoneMasonShouldHaveOnlyMasonEvent()
+    {
+        // Arrange
+        RoleTypes[] assignedRoles =
+        {
+            // Player Roles
+            RoleTypes.Mason,
+            RoleTypes.Werewolf,
+            RoleTypes.Villager,
+            // Center Cards
+            RoleTypes.Werewolf,
+            RoleTypes.Villager,
+            RoleTypes.Mason
+        };
+  
+        // Act
+        Game game = RunGame(assignedRoles);
+
+        // Assert
+        GamePlayer player = game.Players.First();
+        player.Events.ShouldContain(e => e is OnlyMasonEvent);
+    }
+
+    [Test]
     public void LoneMasonShouldInferOtherMasonInCenter()
     {
         // Arrange
@@ -56,7 +82,7 @@ public class MasonTests : GameTestsBase
         // Assert
         foreach (CenterCardSlot slot in game.CenterSlots)
         {
-            probabilities[slot].Probabilities[RoleTypes.Mason].ShouldBe(1m/Game.NumCenterCards);
+            probabilities[slot].Probabilities[RoleTypes.Mason].ShouldBe(0.2m);
         }
     }
 
@@ -83,6 +109,30 @@ public class MasonTests : GameTestsBase
 
         // Assert
         probabilities[game.Players[1]].Probabilities[RoleTypes.Mason].ShouldBe(1);
+    }
+
+    [Test]
+    public void DualMasonsShouldNotHaveOnlyMasonEvent()
+    {
+        // Arrange
+        RoleTypes[] assignedRoles =
+        {
+            // Player Roles
+            RoleTypes.Mason,
+            RoleTypes.Mason,
+            RoleTypes.Werewolf,
+            // Center Cards
+            RoleTypes.Werewolf,
+            RoleTypes.Villager,
+            RoleTypes.Villager
+        };
+
+        // Act
+        Game game = RunGame(assignedRoles);
+
+        // Assert
+        GamePlayer player = game.Players.First();
+        player.Events.ShouldNotContain(e => e is OnlyMasonEvent);
     }
 
     [Test]
