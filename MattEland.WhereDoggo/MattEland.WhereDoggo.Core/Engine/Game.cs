@@ -5,10 +5,10 @@
 /// </summary>
 public class Game
 {
-    private List<GamePlayer> _players = new();
-    private List<GameRoleBase> _roles = new();
     private readonly List<GameEventBase> _events = new();
-    private List<RoleContainerBase> _roleContainers = new();
+    private readonly List<RoleContainerBase> _roleContainers;
+    private readonly List<GamePlayer> _players;
+    private readonly List<GameRoleBase> _roles;
 
     public IList<GamePlayer> Players => _players.AsReadOnly();
     public IList<GameRoleBase> Roles => _roles.AsReadOnly();
@@ -16,20 +16,12 @@ public class Game
     public IList<RoleContainerBase> Entities => _roleContainers.AsReadOnly();
     public IList<GameEventBase> Events => _events.AsReadOnly();
 
-    public Game(int numPlayers)
-    {
-        this.NumPlayers = numPlayers;
-    }
-
     public Game(ICollection<RoleTypes> roles, bool randomizeSlots = true)
     {
         this.NumPlayers = roles.Count - NumCenterCards;
-        SetUp(roles, randomizeSlots);
-    }
 
-    public void SetUp(IList<GameRoleBase> roles, bool randomizeSlots = true)
-    {
-        _roles = roles.ToList();
+        _roles = roles.Select(r => r.BuildGameRole()).ToList();
+        
         string[] playerNames = { "Alice", "Bob", "Rufus", "Jimothy", "Wonko the Sane" };
 
         _roleContainers = new List<RoleContainerBase>(NumPlayers + NumCenterCards);
@@ -39,28 +31,27 @@ public class Game
             _roles = _roles.OrderBy(r => _random.Next() * _random.Next()).ToList();
         }
 
+        _players = InitializePlayersAndCenterCards(playerNames);
+    }
+
+    private List<GamePlayer> InitializePlayersAndCenterCards(IReadOnlyList<string> playerNames)
+    {
         int centerIndex = 1;
-        for (int i = 0; i < roles.Count; i++)
+        for (int i = 0; i < _roles.Count; i++)
         {
             if (i < NumPlayers)
             {
-                _roleContainers.Add(new GamePlayer(playerNames[i], roles[i], this, _random));
+                _roleContainers.Add(new GamePlayer(playerNames[i], _roles[i], this, _random));
             }
             else
             {
-                RoleSlot slot = new($"Center Card {centerIndex++}", roles[i]);
+                RoleSlot slot = new($"Center Card {centerIndex++}", _roles[i]);
                 _roleContainers.Add(slot);
                 _centerSlots.Add(slot);
             }
         }
 
-        _players = _roleContainers.OfType<GamePlayer>().ToList();
-    }
-
-    public void SetUp(IEnumerable<RoleTypes> roles, bool randomizeSlots = true)
-    {
-        List<GameRoleBase> gameRoles = roles.Select(r => r.BuildGameRole()).ToList();
-        SetUp(gameRoles, randomizeSlots);
+        return _roleContainers.OfType<GamePlayer>().ToList();
     }
 
     public int NumPlayers { get; }
@@ -72,8 +63,10 @@ public class Game
     public GameResult Run()
     {
         Start();
+        
         PerformNightPhase();
         PerformDayPhase();
+        
         return PerformVotePhase();
     }
 
@@ -84,9 +77,11 @@ public class Game
 
         LogEvent($"{Name} started");
 
-        foreach (GamePlayer player in this._players)
+        foreach (GamePlayer player in _players)
         {
             LogEvent(new DealtRoleEvent(player, player.InitialRole));
+            
+            player.Brain.BuildInitialRoleProbabilities();
         }
 
         LogEvent($"{Name} initialized");

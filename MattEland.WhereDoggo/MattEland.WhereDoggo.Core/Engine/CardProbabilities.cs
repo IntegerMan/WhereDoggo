@@ -7,12 +7,8 @@ namespace MattEland.WhereDoggo.Core.Engine;
 /// </summary>
 public class CardProbabilities
 {
-    private readonly int _numRoles;
-
     public CardProbabilities(Game game)
     {
-        _numRoles = game.Entities.Count;
-
         Dictionary<RoleTypes, int> roleCounts = game.BuildRoleCounts();
 
         RecalculateProbability(roleCounts);
@@ -20,8 +16,6 @@ public class CardProbabilities
 
     public CardProbabilities(IDictionary<RoleTypes, int> roleCounts)
     {
-        _numRoles = roleCounts.Values.Sum();
-
         RecalculateProbability(roleCounts);
     }
 

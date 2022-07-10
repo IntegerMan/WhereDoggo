@@ -10,7 +10,12 @@ public class GameInferenceEngine
     {
         _player = player;
         _game = game;
+
+        BuildFinalRoleProbabilities();
     }
+
+    public IDictionary<RoleContainerBase, CardProbabilities> BuildInitialRoleProbabilities() 
+        => BuildFinalRoleProbabilities();
 
     public IDictionary<RoleContainerBase, CardProbabilities> BuildFinalRoleProbabilities()
     {

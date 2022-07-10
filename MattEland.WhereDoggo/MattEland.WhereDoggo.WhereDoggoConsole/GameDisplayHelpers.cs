@@ -3,7 +3,7 @@ using MattEland.WhereDoggo.Core.Gamespace;
 
 namespace MattEland.WhereDoggo.WhereDoggoConsole;
 
-public static class OneNightWhereDoggoDisplayHelpers
+public static class GameDisplayHelpers
 {
     public static void DisplayGameState(this Game game)
     {
