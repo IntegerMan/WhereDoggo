@@ -12,4 +12,22 @@ public class ApprenticeSeerRole : GameRoleBase
 
     /// <inheritdoc />
     public override Teams Team => Teams.Villagers;
+
+    /// <inheritdoc />
+    public override decimal? NightActionOrder => 5.1m;
+
+    /// <inheritdoc />
+    public override void PerformNightAction(Game game, GamePlayer player)
+    {
+        RoleContainerBase? slot = player.Strategies.PickSingleCardFromCenterStrategy.SelectSlot(game.CenterSlots);
+
+        if (slot == null)
+        {
+            game.LogEvent(new SkippedNightActionEvent(player));
+        }
+        else
+        {
+            game.LogEvent(new ObservedCenterCardEvent(player, slot));
+        }
+    }
 }

@@ -33,7 +33,7 @@ public class SentinelRole : GameRoleBase
         }
         else
         {
-            game.LogEvent(new SentinelSkippedTokenPlacementEvent(player));
+            game.LogEvent(new SkippedNightActionEvent(player));
         }
     }
 }

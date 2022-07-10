@@ -1,5 +1,4 @@
-﻿
-namespace MattEland.WhereDoggo.Core.Engine;
+﻿namespace MattEland.WhereDoggo.Core.Engine;
 
 /// <summary>
 /// The inference engine governs decision-making for an individual player making decisions about the game.
@@ -9,6 +8,11 @@ public class PlayerInferenceEngine
     private readonly GamePlayer _player;
     private readonly Game _game;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="PlayerInferenceEngine"/> class.
+    /// </summary>
+    /// <param name="player">The player doing the inferring</param>
+    /// <param name="game">The game world.</param>
     public PlayerInferenceEngine(GamePlayer player, Game game)
     {
         _player = player;
@@ -17,9 +21,24 @@ public class PlayerInferenceEngine
         BuildFinalRoleProbabilities();
     }
 
+    /// <summary>
+    /// Generates a set of probabilities around card starting positions
+    /// </summary>
+    /// <remarks>
+    /// This is currently identical to the final role probabilities since roles that move cards are not yet supported.
+    /// </remarks>
+    /// <returns>
+    /// The set of probabilities around the initial role a card was.
+    /// </returns>
     public IDictionary<RoleContainerBase, CardProbabilities> BuildInitialRoleProbabilities() 
         => BuildFinalRoleProbabilities();
 
+    /// <summary>
+    /// Generates a set of probabilities around card ending positions
+    /// </summary>
+    /// <returns>
+    /// The set of probabilities around the final role a card was.
+    /// </returns>
     public IDictionary<RoleContainerBase, CardProbabilities> BuildFinalRoleProbabilities()
     {
         Dictionary<RoleContainerBase, CardProbabilities> cardProbabilities = new();

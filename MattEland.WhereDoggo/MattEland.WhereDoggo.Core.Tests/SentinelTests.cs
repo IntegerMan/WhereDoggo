@@ -83,7 +83,7 @@ public class SentinelTests : GameTestsBase
         // Assert
         GamePlayer player = game.Players.First();
         player.Events.FirstOrDefault(e => e is SentinelTokenPlacedEvent).ShouldNotBeNull();
-        player.Events.FirstOrDefault(e => e is SentinelSkippedTokenPlacementEvent).ShouldBeNull();
+        player.Events.FirstOrDefault(e => e is SkippedNightActionEvent).ShouldBeNull();
     }
 
     [Test]
@@ -135,7 +135,7 @@ public class SentinelTests : GameTestsBase
         game.Run();
 
         // Assert
-        player.Events.FirstOrDefault(e => e is SentinelSkippedTokenPlacementEvent).ShouldNotBeNull();
+        player.Events.FirstOrDefault(e => e is SkippedNightActionEvent).ShouldNotBeNull();
         player.Events.FirstOrDefault(e => e is SentinelTokenPlacedEvent).ShouldBeNull();
     }
 

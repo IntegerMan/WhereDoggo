@@ -1,4 +1,6 @@
-﻿namespace MattEland.WhereDoggo.Core.Tests;
+﻿using MattEland.WhereDoggo.Core.Events;
+
+namespace MattEland.WhereDoggo.Core.Tests;
 
 /// <summary>
 /// Tests for the <see cref="ApprenticeSeerRole"/>
@@ -37,7 +39,113 @@ public class ApprenticeSeerTests : GameTestsBase
     [Test]
     public void ApprenticeSeerShouldBeCertainSingleCardNotInPlay()
     {
-        Assert.Inconclusive();
+        // Arrange
+        RoleTypes[] assignedRoles =
+        {
+            // Player Roles
+            RoleTypes.ApprenticeSeer,
+            RoleTypes.Werewolf,
+            RoleTypes.Villager,
+            // Center Cards
+            RoleTypes.Insomniac,
+            RoleTypes.Werewolf,
+            RoleTypes.Villager
+        };
+        Game game = new(assignedRoles, randomizeSlots: false);
+        GamePlayer player = game.Players.First();
+        player.Strategies.PickSingleCardFromCenterStrategy = new SelectSpecificSlotPlacementStrategy(0);
+        game.Run();
+
+        // Act
+        IDictionary<RoleContainerBase, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();
+
+        // Assert
+        foreach (GamePlayer slot in game.Players)
+        {
+            probabilities[slot].Probabilities[RoleTypes.Insomniac].ShouldBe(0);
+        }
+    }
+
+    [Test]
+    public void ApprenticeSeerWhoSkippedShouldHaveNoCertainKnowledgeOfCenter()
+    {
+        // Arrange
+        RoleTypes[] assignedRoles =
+        {
+            // Player Roles
+            RoleTypes.ApprenticeSeer,
+            RoleTypes.Werewolf,
+            RoleTypes.Villager,
+            // Center Cards
+            RoleTypes.Insomniac,
+            RoleTypes.Werewolf,
+            RoleTypes.Villager
+        };
+        Game game = new(assignedRoles, randomizeSlots: false);
+        GamePlayer player = game.Players.First();
+        player.Strategies.PickSingleCardFromCenterStrategy = new OptOutSlotSelectionStrategy();
+        game.Run();
+
+        // Act
+        IDictionary<RoleContainerBase, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();
+
+        // Assert
+        foreach (RoleSlot slot in game.CenterSlots)
+        {
+            probabilities[slot].IsCertain.ShouldBeFalse();
+        }
+    }
+
+    [Test]
+    public void ApprenticeSeerWhoSkippedShouldHaveCorrectEvent()
+    {
+        // Arrange
+        RoleTypes[] assignedRoles =
+        {
+            // Player Roles
+            RoleTypes.ApprenticeSeer,
+            RoleTypes.Werewolf,
+            RoleTypes.Villager,
+            // Center Cards
+            RoleTypes.Insomniac,
+            RoleTypes.Werewolf,
+            RoleTypes.Villager
+        };
+        Game game = new(assignedRoles, randomizeSlots: false);
+        GamePlayer player = game.Players.First();
+        player.Strategies.PickSingleCardFromCenterStrategy = new OptOutSlotSelectionStrategy();
+
+        // Act
+        game.Run();
+
+        // Assert
+        player.Events.FirstOrDefault(e => e is SkippedNightActionEvent).ShouldNotBeNull();
+        player.Events.FirstOrDefault(e => e is ObservedCenterCardEvent).ShouldBeNull();
+    }
+
+    [Test]
+    public void ApprenticeSeerWhoUsedAbilityShouldHaveCorrectEvent()
+    {
+        // Arrange
+        RoleTypes[] assignedRoles =
+        {
+            // Player Roles
+            RoleTypes.ApprenticeSeer,
+            RoleTypes.Werewolf,
+            RoleTypes.Villager,
+            // Center Cards
+            RoleTypes.Insomniac,
+            RoleTypes.Werewolf,
+            RoleTypes.Villager
+        };
+
+        // Act
+        Game game = RunGame(assignedRoles);
+
+        // Assert
+        GamePlayer player = game.Players.First();
+        player.Events.FirstOrDefault(e => e is ObservedCenterCardEvent).ShouldNotBeNull();
+        player.Events.FirstOrDefault(e => e is SkippedNightActionEvent).ShouldBeNull();
     }
 
     [Test]
