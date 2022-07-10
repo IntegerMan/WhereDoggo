@@ -119,8 +119,8 @@ public class ApprenticeSeerTests : GameTestsBase
         game.Run();
 
         // Assert
-        player.Events.FirstOrDefault(e => e is SkippedNightActionEvent).ShouldNotBeNull();
-        player.Events.FirstOrDefault(e => e is ObservedCenterCardEvent).ShouldBeNull();
+        player.Events.ShouldContain(e => e is SkippedNightActionEvent);
+        player.Events.ShouldNotContain(e => e is ObservedCenterCardEvent);
     }
 
     [Test]
@@ -144,8 +144,8 @@ public class ApprenticeSeerTests : GameTestsBase
 
         // Assert
         GamePlayer player = game.Players.First();
-        player.Events.FirstOrDefault(e => e is ObservedCenterCardEvent).ShouldNotBeNull();
-        player.Events.FirstOrDefault(e => e is SkippedNightActionEvent).ShouldBeNull();
+        player.Events.ShouldContain(e => e is ObservedCenterCardEvent);
+        player.Events.ShouldNotContain(e => e is SkippedNightActionEvent);
     }
 
     [Test]

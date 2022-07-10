@@ -1,4 +1,6 @@
-﻿namespace MattEland.WhereDoggo.Core.Tests;
+﻿using MattEland.WhereDoggo.Core.Events;
+
+namespace MattEland.WhereDoggo.Core.Tests;
 
 public class WerewolfTests : GameTestsBase
 {
@@ -58,6 +60,31 @@ public class WerewolfTests : GameTestsBase
         {
             kvp.Value.IsCertain.ShouldBeTrue($"Was not certain of role {kvp.Value}");
         }
+    }
+    
+    [Test]
+    public void LoneWolfWhoLooksShouldHaveCorrectEvent()
+    {
+        // Arrange
+        RoleTypes[] assignedRoles =
+        {
+            // Player Roles
+            RoleTypes.Werewolf,
+            RoleTypes.Villager,
+            RoleTypes.Villager,
+            // Center Cards
+            RoleTypes.Werewolf,
+            RoleTypes.Villager,
+            RoleTypes.Villager
+        };
+
+        // Act
+        Game game = RunGame(assignedRoles);
+
+        // Assert
+        GamePlayer player = game.Players.First();
+        player.Events.ShouldContain(e => e is ObservedCenterCardEvent);
+        player.Events.ShouldNotContain(e => e is SkippedNightActionEvent);
     }
 
     [Test]

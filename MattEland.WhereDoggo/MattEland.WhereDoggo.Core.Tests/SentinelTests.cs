@@ -135,8 +135,8 @@ public class SentinelTests : GameTestsBase
         game.Run();
 
         // Assert
-        player.Events.FirstOrDefault(e => e is SkippedNightActionEvent).ShouldNotBeNull();
-        player.Events.FirstOrDefault(e => e is SentinelTokenPlacedEvent).ShouldBeNull();
+        player.Events.ShouldContain(e => e is SkippedNightActionEvent);
+        player.Events.ShouldNotContain(e => e is SentinelTokenPlacedEvent);
     }
 
     [Test]
