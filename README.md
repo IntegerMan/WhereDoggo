@@ -61,9 +61,9 @@ Planned roles in Phase 1 are:
 - [x] Villager
 - [x] Insomniac*
 - [x] Sentinel*
-- [ ] Masons
 - [ ] Apprentice Seer
 - [ ] Mystic Wolf
+- [ ] Masons
 - [ ] Revealer
 - [ ] Exposer
 - [ ] Seer
@@ -102,6 +102,9 @@ Planned roles:
 - [ ] Paranormal Investigator
 - [ ] Psychic
 - [ ] Blob
+- [ ] Aura Seer
+- [ ] Prince
+- [ ] Cursed
 
 _Note: the **beholder**, and **squire** roles don't make complete sense until paired with card moving abilities and will be expanded as features grow, but adding them early helped establish baseline AI deductive capabilities_
 
@@ -158,6 +161,9 @@ Planned features:
 - Cow
 - Leader
 - Oracle
+- Empath
+- Nostradamus
+- Body Snatcher
 
 ## Technology
 
