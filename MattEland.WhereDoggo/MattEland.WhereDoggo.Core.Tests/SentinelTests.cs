@@ -53,10 +53,9 @@ public class SentinelTests : GameTestsBase
         Game game = new(assignedRoles, randomizeSlots: false);
         GamePlayer player = game.Players.First();
         player.Strategies.SentinelTokenPlacementStrategy = new SelectSpecificSlotPlacementStrategy(1); // WW player
-        game.Start();
 
         // Act
-        game.PerformNightPhase();
+        game.Run();
 
         // Assert
         game.Players[1].HasSentinelToken.ShouldBeTrue();
@@ -105,10 +104,9 @@ public class SentinelTests : GameTestsBase
         Game game = new(assignedRoles, randomizeSlots: false);
         GamePlayer player = game.Players.First();
         player.Strategies.SentinelTokenPlacementStrategy = new OptOutSlotSelectionStrategy();
-        game.Start();
 
         // Act
-        game.PerformNightPhase();
+        game.Run();
 
         // Assert
         game.Players.Any(p => p.HasSentinelToken).ShouldBeFalse();
@@ -132,10 +130,9 @@ public class SentinelTests : GameTestsBase
         Game game = new(assignedRoles, randomizeSlots: false);
         GamePlayer player = game.Players.First();
         player.Strategies.SentinelTokenPlacementStrategy = new OptOutSlotSelectionStrategy();
-        game.Start();
 
         // Act
-        game.PerformNightPhase();
+        game.Run();
 
         // Assert
         player.Events.FirstOrDefault(e => e is SentinelSkippedTokenPlacementEvent).ShouldNotBeNull();
@@ -164,7 +161,7 @@ public class SentinelTests : GameTestsBase
         // Assert
         GamePlayer ww = game.Players[1];
         IDictionary<RoleContainerBase, CardProbabilities> probabilities = ww.Brain.BuildFinalRoleProbabilities();
-        probabilities[game.Players.Last()].Probabilities[RoleTypes.Sentinel].ShouldBe(0);
+        probabilities[game.CenterSlots.First()].Probabilities[RoleTypes.Sentinel].ShouldBe(0);
         probabilities[game.Players.First()].Probabilities[RoleTypes.Sentinel].ShouldBeGreaterThan(1M/assignedRoles.Length);
     }  
     
@@ -200,9 +197,26 @@ public class SentinelTests : GameTestsBase
     [Test]
     public void SentinelThrowsInvalidOperationExceptionWhenForcedToPutTokenOnThemselves()
     {
+        // Arrange
+        // Arrange
+        RoleTypes[] assignedRoles =
+        {
+            // Player Roles
+            RoleTypes.Sentinel,
+            RoleTypes.Werewolf,
+            RoleTypes.Villager,
+            // Center Cards
+            RoleTypes.Werewolf,
+            RoleTypes.Villager,
+            RoleTypes.Villager
+        };
+        Game game = new(assignedRoles, randomizeSlots: false);
+        GamePlayer player = game.Players.First();
+        player.Strategies.SentinelTokenPlacementStrategy = new SelectSpecificSlotPlacementStrategy(0); // Sentinel
+
         Assert.That(() =>
         {
-            
+            game.Run();
         }, Throws.TypeOf<InvalidOperationException>());
     }    
 }

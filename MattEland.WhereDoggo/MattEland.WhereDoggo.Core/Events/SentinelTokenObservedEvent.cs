@@ -12,5 +12,14 @@ public class SentinelTokenObservedEvent : GameEventBase
         Target = target;
     }
 
+    public override void UpdatePlayerPerceptions(GamePlayer observer, RoleContainerBase target, CardProbabilities probabilities)
+    {
+        // If we see a sentinel token, we know the sentinel cannot be in the center
+        if (target is RoleSlot)
+        {
+            probabilities.MarkAsCannotBeRole(RoleTypes.Sentinel);
+        }
+    }
+
     public override string ToString() => $"{Player} saw a sentinel token on {Target}";
 }

@@ -12,6 +12,7 @@ public class Game
 
     public IList<GamePlayer> Players => _players.AsReadOnly();
     public IList<GameRoleBase> Roles => _roles.AsReadOnly();
+    public IList<RoleSlot> CenterSlots => _centerSlots.AsReadOnly();
     public IList<RoleContainerBase> Entities => _roleContainers.AsReadOnly();
     public IList<GameEventBase> Events => _events.AsReadOnly();
 
@@ -211,6 +212,11 @@ public class Game
             // Sentinels may choose to skip placing their token
             if (player.Strategies.SentinelTokenPlacementStrategy.SelectSlot(_players) is GamePlayer target)
             {
+                if (target.InitialRole.RoleType == RoleTypes.Sentinel)
+                {
+                    throw new InvalidOperationException($"{player} attempted to place a sentinel token on themselves");
+                }
+
                 target.HasSentinelToken = true;
                 LogEvent(new SentinelTokenPlacedEvent(player, target));
                 LogEvent(new SentinelTokenObservedEvent(player, target, CurrentPhase));
