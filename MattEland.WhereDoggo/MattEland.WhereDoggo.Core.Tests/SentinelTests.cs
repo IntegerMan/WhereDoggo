@@ -20,7 +20,7 @@ public class SentinelTests : GameTestsBase
             RoleTypes.Villager,
             // Center Cards
             RoleTypes.Werewolf,
-            RoleTypes.Villager,
+            RoleTypes.ApprenticeSeer,
             RoleTypes.Villager
         };
         Game game = RunGame(assignedRoles);

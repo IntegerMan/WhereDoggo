@@ -5,5 +5,6 @@ public enum RoleTypes
     Villager,
     Werewolf,
     Insomniac,
-    Sentinel
+    Sentinel,
+    ApprenticeSeer
 }

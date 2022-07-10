@@ -35,6 +35,8 @@ public static class RoleExtensions
                 return new InsomniacRole();
             case RoleTypes.Sentinel:
                 return new SentinelRole();
+            case RoleTypes.ApprenticeSeer:
+                return new ApprenticeSeerRole();
             default:
                 throw new NotSupportedException($"{nameof(BuildGameRole)} doesn't know how to create a role for {roleType}");
         }

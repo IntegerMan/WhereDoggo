@@ -191,40 +191,14 @@ public class Game
         LogEvent("Night Phase Starting");
         CurrentPhase = GamePhase.Night;
 
-        // TODO: This should really be a list of phases we cycle through
-        WakeSentinels();
+        foreach (GamePlayer player in Players.Where(p => p.InitialRole.HasNightAction).OrderBy(p => p.InitialRole.NightActionOrder))
+        {
+            player.Wake();
+            player.InitialRole.PerformNightAction(this, player);
+        }
         WakeWerewolves();
         WakeInsomniac();
     }
-
-    private void WakeSentinels()
-    {
-        List<GamePlayer> players = GetPlayersOfInitialRole(RoleTypes.Sentinel);
-        foreach (GamePlayer player in players)
-        {
-            player.Wake();
-
-            // Sentinels may choose to skip placing their token
-            if (player.Strategies.SentinelTokenPlacementStrategy.SelectSlot(_players) is GamePlayer target)
-            {
-                if (target.InitialRole.RoleType == RoleTypes.Sentinel)
-                {
-                    throw new InvalidOperationException($"{player} attempted to place a sentinel token on themselves");
-                }
-
-                target.HasSentinelToken = true;
-                LogEvent(new SentinelTokenPlacedEvent(player, target));
-                LogEvent(new SentinelTokenObservedEvent(player, target, CurrentPhase));
-            }
-            else
-            {
-                LogEvent(new SentinelSkippedTokenPlacementEvent(player));
-            }
-        }
-    }
-
-    private List<GamePlayer> GetPlayersOfInitialRole(RoleTypes roleTypes)
-        => Players.Where(p => p.InitialRole.RoleType == roleTypes).ToList();
 
     private void WakeInsomniac()
     {
