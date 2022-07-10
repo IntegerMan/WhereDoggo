@@ -14,7 +14,7 @@ public class ObservedCenterCardEvent : GameEventBase
     /// <summary>
     /// The role that was observed in that slot
     /// </summary>
-    public GameRoleBase ObservedRole { get; }
+    public RoleBase ObservedRole { get; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ObservedCenterCardEvent"/> class.

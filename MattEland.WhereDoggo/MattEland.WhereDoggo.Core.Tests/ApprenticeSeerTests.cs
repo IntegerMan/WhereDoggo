@@ -90,7 +90,7 @@ public class ApprenticeSeerTests : GameTestsBase
         IDictionary<RoleContainerBase, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();
 
         // Assert
-        foreach (RoleSlot slot in game.CenterSlots)
+        foreach (CenterCardSlot slot in game.CenterSlots)
         {
             probabilities[slot].IsCertain.ShouldBeFalse();
         }

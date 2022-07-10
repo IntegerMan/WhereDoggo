@@ -8,11 +8,11 @@ public class Game
     private readonly List<GameEventBase> _events = new();
     private readonly List<RoleContainerBase> _roleContainers;
     private readonly List<GamePlayer> _players;
-    private readonly List<GameRoleBase> _roles;
+    private readonly List<RoleBase> _roles;
 
     public IList<GamePlayer> Players => _players.AsReadOnly();
-    public IList<GameRoleBase> Roles => _roles.AsReadOnly();
-    public IList<RoleSlot> CenterSlots => _centerSlots.AsReadOnly();
+    public IList<RoleBase> Roles => _roles.AsReadOnly();
+    public IList<CenterCardSlot> CenterSlots => _centerSlots.AsReadOnly();
     public IList<RoleContainerBase> Entities => _roleContainers.AsReadOnly();
     public IList<GameEventBase> Events => _events.AsReadOnly();
 
@@ -45,7 +45,7 @@ public class Game
             }
             else
             {
-                RoleSlot slot = new($"Center Card {centerIndex++}", _roles[i]);
+                CenterCardSlot slot = new($"Center Card {centerIndex++}", _roles[i]);
                 _roleContainers.Add(slot);
                 _centerSlots.Add(slot);
             }
@@ -123,7 +123,7 @@ public class Game
     }
 
     private readonly Random _random = new();
-    private readonly List<RoleSlot> _centerSlots = new(NumCenterCards);
+    private readonly List<CenterCardSlot> _centerSlots = new(NumCenterCards);
 
     public const int NumCenterCards = 3;
 

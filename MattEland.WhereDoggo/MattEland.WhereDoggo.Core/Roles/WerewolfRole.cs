@@ -8,7 +8,7 @@
 /// they may look at a center card.
 /// </summary>
 /// <href>http://onenightultimate.com/?p=33</href>
-public class WerewolfRole : GameRoleBase
+public class WerewolfRole : RoleBase
 {
     /// <inheritdoc />
     public override Teams Team => Teams.Werewolves;

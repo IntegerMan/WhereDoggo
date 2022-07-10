@@ -17,7 +17,7 @@ public class InsomniacSawOwnCardEvent : GameEventBase
     /// <summary>
     /// Gets the final role that the Insomniac observed for their own card.
     /// </summary>
-    public GameRoleBase FinalRole { get; }
+    public RoleBase FinalRole { get; }
 
     /// <inheritdoc />
     public override void UpdatePlayerPerceptions(GamePlayer observer, RoleContainerBase target, CardProbabilities probabilities)

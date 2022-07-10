@@ -5,7 +5,7 @@
 /// Insomniacs wake near the end of the night and look at their own card to see if their role changed.
 /// </summary>
 /// <href>http://onenightultimate.com/?p=70</href>
-public class InsomniacRole : GameRoleBase
+public class InsomniacRole : RoleBase
 {
     /// <inheritdoc />
     public override Teams Team => Teams.Villagers;

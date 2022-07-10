@@ -4,7 +4,7 @@
 /// Represents an instance of a specific role in the game. This is the base class for all roles.
 /// It is possible for multiple instances of the same role to exist if they are in the game multiple times.
 /// </summary>
-public abstract class GameRoleBase
+public abstract class RoleBase
 {
     /// <inheritdoc />
     public override string ToString() => RoleType.GetFriendlyName();

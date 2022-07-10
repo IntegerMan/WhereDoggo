@@ -27,12 +27,12 @@ public static class RoleExtensions
     }
 
     /// <summary>
-    /// Creates a <see cref="GameRoleBase"/> out of a <see cref="RoleTypes"/>.
+    /// Creates a <see cref="RoleBase"/> out of a <see cref="RoleTypes"/>.
     /// </summary>
     /// <param name="roleType">The role to create</param>
-    /// <returns>A <see cref="GameRoleBase"/> representing the specified <paramref name="roleType"/></returns>
-    /// <exception cref="NotSupportedException">Thrown if no <see cref="GameRoleBase"/> is configured for this <see cref="RoleTypes"/></exception>
-    public static GameRoleBase BuildGameRole(this RoleTypes roleType)
+    /// <returns>A <see cref="RoleBase"/> representing the specified <paramref name="roleType"/></returns>
+    /// <exception cref="NotSupportedException">Thrown if no <see cref="RoleBase"/> is configured for this <see cref="RoleTypes"/></exception>
+    public static RoleBase BuildGameRole(this RoleTypes roleType)
     {
         // TODO: Activator.CreateInstance mixed with attribute decorators could remove this manual step
         switch (roleType)
@@ -47,6 +47,8 @@ public static class RoleExtensions
                 return new SentinelRole();
             case RoleTypes.ApprenticeSeer:
                 return new ApprenticeSeerRole();
+            case RoleTypes.Mason:
+                return new MasonRole();
             default:
                 throw new NotSupportedException($"{nameof(BuildGameRole)} doesn't know how to create a role for {roleType}");
         }

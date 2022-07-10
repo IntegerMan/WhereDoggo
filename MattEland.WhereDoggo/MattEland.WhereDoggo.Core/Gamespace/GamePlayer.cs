@@ -11,7 +11,7 @@ public class GamePlayer : RoleContainerBase
     private readonly Game _game;
     private readonly List<GameEventBase> _events = new();
 
-    public GamePlayer(string name, GameRoleBase initialRole, Game game, Random randomizer) : base(name, initialRole)
+    public GamePlayer(string name, RoleBase initialRole, Game game, Random randomizer) : base(name, initialRole)
     {
         _game = game;
         Strategies = new GameStrategies(randomizer, this);
@@ -42,7 +42,7 @@ public class GamePlayer : RoleContainerBase
         // Remove the player from the set of probabilities since self-voting is illegal
         probabilities.Remove(this);
 
-        List<RoleContainerBase> keys = probabilities.Keys.Where(k => k is RoleSlot).ToList();
+        List<RoleContainerBase> keys = probabilities.Keys.Where(k => k is CenterCardSlot).ToList();
         foreach (RoleContainerBase key in keys)
         {
             probabilities.Remove(key);

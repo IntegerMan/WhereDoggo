@@ -4,7 +4,7 @@ namespace MattEland.WhereDoggo.Core.Gamespace;
 
 public abstract class RoleContainerBase
 {
-    protected RoleContainerBase(string name, GameRoleBase initialRole)
+    protected RoleContainerBase(string name, RoleBase initialRole)
     {
         Name = name;
         InitialRole = initialRole;
@@ -12,8 +12,8 @@ public abstract class RoleContainerBase
     }
 
     public string Name { get; }
-    public GameRoleBase InitialRole { get; }
-    public GameRoleBase CurrentRole { get; set; }
+    public RoleBase InitialRole { get; }
+    public RoleBase CurrentRole { get; set; }
 
     public override string ToString() => Name;
 }

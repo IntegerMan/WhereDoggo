@@ -5,9 +5,9 @@ namespace MattEland.WhereDoggo.Core.Events;
 
 public class DealtRoleEvent : GameEventBase
 {
-    public GameRoleBase Role { get; }
+    public RoleBase Role { get; }
 
-    public DealtRoleEvent(GamePlayer player, GameRoleBase role) 
+    public DealtRoleEvent(GamePlayer player, RoleBase role) 
         : base(GamePhase.Setup, player)
     {
         if (player == null) throw new ArgumentNullException(nameof(player));
