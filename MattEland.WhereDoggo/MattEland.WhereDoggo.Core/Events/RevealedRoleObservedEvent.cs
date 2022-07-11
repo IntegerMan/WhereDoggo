@@ -22,8 +22,8 @@ public class RevealedRoleObservedEvent : KnowsRoleEvent
     public override void UpdatePlayerPerceptions(GamePlayer observer, RoleContainerBase target, CardProbabilities probabilities)
     {
         base.UpdatePlayerPerceptions(observer, target, probabilities);
-
-        if (target is CenterCardSlot)
+        
+        if (Target is CenterCardSlot)
         {
             probabilities.MarkRoleAsInPlay(RoleTypes.Exposer);
         }

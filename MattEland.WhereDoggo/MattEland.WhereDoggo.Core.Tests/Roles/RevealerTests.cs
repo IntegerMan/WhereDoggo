@@ -121,7 +121,7 @@ public class RevealerTests : GameTestsBase
     }
     
     [Test] 
-    public void AllPlayersShouldKnowRevealerInPlayWhenCardIsRevealed()
+    public void OtherPlayersShouldKnowRevealerInPlayWhenCardIsRevealed()
     {
         // Arrange
         RoleTypes[] assignedRoles =
@@ -143,7 +143,7 @@ public class RevealerTests : GameTestsBase
         game.Run();
 
         // Assert
-        foreach (GamePlayer p in game.Players)
+        foreach (GamePlayer p in game.Players.Where(p => p != player))
         {
             IDictionary<RoleContainerBase, CardProbabilities> probabilities = p.Brain.BuildFinalRoleProbabilities();
             foreach (CenterCardSlot slot in game.CenterSlots)
