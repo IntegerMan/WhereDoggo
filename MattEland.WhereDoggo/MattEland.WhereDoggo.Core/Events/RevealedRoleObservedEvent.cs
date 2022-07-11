@@ -23,6 +23,13 @@ public class RevealedRoleObservedEvent : KnowsRoleEvent
     {
         base.UpdatePlayerPerceptions(observer, target, probabilities);
 
-        probabilities.MarkRoleAsInPlay(RoleTypes.Revealer);
+        if (target is CenterCardSlot)
+        {
+            probabilities.MarkRoleAsInPlay(RoleTypes.Exposer);
+        }
+        else
+        {
+            probabilities.MarkRoleAsInPlay(RoleTypes.Revealer);
+        }
     }
 }

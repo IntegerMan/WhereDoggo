@@ -154,7 +154,7 @@ public class ExposerTests : GameTestsBase
         };
         Game game = new(assignedRoles, randomizeSlots: false);
         GamePlayer player = game.Players.First();
-        player.Strategies.PickSingleCardStrategy = new SelectSpecificSlotPlacementStrategy(1);
+        player.Strategies.PickSingleCardStrategy = new OptOutSlotSelectionStrategy();
 
         // Act
         game.Run();

@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-
-namespace MattEland.WhereDoggo.Core.Gamespace;
+﻿namespace MattEland.WhereDoggo.Core.Gamespace;
 
 /// <summary>
 /// Represents a player within the game world.
@@ -11,6 +9,13 @@ public class GamePlayer : RoleContainerBase
     private readonly Game _game;
     private readonly List<GameEventBase> _events = new();
 
+    /// <summary>
+    /// Instantiates an instance of the <see cref="GamePlayer"/> class.
+    /// </summary>
+    /// <param name="name">The name of the player</param>
+    /// <param name="initialRole">The role they were initially dealt</param>
+    /// <param name="game">The game the player is in</param>
+    /// <param name="randomizer">The randomizer instnace</param>
     public GamePlayer(string name, RoleBase initialRole, Game game, Random randomizer) : base(name, initialRole)
     {
         _game = game;
@@ -30,6 +35,9 @@ public class GamePlayer : RoleContainerBase
     /// </summary>
     public bool HasSentinelToken { get; set;  }
 
+    /// <summary>
+    /// The strategies the player uses for various roles.
+    /// </summary>
     public GameStrategies Strategies { get; }
 
     /// <summary>
@@ -99,13 +107,13 @@ public class GamePlayer : RoleContainerBase
         }
         
         // Allow for players to observe revealed roles
-        foreach (GamePlayer player in _game.Players)
+        foreach (RoleContainerBase card in _game.Entities)
         {
-            if (!player.IsRevealed) continue;
+            if (!card.IsRevealed) continue;
             
-            if (!Events.Any(e => e is RevealedRoleObservedEvent obs && obs.Target == player))
+            if (!Events.Any(e => e is RevealedRoleObservedEvent obs && obs.Target == card))
             {
-                _game.LogEvent(new RevealedRoleObservedEvent(_game.CurrentPhase, this, player));
+                _game.LogEvent(new RevealedRoleObservedEvent(_game.CurrentPhase, this, card));
             }
         }
     }

@@ -24,11 +24,13 @@ public class ExposerRole : RoleBase
 
         if (card == null)
         {
-            
+            game.LogEvent(new SkippedNightActionEvent(player));
         }
         else
         {
             card.IsRevealed = true;
+            game.LogEvent(new RevealedRoleEvent(player, card));
+            game.LogEvent(new RevealedRoleObservedEvent(game.CurrentPhase, player, card));
         }
     }
 }
