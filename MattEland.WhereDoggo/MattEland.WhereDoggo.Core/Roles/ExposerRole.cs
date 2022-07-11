@@ -20,6 +20,15 @@ public class ExposerRole : RoleBase
     /// <inheritdoc />
     public override void PerformNightAction(Game game, GamePlayer player)
     {
-        
+        RoleContainerBase? card = player.Strategies.PickSingleCardStrategy.SelectCard(game.CenterSlots.Where(c => !c.IsRevealed));
+
+        if (card == null)
+        {
+            
+        }
+        else
+        {
+            card.IsRevealed = true;
+        }
     }
 }

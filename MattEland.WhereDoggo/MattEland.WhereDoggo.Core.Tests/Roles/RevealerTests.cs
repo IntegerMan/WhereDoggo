@@ -7,6 +7,7 @@ namespace MattEland.WhereDoggo.Core.Tests.Roles;
 /// <summary>
 /// Tests for the <see cref="RevealerRole"/>
 /// </summary>
+[Category("Roles")]
 public class RevealerTests : GameTestsBase
 {
     [Test]

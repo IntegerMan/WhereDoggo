@@ -29,6 +29,7 @@ Currently partial or complete support for the following roles is implemented:
 - Apprentice Seer
 - Mason
 - Revealer
+- Exposer
 
 ### Supported Capabilities
 
