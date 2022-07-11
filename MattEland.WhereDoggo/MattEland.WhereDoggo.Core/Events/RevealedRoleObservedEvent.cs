@@ -21,9 +21,8 @@ public class RevealedRoleObservedEvent : KnowsRoleEvent
     /// <inheritdoc />
     public override void UpdatePlayerPerceptions(GamePlayer observer, RoleContainerBase target, CardProbabilities probabilities)
     {
-        if (target == Target)
-        {
-            probabilities.MarkRoleAsInPlay(RoleTypes.Revealer);
-        }
+        base.UpdatePlayerPerceptions(observer, target, probabilities);
+
+        probabilities.MarkRoleAsInPlay(RoleTypes.Revealer);
     }
 }
