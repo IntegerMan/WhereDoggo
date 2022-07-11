@@ -5,5 +5,6 @@
 /// </summary>
 public class OptOutSlotSelectionStrategy : SlotSelectionStrategyBase
 {
-    public override RoleContainerBase? SelectCard(IEnumerable<RoleContainerBase> slots) => null;
+    /// <inheritdoc />
+    public override RoleContainerBase? SelectCard(IEnumerable<RoleContainerBase> options) => null;
 }

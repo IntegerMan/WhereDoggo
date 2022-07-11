@@ -1,4 +1,5 @@
 ﻿using MattEland.WhereDoggo.Core.Events;
+using MattEland.WhereDoggo.Core.Tests.Strategies;
 
 namespace MattEland.WhereDoggo.Core.Tests.Roles;
 
@@ -23,7 +24,7 @@ public class ApprenticeSeerTests : GameTestsBase
             RoleTypes.Werewolf,
             RoleTypes.Villager
         };
-        Game game = new(assignedRoles, randomizeSlots: false);
+        Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
         player.Strategies.PickSingleCardStrategy = new SelectSpecificSlotPlacementStrategy(0);
         game.Run();
@@ -52,7 +53,7 @@ public class ApprenticeSeerTests : GameTestsBase
             RoleTypes.Werewolf,
             RoleTypes.Villager
         };
-        Game game = new(assignedRoles, randomizeSlots: false);
+        Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
         player.Strategies.PickSingleCardStrategy = new SelectSpecificSlotPlacementStrategy(0);
         game.Run();
@@ -82,7 +83,7 @@ public class ApprenticeSeerTests : GameTestsBase
             RoleTypes.Werewolf,
             RoleTypes.Villager
         };
-        Game game = new(assignedRoles, randomizeSlots: false);
+        Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
         player.Strategies.PickSingleCardStrategy = new OptOutSlotSelectionStrategy();
         game.Run();
@@ -112,7 +113,7 @@ public class ApprenticeSeerTests : GameTestsBase
             RoleTypes.Werewolf,
             RoleTypes.Villager
         };
-        Game game = new(assignedRoles, randomizeSlots: false);
+        Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
         player.Strategies.PickSingleCardStrategy = new OptOutSlotSelectionStrategy();
 

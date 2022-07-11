@@ -6,6 +6,7 @@
 /// If that card is not a Werewolf or Tanner, the card stays flipped over
 /// </summary>
 /// <href>http://onenightultimate.com/?p=73</href>
+[RoleFor(RoleTypes.Revealer)]
 public class RevealerRole : RoleBase
 {
     /// <inheritdoc />

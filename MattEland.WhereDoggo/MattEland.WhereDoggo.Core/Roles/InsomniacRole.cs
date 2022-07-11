@@ -5,6 +5,7 @@
 /// Insomniacs wake near the end of the night and look at their own card to see if their role changed.
 /// </summary>
 /// <href>http://onenightultimate.com/?p=70</href>
+[RoleFor(RoleTypes.Insomniac)]
 public class InsomniacRole : RoleBase
 {
     /// <inheritdoc />

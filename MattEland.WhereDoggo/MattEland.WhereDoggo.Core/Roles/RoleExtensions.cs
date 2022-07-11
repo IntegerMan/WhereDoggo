@@ -1,10 +1,14 @@
-﻿namespace MattEland.WhereDoggo.Core.Roles;
+﻿using System.Reflection;
+
+namespace MattEland.WhereDoggo.Core.Roles;
 
 /// <summary>
 /// Extension methods related to <see cref="RoleTypes"/>
 /// </summary>
 public static class RoleExtensions
 {
+    private static Dictionary<RoleTypes, Type>? _roleInstances;
+
     /// <summary>
     /// Determines which team a given role is on.
     /// </summary>
@@ -36,26 +40,25 @@ public static class RoleExtensions
     /// <exception cref="NotSupportedException">Thrown if no <see cref="RoleBase"/> is configured for this <see cref="RoleTypes"/></exception>
     public static RoleBase BuildGameRole(this RoleTypes roleType)
     {
-        // TODO: Activator.CreateInstance mixed with attribute decorators could remove this manual step
-        switch (roleType)
+        // If we haven't initialized yet, create a map of role classes to their attributes
+        if (_roleInstances == null)
         {
-            case RoleTypes.Villager:
-                return new VillagerRole();
-            case RoleTypes.Werewolf:
-                return new WerewolfRole();
-            case RoleTypes.Insomniac:
-                return new InsomniacRole();
-            case RoleTypes.Sentinel:
-                return new SentinelRole();
-            case RoleTypes.ApprenticeSeer:
-                return new ApprenticeSeerRole();
-            case RoleTypes.Mason:
-                return new MasonRole();
-            case RoleTypes.Revealer:
-                return new RevealerRole();
-            default:
-                throw new NotSupportedException($"{nameof(BuildGameRole)} doesn't know how to create a role for {roleType}");
+            // Find all RoleForAttributes in the project
+            IEnumerable<Type> types = Assembly.GetExecutingAssembly().GetTypes().Where(t => t.IsDefined(typeof(RoleForAttribute)));
+            
+            // For each type that had a RoleForAttribute, add it to the dictionary
+            _roleInstances = new Dictionary<RoleTypes, Type>();
+            foreach (Type type in types)
+            {
+                RoleForAttribute attr = type.GetCustomAttribute<RoleForAttribute>()!;
+                _roleInstances[attr.Role] = type;
+            }
         }
+
+        // Create the instance and return it
+        return _roleInstances.ContainsKey(roleType)
+            ? (RoleBase)Activator.CreateInstance(_roleInstances[roleType])!
+            : throw new NotSupportedException($"{nameof(BuildGameRole)} doesn't know how to create a role for {roleType}");
     }
 
     /// <summary>

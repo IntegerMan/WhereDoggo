@@ -5,6 +5,7 @@
 /// The sentinel may optionally place a shield token on a player during the night
 /// </summary>
 /// <href>http://onenightultimate.com/?p=43</href>
+[RoleFor(RoleTypes.Sentinel)]
 public class SentinelRole : RoleBase
 {
     /// <inheritdoc />

@@ -1,5 +1,6 @@
 ﻿using System;
 using MattEland.WhereDoggo.Core.Events;
+using MattEland.WhereDoggo.Core.Tests.Strategies;
 
 namespace MattEland.WhereDoggo.Core.Tests.Roles;
 
@@ -51,7 +52,7 @@ public class SentinelTests : GameTestsBase
             RoleTypes.Villager,
             RoleTypes.Villager
         };
-        Game game = new(assignedRoles, randomizeSlots: false);
+        Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
         player.Strategies.SentinelTokenPlacementStrategy = new SelectSpecificSlotPlacementStrategy(1); // WW player
 
@@ -102,7 +103,7 @@ public class SentinelTests : GameTestsBase
             RoleTypes.Villager,
             RoleTypes.Villager
         };
-        Game game = new(assignedRoles, randomizeSlots: false);
+        Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
         player.Strategies.SentinelTokenPlacementStrategy = new OptOutSlotSelectionStrategy();
 
@@ -128,7 +129,7 @@ public class SentinelTests : GameTestsBase
             RoleTypes.Villager,
             RoleTypes.Villager
         };
-        Game game = new(assignedRoles, randomizeSlots: false);
+        Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
         player.Strategies.SentinelTokenPlacementStrategy = new OptOutSlotSelectionStrategy();
 
@@ -211,7 +212,7 @@ public class SentinelTests : GameTestsBase
             RoleTypes.Villager,
             RoleTypes.Villager
         };
-        Game game = new(assignedRoles, randomizeSlots: false);
+        Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
         player.Strategies.SentinelTokenPlacementStrategy = new SelectSpecificSlotPlacementStrategy(0); // Sentinel
 

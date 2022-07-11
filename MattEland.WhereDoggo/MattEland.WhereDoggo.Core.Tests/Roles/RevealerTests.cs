@@ -1,11 +1,13 @@
 ﻿using System;
 using MattEland.WhereDoggo.Core.Events;
+using MattEland.WhereDoggo.Core.Tests.Strategies;
 
 namespace MattEland.WhereDoggo.Core.Tests.Roles;
 
 /// <summary>
 /// Tests for the <see cref="RevealerRole"/>
 /// </summary>
+[Category("Roles")]
 public class RevealerTests : GameTestsBase
 {
     [Test]
@@ -23,7 +25,7 @@ public class RevealerTests : GameTestsBase
             RoleTypes.Werewolf,
             RoleTypes.Villager
         };
-        Game game = new(assignedRoles, randomizeSlots: false);
+        Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
         player.Strategies.PickSingleCardStrategy = new SelectSpecificSlotPlacementStrategy(1);
 
@@ -51,7 +53,7 @@ public class RevealerTests : GameTestsBase
             RoleTypes.Werewolf,
             RoleTypes.Villager
         };
-        Game game = new(assignedRoles, randomizeSlots: false);
+        Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
         player.Strategies.PickSingleCardStrategy = new SelectSpecificSlotPlacementStrategy(0);
 
@@ -74,7 +76,7 @@ public class RevealerTests : GameTestsBase
             RoleTypes.Werewolf,
             RoleTypes.Villager
         };
-        Game game = new(assignedRoles, randomizeSlots: false);
+        Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
         player.Strategies.PickSingleCardStrategy = new SelectSpecificSlotPlacementStrategy(1);
         game.Run();
@@ -104,7 +106,7 @@ public class RevealerTests : GameTestsBase
             RoleTypes.Werewolf,
             RoleTypes.Villager
         };
-        Game game = new(assignedRoles, randomizeSlots: false);
+        Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
         player.Strategies.PickSingleCardStrategy = new SelectSpecificSlotPlacementStrategy(1);
         
@@ -119,7 +121,7 @@ public class RevealerTests : GameTestsBase
     }
     
     [Test] 
-    public void AllPlayersShouldKnowRevealerInPlayWhenCardIsRevealed()
+    public void OtherPlayersShouldKnowRevealerInPlayWhenCardIsRevealed()
     {
         // Arrange
         RoleTypes[] assignedRoles =
@@ -133,7 +135,7 @@ public class RevealerTests : GameTestsBase
             RoleTypes.Werewolf,
             RoleTypes.Villager
         };
-        Game game = new(assignedRoles, randomizeSlots: false);
+        Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
         player.Strategies.PickSingleCardStrategy = new SelectSpecificSlotPlacementStrategy(1);
         
@@ -141,7 +143,7 @@ public class RevealerTests : GameTestsBase
         game.Run();
 
         // Assert
-        foreach (GamePlayer p in game.Players)
+        foreach (GamePlayer p in game.Players.Where(p => p != player))
         {
             IDictionary<RoleContainerBase, CardProbabilities> probabilities = p.Brain.BuildFinalRoleProbabilities();
             foreach (CenterCardSlot slot in game.CenterSlots)
@@ -166,7 +168,7 @@ public class RevealerTests : GameTestsBase
             RoleTypes.Werewolf,
             RoleTypes.Villager
         };
-        Game game = new(assignedRoles, randomizeSlots: false);
+        Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
         player.Strategies.PickSingleCardStrategy = new OptOutSlotSelectionStrategy();
         
@@ -192,7 +194,7 @@ public class RevealerTests : GameTestsBase
             RoleTypes.Werewolf,
             RoleTypes.Villager
         };
-        Game game = new(assignedRoles, randomizeSlots: false);
+        Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
         player.Strategies.PickSingleCardStrategy = new SelectSpecificSlotPlacementStrategy(2);
 
@@ -221,7 +223,7 @@ public class RevealerTests : GameTestsBase
             RoleTypes.Werewolf,
             RoleTypes.Villager
         };
-        Game game = new(assignedRoles, randomizeSlots: false);
+        Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
         player.Strategies.PickSingleCardStrategy = new SelectSpecificSlotPlacementStrategy(2);
         game.Run();

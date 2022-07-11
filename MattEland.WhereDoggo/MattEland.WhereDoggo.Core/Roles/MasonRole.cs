@@ -7,6 +7,7 @@ namespace MattEland.WhereDoggo.Core.Roles;
 /// Masons wake up in the night and observe other masons.
 /// </summary>
 /// <href>http://onenightultimate.com/?p=48</href>
+[RoleFor(RoleTypes.Mason)]
 public class MasonRole : RoleBase
 {
     /// <inheritdoc />

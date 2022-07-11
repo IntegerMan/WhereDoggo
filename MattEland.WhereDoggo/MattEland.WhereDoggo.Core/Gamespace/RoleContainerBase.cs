@@ -20,5 +20,6 @@ public abstract class RoleContainerBase
     /// </summary>
     public bool IsRevealed { get; set; }
 
+    /// <inheritdoc />
     public override string ToString() => Name;
 }

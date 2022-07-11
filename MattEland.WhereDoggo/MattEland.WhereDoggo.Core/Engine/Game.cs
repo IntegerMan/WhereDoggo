@@ -40,24 +40,28 @@ public class Game
     /// Instantiates a new game with the specified roles.
     /// </summary>
     /// <param name="roles">The roles to include in the game</param>
-    /// <param name="randomizeSlots">Whether or not the roles should be shuffled into different slots. Defaults to true, but can be false for testing</param>
-    public Game(ICollection<RoleTypes> roles, bool randomizeSlots = true)
+    /// <param name="options">Options related to launching the game</param>
+    public Game(ICollection<RoleTypes> roles, GameOptions? options = null)
     {
+        this.Options = options ?? new GameOptions();
         this.NumPlayers = roles.Count - NumCenterCards;
 
         _roles = roles.Select(r => r.BuildGameRole()).ToList();
         
-        string[] playerNames = { "Alice", "Bob", "Rufus", "Jimothy", "Wonko the Sane" };
-
         _roleContainers = new List<RoleContainerBase>(NumPlayers + NumCenterCards);
 
-        if (randomizeSlots)
+        if (Options.RandomizeSlots)
         {
-            _roles = _roles.OrderBy(r => _random.Next() * _random.Next()).ToList();
+            _roles = _roles.OrderBy(r => Randomizer.Next() * Randomizer.Next()).ToList();
         }
 
-        _players = InitializePlayersAndCenterCards(playerNames);
+        _players = InitializePlayersAndCenterCards(Options.PlayerNames);
     }
+
+    /// <summary>
+    /// Gets the options this game was created with
+    /// </summary>
+    public GameOptions Options { get; }
 
     private List<GamePlayer> InitializePlayersAndCenterCards(IReadOnlyList<string> playerNames)
     {
@@ -66,7 +70,7 @@ public class Game
         {
             if (i < NumPlayers)
             {
-                _roleContainers.Add(new GamePlayer(playerNames[i], _roles[i], this, _random));
+                _roleContainers.Add(new GamePlayer(playerNames[i], _roles[i], this, Randomizer));
             }
             else
             {
@@ -174,7 +178,6 @@ public class Game
         }
     }
 
-    private readonly Random _random = new();
     private readonly List<CenterCardSlot> _centerSlots = new(NumCenterCards);
 
     /// <summary>
@@ -218,7 +221,7 @@ public class Game
         // Get votes for individual players
         foreach (GamePlayer player in Players)
         {
-            GamePlayer votedPlayer = player.DetermineVoteTarget(_random);
+            GamePlayer votedPlayer = player.DetermineVoteTarget(Randomizer);
 
             VotedEvent votedEvent = new(player, votedPlayer);
             LogEvent(votedEvent);
@@ -254,6 +257,11 @@ public class Game
     /// The result of the game. This will be null if the game is not over
     /// </summary>
     public GameResult? Result { get; private set; }
+
+    /// <summary>
+    /// The randomizer associated with this instance
+    /// </summary>
+    public Random Randomizer { get; } = new();
 
     /// <summary>
     /// Performs the night phase where players wake up and perform their night actions

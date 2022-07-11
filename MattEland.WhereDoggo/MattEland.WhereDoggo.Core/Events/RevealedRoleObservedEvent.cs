@@ -1,7 +1,7 @@
 ﻿namespace MattEland.WhereDoggo.Core.Events;
 
 /// <summary>
-/// Occurs when someone observes a role exposed by a <see cref="RevealerRole"/>
+/// Occurs when someone observes a role exposed by a <see cref="RevealerRole"/> or an <see cref="ExposerRole"/>
 /// </summary>
 public class RevealedRoleObservedEvent : KnowsRoleEvent
 {
@@ -22,7 +22,14 @@ public class RevealedRoleObservedEvent : KnowsRoleEvent
     public override void UpdatePlayerPerceptions(GamePlayer observer, RoleContainerBase target, CardProbabilities probabilities)
     {
         base.UpdatePlayerPerceptions(observer, target, probabilities);
-
-        probabilities.MarkRoleAsInPlay(RoleTypes.Revealer);
+        
+        if (Target is CenterCardSlot)
+        {
+            probabilities.MarkRoleAsInPlay(RoleTypes.Exposer);
+        }
+        else
+        {
+            probabilities.MarkRoleAsInPlay(RoleTypes.Revealer);
+        }
     }
 }

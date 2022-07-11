@@ -1,7 +1,7 @@
 ﻿namespace MattEland.WhereDoggo.Core.Events;
 
 /// <summary>
-/// Occurs when a revealer reveals a card.
+/// Occurs when a <see cref="RevealerRole"/> or an <see cref="ExposerRole"/> reveals a card.
 /// </summary>
 public class RevealedRoleEvent : TargetedEventBase
 {

@@ -1,5 +1,10 @@
 ﻿namespace MattEland.WhereDoggo.Core.Roles;
 
+/// <summary>
+/// A villager in One Night Ultimate Werewolf.
+/// Villagers have no night ability and have very little information but are on the village team.
+/// </summary>
+[RoleFor(RoleTypes.Villager)]
 public class VillagerRole : RoleBase
 {
     /// <inheritdoc />
