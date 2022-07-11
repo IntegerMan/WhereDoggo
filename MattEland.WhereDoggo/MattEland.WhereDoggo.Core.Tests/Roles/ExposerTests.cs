@@ -46,9 +46,11 @@ public class ExposerTests : GameTestsBase
             RoleTypes.Werewolf,
             RoleTypes.Villager
         };
+        GameOptions options = CreateGameOptions();
+        options.ExposerOptions.ForceNumberOfCardsRevealed(numCards);
 
         // Act
-        Game game = RunGame(assignedRoles);
+        Game game = RunGame(assignedRoles, options);
 
         // Assert
         game.CenterSlots.Count(s => s.IsRevealed).ShouldBe(numCards);
@@ -71,9 +73,11 @@ public class ExposerTests : GameTestsBase
             RoleTypes.Werewolf,
             RoleTypes.Villager
         };
+        GameOptions options = CreateGameOptions();
+        options.ExposerOptions.ForceNumberOfCardsRevealed(numCards);
 
         // Act
-        Game game = RunGame(assignedRoles);
+        Game game = RunGame(assignedRoles, options);
 
         // Assert
         game.Players.First().Events.Count(e => e is RevealedRoleEvent).ShouldBe(numCards);
@@ -126,9 +130,11 @@ public class ExposerTests : GameTestsBase
             RoleTypes.Werewolf,
             RoleTypes.Villager
         };
+        GameOptions options = CreateGameOptions();
+        options.ExposerOptions.ForceNumberOfCardsRevealed(numCards);
 
         // Act
-        Game game = RunGame(assignedRoles);
+        Game game = RunGame(assignedRoles, options);
 
         // Assert
         foreach (GamePlayer p in game.Players)
@@ -152,7 +158,7 @@ public class ExposerTests : GameTestsBase
             RoleTypes.Werewolf,
             RoleTypes.Villager
         };
-        Game game = new(assignedRoles, randomizeSlots: false);
+        Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
         player.Strategies.PickSingleCardStrategy = new OptOutSlotSelectionStrategy();
 

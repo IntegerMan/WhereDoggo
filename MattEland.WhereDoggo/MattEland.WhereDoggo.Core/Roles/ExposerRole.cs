@@ -20,14 +20,20 @@ public class ExposerRole : RoleBase
     /// <inheritdoc />
     public override void PerformNightAction(Game game, GamePlayer player)
     {
-        RoleContainerBase? card = player.Strategies.PickSingleCardStrategy.SelectCard(game.CenterSlots.Where(c => !c.IsRevealed));
+        int numToExpose = game.Options.ExposerOptions.DetermineCardsToExpose(game.Randomizer);
 
-        if (card == null)
+        for (int i = 0; i < numToExpose; i++)
         {
-            game.LogEvent(new SkippedNightActionEvent(player));
-        }
-        else
-        {
+            RoleContainerBase? card =
+                player.Strategies.PickSingleCardStrategy.SelectCard(game.CenterSlots.Where(c => !c.IsRevealed));
+
+            // Exposers may choose to skip exposing things
+            if (card == null)
+            {
+                game.LogEvent(new SkippedNightActionEvent(player));
+                return;
+            }
+
             card.IsRevealed = true;
             game.LogEvent(new RevealedRoleEvent(player, card));
             game.LogEvent(new RevealedRoleObservedEvent(game.CurrentPhase, player, card));

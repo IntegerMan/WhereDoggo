@@ -25,7 +25,7 @@ public class RevealerTests : GameTestsBase
             RoleTypes.Werewolf,
             RoleTypes.Villager
         };
-        Game game = new(assignedRoles, randomizeSlots: false);
+        Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
         player.Strategies.PickSingleCardStrategy = new SelectSpecificSlotPlacementStrategy(1);
 
@@ -53,7 +53,7 @@ public class RevealerTests : GameTestsBase
             RoleTypes.Werewolf,
             RoleTypes.Villager
         };
-        Game game = new(assignedRoles, randomizeSlots: false);
+        Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
         player.Strategies.PickSingleCardStrategy = new SelectSpecificSlotPlacementStrategy(0);
 
@@ -76,7 +76,7 @@ public class RevealerTests : GameTestsBase
             RoleTypes.Werewolf,
             RoleTypes.Villager
         };
-        Game game = new(assignedRoles, randomizeSlots: false);
+        Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
         player.Strategies.PickSingleCardStrategy = new SelectSpecificSlotPlacementStrategy(1);
         game.Run();
@@ -106,7 +106,7 @@ public class RevealerTests : GameTestsBase
             RoleTypes.Werewolf,
             RoleTypes.Villager
         };
-        Game game = new(assignedRoles, randomizeSlots: false);
+        Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
         player.Strategies.PickSingleCardStrategy = new SelectSpecificSlotPlacementStrategy(1);
         
@@ -135,7 +135,7 @@ public class RevealerTests : GameTestsBase
             RoleTypes.Werewolf,
             RoleTypes.Villager
         };
-        Game game = new(assignedRoles, randomizeSlots: false);
+        Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
         player.Strategies.PickSingleCardStrategy = new SelectSpecificSlotPlacementStrategy(1);
         
@@ -168,7 +168,7 @@ public class RevealerTests : GameTestsBase
             RoleTypes.Werewolf,
             RoleTypes.Villager
         };
-        Game game = new(assignedRoles, randomizeSlots: false);
+        Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
         player.Strategies.PickSingleCardStrategy = new OptOutSlotSelectionStrategy();
         
@@ -194,7 +194,7 @@ public class RevealerTests : GameTestsBase
             RoleTypes.Werewolf,
             RoleTypes.Villager
         };
-        Game game = new(assignedRoles, randomizeSlots: false);
+        Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
         player.Strategies.PickSingleCardStrategy = new SelectSpecificSlotPlacementStrategy(2);
 
@@ -223,7 +223,7 @@ public class RevealerTests : GameTestsBase
             RoleTypes.Werewolf,
             RoleTypes.Villager
         };
-        Game game = new(assignedRoles, randomizeSlots: false);
+        Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
         player.Strategies.PickSingleCardStrategy = new SelectSpecificSlotPlacementStrategy(2);
         game.Run();

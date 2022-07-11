@@ -48,7 +48,7 @@ public class WerewolfTests : GameTestsBase
             RoleTypes.Villager,
             RoleTypes.Villager
         };
-        Game game = new(assignedRoles, randomizeSlots: false);
+        Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
         player.Strategies.PickSingleCardStrategy = new SelectSpecificSlotPlacementStrategy(0);
         game.Run();
@@ -103,7 +103,7 @@ public class WerewolfTests : GameTestsBase
             RoleTypes.Villager,
             RoleTypes.Villager
         };
-        Game game = new(assignedRoles, randomizeSlots: false);
+        Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
         player.Strategies.PickSingleCardStrategy = new OptOutSlotSelectionStrategy();
         game.Run();
@@ -128,7 +128,7 @@ public class WerewolfTests : GameTestsBase
             RoleTypes.Villager,
             RoleTypes.Villager
         };
-        Game game = new(assignedRoles, randomizeSlots: false);
+        Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
         player.Strategies.PickSingleCardStrategy = new SelectSpecificSlotPlacementStrategy(1);
         game.Start();
