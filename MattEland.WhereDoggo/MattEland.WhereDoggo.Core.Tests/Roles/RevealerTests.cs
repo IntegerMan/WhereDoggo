@@ -32,7 +32,9 @@ public class RevealerTests : GameTestsBase
 
         // Assert
         game.Players[1].IsRevealed.ShouldBeTrue();
-    }    
+        player.Events.ShouldContain(e => e is RevealedRoleEvent);
+        player.Events.ShouldContain(e => e is RevealedRoleObservedEvent);
+    }        
     
     [Test]
     public void RevealerShouldNotBeAbleToRevealThemselves()
@@ -82,7 +84,7 @@ public class RevealerTests : GameTestsBase
         {
             IDictionary<RoleContainerBase, CardProbabilities> probabilities = p.Brain.BuildFinalRoleProbabilities();
             // Assert
-            probabilities[game.Players[1]].LikelyRole.ShouldBe(RoleTypes.Villager);
+            probabilities[game.Players[1]].ProbableRole.ShouldBe(RoleTypes.Villager);
             probabilities[game.Players[1]].IsCertain.ShouldBeTrue();
         }
     }
@@ -116,6 +118,65 @@ public class RevealerTests : GameTestsBase
         }
     }
     
+    [Test] 
+    public void AllPlayersShouldKnowRevealerInPlayWhenCardIsRevealed()
+    {
+        // Arrange
+        RoleTypes[] assignedRoles =
+        {
+            // Player Roles
+            RoleTypes.Revealer,
+            RoleTypes.Villager,
+            RoleTypes.Werewolf,
+            // Center Cards
+            RoleTypes.Insomniac,
+            RoleTypes.Werewolf,
+            RoleTypes.Villager
+        };
+        Game game = new(assignedRoles, randomizeSlots: false);
+        GamePlayer player = game.Players.First();
+        player.Strategies.PickSingleCardStrategy = new SelectSpecificSlotPlacementStrategy(1);
+        
+        // Act
+        game.Run();
+
+        // Assert
+        foreach (GamePlayer p in game.Players)
+        {
+            IDictionary<RoleContainerBase, CardProbabilities> probabilities = p.Brain.BuildFinalRoleProbabilities();
+            foreach (CenterCardSlot slot in game.CenterSlots)
+            {
+                probabilities[slot].Probabilities[RoleTypes.Revealer].ShouldBe(0);
+            }
+        }
+    }
+    
+    [Test] 
+    public void RevealerWhoDoesNotRevealShouldHaveSkippedEvent()
+    {
+        // Arrange
+        RoleTypes[] assignedRoles =
+        {
+            // Player Roles
+            RoleTypes.Revealer,
+            RoleTypes.Villager,
+            RoleTypes.Werewolf,
+            // Center Cards
+            RoleTypes.Insomniac,
+            RoleTypes.Werewolf,
+            RoleTypes.Villager
+        };
+        Game game = new(assignedRoles, randomizeSlots: false);
+        GamePlayer player = game.Players.First();
+        player.Strategies.PickSingleCardStrategy = new OptOutSlotSelectionStrategy();
+        
+        // Act
+        game.Run();
+
+        // Assert
+        player.Events.ShouldContain(e => e is SkippedNightActionEvent);
+    }
+    
     [Test]
     public void RevealerShouldNotRevealWerewolves()
     {
@@ -140,6 +201,9 @@ public class RevealerTests : GameTestsBase
 
         // Assert
         game.Players[2].IsRevealed.ShouldBeFalse();
+        player.Events.ShouldContain(e => e is RevealedRoleEvent);
+        player.Events.ShouldContain(e => e is RevealedRoleObservedEvent);
+        player.Events.ShouldContain(e => e is RevealerHidEvilRoleEvent);
     }
 
     [Test]
@@ -165,7 +229,7 @@ public class RevealerTests : GameTestsBase
         // Act
         IDictionary<RoleContainerBase, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();
         // Assert
-        probabilities[game.Players[2]].LikelyRole.ShouldBe(RoleTypes.Werewolf);
+        probabilities[game.Players[2]].ProbableRole.ShouldBe(RoleTypes.Werewolf);
         probabilities[game.Players[2]].IsCertain.ShouldBeTrue();
     }
     

@@ -59,7 +59,7 @@ public class PlayerInferenceEngine
     {
         foreach (RoleContainerBase role in _game.Entities)
         {
-            cardProbabilities[role] = new CardProbabilities(_game);
+            cardProbabilities[role] = new CardProbabilities(_game, role is CenterCardSlot);
 
             foreach (GameEventBase observedEvent in _player.Events)
             {
@@ -68,7 +68,7 @@ public class PlayerInferenceEngine
 
             if (cardProbabilities[role].IsCertain)
             {
-                counts[cardProbabilities[role].LikelyRole] -= 1;
+                counts[cardProbabilities[role].ProbableRole] -= 1;
             }
         }
     }
