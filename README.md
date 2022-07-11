@@ -2,7 +2,8 @@
 
 This project is an AI simulation of a variant of the popular One Night Ultimate Werewolf games by [Bezier Games](https://beziergames.com/).
 
-One Night Ultimate Werewolf is copyright by Bezier Games Inc. This project is a non-commercial work intended for AI research only.
+One Night Ultimate Werewolf is copyright by Bezier Games Inc. 
+This project is a non-commercial work intended for AI research only.
 
 The purpose of this project is to try to build AI bots that can make reasoned deductions in a social deduction type of game and decieve each other and potentially even human players.
 
@@ -87,6 +88,7 @@ Planned features in Phase 1 are:
 - [x] Simple voting
 - [ ] Claiming Roles
 - [ ] Wolves Falsely Claiming Roles (most probable center card given existing claims)
+- [ ] Suspecting fake claims
 - [ ] Seer / Apprentice Seer Claims share what card they viewed
 - [ ] Voting in a Circle (if thinking no werewolves present)
 - [ ] Random Game Generator
@@ -97,33 +99,56 @@ This phase focuses on additional roles that want to be detected / voted.
 
 Planned roles:
 
-- [ ] Beholder*
-- [ ] Squire*
 - [ ] Hunter
 - [ ] Minion
 - [ ] Bodyguard
 - [ ] Tanner
-- [ ] Apprentice Tanner
 - [ ] Mortician
+- [ ] Prince
+
+Planned features:
+
+- [ ] Players sharing their suspicions
+- [ ] Voting factoring in suspicions of others
+- [ ] Tanner AI
+- [ ] Minion AI
+- [ ] Mortician Randomness
+
+### Phase 3 - Complex Roles
+
+This phase focuses on additional roles that want to be detected / voted.
+
+Planned roles:
+
+- [ ] Beholder*
+- [ ] Squire*
+- [ ] Apprentice Tanner
 - [ ] Paranormal Investigator
 - [ ] Psychic
 - [ ] Blob
 - [ ] Aura Seer
-- [ ] Prince
 - [ ] Cursed
 
 _Note: the **beholder**, and **squire** roles don't make complete sense until paired with card moving abilities and will be expanded as features grow, but adding them early helped establish baseline AI deductive capabilities_
 
 Planned features:
 
-- [ ] Suspecting fake claims
-- [ ] Players sharing their suspicions
-- [ ] Voting factoring in suspicions of others
-- [ ] Tanner AI
-- [ ] Mortician Randomness
 - [ ] Windows Client
 
-### Phase 3 - Card Moving
+### Phase 4 - Wolves-Only Card Moving
+
+Planned roles:
+
+- [ ] Alpha Wolf
+- [ ] Dream Wolf
+
+Planned features:
+
+- [ ] Phase by phase probabilistic model of the board
+- [ ] AI Agents attempt to determine which team they're on
+- [ ] Ex-apprentice tanner will identify old tanner
+
+### Phase 5 - Card Moving
 
 Planned roles:
 
@@ -146,7 +171,7 @@ Planned features:
 - [ ] Witch will sometimes take dream wolf card
 - [ ] Drunk will sometimes take dream wolf card
 
-### Roles not currently roadmapped
+### Roles not currently Roadmapped
 
 - Mark-Related Roles
 	- Vampire
@@ -176,7 +201,6 @@ Planned features:
 	- Doppleganger 
 	- Oracle
 	- Empath
-
 
 ## Technology
 
