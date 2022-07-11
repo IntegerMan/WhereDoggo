@@ -5,6 +5,7 @@
 /// The apprentice seer can view one card in the middle, much like a Lone Werewolf can.
 /// </summary>
 /// <href>http://onenightultimate.com/?p=53</href>
+[RoleFor(RoleTypes.ApprenticeSeer)]
 public class ApprenticeSeerRole : RoleBase
 {
     /// <inheritdoc />

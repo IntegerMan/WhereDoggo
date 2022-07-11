@@ -6,6 +6,7 @@
 /// The Exposer may reveal a random number (1-3) of cards from the center
 /// </summary>
 /// <href>https://one-night.fandom.com/wiki/Exposer</href>
+[RoleFor(RoleTypes.Exposer)]
 public class ExposerRole : RoleBase
 {
     /// <inheritdoc />

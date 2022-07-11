@@ -8,6 +8,7 @@
 /// they may look at a center card.
 /// </summary>
 /// <href>http://onenightultimate.com/?p=33</href>
+[RoleFor(RoleTypes.Werewolf)]
 public class WerewolfRole : RoleBase
 {
     /// <inheritdoc />
