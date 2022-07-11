@@ -1,6 +1,5 @@
 ﻿namespace MattEland.WhereDoggo.Core.Roles;
 
-
 /// <summary>
 /// The Exposer role from One Night Ultimate Werewolf Alien expansion.
 /// The Exposer may reveal a random number (1-3) of cards from the center
@@ -16,11 +15,11 @@ public class ExposerRole : RoleBase
     public override Teams Team => Teams.Villagers;
 
     /// <inheritdoc />
-    public override decimal? NightActionOrder { get; }
+    public override decimal? NightActionOrder => 10.2m;
 
     /// <inheritdoc />
     public override void PerformNightAction(Game game, GamePlayer player)
     {
-        base.PerformNightAction(game, player);
+        
     }
 }

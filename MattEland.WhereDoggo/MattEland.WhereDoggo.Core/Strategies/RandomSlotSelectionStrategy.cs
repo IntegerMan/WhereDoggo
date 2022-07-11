@@ -7,11 +7,13 @@ public class RandomSlotSelectionStrategy : SlotSelectionStrategyBase
 {
     private readonly Random _random;
 
-    public RandomSlotSelectionStrategy(Random random)
-    {
-        _random = random;
-    }
+    /// <summary>
+    /// Instantiates a new instance of the <see cref="RandomSlotSelectionStrategy"/> class.
+    /// </summary>
+    /// <param name="random">The randomizer to use</param>
+    public RandomSlotSelectionStrategy(Random random) => _random = random;
 
-    public override RoleContainerBase? SelectCard(IEnumerable<RoleContainerBase> slots) 
-        => slots.ToList().GetRandomElement(_random)!;
+    /// <inheritdoc />
+    public override RoleContainerBase? SelectCard(IEnumerable<RoleContainerBase> options) 
+        => options.ToList().GetRandomElement(_random)!;
 }

@@ -6,14 +6,20 @@
 public class RandomNotSelfSlotSelectionStrategy : SlotSelectionStrategyBase
 {
     private readonly Random _random;
-    private readonly GamePlayer _self;
+    private readonly GamePlayer _avoidSelecting;
 
-    public RandomNotSelfSlotSelectionStrategy(Random random, GamePlayer self)
+    /// <summary>
+    /// Instantiates a new instance of the <see cref="RandomNotSelfSlotSelectionStrategy"/> class.
+    /// </summary>
+    /// <param name="random">The randomizer to use</param>
+    /// <param name="avoidSelecting">The player to avoid selecting.</param>   
+    public RandomNotSelfSlotSelectionStrategy(Random random, GamePlayer avoidSelecting)
     {
         _random = random;
-        _self = self;
+        _avoidSelecting = avoidSelecting;
     }
 
-    public override RoleContainerBase? SelectCard(IEnumerable<RoleContainerBase> slots)
-        => slots.Where(s => s != _self).ToList().GetRandomElement(_random)!;
+    /// <inheritdoc />
+    public override RoleContainerBase? SelectCard(IEnumerable<RoleContainerBase> options)
+        => options.Where(s => s != _avoidSelecting).ToList().GetRandomElement(_random)!;
 }

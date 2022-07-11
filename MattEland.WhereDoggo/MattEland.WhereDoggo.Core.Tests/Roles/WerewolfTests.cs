@@ -1,4 +1,5 @@
 ﻿using MattEland.WhereDoggo.Core.Events;
+using MattEland.WhereDoggo.Core.Tests.Strategies;
 
 namespace MattEland.WhereDoggo.Core.Tests.Roles;
 
