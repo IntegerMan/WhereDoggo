@@ -17,4 +17,13 @@ public class RevealedRoleObservedEvent : KnowsRoleEvent
 
     /// <inheritdoc />
     public override string ToString() => $"{Player} saw that {Target} was revealed as {ObservedRole}";
+
+    /// <inheritdoc />
+    public override void UpdatePlayerPerceptions(GamePlayer observer, RoleContainerBase target, CardProbabilities probabilities)
+    {
+        if (target == Target)
+        {
+            probabilities.MarkRoleAsInPlay(RoleTypes.Revealer);
+        }
+    }
 }

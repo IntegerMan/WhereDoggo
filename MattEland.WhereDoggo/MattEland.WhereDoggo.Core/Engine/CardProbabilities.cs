@@ -7,20 +7,39 @@ namespace MattEland.WhereDoggo.Core.Engine;
 /// </summary>
 public class CardProbabilities
 {
-    public CardProbabilities(Game game)
+    /// <summary>
+    /// Instantiates an instance of <see cref="CardProbabilities"/>.
+    /// </summary>
+    /// <param name="game">The game</param>
+    /// <param name="isCenterCard">Whether or not this slot represents a center card</param>
+    public CardProbabilities(Game game, bool isCenterCard)
     {
+        IsCenterCard = isCenterCard;
         Dictionary<RoleTypes, int> roleCounts = game.BuildRoleCounts();
 
         RecalculateProbability(roleCounts);
     }
 
-    public CardProbabilities(IDictionary<RoleTypes, int> roleCounts)
+    /// <summary>
+    /// Instantiates an instance of <see cref="CardProbabilities"/>.
+    /// </summary>
+    /// <param name="isCenterCard">Whether or not this slot represents a center card</param>
+    /// <param name="roleCounts">The count of various roles and their occurrences in play</param>
+    public CardProbabilities(IDictionary<RoleTypes, int> roleCounts, bool isCenterCard)
     {
+        IsCenterCard = isCenterCard;
         RecalculateProbability(roleCounts);
     }
 
+    /// <summary>
+    /// Gets the probabilities of the card being each role.
+    /// </summary>
     public IDictionary<RoleTypes, decimal> Probabilities { get; } = new Dictionary<RoleTypes, decimal>();
 
+    /// <summary>
+    /// Recalculates the probabilities of the card being each role.
+    /// </summary>
+    /// <param name="originalCounts">The count of roles in the game</param>
     public void RecalculateProbability(IDictionary<RoleTypes, int> originalCounts)
     {
         Probabilities.Clear();
@@ -96,6 +115,9 @@ public class CardProbabilities
     /// </summary>
     public bool IsCertain { get; private set; }
 
+    /// <summary>
+    /// The probability of the card belonging to various teams
+    /// </summary>
     public IDictionary<Teams, decimal> TeamProbabilities
     {
         get
@@ -118,6 +140,9 @@ public class CardProbabilities
         }
     }
 
+    /// <summary>
+    /// Gets the probable team the card belongs to
+    /// </summary>
     public Teams ProbableTeams
     {
         get
@@ -130,7 +155,10 @@ public class CardProbabilities
         }
     }
 
-    public RoleTypes LikelyRole => Probabilities.MaxBy(kvp => kvp.Value).Key;
+    /// <summary>
+    /// Gets the probable role the card has
+    /// </summary>
+    public RoleTypes ProbableRole => Probabilities.MaxBy(kvp => kvp.Value).Key;
 
     /// <inheritdoc />
     public override string ToString()
@@ -153,6 +181,10 @@ public class CardProbabilities
         return sb.ToString().Trim();
     }
 
+    /// <summary>
+    /// Marks that this card cannot be a specific role
+    /// </summary>
+    /// <param name="role">The role that this card cannot be</param>
     public void MarkAsCannotBeRole(RoleTypes role)
     {
         Probabilities[role] = 0;
@@ -161,5 +193,32 @@ public class CardProbabilities
 
     private HashSet<RoleTypes> CannotBe { get; } = new();
 
+    /// <summary>
+    /// Calculates the probability that the card is on a specific team
+    /// </summary>
+    /// <param name="teams">The team to check</param>
+    /// <returns>The probability that the card is on that team</returns>
     public decimal CalculateTeamProbability(Teams teams) => TeamProbabilities[teams];
+
+    /// <summary>
+    /// Marks the specified role type as in play and not in the center set of cards.
+    /// </summary>
+    /// <param name="role">The role that must be in play</param>
+    public void MarkRoleAsInPlay(RoleTypes role)
+    {
+        if (IsCenterCard)
+        {
+            MarkAsCannotBeRole(role);
+        }
+    }
+
+    /// <summary>
+    /// Gets whether or not the card represents a card in the center
+    /// </summary>
+    public bool IsCenterCard { get; }
+
+    /// <summary>
+    /// Gets whether or not the card represents a player card
+    /// </summary>
+    public bool IsPlayerCard => !IsCenterCard;
 }

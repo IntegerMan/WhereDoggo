@@ -24,7 +24,7 @@ public class RevealerRole : RoleBase
 
         if (target == null)
         {
-            // TODO: Is this optional?
+            game.LogEvent(new SkippedNightActionEvent(player));
         }
         else if (target == player)
         {
