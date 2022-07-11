@@ -1,7 +1,7 @@
 ﻿namespace MattEland.WhereDoggo.Core.Events;
 
 /// <summary>
-/// Occurs when someone observes a role exposed by a <see cref="RevealerRole"/>
+/// Occurs when someone observes a role exposed by a <see cref="RevealerRole"/> or an <see cref="ExposerRole"/>
 /// </summary>
 public class RevealedRoleObservedEvent : KnowsRoleEvent
 {
