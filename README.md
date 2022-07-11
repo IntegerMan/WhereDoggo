@@ -71,7 +71,7 @@ Planned roles in Phase 1 are:
 - [x] Apprentice Seer
 - [x] Masons
 - [x] Revealer
-- [ ] Exposer
+- [x] Exposer
 - [ ] Mystic Wolf
 - [ ] The Thing
 - [ ] Seer

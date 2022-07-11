@@ -53,6 +53,8 @@ public static class RoleExtensions
                 return new MasonRole();
             case RoleTypes.Revealer:
                 return new RevealerRole();
+            case RoleTypes.Exposer:
+                return new ExposerRole();
             default:
                 throw new NotSupportedException($"{nameof(BuildGameRole)} doesn't know how to create a role for {roleType}");
         }

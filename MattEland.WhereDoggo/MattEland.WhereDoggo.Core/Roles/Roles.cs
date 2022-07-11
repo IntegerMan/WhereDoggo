@@ -39,5 +39,10 @@ public enum RoleTypes
     /// <summary>
     /// The <see cref="RevealerRole"/>
     /// </summary>
-    Revealer
+    Revealer,
+    
+    /// <summary>
+    /// The <see cref="ExposerRole"/>
+    /// </summary>
+    Exposer
 }
