@@ -31,6 +31,7 @@ Currently partial or complete support for the following roles is implemented:
 - Mason
 - Revealer
 - Exposer
+- Mystic Wolf
 
 ### Supported Capabilities
 
@@ -74,7 +75,7 @@ Planned roles in Phase 1 are:
 - [x] Masons
 - [x] Revealer
 - [x] Exposer
-- [ ] Mystic Wolf
+- [x] Mystic Wolf
 - [ ] The Thing
 - [ ] Seer
 
@@ -100,7 +101,6 @@ This phase focuses on additional roles that want to be detected / voted.
 Planned roles:
 
 - [ ] Hunter
-- [ ] Minion
 - [ ] Bodyguard
 - [ ] Tanner
 - [ ] Mortician
@@ -122,12 +122,9 @@ Planned roles:
 
 - [ ] Beholder*
 - [ ] Squire*
-- [ ] Apprentice Tanner
-- [ ] Paranormal Investigator
 - [ ] Psychic
-- [ ] Blob
 - [ ] Aura Seer
-- [ ] Cursed
+- [ ] Dream Wolf
 
 _Note: the **beholder**, and **squire** roles don't make complete sense until paired with card moving abilities and will be expanded as features grow, but adding them early helped establish baseline AI deductive capabilities_
 
@@ -135,12 +132,16 @@ Planned features:
 
 - [ ] Windows Client
 
-### Phase 4 - Wolves-Only Card Moving
+### Phase 4 - Shifting Alliances (Small Scale)
 
 Planned roles:
 
 - [ ] Alpha Wolf
-- [ ] Dream Wolf
+- [ ] Minion
+- [ ] Blob
+- [ ] Apprentice Tanner
+- [ ] Paranormal Investigator
+- [ ] Cursed
 
 Planned features:
 
@@ -155,8 +156,6 @@ Planned roles:
 - [ ] Robber
 - [ ] Troublemaker
 - [ ] Witch
-- [ ] Alpha Wolf
-- [ ] Dream Wolf
 - [ ] Drunk
 - [ ] Village Idiot
 - [ ] Rascal
@@ -185,7 +184,7 @@ Planned features:
 	- Diseased
 	- Renfield
 	- The Master
-	- Investigator
+	- Instigator
 	- Assassin
 	- Apprentice Assassin
 - Alien-Related Roles
