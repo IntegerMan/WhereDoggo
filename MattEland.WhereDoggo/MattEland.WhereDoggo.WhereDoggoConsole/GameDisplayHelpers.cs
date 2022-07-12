@@ -15,19 +15,6 @@ public static class GameDisplayHelpers
         Console.WriteLine();
     }
 
-
-    public static void DisplayPlayerKnowledge(this GamePlayer player)
-    {
-        Console.WriteLine(player.Name + " knows:");
-
-        foreach (GameEventBase @event in player.Events)
-        {
-            Console.WriteLine($"\t{@event}");
-        }
-
-        Console.WriteLine();
-    }
-
     /// <summary>
     /// Gets a list of events that occurred inside the game during a specific phase.
     /// </summary>
@@ -69,8 +56,20 @@ public static class GameDisplayHelpers
 
             Console.WriteLine();
         }
-    }    
-    
+    }
+
+    public static void DisplayPlayerKnowledge(this GamePlayer player)
+    {
+        Console.WriteLine(player.Name + " knows:");
+
+        foreach (GameEventBase @event in player.Events)
+        {
+            Console.WriteLine($"\t{@event}");
+        }
+
+        Console.WriteLine();
+    }
+
     public static void DisplayAllEvents(this Game game)
     {
         Console.WriteLine("All Game Events:");

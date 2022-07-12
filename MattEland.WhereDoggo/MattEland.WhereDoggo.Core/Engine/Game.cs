@@ -188,7 +188,7 @@ public class Game
     /// <summary>
     /// Gets the name of the game
     /// </summary>
-    public string Name => "One Night Ultimate Werewolf";
+    public string Name => Options.GameName;
 
     /// <summary>
     /// Performs the day phase of the game where players wake up and look for events

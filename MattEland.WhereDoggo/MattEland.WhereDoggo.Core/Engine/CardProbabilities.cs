@@ -51,15 +51,12 @@ public class CardProbabilities
         }
 
         int remainingRoles = roleCounts.Values.Sum();
-        
+
         // If we have eliminated roles from consideration, do not consider them at all
-        foreach (KeyValuePair<RoleTypes, int> kvp in roleCounts)
+        foreach (KeyValuePair<RoleTypes, int> kvp in roleCounts.Where(kvp => CannotBe.Contains(kvp.Key)))
         {
-            if (CannotBe.Contains(kvp.Key))
-            {
-                remainingRoles -= kvp.Value;
-                roleCounts[kvp.Key] -= kvp.Value;
-            }
+            remainingRoles -= kvp.Value;
+            roleCounts[kvp.Key] -= kvp.Value;
         }
 
         // Now allocate probabilities based on the total of each card that is unaccounted for
@@ -93,17 +90,17 @@ public class CardProbabilities
     /// <param name="role">The role we are certain of.</param>
     public void MarkAsCertainOfRole(RoleTypes role)
     {
-        foreach (KeyValuePair<RoleTypes, decimal> kvp in Probabilities)
+        foreach (RoleTypes key in Probabilities.Keys)
         {
-            if (kvp.Key == role)
+            if (key == role)
             {
-                Probabilities[kvp.Key] = 1;
-                CannotBe.Remove(kvp.Key);
+                Probabilities[key] = 1;
+                CannotBe.Remove(key);
             }
             else
             {
-                Probabilities[kvp.Key] = 0;
-                CannotBe.Add(kvp.Key);
+                Probabilities[key] = 0;
+                CannotBe.Add(key);
             }
         }
 
@@ -128,7 +125,7 @@ public class CardProbabilities
             {
                 teamProbabilities[team] = 0;
             }
-            
+
             foreach (KeyValuePair<RoleTypes, decimal> kvp in Probabilities)
             {
                 Teams teams = kvp.Key.DetermineTeam();
@@ -147,8 +144,8 @@ public class CardProbabilities
     {
         get
         {
-            IDictionary<Teams,decimal> probabilities = TeamProbabilities;
-            
+            IDictionary<Teams, decimal> probabilities = TeamProbabilities;
+
             decimal maxProbability = probabilities.Values.Max();
 
             return probabilities.FirstOrDefault(kvp => kvp.Value >= maxProbability).Key;
