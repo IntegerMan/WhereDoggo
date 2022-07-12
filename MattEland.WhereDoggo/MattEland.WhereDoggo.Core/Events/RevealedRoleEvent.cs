@@ -10,7 +10,7 @@ public class RevealedRoleEvent : TargetedEventBase
     /// </summary>
     /// <param name="player">The revealer</param>
     /// <param name="target">The card being hidden</param>
-    public RevealedRoleEvent(GamePlayer player, RoleContainerBase target) : base(GamePhase.Night, player, target)
+    public RevealedRoleEvent(GamePlayer player, CardContainer target) : base(GamePhase.Night, player, target)
     {
     }
     

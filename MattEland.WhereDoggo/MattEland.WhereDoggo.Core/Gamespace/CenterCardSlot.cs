@@ -5,7 +5,7 @@
 /// This is used for storing cards that may be swapped, but do not have a
 /// player associated with them.
 /// </summary>
-public class CenterCardSlot : RoleContainerBase
+public class CenterCardSlot : CardContainer
 {
     /// <summary>
     /// Creates a new instance of a <see cref="CenterCardSlot"/> class.

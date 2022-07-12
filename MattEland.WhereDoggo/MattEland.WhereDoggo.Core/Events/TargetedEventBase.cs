@@ -11,7 +11,7 @@ public abstract class TargetedEventBase : GameEventBase
     /// <param name="phase">The phase the event occurred in</param>
     /// <param name="player"></param>
     /// <param name="target"></param>
-    protected TargetedEventBase(GamePhase phase, GamePlayer player, RoleContainerBase target) : base(phase, player)
+    protected TargetedEventBase(GamePhase phase, GamePlayer player, CardContainer target) : base(phase, player)
     {
         Target = target;
     }
@@ -19,5 +19,5 @@ public abstract class TargetedEventBase : GameEventBase
     /// <summary>
     /// Gets the target of the event.
     /// </summary>
-    public RoleContainerBase Target { get; }
+    public CardContainer Target { get; }
 }

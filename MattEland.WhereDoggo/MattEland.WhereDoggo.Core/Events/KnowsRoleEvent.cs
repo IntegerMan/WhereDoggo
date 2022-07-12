@@ -17,7 +17,7 @@ public class KnowsRoleEvent : TargetedEventBase
     /// <param name="phase">The phase of the game</param>
     /// <param name="observingPlayer">The player observing the other player</param>
     /// <param name="observedPlayer">The player being observed</param>
-    public KnowsRoleEvent(GamePhase phase, GamePlayer observingPlayer, RoleContainerBase observedPlayer) 
+    public KnowsRoleEvent(GamePhase phase, GamePlayer observingPlayer, CardContainer observedPlayer) 
         : base(phase, observingPlayer, observedPlayer)
     {
         ObservedRole = observedPlayer.CurrentRole;
@@ -27,7 +27,7 @@ public class KnowsRoleEvent : TargetedEventBase
     public override string ToString() => $"{Player} saw that {Target} is a {ObservedRole}";
 
     /// <inheritdoc />
-    public override void UpdatePlayerPerceptions(GamePlayer observer, RoleContainerBase target, CardProbabilities probabilities)
+    public override void UpdatePlayerPerceptions(GamePlayer observer, CardContainer target, CardProbabilities probabilities)
     {
         if (target == Target)
         {

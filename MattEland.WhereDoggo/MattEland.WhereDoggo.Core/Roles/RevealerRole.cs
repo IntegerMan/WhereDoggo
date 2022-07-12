@@ -21,7 +21,7 @@ public class RevealerRole : RoleBase
     /// <inheritdoc />
     public override void PerformNightAction(Game game, GamePlayer player)
     {
-        RoleContainerBase? target = player.Strategies.PickSingleCardStrategy.SelectCard(game.Players);
+        CardContainer? target = player.Strategies.PickSingleCardStrategy.SelectCard(game.Players);
 
         if (target == null)
         {

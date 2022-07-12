@@ -36,9 +36,9 @@ public abstract class GameEventBase
     /// Updates the player's probabilistic model of <paramref name="target"/> based on the event.
     /// </summary>
     /// <param name="observer">The <see cref="GamePlayer"/> privy to the event</param>
-    /// <param name="target">The <see cref="RoleContainerBase"/> the event occurred on</param>
+    /// <param name="target">The <see cref="CardContainer"/> the event occurred on</param>
     /// <param name="probabilities">The <see cref="CardProbabilities"/> for <paramref name="target" /></param>
-    public virtual void UpdatePlayerPerceptions(GamePlayer observer, RoleContainerBase target, CardProbabilities probabilities)
+    public virtual void UpdatePlayerPerceptions(GamePlayer observer, CardContainer target, CardProbabilities probabilities)
     {
         // No updates by default
     }

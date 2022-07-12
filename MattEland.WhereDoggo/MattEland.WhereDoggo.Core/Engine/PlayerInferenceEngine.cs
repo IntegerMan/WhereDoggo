@@ -30,7 +30,7 @@ public class PlayerInferenceEngine
     /// <returns>
     /// The set of probabilities around the initial role a card was.
     /// </returns>
-    public IDictionary<RoleContainerBase, CardProbabilities> BuildInitialRoleProbabilities() 
+    public IDictionary<CardContainer, CardProbabilities> BuildInitialRoleProbabilities() 
         => BuildFinalRoleProbabilities();
 
     /// <summary>
@@ -39,9 +39,9 @@ public class PlayerInferenceEngine
     /// <returns>
     /// The set of probabilities around the final role a card was.
     /// </returns>
-    public IDictionary<RoleContainerBase, CardProbabilities> BuildFinalRoleProbabilities()
+    public IDictionary<CardContainer, CardProbabilities> BuildFinalRoleProbabilities()
     {
-        Dictionary<RoleContainerBase, CardProbabilities> cardProbabilities = new();
+        Dictionary<CardContainer, CardProbabilities> cardProbabilities = new();
         Dictionary<RoleTypes, int> counts = _game.BuildRoleCounts();
 
         // Initial pass
@@ -54,10 +54,10 @@ public class PlayerInferenceEngine
     }
 
     private void BuildInitialProbabilitiesAndUncertainCardCounts(
-        IDictionary<RoleContainerBase, CardProbabilities> cardProbabilities,
+        IDictionary<CardContainer, CardProbabilities> cardProbabilities,
         IDictionary<RoleTypes, int> counts)
     {
-        foreach (RoleContainerBase role in _game.Entities)
+        foreach (CardContainer role in _game.Entities)
         {
             cardProbabilities[role] = new CardProbabilities(_game, role is CenterCardSlot);
 

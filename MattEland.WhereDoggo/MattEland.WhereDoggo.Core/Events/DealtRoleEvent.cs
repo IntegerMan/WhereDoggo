@@ -25,7 +25,7 @@ public class DealtRoleEvent : GameEventBase
     
 
     /// <inheritdoc />
-    public override void UpdatePlayerPerceptions(GamePlayer observer, RoleContainerBase target, CardProbabilities probabilities)
+    public override void UpdatePlayerPerceptions(GamePlayer observer, CardContainer target, CardProbabilities probabilities)
     {
         if (observer == target)
         {

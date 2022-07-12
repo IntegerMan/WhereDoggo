@@ -13,5 +13,5 @@ public abstract class SlotSelectionStrategyBase
     /// </remarks>
     /// <param name="options">The options of cards to select</param>
     /// <returns>The card that was selected, or null if this was skipped</returns>
-    public abstract RoleContainerBase? SelectCard(IEnumerable<RoleContainerBase> options);
+    public abstract CardContainer? SelectCard(IEnumerable<CardContainer> options);
 }

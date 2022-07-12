@@ -105,7 +105,7 @@ public class ExposerTests : GameTestsBase
         // Assert
         foreach (GamePlayer p in game.Players)
         {
-            IDictionary<RoleContainerBase, CardProbabilities> probabilities = p.Brain.BuildFinalRoleProbabilities();
+            IDictionary<CardContainer, CardProbabilities> probabilities = p.Brain.BuildFinalRoleProbabilities();
             foreach (CenterCardSlot slot in game.CenterSlots)
             {
                 probabilities[slot].Probabilities[RoleTypes.Exposer].ShouldBe(0);

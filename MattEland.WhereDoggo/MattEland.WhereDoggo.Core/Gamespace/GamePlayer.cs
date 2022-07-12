@@ -4,7 +4,7 @@
 /// Represents a player within the game world.
 /// </summary>
 [DebuggerDisplay("{Name} ({CurrentRole})")]
-public class GamePlayer : RoleContainerBase
+public class GamePlayer : CardContainer
 {
     private readonly Game _game;
     private readonly List<GameEventBase> _events = new();
@@ -15,7 +15,7 @@ public class GamePlayer : RoleContainerBase
     /// <param name="name">The name of the player</param>
     /// <param name="initialRole">The role they were initially dealt</param>
     /// <param name="game">The game the player is in</param>
-    /// <param name="randomizer">The randomizer instnace</param>
+    /// <param name="randomizer">The randomizer instance</param>
     public GamePlayer(string name, RoleBase initialRole, Game game, Random randomizer) : base(name, initialRole)
     {
         _game = game;
@@ -23,12 +23,21 @@ public class GamePlayer : RoleContainerBase
         Brain = new PlayerInferenceEngine(this, game);
     }
 
+    /// <summary>
+    /// Adds a new event to the game log
+    /// </summary>
+    /// <param name="eventBase">The event to add</param>
     public void AddEvent(GameEventBase eventBase) => _events.Add(eventBase);
 
+    /// <summary>
+    /// Gets all events for the player
+    /// </summary>
     public IList<GameEventBase> Events => _events.AsReadOnly();
+    
+    /// <summary>
+    /// Gets the <see cref="PlayerInferenceEngine"/> associated with the player.
+    /// </summary>
     public PlayerInferenceEngine Brain { get; }
-    public Teams CurrentTeam => CurrentRole.Team;
-    public Teams InitialTeam => InitialRole.Team;
 
     /// <summary>
     /// Whether or not the sentinel token has been placed on the card
@@ -47,7 +56,7 @@ public class GamePlayer : RoleContainerBase
     /// <returns>The player to vote for</returns>
     public GamePlayer DetermineVoteTarget(Random random)
     {
-        IDictionary<RoleContainerBase, CardProbabilities> probabilities = Brain.BuildFinalRoleProbabilities();
+        IDictionary<CardContainer, CardProbabilities> probabilities = Brain.BuildFinalRoleProbabilities();
 
         // Try to figure out which team the player is on
         Teams probableTeams = probabilities[this].ProbableTeams;
@@ -55,13 +64,13 @@ public class GamePlayer : RoleContainerBase
         // Remove the player from the set of probabilities since self-voting is illegal
         probabilities.Remove(this);
 
-        List<RoleContainerBase> keys = probabilities.Keys.Where(k => k is CenterCardSlot).ToList();
-        foreach (RoleContainerBase key in keys)
+        List<CardContainer> keys = probabilities.Keys.Where(k => k is CenterCardSlot).ToList();
+        foreach (CardContainer key in keys)
         {
             probabilities.Remove(key);
         }
 
-        List<RoleContainerBase> options;
+        List<CardContainer> options;
         switch (probableTeams)
         {
             case Teams.Villagers:
@@ -107,7 +116,7 @@ public class GamePlayer : RoleContainerBase
         }
         
         // Allow for players to observe revealed roles
-        foreach (RoleContainerBase card in _game.Entities)
+        foreach (CardContainer card in _game.Entities)
         {
             if (!card.IsRevealed) continue;
             

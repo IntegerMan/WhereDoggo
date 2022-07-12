@@ -27,7 +27,7 @@ public class MasonTests : GameTestsBase
         GamePlayer player = game.Players.First();
 
         // Act
-        IDictionary<RoleContainerBase, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();
+        IDictionary<CardContainer, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();
 
         // Assert
         probabilities[game.Players[1]].Probabilities[RoleTypes.Mason].ShouldBe(0);
@@ -77,7 +77,7 @@ public class MasonTests : GameTestsBase
         GamePlayer player = game.Players.First();
 
         // Act
-        IDictionary<RoleContainerBase, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();
+        IDictionary<CardContainer, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();
 
         // Assert
         foreach (CenterCardSlot slot in game.CenterSlots)
@@ -105,7 +105,7 @@ public class MasonTests : GameTestsBase
         GamePlayer player = game.Players.First();
 
         // Act
-        IDictionary<RoleContainerBase, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();
+        IDictionary<CardContainer, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();
 
         // Assert
         probabilities[game.Players[1]].Probabilities[RoleTypes.Mason].ShouldBe(1);
@@ -154,7 +154,7 @@ public class MasonTests : GameTestsBase
         GamePlayer player = game.Players.First();
 
         // Act
-        IDictionary<RoleContainerBase, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();
+        IDictionary<CardContainer, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();
         
         // Assert
         foreach (CenterCardSlot slot in game.CenterSlots)

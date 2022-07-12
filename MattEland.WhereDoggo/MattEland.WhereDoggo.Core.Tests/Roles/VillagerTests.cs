@@ -22,7 +22,7 @@ public class VillagerTests : GameTestsBase
         GamePlayer player = game.Players.First();
 
         // Act
-        IDictionary<RoleContainerBase, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();
+        IDictionary<CardContainer, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();
 
         // Assert
         probabilities[player].Probabilities[RoleTypes.Villager].ShouldBe(1);
@@ -48,7 +48,7 @@ public class VillagerTests : GameTestsBase
         GamePlayer player = game.Players.First();
 
         // Act
-        IDictionary<RoleContainerBase, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();
+        IDictionary<CardContainer, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();
 
         // Assert
         // 2 Doggos, 3 Rabbits in 5 other players

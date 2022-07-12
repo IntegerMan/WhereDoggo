@@ -17,5 +17,5 @@ public class SelectSpecificSlotPlacementStrategy : SlotSelectionStrategyBase
     public SelectSpecificSlotPlacementStrategy(int index = 0) => Index = index;
 
     /// <inheritdoc />
-    public override RoleContainerBase? SelectCard(IEnumerable<RoleContainerBase> options) => options.ToList()[Index];
+    public override CardContainer? SelectCard(IEnumerable<CardContainer> options) => options.ToList()[Index];
 }

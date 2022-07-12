@@ -84,7 +84,7 @@ public class RevealerTests : GameTestsBase
         // Act
         foreach (GamePlayer p in game.Players)
         {
-            IDictionary<RoleContainerBase, CardProbabilities> probabilities = p.Brain.BuildFinalRoleProbabilities();
+            IDictionary<CardContainer, CardProbabilities> probabilities = p.Brain.BuildFinalRoleProbabilities();
             // Assert
             probabilities[game.Players[1]].ProbableRole.ShouldBe(RoleTypes.Villager);
             probabilities[game.Players[1]].IsCertain.ShouldBeTrue();
@@ -145,7 +145,7 @@ public class RevealerTests : GameTestsBase
         // Assert
         foreach (GamePlayer p in game.Players.Where(p => p != player))
         {
-            IDictionary<RoleContainerBase, CardProbabilities> probabilities = p.Brain.BuildFinalRoleProbabilities();
+            IDictionary<CardContainer, CardProbabilities> probabilities = p.Brain.BuildFinalRoleProbabilities();
             foreach (CenterCardSlot slot in game.CenterSlots)
             {
                 probabilities[slot].Probabilities[RoleTypes.Revealer].ShouldBe(0);
@@ -229,7 +229,7 @@ public class RevealerTests : GameTestsBase
         game.Run();
 
         // Act
-        IDictionary<RoleContainerBase, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();
+        IDictionary<CardContainer, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();
         // Assert
         probabilities[game.Players[2]].ProbableRole.ShouldBe(RoleTypes.Werewolf);
         probabilities[game.Players[2]].IsCertain.ShouldBeTrue();

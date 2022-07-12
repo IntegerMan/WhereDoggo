@@ -11,7 +11,7 @@ public class RevealedRoleObservedEvent : KnowsRoleEvent
     /// <param name="phase">The phase the event occurred</param>
     /// <param name="player">The player that observed the card.</param>
     /// <param name="target">The card being observed</param>
-    public RevealedRoleObservedEvent(GamePhase phase, GamePlayer player, RoleContainerBase target) : base(phase, player, target)
+    public RevealedRoleObservedEvent(GamePhase phase, GamePlayer player, CardContainer target) : base(phase, player, target)
     {
     }
 
@@ -19,7 +19,7 @@ public class RevealedRoleObservedEvent : KnowsRoleEvent
     public override string ToString() => $"{Player} saw that {Target} was revealed as {ObservedRole}";
 
     /// <inheritdoc />
-    public override void UpdatePlayerPerceptions(GamePlayer observer, RoleContainerBase target, CardProbabilities probabilities)
+    public override void UpdatePlayerPerceptions(GamePlayer observer, CardContainer target, CardProbabilities probabilities)
     {
         base.UpdatePlayerPerceptions(observer, target, probabilities);
         

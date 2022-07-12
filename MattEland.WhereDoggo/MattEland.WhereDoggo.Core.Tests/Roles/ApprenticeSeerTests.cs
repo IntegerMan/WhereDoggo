@@ -30,7 +30,7 @@ public class ApprenticeSeerTests : GameTestsBase
         game.Run();
 
         // Act
-        IDictionary<RoleContainerBase, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();
+        IDictionary<CardContainer, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();
 
         // Assert
         CardProbabilities cardProbs = probabilities[game.CenterSlots[0]];
@@ -59,7 +59,7 @@ public class ApprenticeSeerTests : GameTestsBase
         game.Run();
 
         // Act
-        IDictionary<RoleContainerBase, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();
+        IDictionary<CardContainer, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();
 
         // Assert
         foreach (GamePlayer slot in game.Players)
@@ -89,7 +89,7 @@ public class ApprenticeSeerTests : GameTestsBase
         game.Run();
 
         // Act
-        IDictionary<RoleContainerBase, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();
+        IDictionary<CardContainer, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();
 
         // Assert
         foreach (CenterCardSlot slot in game.CenterSlots)

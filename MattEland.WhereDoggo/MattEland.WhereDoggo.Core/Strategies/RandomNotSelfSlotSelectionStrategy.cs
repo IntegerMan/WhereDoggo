@@ -20,6 +20,6 @@ public class RandomNotSelfSlotSelectionStrategy : SlotSelectionStrategyBase
     }
 
     /// <inheritdoc />
-    public override RoleContainerBase? SelectCard(IEnumerable<RoleContainerBase> options)
+    public override CardContainer? SelectCard(IEnumerable<CardContainer> options)
         => options.Where(s => s != _avoidSelecting).ToList().GetRandomElement(_random)!;
 }

@@ -16,7 +16,7 @@ public class SentinelTokenObservedEvent : TargetedEventBase
     }
 
     /// <inheritdoc />
-    public override void UpdatePlayerPerceptions(GamePlayer observer, RoleContainerBase target, CardProbabilities probabilities)
+    public override void UpdatePlayerPerceptions(GamePlayer observer, CardContainer target, CardProbabilities probabilities)
     {
         // If we see a sentinel token, we know the sentinel cannot be in the center
         if (target is CenterCardSlot)

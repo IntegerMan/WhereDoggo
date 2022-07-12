@@ -6,7 +6,7 @@
 public class Game
 {
     private readonly List<GameEventBase> _events = new();
-    private readonly List<RoleContainerBase> _roleContainers;
+    private readonly List<CardContainer> _roleContainers;
     private readonly List<GamePlayer> _players;
     private readonly List<RoleBase> _roles;
 
@@ -29,7 +29,7 @@ public class Game
     /// <summary>
     /// Gets all players and center slots
     /// </summary>
-    public IEnumerable<RoleContainerBase> Entities => _roleContainers.AsReadOnly();
+    public IEnumerable<CardContainer> Entities => _roleContainers.AsReadOnly();
     
     /// <summary>
     /// Gets all events that have occurred in the game, regardless of player they occurred to.
@@ -48,7 +48,7 @@ public class Game
 
         _roles = roles.Select(r => r.BuildGameRole()).ToList();
         
-        _roleContainers = new List<RoleContainerBase>(NumPlayers + NumCenterCards);
+        _roleContainers = new List<CardContainer>(NumPlayers + NumCenterCards);
 
         if (Options.RandomizeSlots)
         {

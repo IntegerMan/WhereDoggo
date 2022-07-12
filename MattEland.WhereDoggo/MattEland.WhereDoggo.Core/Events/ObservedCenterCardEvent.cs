@@ -18,7 +18,7 @@ public class ObservedCenterCardEvent : TargetedEventBase
     /// <param name="player">The player observing the card</param>
     /// <param name="observedSlot">The card slot that was observed</param>
     /// <exception cref="ArgumentNullException">Thrown if the player was null</exception>
-    public ObservedCenterCardEvent(GamePlayer player, RoleContainerBase observedSlot) 
+    public ObservedCenterCardEvent(GamePlayer player, CardContainer observedSlot) 
         : base(GamePhase.Night, player, observedSlot)
     {
         ObservedRole = observedSlot.CurrentRole;
@@ -28,7 +28,7 @@ public class ObservedCenterCardEvent : TargetedEventBase
     public override string ToString() => $"{Player} saw {ObservedRole} in {Target}";
 
     /// <inheritdoc />
-    public override void UpdatePlayerPerceptions(GamePlayer observer, RoleContainerBase target, CardProbabilities probabilities)
+    public override void UpdatePlayerPerceptions(GamePlayer observer, CardContainer target, CardProbabilities probabilities)
     {
         if (target == Target)
         {

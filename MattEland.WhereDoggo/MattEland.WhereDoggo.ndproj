@@ -1,5 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<NDepend AppName="MattEland.WhereDoggo" Platform="DotNet" FileWrittenByProductVersion="2022.1.0.9640">
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<NDepend AppName="MattEland.WhereDoggo" Platform="DotNet" FileWrittenByProductVersion="2022.1.4.9655">
   <OutputDir KeepXmlFiles="False">.\NDependOut</OutputDir>
   <IDEFiles>
     <IDEFile FilePath=".\MattEland.WhereDoggo.sln" Filters="-test" Configuration="DEBUG|AnyCPU">
@@ -9,20 +9,26 @@
     </IDEFile>
   </IDEFiles>
   <Assemblies />
-  <FrameworkAssemblies />
+  <FrameworkAssemblies>
+    <Name>System.Runtime</Name>
+    <Name>System.Collections</Name>
+    <Name>System.Console</Name>
+    <Name>System.Linq</Name>
+    <Name>System.ComponentModel.Primitives</Name>
+  </FrameworkAssemblies>
   <Dirs>
-    <Dir>C:\Program Files\dotnet\shared\Microsoft.NETCore.App\6.0.2</Dir>
-    <Dir>C:\Program Files\dotnet\shared\Microsoft.AspNetCore.App\6.0.2</Dir>
-    <Dir>C:\Program Files\dotnet\shared\Microsoft.WindowsDesktop.App\6.0.2</Dir>
+    <Dir>C:\Program Files\dotnet\shared\Microsoft.NETCore.App\6.0.6</Dir>
+    <Dir>C:\Program Files\dotnet\shared\Microsoft.AspNetCore.App\6.0.6</Dir>
+    <Dir>C:\Program Files\dotnet\shared\Microsoft.WindowsDesktop.App\6.0.6</Dir>
     <Dir>C:\Program Files\dotnet\sdk\NuGetFallbackFolder</Dir>
-    <Dir>C:\Users\Admin\.nuget\packages</Dir>
+    <Dir>C:\Users\MattE\.nuget\packages</Dir>
   </Dirs>
   <MergeCodeGeneratedByCompiler>True</MergeCodeGeneratedByCompiler>
   <ZipSourceFiles>True</ZipSourceFiles>
   <Report Kind="0" SectionsEnabled="110591" XslPath="" Flags="261120" NbItemsToUnfold="5" />
   <BuildComparisonSetting ProjectMode="CurrentProject" BuildMode="NDaysAgoAnalysisResult" ProjectFileToCompareWith="" BuildFileToCompareWith="" NDaysAgo="30" />
   <BaselineInUISetting ProjectMode="CurrentProject" BuildMode="NDaysAgoAnalysisResult" ProjectFileToCompareWith="" BuildFileToCompareWith="" NDaysAgo="30" />
-  <CoverageFiles CoverageDir="" CoverageDirFilter="" UncoverableAttribute="" />
+  <CoverageFiles CoverageDir="" CoverageDirFilter="" UncoverableAttribute="" CoverageExclusionFile="" />
   <TrendMetrics UseCustomLog="False" LogRecurrence="3" LogLabel="2" UseCustomDir="False" CustomDir="">
     <Chart Name="Size" ShowInReport="True">
       <Serie MetricName="# Lines of Code" MetricUnit="Loc" Color="#FF00BFFF" ChartType="Line" ScaleExp="0" />
@@ -83,8 +89,7 @@
       <High2Critical_SeverityThreshold>72000000000</High2Critical_SeverityThreshold>
       <Critical2Blocker_SeverityThreshold>360000000000</Critical2Blocker_SeverityThreshold>
     </DebtSettings>
-  </ProjectDebtSettings>
-  <Queries>
+  </ProjectDebtSettings><Queries>
     <Group Name="Quality Gates" Active="True" ShownInReport="False">
       <Query Active="True" DisplayList="True" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Quality Gates Evolution</Name>
 from qg in QualityGates
@@ -13060,6 +13065,4 @@ select new {
 //</HowToFix>]]></Query>
       </Group>
     </Group>
-  </Queries>
-  <WarnFilter />
-</NDepend>
+  </Queries></NDepend>
