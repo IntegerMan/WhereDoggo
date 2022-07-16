@@ -22,12 +22,25 @@ public class SeerRole : RoleBase
     {
         base.PerformNightAction(game, player);
         
-        // TODO: Choose whether we're getting another player or 2 center cards
-        
-        // TODO: Look at one card from another player
-        
-        // TODO: Look at two cards from the center
-        
-        // TODO: Add a skipped night action event
+        // Choose whether we're skipping, getting another player, or getting 2 center cards
+        IList<CardContainer> playerChoices = game.Players.Where(p => p != player).Cast<CardContainer>().ToList(); 
+        IList<CardContainer> centerChoices = game.CenterSlots.Cast<CardContainer>().ToList();
+        List<CardContainer> cards = player.Strategies.PickSeerCards(playerChoices, centerChoices);
+
+        switch (cards.Count)
+        {
+            case <= 0:
+                // A seer should really never skip their night action. You're just losing information.
+                game.LogEvent(new SkippedNightActionEvent(player));
+                break;
+            case 1:
+                // Look at the other player's card
+                game.LogEvent(new ObservedPlayerCardEvent(player, cards.Single()));
+                break;
+            default:
+                // Look at the center cards
+                cards.ForEach(c => game.LogEvent(new ObservedCenterCardEvent(player, c)));
+                break;
+        }
     }
 }

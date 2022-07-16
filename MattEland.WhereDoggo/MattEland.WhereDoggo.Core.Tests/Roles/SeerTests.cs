@@ -23,7 +23,7 @@ public class SeerTests : GameTestsBase
         };
         Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
-        player.Strategies.PickSingleCardStrategy = new OptOutSlotSelectionStrategy();
+        player.Strategies.PickSeerCards = (_, _) => new List<CardContainer>();
 
         // Act
         game.Run();
@@ -49,14 +49,12 @@ public class SeerTests : GameTestsBase
             RoleTypes.Werewolf,
             RoleTypes.Villager
         };
-        Game game = CreateGame(assignedRoles);
-        GamePlayer player = game.Players.First();
-        player.Strategies.PickSingleCardStrategy = new OptOutSlotSelectionStrategy(); // TODO: Not this
-
+        
         // Act
-        game.Run();
+        Game game = RunGame(assignedRoles);
 
         // Assert
+        GamePlayer player = game.Players.First();
         player.Events.ShouldContain(e => e is ObservedCenterCardEvent, 2);
         player.Events.ShouldNotContain(e => e is SkippedNightActionEvent);
         player.Events.ShouldNotContain(e => e is ObservedPlayerCardEvent);
@@ -79,7 +77,7 @@ public class SeerTests : GameTestsBase
         };
         Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
-        player.Strategies.PickSingleCardStrategy = new OptOutSlotSelectionStrategy(); // TODO: Not this
+        player.Strategies.PickSeerCards = (_, center) => new[] { center[0], center[1] }.ToList();
         game.Run();
 
         // Act
@@ -109,8 +107,8 @@ public class SeerTests : GameTestsBase
         };
         Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
-        player.Strategies.PickSingleCardStrategy = new OptOutSlotSelectionStrategy(); // TODO: Not this
-
+        player.Strategies.PickSeerCards = (players, _) => players.Take(1).ToList();
+        
         // Act
         game.Run();
 
@@ -138,7 +136,7 @@ public class SeerTests : GameTestsBase
         Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players[0];
         GamePlayer target = game.Players[1];
-        player.Strategies.PickSingleCardStrategy = new OptOutSlotSelectionStrategy(); // TODO: Not this
+        player.Strategies.PickSeerCards = (players, _) => players.Take(1).ToList();
         game.Run();
 
         // Act
