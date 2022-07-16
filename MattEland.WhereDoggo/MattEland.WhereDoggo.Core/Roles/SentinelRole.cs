@@ -26,7 +26,7 @@ public class SentinelRole : RoleBase
         {
             target.HasSentinelToken = true;
             game.LogEvent(new SentinelTokenPlacedEvent(player, target));
-            game.LogEvent(new SentinelTokenObservedEvent(player, target, game.CurrentPhase));
+            game.LogEvent(new SentinelTokenObservedEvent(player, target));
         }
         else
         {

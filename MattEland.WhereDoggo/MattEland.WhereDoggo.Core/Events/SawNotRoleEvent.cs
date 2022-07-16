@@ -1,6 +1,4 @@
-﻿using MattEland.WhereDoggo.Core.Engine.Phases;
-
-namespace MattEland.WhereDoggo.Core.Events;
+﻿namespace MattEland.WhereDoggo.Core.Events;
 
 /// <summary>
 /// An event indicating that a player knows for certain a target does not have a given role.
@@ -19,8 +17,7 @@ public class SawNotRoleEvent : TargetedEventBase
     /// <param name="observer">The player making the deduction</param>
     /// <param name="target">The target that cannot be the role</param>
     /// <param name="impossibleRole">The role that is not possible for the target to have</param>
-    public SawNotRoleEvent(GamePlayer observer, CardContainer target, RoleTypes impossibleRole) 
-        : base(GamePhases.Night, observer, target)
+    public SawNotRoleEvent(GamePlayer observer, CardContainer target, RoleTypes impossibleRole) : base(observer, target)
     {
         ImpossibleRole = impossibleRole;
     }

@@ -12,9 +12,6 @@ public class SetupGamePhase : GamePhaseBase
     public SetupGamePhase(Game game) : base(game)
     {
     }
-    
-    /// <inheritdoc />
-    public override GamePhases Phase => GamePhases.Setup;
 
     /// <inheritdoc />
     public override string Name => "Setup";
@@ -37,7 +34,7 @@ public class SetupGamePhase : GamePhaseBase
         {
             if (i < options.NumPlayers)
             {
-                game.AddPlayer(new GamePlayer(options.PlayerNames[i], i + 1, roles[i], game, game.Randomizer));
+                game.AddPlayer(new GamePlayer(options.PlayerNames[i], i + 1, roles[i], game));
             }
             else
             {

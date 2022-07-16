@@ -65,6 +65,7 @@ public class Game
         _phases.Enqueue(new NightPhase(this));
         _phases.Enqueue(new DayPhase(this));
         _phases.Enqueue(new VotingPhase(this));
+        CurrentPhase = _phases.Peek();
     }
 
     /// <summary>
@@ -97,7 +98,7 @@ public class Game
     {
         GamePhaseBase phase = _phases.Dequeue();
         BroadcastEvent($"Starting {phase.Name} phase");
-        CurrentPhase = phase.Phase;
+        CurrentPhase = phase;
         phase.Run(this);
 
         return Result != null;
@@ -106,14 +107,14 @@ public class Game
     /// <summary>
     /// Tracks the current phase of the game.
     /// </summary>
-    public GamePhases CurrentPhase { get; private set; } = GamePhases.Setup;
+    public GamePhaseBase CurrentPhase { get; private set; }
     private int _nextEventId;
 
     /// <summary>
     /// Logs a new <see cref="TextEvent"/> at the game level
     /// </summary>
     /// <param name="message">The message to log</param>
-    internal void LogEvent(string message) => LogEvent(new TextEvent(CurrentPhase, message));
+    internal void LogEvent(string message) => LogEvent(new TextEvent(message));
 
     /// <summary>
     /// Logs an event that occurred in the game
@@ -121,7 +122,7 @@ public class Game
     /// <param name="event">The event that occurred</param>
     internal void LogEvent(GameEventBase @event)
     {
-        @event.Id = _nextEventId++;
+        SetEventFields(@event);
 
         _events.Add(@event);
 
@@ -135,7 +136,7 @@ public class Game
     /// <param name="message">The message</param>
     internal void BroadcastEvent(string message)
     {
-        TextEvent @event = new(CurrentPhase, message);
+        TextEvent @event = new(message);
 
         BroadcastEvent(@event);
     }
@@ -146,7 +147,7 @@ public class Game
     /// <param name="event">The event to broadcast</param>
     internal void BroadcastEvent(GameEventBase @event)
     {
-        @event.Id = _nextEventId++;
+        SetEventFields(@event);
 
         _events.Add(@event);
 
@@ -155,6 +156,16 @@ public class Game
         {
             player.LogEvent(@event);
         }
+    }
+
+    private void SetEventFields(GameEventBase @event)
+    {
+        if (@event.Id <= 0)
+        {
+            @event.Id = _nextEventId++;
+        }
+        
+        @event.Phase = CurrentPhase.Name;
     }
 
     private readonly List<CenterCardSlot> _centerSlots = new(NumCenterCards);

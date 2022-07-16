@@ -16,11 +16,11 @@ public class GamePlayer : CardContainer
     /// <param name="playerNumber">The player number. Used for some abilities and calculating adjacency</param>
     /// <param name="initialRole">The role they were initially dealt</param>
     /// <param name="game">The game the player is in</param>
-    /// <param name="random">The randomizer instance</param>
-    public GamePlayer(string name, int playerNumber, RoleBase initialRole, Game game, Random random) : base(name, initialRole)
+    public GamePlayer(string name, int playerNumber, RoleBase initialRole, Game game) : base(name, initialRole)
     {
         _game = game;
         Number = playerNumber;
+        Random random = game.Randomizer;
         PickSingleCard = (targets) => targets.MinBy(_ => random.Next() * random.Next());
         PickSeerCards = (_, slots) => slots.OrderBy(_ => random.Next() * random.Next()).Take(2).ToList();
         Brain = new PlayerInferenceEngine(this, game);
@@ -116,7 +116,7 @@ public class GamePlayer : CardContainer
     /// </summary>
     public void Wake()
     {
-        _game.LogEvent(new WokeUpEvent(_game.CurrentPhase, this));
+        _game.LogEvent(new WokeUpEvent(this));
 
         // Allow for players to observe sentinel tokens
         foreach (GamePlayer player in _game.Players)
@@ -125,7 +125,7 @@ public class GamePlayer : CardContainer
 
             if (!Events.Any(e => e is SentinelTokenObservedEvent sto && sto.Target == player))
             {
-                _game.LogEvent(new SentinelTokenObservedEvent(this, player, _game.CurrentPhase));
+                _game.LogEvent(new SentinelTokenObservedEvent(this, player));
             }
         }
         
@@ -136,7 +136,7 @@ public class GamePlayer : CardContainer
             
             if (!Events.Any(e => e is RevealedRoleObservedEvent obs && obs.Target == card))
             {
-                _game.LogEvent(new RevealedRoleObservedEvent(_game.CurrentPhase, this, card));
+                _game.LogEvent(new RevealedRoleObservedEvent(this, card));
             }
         }
     }

@@ -13,9 +13,6 @@ public class VotingPhase : GamePhaseBase
     {
         
     }
-    
-    /// <inheritdoc />
-    public override GamePhases Phase => GamePhases.Voting;
 
     /// <inheritdoc />
     public override string Name => "Voting";

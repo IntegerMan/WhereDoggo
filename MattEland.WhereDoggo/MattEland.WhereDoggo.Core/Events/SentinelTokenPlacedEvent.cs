@@ -1,6 +1,4 @@
-﻿using MattEland.WhereDoggo.Core.Engine.Phases;
-
-namespace MattEland.WhereDoggo.Core.Events;
+﻿namespace MattEland.WhereDoggo.Core.Events;
 
 /// <summary>
 /// This event is generated for the sentinel only when they place a token.
@@ -12,7 +10,7 @@ public class SentinelTokenPlacedEvent : TargetedEventBase
     /// </summary>
     /// <param name="player">The sentinel player</param>
     /// <param name="target">The player receiving the token</param>
-    public SentinelTokenPlacedEvent(GamePlayer player, GamePlayer target) : base(GamePhases.Night, player, target)
+    public SentinelTokenPlacedEvent(GamePlayer player, GamePlayer target) : base(player, target)
     {
     }
 

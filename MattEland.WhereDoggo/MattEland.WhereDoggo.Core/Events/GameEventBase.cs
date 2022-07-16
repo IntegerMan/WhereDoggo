@@ -1,6 +1,4 @@
-﻿using MattEland.WhereDoggo.Core.Engine.Phases;
-
-namespace MattEland.WhereDoggo.Core.Events;
+﻿namespace MattEland.WhereDoggo.Core.Events;
 
 /// <summary>
 /// An event that occurs in the game, often pertaining to a single player.
@@ -10,7 +8,7 @@ public abstract class GameEventBase
     /// <summary>
     /// The game phase the event occurred on
     /// </summary>
-    public GamePhases Phase { get; }
+    public string? Phase { get; set; }
     
     /// <summary>
     /// The player the event occurred to. This may be null for some general events.
@@ -26,11 +24,9 @@ public abstract class GameEventBase
     /// <summary>
     /// Initializes a new instance of the <see cref="GameEventBase"/> class.
     /// </summary>
-    /// <param name="phase">The phase the event occurred</param>
     /// <param name="player">The player the game event occurred to. Optional and may be null.</param>
-    protected GameEventBase(GamePhases phase, GamePlayer? player = null)
+    protected GameEventBase(GamePlayer? player = null)
     {
-        Phase = phase;
         Player = player;
     }
 

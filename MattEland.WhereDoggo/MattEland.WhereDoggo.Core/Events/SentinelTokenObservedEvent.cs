@@ -1,6 +1,4 @@
-﻿using MattEland.WhereDoggo.Core.Engine.Phases;
-
-namespace MattEland.WhereDoggo.Core.Events;
+﻿namespace MattEland.WhereDoggo.Core.Events;
 
 /// <summary>
 /// This event is added to all players when they first see a sentinel token on a card.
@@ -13,7 +11,7 @@ public class SentinelTokenObservedEvent : TargetedEventBase
     /// <param name="player">The player observing the token</param>
     /// <param name="target">The player that has the token</param>
     /// <param name="phase">The phase the token was first observed. Can be night or day.</param>
-    public SentinelTokenObservedEvent(GamePlayer player, GamePlayer target, GamePhases phase) : base(phase, player, target)
+    public SentinelTokenObservedEvent(GamePlayer player, GamePlayer target) : base(player, target)
     {
     }
 

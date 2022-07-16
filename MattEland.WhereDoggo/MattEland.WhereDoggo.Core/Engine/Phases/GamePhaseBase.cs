@@ -15,11 +15,6 @@ public abstract class GamePhaseBase
     /// </summary>
     /// <param name="game">The game</param>
     protected GamePhaseBase(Game game) => Game = game;
-
-    /// <summary>
-    /// The phase of the game
-    /// </summary>
-    public abstract GamePhases Phase { get; }
     
     /// <summary>
     /// Gets the name of the phase.

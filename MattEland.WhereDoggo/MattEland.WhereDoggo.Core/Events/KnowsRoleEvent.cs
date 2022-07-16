@@ -1,6 +1,4 @@
-﻿using MattEland.WhereDoggo.Core.Engine.Phases;
-
-namespace MattEland.WhereDoggo.Core.Events;
+﻿namespace MattEland.WhereDoggo.Core.Events;
 
 /// <summary>
 /// This event occurs when a player is observed by another player and now knows their role.
@@ -16,11 +14,10 @@ public class KnowsRoleEvent : TargetedEventBase
     /// <summary>
     /// Initializes a new instance of the <see cref="KnowsRoleEvent"/> class.
     /// </summary>
-    /// <param name="phase">The phase of the game</param>
     /// <param name="observingPlayer">The player observing the other player</param>
     /// <param name="observedPlayer">The player being observed</param>
-    public KnowsRoleEvent(GamePhases phase, GamePlayer observingPlayer, CardContainer observedPlayer) 
-        : base(phase, observingPlayer, observedPlayer)
+    public KnowsRoleEvent( GamePlayer observingPlayer, CardContainer observedPlayer) 
+        : base(observingPlayer, observedPlayer)
     {
         ObservedRole = observedPlayer.CurrentRole;
     }

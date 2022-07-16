@@ -167,10 +167,10 @@ public class SentinelTests : GameTestsBase
     }
 
     [Test]
-    [TestCase(0, GamePhases.Night)] // Sentinel
-    [TestCase(1, GamePhases.Night)] // Werewolf
-    [TestCase(2, GamePhases.Day)]   // Villager
-    public void SentinelTokenCausesPlayersToSeeTokenOnCard(int playerIndex, GamePhases expectedPhase)
+    [TestCase(0, "Night")] // Sentinel
+    [TestCase(1, "Night")] // Werewolf
+    [TestCase(2, "Day")]   // Villager
+    public void SentinelTokenCausesPlayersToSeeTokenOnCard(int playerIndex, string expectedPhase)
     {
         // Arrange
         RoleTypes[] assignedRoles =

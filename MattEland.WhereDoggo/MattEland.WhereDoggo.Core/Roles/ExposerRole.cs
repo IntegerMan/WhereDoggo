@@ -35,7 +35,7 @@ public class ExposerRole : RoleBase
 
             card.IsRevealed = true;
             game.LogEvent(new RevealedRoleEvent(player, card));
-            game.LogEvent(new RevealedRoleObservedEvent(game.CurrentPhase, player, card));
+            game.LogEvent(new RevealedRoleObservedEvent(player, card));
         }
     }
 }

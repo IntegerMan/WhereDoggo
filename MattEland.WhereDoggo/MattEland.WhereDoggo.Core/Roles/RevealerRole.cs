@@ -33,7 +33,7 @@ public class RevealerRole : RoleBase
 
             targetPlayer.IsRevealed = true;
             game.LogEvent(new RevealedRoleEvent(player, targetPlayer));
-            game.LogEvent(new RevealedRoleObservedEvent(game.CurrentPhase, player, targetPlayer));
+            game.LogEvent(new RevealedRoleObservedEvent(player, targetPlayer));
 
             // Werewolves should not be revealed
             if (targetPlayer.CurrentTeam == Teams.Werewolves)

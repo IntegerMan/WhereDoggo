@@ -21,19 +21,19 @@ static GameResult RunAndShowGame(bool showUi)
         Console.WriteLine();
     }
 
-    GamePhases phase = game.CurrentPhase;
+    GamePhaseBase phase = game.CurrentPhase;
     while (!game.RunNextPhase())
     {
         phase = game.CurrentPhase;
         
         if (showUi)
         {
-            if (phase == GamePhases.Night)
+            if (phase.Name == "Night")
             {
                 game.DisplayNightActions();
             }
 
-            if (phase != GamePhases.Day)
+            if (phase.Name != "Day")
             {
                 Console.WriteLine($"After {phase} Phase...");
                 game.DisplayGameState();

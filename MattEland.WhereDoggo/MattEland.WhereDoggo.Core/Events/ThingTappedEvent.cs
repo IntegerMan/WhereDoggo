@@ -1,6 +1,4 @@
-﻿using MattEland.WhereDoggo.Core.Engine.Phases;
-
-namespace MattEland.WhereDoggo.Core.Events;
+﻿namespace MattEland.WhereDoggo.Core.Events;
 
 /// <summary>
 /// An event that occurs when a <see cref="ThingRole"/> uses its night ability to tap a player.
@@ -12,7 +10,7 @@ public class ThingTappedEvent : TargetedEventBase
     /// </summary>
     /// <param name="thing">The Thing player doing the tapping</param>
     /// <param name="target">The player that was tapped</param>
-    public ThingTappedEvent(GamePlayer thing, GamePlayer target) : base(GamePhases.Night, thing, target)
+    public ThingTappedEvent(GamePlayer thing, GamePlayer target) : base(thing, target)
     {
     }
 

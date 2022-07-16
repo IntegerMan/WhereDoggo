@@ -1,6 +1,4 @@
-﻿using MattEland.WhereDoggo.Core.Engine.Phases;
-
-namespace MattEland.WhereDoggo.Core.Events;
+﻿namespace MattEland.WhereDoggo.Core.Events;
 
 /// <summary>
 /// This event occurs on the player(s) that get the most votes.
@@ -11,7 +9,7 @@ public class VotedOutEvent : GameEventBase
     /// Instantiates a new instance of the <see cref="VotedOutEvent"/> class.
     /// </summary>
     /// <param name="votedPlayer">The player that was voted out</param>
-    public VotedOutEvent(GamePlayer votedPlayer) : base(GamePhases.Voting, votedPlayer)
+    public VotedOutEvent(GamePlayer votedPlayer) : base(votedPlayer)
     {
 
     }

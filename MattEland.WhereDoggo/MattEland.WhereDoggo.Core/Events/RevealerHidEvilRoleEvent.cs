@@ -1,6 +1,4 @@
-﻿using MattEland.WhereDoggo.Core.Engine.Phases;
-
-namespace MattEland.WhereDoggo.Core.Events;
+﻿namespace MattEland.WhereDoggo.Core.Events;
 
 /// <summary>
 /// Occurs when a revealer turns back over an evil card they previously revealed.
@@ -12,7 +10,7 @@ public class RevealerHidEvilRoleEvent : TargetedEventBase
     /// </summary>
     /// <param name="player">The revealer</param>
     /// <param name="target">The card being hidden</param>
-    public RevealerHidEvilRoleEvent(GamePlayer player, CardContainer target) : base(GamePhases.Night, player, target)
+    public RevealerHidEvilRoleEvent(GamePlayer player, CardContainer target) : base(player, target)
     {
     }
 

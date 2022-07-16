@@ -1,6 +1,4 @@
-﻿using MattEland.WhereDoggo.Core.Engine.Phases;
-
-namespace MattEland.WhereDoggo.Core.Events;
+﻿namespace MattEland.WhereDoggo.Core.Events;
 
 /// <summary>
 /// Occurs at the beginning of the game and lets the player know what their role is.
@@ -17,7 +15,7 @@ public class DealtRoleEvent : GameEventBase
     /// </summary>
     /// <param name="player">The player receiving the role</param>
     /// <param name="role">The role receivedS</param>
-    public DealtRoleEvent(GamePlayer player, RoleBase role) : base(GamePhases.Setup, player)
+    public DealtRoleEvent(GamePlayer player, RoleBase role) : base(player)
     {
         Role = role;
     }

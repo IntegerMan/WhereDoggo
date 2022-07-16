@@ -1,6 +1,4 @@
-﻿using MattEland.WhereDoggo.Core.Engine.Phases;
-
-namespace MattEland.WhereDoggo.Core.Events;
+﻿namespace MattEland.WhereDoggo.Core.Events;
 
 /// <summary>
 /// This event occurs when the <see cref="InsomniacRole"/> looks at her own card at the end of the night.
@@ -11,7 +9,7 @@ public class InsomniacSawOwnCardEvent : GameEventBase
     /// Initializes a new instance of the <see cref="InsomniacSawOwnCardEvent"/> class.
     /// </summary>
     /// <param name="player">The insomniac player</param>
-    public InsomniacSawOwnCardEvent(GamePlayer player) : base(GamePhases.Night, player)
+    public InsomniacSawOwnCardEvent(GamePlayer player) : base(player)
     {
         FinalRole = player.CurrentRole;
     }

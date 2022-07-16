@@ -1,6 +1,4 @@
-﻿using MattEland.WhereDoggo.Core.Engine.Phases;
-
-namespace MattEland.WhereDoggo.Core.Events;
+﻿namespace MattEland.WhereDoggo.Core.Events;
 
 /// <summary>
 /// Represents a vote by one player on a specific target.
@@ -12,7 +10,7 @@ public class VotedEvent : TargetedEventBase
     /// </summary>
     /// <param name="player">The player voting</param>
     /// <param name="target">The player they voted for</param>
-    public VotedEvent(GamePlayer player, GamePlayer target) : base(GamePhases.Voting, player, target)
+    public VotedEvent(GamePlayer player, GamePlayer target) : base(player, target)
     {
     }
 

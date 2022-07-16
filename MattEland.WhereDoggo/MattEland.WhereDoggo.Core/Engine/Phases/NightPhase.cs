@@ -15,9 +15,6 @@ public class NightPhase : GamePhaseBase
     }
 
     /// <inheritdoc />
-    public override GamePhases Phase => GamePhases.Night;
-
-    /// <inheritdoc />
     public override string Name => "Night";
     
     /// <inheritdoc />

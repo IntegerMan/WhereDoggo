@@ -36,7 +36,7 @@ public class MasonRole : RoleBase
             if (observedPlayer.InitialRole.RoleType == RoleTypes.Mason)
             {
                 // If they didn't wake up, we now know they can't be a mason
-                game.LogEvent(new KnowsRoleEvent(game.CurrentPhase, player, observedPlayer));
+                game.LogEvent(new KnowsRoleEvent(player, observedPlayer));
             }
             else
             {
