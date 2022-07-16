@@ -1,4 +1,6 @@
-﻿namespace MattEland.WhereDoggo.Core.Events;
+﻿using MattEland.WhereDoggo.Core.Engine.Phases;
+
+namespace MattEland.WhereDoggo.Core.Events;
 
 /// <summary>
 /// This is a simple event just used for debugging purposes. It should have no impact on AI decisions.
@@ -15,7 +17,7 @@ public class TextEvent : GameEventBase
     /// </summary>
     /// <param name="phase">The phase the event occurred in</param>
     /// <param name="message">The message to be logged</param>
-    public TextEvent(GamePhase phase, string message) : base(phase) => Message = message;
+    public TextEvent(GamePhases phase, string message) : base(phase) => Message = message;
 
     /// <inheritdoc />
     public override string ToString() => Message;

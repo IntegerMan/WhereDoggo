@@ -1,4 +1,6 @@
-﻿namespace MattEland.WhereDoggo.Core.Events;
+﻿using MattEland.WhereDoggo.Core.Engine.Phases;
+
+namespace MattEland.WhereDoggo.Core.Events;
 
 /// <summary>
 /// An event that occurs when a role gets to look at a card in the center.
@@ -19,7 +21,7 @@ public class ObservedCenterCardEvent : TargetedEventBase
     /// <param name="observedSlot">The card slot that was observed</param>
     /// <exception cref="ArgumentNullException">Thrown if the player was null</exception>
     public ObservedCenterCardEvent(GamePlayer player, CardContainer observedSlot) 
-        : base(GamePhase.Night, player, observedSlot)
+        : base(GamePhases.Night, player, observedSlot)
     {
         ObservedRole = observedSlot.CurrentRole;
     }

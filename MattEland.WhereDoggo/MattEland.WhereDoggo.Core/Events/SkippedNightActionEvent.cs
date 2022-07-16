@@ -1,4 +1,6 @@
-﻿namespace MattEland.WhereDoggo.Core.Events;
+﻿using MattEland.WhereDoggo.Core.Engine.Phases;
+
+namespace MattEland.WhereDoggo.Core.Events;
 
 /// <summary>
 /// An event that occurs if the sentinel chose not to place their token.
@@ -11,7 +13,7 @@ public class SkippedNightActionEvent : GameEventBase
     /// Initializes a new instance of the <see cref="SkippedNightActionEvent"/>
     /// </summary>
     /// <param name="player">The player who skipped their action</param>
-    public SkippedNightActionEvent(GamePlayer player) : base(GamePhase.Night, player)
+    public SkippedNightActionEvent(GamePlayer player) : base(GamePhases.Night, player)
     {
     }
 

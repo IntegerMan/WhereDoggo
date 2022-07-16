@@ -1,4 +1,6 @@
-﻿namespace MattEland.WhereDoggo.Core.Events;
+﻿using MattEland.WhereDoggo.Core.Engine.Phases;
+
+namespace MattEland.WhereDoggo.Core.Events;
 
 /// <summary>
 /// Occurs when a <see cref="RevealerRole"/> or an <see cref="ExposerRole"/> reveals a card.
@@ -10,7 +12,7 @@ public class RevealedRoleEvent : TargetedEventBase
     /// </summary>
     /// <param name="player">The revealer</param>
     /// <param name="target">The card being hidden</param>
-    public RevealedRoleEvent(GamePlayer player, CardContainer target) : base(GamePhase.Night, player, target)
+    public RevealedRoleEvent(GamePlayer player, CardContainer target) : base(GamePhases.Night, player, target)
     {
     }
     

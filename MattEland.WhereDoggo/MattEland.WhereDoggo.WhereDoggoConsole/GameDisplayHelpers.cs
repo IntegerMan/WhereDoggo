@@ -1,4 +1,5 @@
-﻿using MattEland.WhereDoggo.Core.Events;
+﻿using MattEland.WhereDoggo.Core.Engine.Phases;
+using MattEland.WhereDoggo.Core.Events;
 
 namespace MattEland.WhereDoggo.WhereDoggoConsole;
 
@@ -20,7 +21,7 @@ public static class GameDisplayHelpers
     /// <param name="game">The game. Usable as an extension method</param>
     /// <param name="phase">The phase to search for</param>
     /// <returns>Events that occurred during that phase</returns>
-    public static List<GameEventBase> FindEventsForPhase(this Game game, GamePhase phase) =>
+    public static List<GameEventBase> FindEventsForPhase(this Game game, GamePhases phase) =>
         game.Events.Where(e => e.Phase == phase)
             .OrderBy(e => e.Id)
             .ToList();
@@ -28,7 +29,7 @@ public static class GameDisplayHelpers
     public static void DisplayNightActions(this Game game)
     {
         Console.WriteLine("During the Night:");
-        List<GameEventBase> events = game.FindEventsForPhase(GamePhase.Night);
+        List<GameEventBase> events = game.FindEventsForPhase(GamePhases.Night);
         foreach (GameEventBase e in events)
         {
             Console.WriteLine($"\t{e}");

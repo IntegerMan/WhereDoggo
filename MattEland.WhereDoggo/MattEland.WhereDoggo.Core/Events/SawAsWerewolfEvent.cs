@@ -1,4 +1,6 @@
-﻿namespace MattEland.WhereDoggo.Core.Events;
+﻿using MattEland.WhereDoggo.Core.Engine.Phases;
+
+namespace MattEland.WhereDoggo.Core.Events;
 
 /// <summary>
 /// An event that occurs when a player knows if another player is on the Werewolf team.
@@ -11,7 +13,7 @@ public class SawAsWerewolfEvent : TargetedEventBase
     /// </summary>
     /// <param name="player">The player observing the <paramref name="target"/> as one of the werewolves</param>
     /// <param name="target">The player known to be one of the werewolves</param>
-    public SawAsWerewolfEvent(GamePlayer player, CardContainer target) : base(GamePhase.Night, player, target)
+    public SawAsWerewolfEvent(GamePlayer player, CardContainer target) : base(GamePhases.Night, player, target)
     {
     }
 

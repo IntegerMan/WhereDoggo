@@ -1,4 +1,6 @@
-﻿namespace MattEland.WhereDoggo.Core.Engine;
+﻿using MattEland.WhereDoggo.Core.Engine.Phases;
+
+namespace MattEland.WhereDoggo.Core.Engine;
 
 /// <summary>
 /// Represents a single game of One Night Ultimate Werewolf
@@ -9,6 +11,7 @@ public class Game
     private readonly List<CardContainer> _roleContainers;
     private readonly List<GamePlayer> _players;
     private readonly List<RoleBase> _roles;
+    private readonly List<GamePhaseBase> _phases;
 
     /// <summary>
     /// Gets the players in the game
@@ -56,6 +59,14 @@ public class Game
         }
 
         _players = InitializePlayersAndCenterCards(Options.PlayerNames);
+
+        _phases = new()
+        {
+            new SetupGamePhase(this),
+            new NightPhase(this),
+            new DayPhase(this),
+            new VotingPhase(this),
+        };
     }
 
     /// <summary>
@@ -99,7 +110,13 @@ public class Game
         PerformNightPhase();
         PerformDayPhase();
         
-        return PerformVotePhase();
+        foreach (GamePhaseBase phase in _phases)
+        {
+            BroadcastEvent($"Starting {phase.Name} phase");
+            phase.Run(this);
+        }
+
+        return Result;
     }
 
     /// <summary>
@@ -110,7 +127,7 @@ public class Game
     /// </exception>
     public void Start()
     {
-        if (CurrentPhase != GamePhase.Setup) throw new InvalidOperationException("Game must be in setup phase");
+        if (CurrentPhase != GamePhases.Setup) throw new InvalidOperationException("Game must be in setup phase");
 
         LogEvent($"{Name} started");
 
@@ -127,7 +144,7 @@ public class Game
     /// <summary>
     /// Tracks the current phase of the game.
     /// </summary>
-    public GamePhase CurrentPhase { get; private set; } = GamePhase.Setup;
+    public GamePhases CurrentPhase { get; private set; } = GamePhases.Setup;
     private int _nextEventId;
 
     /// <summary>
@@ -197,66 +214,15 @@ public class Game
     public void PerformDayPhase()
     {
         LogEvent("Day Phase Starting");
-        CurrentPhase = GamePhase.Day;
+        CurrentPhase = GamePhases.Day;
 
         _players.ForEach(p => p.Wake());
     }
 
     /// <summary>
-    /// Carries out the voting phase of the game and returns the result of the game.
-    /// </summary>
-    /// <returns>The result of the game</returns>
-    public GameResult PerformVotePhase()
-    {
-        LogEvent("Voting Phase Starting");
-        CurrentPhase = GamePhase.Voting;
-
-        // Create a dictionary of votes without any votes in it
-        Dictionary<GamePlayer, int> votes = new();
-        foreach (GamePlayer player in Players)
-        {
-            votes[player] = 0;
-        }
-
-        // Get votes for individual players
-        foreach (GamePlayer player in Players)
-        {
-            GamePlayer votedPlayer = player.DetermineVoteTarget(Randomizer);
-
-            VotedEvent votedEvent = new(player, votedPlayer);
-            LogEvent(votedEvent);
-
-            votes[votedPlayer] += 1;
-        }
-
-        int maxVotes = votes.Values.Max();
-        IEnumerable<GamePlayer> votedPlayers = votes.Where(kvp => kvp.Value == maxVotes).Select(kvp => kvp.Key);
-        foreach (GamePlayer votedPlayer in votedPlayers)
-        {
-            BroadcastEvent(new VotedOutEvent(votedPlayer));
-        }
-
-        IEnumerable<GamePlayer> villagers = Players.Where(p => p.CurrentTeam == Teams.Villagers);
-        IEnumerable<GamePlayer> wolves = Players.Where(p => p.CurrentTeam == Teams.Werewolves);
-
-        bool wwVoted = votedPlayers.Any(p => p.CurrentTeam == Teams.Werewolves); // Revisit for Minion
-        Result = new GameResult(wwVoted, wwVoted ? villagers : wolves);
-
-        BroadcastEvent(wwVoted
-            ? "The village wins!"
-            : "The werewolves win!");
-
-        BroadcastEvent(Result.Winners.Any()
-            ? $"The winners are {string.Join(", ", Result.Winners.Select(w => $"{w.Name} ({w.CurrentRole})"))}"
-            : "No players won.");
-
-        return Result;
-    }
-
-    /// <summary>
     /// The result of the game. This will be null if the game is not over
     /// </summary>
-    public GameResult? Result { get; private set; }
+    public GameResult? Result { get; internal set; }
 
     /// <summary>
     /// The randomizer associated with this instance
@@ -269,7 +235,7 @@ public class Game
     public void PerformNightPhase()
     {
         LogEvent("Night Phase Starting");
-        CurrentPhase = GamePhase.Night;
+        CurrentPhase = GamePhases.Night;
 
         foreach (GamePlayer player in Players.Where(p => p.InitialRole.HasNightAction).OrderBy(p => p.InitialRole.NightActionOrder))
         {

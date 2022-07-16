@@ -1,4 +1,6 @@
-﻿namespace MattEland.WhereDoggo.Core.Events;
+﻿using MattEland.WhereDoggo.Core.Engine.Phases;
+
+namespace MattEland.WhereDoggo.Core.Events;
 
 /// <summary>
 /// This event occurs every time a player wakes up.
@@ -10,12 +12,12 @@ public class WokeUpEvent : GameEventBase
     /// </summary>
     /// <param name="phase">The phase the event occurred. Can be night or day.</param>
     /// <param name="player">The player that woke up</param>
-    public WokeUpEvent(GamePhase phase, GamePlayer player) : base(phase, player)
+    public WokeUpEvent(GamePhases phase, GamePlayer player) : base(phase, player)
     {
     }
 
     /// <inheritdoc />
-    public override string ToString() => Phase == GamePhase.Day 
+    public override string ToString() => Phase == GamePhases.Day 
         ? $"{Player} woke up in the morning." 
         : $"{Player} woke up in the {Phase}.";
     

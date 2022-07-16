@@ -1,4 +1,6 @@
-﻿namespace MattEland.WhereDoggo.Core.Events;
+﻿using MattEland.WhereDoggo.Core.Engine.Phases;
+
+namespace MattEland.WhereDoggo.Core.Events;
 
 /// <summary>
 /// An event that occurs if a member of team Werewolf wakes up and sees that
@@ -10,7 +12,7 @@ public class OnlyWolfEvent : GameEventBase
     /// Initializes a new instance of the <see cref="OnlyWolfEvent"/> class.
     /// </summary>
     /// <param name="player">The player that is the lone wolf</param>
-    public OnlyWolfEvent(GamePlayer player) : base(GamePhase.Night, player)
+    public OnlyWolfEvent(GamePlayer player) : base(GamePhases.Night, player)
     {
         
     }

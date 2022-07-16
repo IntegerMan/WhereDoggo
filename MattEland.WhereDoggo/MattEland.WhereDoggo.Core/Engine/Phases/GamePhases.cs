@@ -1,9 +1,9 @@
-﻿namespace MattEland.WhereDoggo.Core.Engine;
+﻿namespace MattEland.WhereDoggo.Core.Engine.Phases;
 
 /// <summary>
 /// Represents a phase within the game
 /// </summary>
-public enum GamePhase
+public enum GamePhases
 {
     /// <summary>
     /// The initial setup of a game. Occurs before the night phase.

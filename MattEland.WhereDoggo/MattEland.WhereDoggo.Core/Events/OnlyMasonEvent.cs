@@ -1,4 +1,6 @@
-﻿namespace MattEland.WhereDoggo.Core.Events;
+﻿using MattEland.WhereDoggo.Core.Engine.Phases;
+
+namespace MattEland.WhereDoggo.Core.Events;
 
 /// <summary>
 /// An event that occurs if a <see cref="MasonRole"/> wakes up and sees that
@@ -10,7 +12,7 @@ public class OnlyMasonEvent : GameEventBase
     /// Initializes a new instance of the <see cref="OnlyMasonEvent"/> class.
     /// </summary>
     /// <param name="player">The player that is the lone mason</param>
-    public OnlyMasonEvent(GamePlayer player) : base(GamePhase.Night, player)
+    public OnlyMasonEvent(GamePlayer player) : base(GamePhases.Night, player)
     {
         
     }

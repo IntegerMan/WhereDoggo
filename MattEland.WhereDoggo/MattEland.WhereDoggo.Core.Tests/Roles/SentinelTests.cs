@@ -1,4 +1,5 @@
 ﻿using System;
+using MattEland.WhereDoggo.Core.Engine.Phases;
 
 namespace MattEland.WhereDoggo.Core.Tests.Roles;
 
@@ -166,10 +167,10 @@ public class SentinelTests : GameTestsBase
     }
 
     [Test]
-    [TestCase(0, GamePhase.Night)] // Sentinel
-    [TestCase(1, GamePhase.Night)] // Werewolf
-    [TestCase(2, GamePhase.Day)]   // Villager
-    public void SentinelTokenCausesPlayersToSeeTokenOnCard(int playerIndex, GamePhase expectedPhase)
+    [TestCase(0, GamePhases.Night)] // Sentinel
+    [TestCase(1, GamePhases.Night)] // Werewolf
+    [TestCase(2, GamePhases.Day)]   // Villager
+    public void SentinelTokenCausesPlayersToSeeTokenOnCard(int playerIndex, GamePhases expectedPhase)
     {
         // Arrange
         RoleTypes[] assignedRoles =

@@ -1,4 +1,6 @@
-﻿namespace MattEland.WhereDoggo.Core.Events;
+﻿using MattEland.WhereDoggo.Core.Engine.Phases;
+
+namespace MattEland.WhereDoggo.Core.Events;
 
 /// <summary>
 /// An abstract class for events targeting a specific card
@@ -11,7 +13,7 @@ public abstract class TargetedEventBase : GameEventBase
     /// <param name="phase">The phase the event occurred in</param>
     /// <param name="player"></param>
     /// <param name="target"></param>
-    protected TargetedEventBase(GamePhase phase, GamePlayer player, CardContainer target) : base(phase, player)
+    protected TargetedEventBase(GamePhases phase, GamePlayer player, CardContainer target) : base(phase, player)
     {
         Target = target;
     }

@@ -1,4 +1,6 @@
-﻿namespace MattEland.WhereDoggo.Core.Events;
+﻿using MattEland.WhereDoggo.Core.Engine.Phases;
+
+namespace MattEland.WhereDoggo.Core.Events;
 
 /// <summary>
 /// Occurs when someone observes a role exposed by a <see cref="RevealerRole"/> or an <see cref="ExposerRole"/>
@@ -11,7 +13,7 @@ public class RevealedRoleObservedEvent : KnowsRoleEvent
     /// <param name="phase">The phase the event occurred</param>
     /// <param name="player">The player that observed the card.</param>
     /// <param name="target">The card being observed</param>
-    public RevealedRoleObservedEvent(GamePhase phase, GamePlayer player, CardContainer target) : base(phase, player, target)
+    public RevealedRoleObservedEvent(GamePhases phase, GamePlayer player, CardContainer target) : base(phase, player, target)
     {
     }
 

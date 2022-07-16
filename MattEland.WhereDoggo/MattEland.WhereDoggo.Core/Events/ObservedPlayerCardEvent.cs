@@ -1,4 +1,6 @@
-﻿namespace MattEland.WhereDoggo.Core.Events;
+﻿using MattEland.WhereDoggo.Core.Engine.Phases;
+
+namespace MattEland.WhereDoggo.Core.Events;
 
 /// <summary>
 /// An event that occurs when the <see cref="MysticWolfRole"/> or <see cref="SeerRole"/> observes the card of another player in the night.
@@ -10,7 +12,7 @@ public class ObservedPlayerCardEvent : TargetedEventBase
     /// </summary>
     /// <param name="player">The Mystic Wolf</param>
     /// <param name="target">The player who the Mystic Wolf observed</param>
-    public ObservedPlayerCardEvent(GamePlayer player, CardContainer target) : base(GamePhase.Night, player, target)
+    public ObservedPlayerCardEvent(GamePlayer player, CardContainer target) : base(GamePhases.Night, player, target)
     {
         ObservedRole = target.CurrentRole;
     }
