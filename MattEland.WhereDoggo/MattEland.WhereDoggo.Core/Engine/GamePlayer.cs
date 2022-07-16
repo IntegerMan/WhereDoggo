@@ -13,12 +13,14 @@ public class GamePlayer : CardContainer
     /// Instantiates an instance of the <see cref="GamePlayer"/> class.
     /// </summary>
     /// <param name="name">The name of the player</param>
+    /// <param name="playerNumber">The player number. Used for some abilities and calculating adjacency</param>
     /// <param name="initialRole">The role they were initially dealt</param>
     /// <param name="game">The game the player is in</param>
     /// <param name="randomizer">The randomizer instance</param>
-    public GamePlayer(string name, RoleBase initialRole, Game game, Random randomizer) : base(name, initialRole)
+    public GamePlayer(string name, int playerNumber, RoleBase initialRole, Game game, Random randomizer) : base(name, initialRole)
     {
         _game = game;
+        Number = playerNumber;
         Strategies = new GameStrategies(randomizer, this);
         Brain = new PlayerInferenceEngine(this, game);
     }
@@ -27,12 +29,12 @@ public class GamePlayer : CardContainer
     /// Adds a new event to the game log
     /// </summary>
     /// <param name="eventBase">The event to add</param>
-    public void AddEvent(GameEventBase eventBase) => _events.Add(eventBase);
+    public void LogEvent(GameEventBase eventBase) => _events.Add(eventBase);
 
     /// <summary>
     /// Gets all events for the player
     /// </summary>
-    public IList<GameEventBase> Events => _events.AsReadOnly();
+    public IEnumerable<GameEventBase> Events => _events.AsReadOnly();
     
     /// <summary>
     /// Gets the <see cref="PlayerInferenceEngine"/> associated with the player.
@@ -48,6 +50,11 @@ public class GamePlayer : CardContainer
     /// The strategies the player uses for various roles.
     /// </summary>
     public GameStrategies Strategies { get; }
+
+    /// <summary>
+    /// The player number
+    /// </summary>
+    public int Number { get; set; }
 
     /// <summary>
     /// Returns which player the player wants to vote for

@@ -29,6 +29,7 @@ public static class RoleExtensions
             case RoleTypes.Mason:
             case RoleTypes.Revealer:
             case RoleTypes.Exposer:
+            case RoleTypes.Thing:
             default:
                 return Teams.Villagers;
         }

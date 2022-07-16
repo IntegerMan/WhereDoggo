@@ -70,7 +70,7 @@ public class Game
         {
             if (i < NumPlayers)
             {
-                _roleContainers.Add(new GamePlayer(playerNames[i], _roles[i], this, Randomizer));
+                _roleContainers.Add(new GamePlayer(playerNames[i], i + 1, _roles[i], this, Randomizer));
             }
             else
             {
@@ -147,7 +147,7 @@ public class Game
         _events.Add(@event);
 
         // The player involved should know about this event
-        @event.Player?.AddEvent(@event);
+        @event.Player?.LogEvent(@event);
     }
 
     /// <summary>
@@ -174,7 +174,7 @@ public class Game
         // All players need to know about this event
         foreach (GamePlayer player in Players)
         {
-            player.AddEvent(@event);
+            player.LogEvent(@event);
         }
     }
 
@@ -277,4 +277,22 @@ public class Game
             player.InitialRole.PerformNightAction(this, player);
         }
     }
+
+    /// <summary>
+    /// Gets the index of the previous player. This is commonly used for adjacency abilities.
+    /// </summary>
+    /// <param name="player">The player</param>
+    /// <returns>The zero-based index of the previous player</returns>
+    public int GetPreviousPlayerIndex(GamePlayer player) => player.Number == 1 
+            ? Players.Count - 1
+            : player.Number - 2;
+    
+    /// <summary>
+    /// Gets the index of the next player. This is commonly used for adjacency abilities.
+    /// </summary>
+    /// <param name="player">The player</param>
+    /// <returns>The zero-based index of the next player</returns>
+    public int GetNextPlayerIndex(GamePlayer player) => player.Number == Players.Count 
+            ? 0
+            : player.Number;
 }
