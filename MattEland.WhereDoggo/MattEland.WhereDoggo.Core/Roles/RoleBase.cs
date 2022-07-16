@@ -37,5 +37,6 @@ public abstract class RoleBase
     /// <param name="player">The player woken up.</param>
     public virtual void PerformNightAction(Game game, GamePlayer player)
     {
+        // Does nothing
     }
 }
