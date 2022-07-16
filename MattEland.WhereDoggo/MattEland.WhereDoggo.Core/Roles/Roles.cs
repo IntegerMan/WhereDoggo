@@ -56,5 +56,9 @@ public enum RoleTypes
     /// The <see cref="ThingRole"/> (that goes bump in the night)
     /// </summary>
     [Description("The Thing")]
-    Thing
+    Thing,
+    /// <summary>
+    /// The <see cref="Seer"/>
+    /// </summary>
+    Seer
 }
