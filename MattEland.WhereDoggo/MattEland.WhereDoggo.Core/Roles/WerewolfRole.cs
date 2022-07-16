@@ -33,7 +33,7 @@ public class WerewolfRole : RoleBase
 
             case > 1:
                 // Each wolf knows each other wolf is on team werewolf
-                HandleMultipleWolvesWake(game, player, wolves);
+                HandleMultipleWolvesWake(game, player, game.Players);
                 break;
         }
     }
@@ -43,7 +43,7 @@ public class WerewolfRole : RoleBase
         game.LogEvent(new OnlyWolfEvent(player));
         foreach (GamePlayer otherPlayer in game.Players.Where(p => p != player))
         {
-            game.LogEvent(new SawNotRoleEvent(player, otherPlayer, RoleTypes.Werewolf));
+            MarkTargetAsNonWolf(game, player, otherPlayer);
         }
 
         CardContainer? slot = player.Strategies.PickSingleCardStrategy.SelectCard(game.CenterSlots);
@@ -58,17 +58,25 @@ public class WerewolfRole : RoleBase
         }
     }
 
+    private static void MarkTargetAsNonWolf(Game game, GamePlayer player, GamePlayer target)
+    {
+        foreach (RoleTypes evilRole in game.Roles.Where(r => r.Team == Teams.Werewolves).Select(r => r.RoleType))
+        {
+            game.LogEvent(new SawNotRoleEvent(player, target, evilRole));
+        }
+    }
+
     private static void HandleMultipleWolvesWake(Game game, GamePlayer player, IEnumerable<GamePlayer> wolves)
     {
         foreach (GamePlayer otherPlayer in wolves.Where(otherPlayer => otherPlayer != player))
         {
             if (otherPlayer.InitialTeam == Teams.Werewolves)
             {
-                game.LogEvent(new KnowsRoleEvent(game.CurrentPhase, player, otherPlayer));
+                game.LogEvent(new SawAsWerewolfEvent(player, otherPlayer));
             }
             else
             {
-                game.LogEvent(new SawNotRoleEvent(player, otherPlayer, RoleTypes.Werewolf));
+                MarkTargetAsNonWolf(game, player, otherPlayer);
             }
         }
     }

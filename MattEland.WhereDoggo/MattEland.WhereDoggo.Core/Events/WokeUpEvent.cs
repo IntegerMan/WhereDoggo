@@ -18,4 +18,11 @@ public class WokeUpEvent : GameEventBase
     public override string ToString() => Phase == GamePhase.Day 
         ? $"{Player} woke up in the morning." 
         : $"{Player} woke up in the {Phase}.";
+    
+    /// <inheritdoc />
+    public override void UpdatePlayerPerceptions(GamePlayer observer, CardContainer target, CardProbabilities probabilities)
+    {
+        // Do nothing
+    }
+
 }

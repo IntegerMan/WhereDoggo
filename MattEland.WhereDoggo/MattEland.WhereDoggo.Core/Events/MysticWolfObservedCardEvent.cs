@@ -12,5 +12,23 @@ public class MysticWolfObservedCardEvent : TargetedEventBase
     /// <param name="target">The player who the Mystic Wolf observed</param>
     public MysticWolfObservedCardEvent(GamePlayer player, CardContainer target) : base(GamePhase.Night, player, target)
     {
+        ObservedRole = target.CurrentRole;
     }
+
+    /// <summary>
+    /// The role the looked at card held
+    /// </summary>
+    public RoleBase ObservedRole { get; set; }
+
+    /// <inheritdoc />
+    public override void UpdatePlayerPerceptions(GamePlayer observer, CardContainer target, CardProbabilities probabilities)
+    {
+        if (Target == target)
+        {
+            probabilities.MarkAsCertainOfRole(target.CurrentRole.RoleType);
+        }
+    }
+
+    /// <inheritdoc />
+    public override string ToString() => $"{Player} looked at {Target}'s card and saw it was a {ObservedRole}";
 }

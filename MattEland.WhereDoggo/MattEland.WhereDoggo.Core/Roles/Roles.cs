@@ -49,5 +49,6 @@ public enum RoleTypes
     /// <summary>
     /// The <see cref="MysticWolfRole"/>
     /// </summary>
+    [Description("Mystic Wolf")]
     MysticWolf
 }

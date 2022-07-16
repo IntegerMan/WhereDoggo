@@ -5,11 +5,34 @@
 /// </summary>
 /// <href>http://onenightultimate.com/?p=37</href>
 [RoleFor(RoleTypes.MysticWolf)]
-public class MysticWolfRole : RoleBase
+public class MysticWolfRole : WerewolfRole
 {
     /// <inheritdoc />
     public override RoleTypes RoleType => RoleTypes.MysticWolf;
 
     /// <inheritdoc />
     public override Teams Team => Teams.Werewolves;
+
+    /// <inheritdoc />
+    public override decimal? NightActionOrder => 2.2m;
+    
+
+    /// <inheritdoc />
+    public override void PerformNightAction(Game game, GamePlayer player)
+    {
+        base.PerformNightAction(game, player);
+
+        CardContainer? card = player.Strategies.PickSingleCardStrategy.SelectCard(game.Players.Where(p => p != player));
+
+        if (card == null)
+        {
+            game.LogEvent(new SkippedNightActionEvent(player));
+        }
+        else
+        {
+            game.LogEvent(new MysticWolfObservedCardEvent(player, card));
+        }
+    }
+    
+    
 }

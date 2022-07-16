@@ -26,7 +26,7 @@ public class MysticWolfTests : GameTestsBase
 
         // Assert
         GamePlayer player = game.Players.First();
-        player.Events.ShouldContain(e => e is ObservedCenterCardEvent);
+        player.Events.ShouldContain(e => e is SawAsWerewolfEvent);
     }
     
     [Test]
@@ -125,7 +125,7 @@ public class MysticWolfTests : GameTestsBase
         };
         Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
-        player.Strategies.PickSingleCardStrategy = new SelectSpecificSlotPlacementStrategy(1);
+        player.Strategies.PickSingleCardStrategy = new SelectSpecificSlotPlacementStrategy(0);
         game.Run();
         
         // Act
@@ -134,7 +134,7 @@ public class MysticWolfTests : GameTestsBase
         // Assert
         probabilities[game.Players[1]].IsCertain.ShouldBeTrue();
         probabilities[game.Players[1]].ProbableRole.ShouldBe(assignedRoles[1]);
-    }
+    }    
     
     [Test]
     public void MysticWolfWhoLookedShouldHaveAppropriateEvent()

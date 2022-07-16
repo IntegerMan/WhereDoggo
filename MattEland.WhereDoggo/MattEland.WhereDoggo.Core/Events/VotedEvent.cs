@@ -16,4 +16,11 @@ public class VotedEvent : TargetedEventBase
 
     /// <inheritdoc />
     public override string ToString() => $"{Player} voted for {Target}";
+    
+    /// <inheritdoc />
+    public override void UpdatePlayerPerceptions(GamePlayer observer, CardContainer target, CardProbabilities probabilities)
+    {
+        // Do nothing
+    }
+
 }

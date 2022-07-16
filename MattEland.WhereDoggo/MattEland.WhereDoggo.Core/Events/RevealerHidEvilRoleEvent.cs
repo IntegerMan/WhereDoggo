@@ -16,4 +16,11 @@ public class RevealerHidEvilRoleEvent : TargetedEventBase
 
     /// <inheritdoc />
     public override string ToString() => $"{Player} turned back over {Target}";
+    
+    /// <inheritdoc />
+    public override void UpdatePlayerPerceptions(GamePlayer observer, CardContainer target, CardProbabilities probabilities)
+    {
+        // Do nothing
+    }
+
 }
