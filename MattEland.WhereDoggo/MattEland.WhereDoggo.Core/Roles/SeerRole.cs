@@ -4,7 +4,7 @@
 /// The seer from One Night Ultimate Werewolf.
 /// The seer may look at one other player's card, look at 2 cards from the center, or do nothing in her night action.
 /// </summary>
-/// <see cref="http://onenightultimate.com/?p=51"/>
+/// <href>http://onenightultimate.com/?p=51</href> 
 [RoleFor(RoleTypes.Seer)]
 public class SeerRole : RoleBase
 {

@@ -30,7 +30,7 @@ public class MysticWolfRole : WerewolfRole
         }
         else
         {
-            game.LogEvent(new MysticWolfObservedCardEvent(player, card));
+            game.LogEvent(new ObservedPlayerCardEvent(player, card));
         }
     }
     

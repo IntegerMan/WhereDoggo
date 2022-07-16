@@ -157,7 +157,7 @@ public class MysticWolfTests : GameTestsBase
 
         // Assert
         GamePlayer player = game.Players.First();
-        player.Events.ShouldContain(e => e is MysticWolfObservedCardEvent);
+        player.Events.ShouldContain(e => e is ObservedPlayerCardEvent);
     }
     
     [Test]
