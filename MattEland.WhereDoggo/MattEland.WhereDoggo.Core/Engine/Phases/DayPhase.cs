@@ -1,7 +1,14 @@
 ﻿namespace MattEland.WhereDoggo.Core.Engine.Phases;
 
+/// <summary>
+/// The day phase has all players wake up and look around
+/// </summary>
 public class DayPhase : GamePhaseBase
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DayPhase"/> class.
+    /// </summary>
+    /// <param name="game">The game instance</param>
     public DayPhase(Game game) : base(game)
     {
     }
@@ -15,5 +22,9 @@ public class DayPhase : GamePhaseBase
     /// <inheritdoc />
     public override void Run(Game game)
     {
+        foreach (GamePlayer p in game.Players)
+        {
+            p.Wake();
+        }
     }    
 }

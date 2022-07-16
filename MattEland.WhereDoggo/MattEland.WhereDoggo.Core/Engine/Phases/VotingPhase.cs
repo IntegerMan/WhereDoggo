@@ -1,7 +1,14 @@
 ﻿namespace MattEland.WhereDoggo.Core.Engine.Phases;
 
+/// <summary>
+/// The voting phase occurs when all players commit their votes. This is the final phase of the game.
+/// </summary>
 public class VotingPhase : GamePhaseBase
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="VotingPhase"/> class.
+    /// </summary>
+    /// <param name="game">The game.</param>
     public VotingPhase(Game game) : base(game)
     {
         
@@ -35,10 +42,6 @@ public class VotingPhase : GamePhaseBase
         IList<GamePlayer> winners = wwVoted ? villagers : wolves;
         
         Game.Result = new GameResult(wwVoted, winners);
-
-        BroadcastEvent(wwVoted
-            ? "The village wins!"
-            : "The werewolves win!");
 
         BroadcastEvent(Game.Result.Winners.Any()
             ? $"The winners are {string.Join(", ", winners.Select(w => $"{w.Name} ({w.CurrentRole})"))}"

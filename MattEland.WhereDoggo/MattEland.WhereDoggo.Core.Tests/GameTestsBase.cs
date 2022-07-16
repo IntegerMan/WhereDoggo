@@ -8,7 +8,12 @@ public abstract class GameTestsBase
     {
         options ??= CreateGameOptions();
 
-        return new Game(assignedRoles, options);
+        Game game = new Game(assignedRoles, options);
+
+        // Set up the game
+        game.RunNextPhase();
+        
+        return game;
     }
 
     protected static GameOptions CreateGameOptions()

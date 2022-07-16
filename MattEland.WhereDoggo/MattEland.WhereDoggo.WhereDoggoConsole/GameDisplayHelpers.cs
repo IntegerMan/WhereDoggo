@@ -9,7 +9,7 @@ public static class GameDisplayHelpers
     {
         foreach (CardContainer container in game.Entities)
         {
-            Console.WriteLine($"{container} is a {container.CurrentRole}");
+            Console.WriteLine($"\t{container} is a {container.CurrentRole}");
         }
 
         Console.WriteLine();

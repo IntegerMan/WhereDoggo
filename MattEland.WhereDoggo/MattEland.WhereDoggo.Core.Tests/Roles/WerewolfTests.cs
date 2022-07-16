@@ -132,8 +132,7 @@ public class WerewolfTests : GameTestsBase
         Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
         player.PickSingleCard = PickFirstCard;
-        game.Start();
-        game.PerformNightPhase();
+        game.Run();
 
         // Act
         IDictionary<CardContainer, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();

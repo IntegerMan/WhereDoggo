@@ -28,4 +28,8 @@ public class SawAsWerewolfEvent : TargetedEventBase
             }
         }
     }
+
+
+    /// <inheritdoc />
+    public override string ToString() => $"{Player} observed that {Target} was on the Werewolf team";
 }

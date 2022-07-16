@@ -10,11 +10,12 @@ public abstract class GamePhaseBase
     /// </summary>
     public Game Game { get; }
 
-    protected GamePhaseBase(Game game)
-    {
-        Game = game;
-    }
-    
+    /// <summary>
+    /// Initializes a new instance of the <see cref="GamePhaseBase"/> class.
+    /// </summary>
+    /// <param name="game">The game</param>
+    protected GamePhaseBase(Game game) => Game = game;
+
     /// <summary>
     /// The phase of the game
     /// </summary>
@@ -34,8 +35,27 @@ public abstract class GamePhaseBase
     /// <param name="game">The current game</param>
     public abstract void Run(Game game);
 
+    /// <summary>
+    /// Logs a new game event.
+    /// </summary>
+    /// <param name="event">The event to log</param>
     protected void LogEvent(GameEventBase @event) => Game.LogEvent(@event);
+    
+    /// <summary>
+    /// Logs a new game event.
+    /// </summary>
+    /// <param name="event">The event to log</param>
     protected void LogEvent(string @event) => Game.LogEvent(@event);
+    
+    /// <summary>
+    /// Broadcasts a new game event.
+    /// </summary>
+    /// <param name="event">The event to log</param>
     protected void BroadcastEvent(GameEventBase @event) => Game.BroadcastEvent(@event);
+    
+    /// <summary>
+    /// Broadcasts a new game event.
+    /// </summary>
+    /// <param name="event">The event to log</param>
     protected void BroadcastEvent(string @event) => Game.BroadcastEvent(@event);
 }

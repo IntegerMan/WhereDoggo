@@ -1,4 +1,5 @@
-﻿using MattEland.WhereDoggo.Core.Roles;
+﻿using MattEland.WhereDoggo.Core.Engine.Phases;
+using MattEland.WhereDoggo.Core.Roles;
 
 static GameResult RunAndShowGame(bool showUi)
 {
@@ -19,31 +20,30 @@ static GameResult RunAndShowGame(bool showUi)
         Console.WriteLine($"Starting a new game of \"{game.Name}\"");
         Console.WriteLine();
     }
-    game.Start();
 
-    if (showUi)
+    GamePhases phase = game.CurrentPhase;
+    while (!game.RunNextPhase())
     {
-        Console.WriteLine("After game start...");
-        Console.WriteLine();
-        game.DisplayGameState();
+        phase = game.CurrentPhase;
+        
+        if (showUi)
+        {
+            if (phase == GamePhases.Night)
+            {
+                game.DisplayNightActions();
+            }
+
+            if (phase != GamePhases.Day)
+            {
+                Console.WriteLine($"After {phase} Phase...");
+                game.DisplayGameState();
+            }
+            else
+            {
+                game.DisplayPlayerKnowledge(includeProbabilities: true);
+            }
+        }
     }
-
-    // Carry out night phase
-    game.PerformNightPhase();
-    game.PerformDayPhase();
-
-    if (showUi)
-    {
-        game.DisplayNightActions();
-
-        // Show game state prior to vote
-        Console.WriteLine("Before voting...");
-        Console.WriteLine();
-        game.DisplayPlayerKnowledge(true);
-    }
-
-    // Carry out vote phase
-    game.PerformVotePhase();
 
     // Log all game events
     if (showUi)

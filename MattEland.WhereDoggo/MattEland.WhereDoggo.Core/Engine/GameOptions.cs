@@ -28,4 +28,9 @@ public class GameOptions
     /// Gets or sets the name of the game
     /// </summary>
     public string GameName { get; set; } = "One Night Ultimate Werewolf";
+
+    /// <summary>
+    /// Gets or sets the number of players playing
+    /// </summary>
+    public int NumPlayers { get; set; } = 3;
 }
