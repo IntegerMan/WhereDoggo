@@ -22,6 +22,20 @@ public class ThingRole : RoleBase
     {
         base.PerformNightAction(game, player);
         
-        // TODO: Actually go bump in the night
+        int prevIndex = game.GetPreviousPlayerIndex(player);
+        int nextIndex = game.GetNextPlayerIndex(player);
+        
+        GamePlayer[] options = {game.Players[prevIndex], game.Players[nextIndex]};
+
+        if (player.Strategies.PickSingleCardStrategy.SelectCard(options) is not GamePlayer target)
+        {
+            game.LogEvent(new SkippedNightActionEvent(player));
+        }
+        else
+        {
+            ThingTappedEvent tappedEvent = new ThingTappedEvent(player, target);
+            game.LogEvent(tappedEvent);
+            target.LogEvent(tappedEvent);
+        }
     }
 }
