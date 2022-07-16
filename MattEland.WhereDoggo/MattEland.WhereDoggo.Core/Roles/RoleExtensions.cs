@@ -19,6 +19,7 @@ public static class RoleExtensions
         switch (role)
         {
             case RoleTypes.Werewolf:
+            case RoleTypes.MysticWolf:
                 return Teams.Werewolves;
             
             case RoleTypes.Villager:
@@ -27,6 +28,7 @@ public static class RoleExtensions
             case RoleTypes.ApprenticeSeer:
             case RoleTypes.Mason:
             case RoleTypes.Revealer:
+            case RoleTypes.Exposer:
             default:
                 return Teams.Villagers;
         }

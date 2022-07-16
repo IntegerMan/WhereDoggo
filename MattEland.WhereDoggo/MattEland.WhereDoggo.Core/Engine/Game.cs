@@ -239,7 +239,7 @@ public class Game
         IEnumerable<GamePlayer> villagers = Players.Where(p => p.CurrentTeam == Teams.Villagers);
         IEnumerable<GamePlayer> wolves = Players.Where(p => p.CurrentTeam == Teams.Werewolves);
 
-        bool wwVoted = votedPlayers.Any(p => p.CurrentRole.RoleType == RoleTypes.Werewolf);
+        bool wwVoted = votedPlayers.Any(p => p.CurrentTeam == Teams.Werewolves); // Revisit for Minion
         Result = new GameResult(wwVoted, wwVoted ? villagers : wolves);
 
         BroadcastEvent(wwVoted
