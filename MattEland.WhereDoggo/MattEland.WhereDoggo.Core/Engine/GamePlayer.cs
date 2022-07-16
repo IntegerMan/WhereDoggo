@@ -21,7 +21,7 @@ public class GamePlayer : CardContainer
     {
         _game = game;
         Number = playerNumber;
-        Strategies = new GameStrategies(randomizer, this);
+        Strategies = new GameStrategies(randomizer);
         Brain = new PlayerInferenceEngine(this, game);
     }
 

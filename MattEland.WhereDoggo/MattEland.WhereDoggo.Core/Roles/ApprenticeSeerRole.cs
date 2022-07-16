@@ -20,7 +20,7 @@ public class ApprenticeSeerRole : RoleBase
     /// <inheritdoc />
     public override void PerformNightAction(Game game, GamePlayer player)
     {
-        CardContainer? slot = player.Strategies.PickSingleCardStrategy.SelectCard(game.CenterSlots);
+        CardContainer? slot = player.Strategies.PickSingleCard(game.CenterSlots.Cast<CardContainer>().ToList());
 
         if (slot == null)
         {

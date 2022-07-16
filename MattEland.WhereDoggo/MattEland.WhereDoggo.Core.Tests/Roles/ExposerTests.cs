@@ -160,7 +160,7 @@ public class ExposerTests : GameTestsBase
         };
         Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
-        player.Strategies.PickSingleCardStrategy = new OptOutSlotSelectionStrategy();
+        player.Strategies.PickSingleCard = (_) => null;
 
         // Act
         game.Run();

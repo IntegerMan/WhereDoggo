@@ -1,6 +1,4 @@
 ﻿using System;
-using MattEland.WhereDoggo.Core.Events;
-using MattEland.WhereDoggo.Core.Tests.Strategies;
 
 namespace MattEland.WhereDoggo.Core.Tests.Roles;
 
@@ -54,7 +52,7 @@ public class SentinelTests : GameTestsBase
         };
         Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
-        player.Strategies.SentinelTokenPlacementStrategy = new SelectSpecificSlotPlacementStrategy(1); // WW player
+        player.Strategies.PickSingleCard = (cards) => cards.First();
 
         // Act
         game.Run();
@@ -105,7 +103,7 @@ public class SentinelTests : GameTestsBase
         };
         Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
-        player.Strategies.SentinelTokenPlacementStrategy = new OptOutSlotSelectionStrategy();
+        player.Strategies.PickSingleCard = (_) => null;
 
         // Act
         game.Run();
@@ -131,7 +129,7 @@ public class SentinelTests : GameTestsBase
         };
         Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
-        player.Strategies.SentinelTokenPlacementStrategy = new OptOutSlotSelectionStrategy();
+        player.Strategies.PickSingleCard = (_) => null;
 
         // Act
         game.Run();
@@ -194,28 +192,5 @@ public class SentinelTests : GameTestsBase
         GameEventBase? observedEvent = observer.Events.FirstOrDefault(e => e is SentinelTokenObservedEvent);
         observedEvent.ShouldNotBeNull();
         observedEvent.Phase.ShouldBe(expectedPhase);
-    }
-
-    [Test]
-    public void SentinelThrowsInvalidOperationExceptionWhenForcedToPutTokenOnThemselves()
-    {
-        // Arrange
-        // Arrange
-        RoleTypes[] assignedRoles =
-        {
-            // Player Roles
-            RoleTypes.Sentinel,
-            RoleTypes.Werewolf,
-            RoleTypes.Villager,
-            // Center Cards
-            RoleTypes.Werewolf,
-            RoleTypes.Villager,
-            RoleTypes.Villager
-        };
-        Game game = CreateGame(assignedRoles);
-        GamePlayer player = game.Players.First();
-        player.Strategies.SentinelTokenPlacementStrategy = new SelectSpecificSlotPlacementStrategy(0); // Sentinel
-
-        Assert.That(() => game.Run(), Throws.TypeOf<InvalidOperationException>());
     }
 }

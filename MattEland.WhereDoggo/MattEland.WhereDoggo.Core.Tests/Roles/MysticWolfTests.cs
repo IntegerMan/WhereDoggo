@@ -125,7 +125,7 @@ public class MysticWolfTests : GameTestsBase
         };
         Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
-        player.Strategies.PickSingleCardStrategy = new SelectSpecificSlotPlacementStrategy(0);
+        player.Strategies.PickSingleCard = (cards) => cards.First();
         game.Run();
         
         // Act
@@ -177,7 +177,7 @@ public class MysticWolfTests : GameTestsBase
         };
         Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
-        player.Strategies.PickSingleCardStrategy = new OptOutSlotSelectionStrategy();
+        player.Strategies.PickSingleCard = (_) => null;
         
         // Act
         game.Run();

@@ -1,4 +1,4 @@
-﻿namespace MattEland.WhereDoggo.Core.Strategies;
+﻿namespace MattEland.WhereDoggo.Core.Engine;
 
 /// <summary>
 /// A container for game strategies for different events.
@@ -10,28 +10,21 @@ public class GameStrategies
     /// Initializes a new instance of the <see cref="GameStrategies"/> class.
     /// </summary>
     /// <param name="random">The randomizer</param>
-    /// <param name="self">The player making the choices</param>
-    public GameStrategies(Random random, GamePlayer self)
+    public GameStrategies(Random random)
     {
-        PickSingleCardStrategy = new RandomSlotSelectionStrategy(random);
-        SentinelTokenPlacementStrategy = new RandomNotSelfSlotSelectionStrategy(random, self);
+        PickSingleCard = (targets) => targets.MinBy(_ => random.Next() * random.Next());
         PickSeerCards = (_, slots) => slots.OrderBy(_ => random.Next() * random.Next()).Take(2).ToList();
     }
 
     /// <summary>
-    /// The strategy the lone wolf should use when they get to peek at a center card
+    /// The strategy to use when selecting a single card from multiple. Applies to multiple roles
     /// </summary>
-    public SlotSelectionStrategyBase PickSingleCardStrategy { get; set; }
-
-    /// <summary>
-    /// The strategy the sentinel should use when they get to place their token
-    /// </summary>
-    public SlotSelectionStrategyBase SentinelTokenPlacementStrategy { get; set; }
+    public Func<IEnumerable<CardContainer>, CardContainer?> PickSingleCard { get; set; }
 
     /// <summary>
     /// The function to use when picking cards for the <see cref="SeerRole"/>. A seer-specific function is required
     /// because the seer gets the choice to skip, pick one card from a player, or pick two cards from the center.
     /// </summary>
-    public Func<IList<CardContainer>, IList<CardContainer>, List<CardContainer>> PickSeerCards { get; set; }
+    public Func<IEnumerable<CardContainer>, IEnumerable<CardContainer>, List<CardContainer>> PickSeerCards { get; set; }
         
 }

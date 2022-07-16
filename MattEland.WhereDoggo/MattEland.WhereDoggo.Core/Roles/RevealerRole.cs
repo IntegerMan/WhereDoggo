@@ -21,15 +21,11 @@ public class RevealerRole : RoleBase
     /// <inheritdoc />
     public override void PerformNightAction(Game game, GamePlayer player)
     {
-        CardContainer? target = player.Strategies.PickSingleCardStrategy.SelectCard(game.Players);
+        CardContainer? target = player.Strategies.PickSingleCard(game.Players.Where(p => p != player));
 
         if (target == null)
         {
             game.LogEvent(new SkippedNightActionEvent(player));
-        }
-        else if (target == player)
-        {
-            throw new InvalidOperationException("Cannot reveal your own card.");
         }
         else
         {

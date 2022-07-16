@@ -1,7 +1,4 @@
-﻿using MattEland.WhereDoggo.Core.Events;
-using MattEland.WhereDoggo.Core.Tests.Strategies;
-
-namespace MattEland.WhereDoggo.Core.Tests.Roles;
+﻿namespace MattEland.WhereDoggo.Core.Tests.Roles;
 
 /// <summary>
 /// Tests for the <see cref="ApprenticeSeerRole"/>
@@ -26,7 +23,7 @@ public class ApprenticeSeerTests : GameTestsBase
         };
         Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
-        player.Strategies.PickSingleCardStrategy = new SelectSpecificSlotPlacementStrategy(0);
+        player.Strategies.PickSingleCard = (cards) => cards.First();
         game.Run();
 
         // Act
@@ -55,7 +52,7 @@ public class ApprenticeSeerTests : GameTestsBase
         };
         Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
-        player.Strategies.PickSingleCardStrategy = new SelectSpecificSlotPlacementStrategy(0);
+        player.Strategies.PickSingleCard = (cards) => cards.First();
         game.Run();
 
         // Act
@@ -85,7 +82,7 @@ public class ApprenticeSeerTests : GameTestsBase
         };
         Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
-        player.Strategies.PickSingleCardStrategy = new OptOutSlotSelectionStrategy();
+        player.Strategies.PickSingleCard = (_) => null;
         game.Run();
 
         // Act
@@ -115,7 +112,7 @@ public class ApprenticeSeerTests : GameTestsBase
         };
         Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
-        player.Strategies.PickSingleCardStrategy = new OptOutSlotSelectionStrategy();
+        player.Strategies.PickSingleCard = (_) => null;
 
         // Act
         game.Run();

@@ -16,7 +16,6 @@ public class ThingRole : RoleBase
     /// <inheritdoc />
     public override decimal? NightActionOrder => 4.2m;
     
-
     /// <inheritdoc />
     public override void PerformNightAction(Game game, GamePlayer player)
     {
@@ -27,13 +26,13 @@ public class ThingRole : RoleBase
         
         GamePlayer[] options = {game.Players[prevIndex], game.Players[nextIndex]};
 
-        if (player.Strategies.PickSingleCardStrategy.SelectCard(options) is not GamePlayer target)
+        if (player.Strategies.PickSingleCard(options) is not GamePlayer target)
         {
             game.LogEvent(new SkippedNightActionEvent(player));
         }
         else
         {
-            ThingTappedEvent tappedEvent = new ThingTappedEvent(player, target);
+            ThingTappedEvent tappedEvent = new(player, target);
             game.LogEvent(tappedEvent);
             target.LogEvent(tappedEvent);
         }

@@ -77,11 +77,11 @@ public class SeerTests : GameTestsBase
         };
         Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
-        player.Strategies.PickSeerCards = (_, center) => new[] { center[0], center[1] }.ToList();
+        player.Strategies.PickSeerCards = (_, center) => center.Take(2).ToList();
         game.Run();
 
         // Act
-        var probabilities = player.Brain.BuildFinalRoleProbabilities();
+        IDictionary<CardContainer, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();
 
         // Assert
         probabilities[game.CenterSlots[0]].IsCertain.ShouldBeTrue();

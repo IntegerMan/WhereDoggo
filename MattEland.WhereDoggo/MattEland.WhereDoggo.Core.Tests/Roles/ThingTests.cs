@@ -23,7 +23,7 @@ public class ThingTests : GameTestsBase
         };
         Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
-        player.Strategies.PickSingleCardStrategy = new SelectSpecificSlotPlacementStrategy(1);
+        player.Strategies.PickSingleCard = (cards) => cards.First();
         
         // Act
         game.Run();
@@ -50,7 +50,7 @@ public class ThingTests : GameTestsBase
         Game game = CreateGame(assignedRoles);
         GamePlayer thing = game.Players[0];
         GamePlayer target = game.Players[1];
-        thing.Strategies.PickSingleCardStrategy = new SelectSpecificSlotPlacementStrategy(1);
+        thing.Strategies.PickSingleCard = (cards) => cards.Last();
         
         // Act
         game.Run();
@@ -77,7 +77,7 @@ public class ThingTests : GameTestsBase
         Game game = CreateGame(assignedRoles);
         GamePlayer thing = game.Players[0];
         GamePlayer target = game.Players[1];
-        thing.Strategies.PickSingleCardStrategy = new SelectSpecificSlotPlacementStrategy(1);
+        thing.Strategies.PickSingleCard = (cards) => cards.Last();
         game.Run();
         
         // Act
@@ -106,7 +106,7 @@ public class ThingTests : GameTestsBase
         };
         Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
-        player.Strategies.PickSingleCardStrategy = new OptOutSlotSelectionStrategy();
+        player.Strategies.PickSingleCard = (_) => null;
         
         // Act
         game.Run();
