@@ -62,6 +62,7 @@ public class WerewolfTests : GameTestsBase
             kvp.Value.IsCertain.ShouldBeTrue($"Was not certain of role {kvp.Value}");
         }
     }
+    
 
     [Test]
     public void LoneWolfWhoLooksShouldHaveCorrectEvent()
@@ -84,6 +85,7 @@ public class WerewolfTests : GameTestsBase
 
         // Assert
         GamePlayer player = game.Players.First();
+        player.Events.ShouldContain(e => e is OnlyWolfEvent);
         player.Events.ShouldContain(e => e is ObservedCenterCardEvent);
         player.Events.ShouldNotContain(e => e is SkippedNightActionEvent);
     }
@@ -109,12 +111,14 @@ public class WerewolfTests : GameTestsBase
         game.Run();
 
         // Assert
+        player.Events.ShouldContain(e => e is OnlyWolfEvent);
         player.Events.ShouldContain(e => e is SkippedNightActionEvent);
         player.Events.ShouldNotContain(e => e is ObservedCenterCardEvent);
     }
 
-    [Test]
-    public void WerewolvesShouldKnowOthersAreVillagers()
+    [TestCase(RoleTypes.Werewolf)]
+    [TestCase(RoleTypes.MysticWolf)]
+    public void WerewolvesShouldKnowOthersAreVillagers(RoleTypes centerCardEvilRole)
     {
         // Arrange
         RoleTypes[] assignedRoles =
@@ -124,7 +128,7 @@ public class WerewolfTests : GameTestsBase
             RoleTypes.Villager,
             RoleTypes.Villager,
             // Center Cards
-            RoleTypes.Werewolf,
+            centerCardEvilRole,
             RoleTypes.Villager,
             RoleTypes.Villager
         };
@@ -141,10 +145,12 @@ public class WerewolfTests : GameTestsBase
         GamePlayer player2 = game.Players[1];
         probabilities[player2].Probabilities[RoleTypes.Villager].ShouldBe(1);
         probabilities[player2].Probabilities[RoleTypes.Werewolf].ShouldBe(0);
+        probabilities[player2].Probabilities[centerCardEvilRole].ShouldBe(0);
 
         GamePlayer player3 = game.Players[2];
         probabilities[player3].Probabilities[RoleTypes.Villager].ShouldBe(1);
         probabilities[player3].Probabilities[RoleTypes.Werewolf].ShouldBe(0);
+        probabilities[player3].Probabilities[centerCardEvilRole].ShouldBe(0);
     }
 
 }

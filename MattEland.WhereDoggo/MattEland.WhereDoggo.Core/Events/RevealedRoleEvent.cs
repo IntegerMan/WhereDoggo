@@ -16,4 +16,11 @@ public class RevealedRoleEvent : TargetedEventBase
     
     /// <inheritdoc />
     public override string ToString() => $"{Player} revealed {Target}'s role";
+    
+    /// <inheritdoc />
+    public override void UpdatePlayerPerceptions(GamePlayer observer, CardContainer target, CardProbabilities probabilities)
+    {
+        // Do nothing
+    }
+
 }

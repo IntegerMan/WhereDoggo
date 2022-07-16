@@ -1,4 +1,4 @@
-﻿namespace MattEland.WhereDoggo.Core.Tests;
+﻿namespace MattEland.WhereDoggo.Core.Tests.Probabilistic_Modeling;
 
 [Category("Probabilistic Modeling")]
 public class ProbabilityTests

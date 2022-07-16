@@ -8,7 +8,7 @@ static GameResult RunAndShowGame(bool showUi)
         RoleTypes.Mason,
         RoleTypes.Mason,
         RoleTypes.Werewolf,
-        RoleTypes.Werewolf,
+        RoleTypes.MysticWolf,
         RoleTypes.Villager,
         RoleTypes.ApprenticeSeer,
     };

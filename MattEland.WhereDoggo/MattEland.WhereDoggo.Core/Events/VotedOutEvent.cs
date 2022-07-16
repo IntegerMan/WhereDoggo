@@ -16,4 +16,11 @@ public class VotedOutEvent : GameEventBase
 
     /// <inheritdoc />
     public override string ToString() => $"{Player} was voted out. Their role was {Player!.CurrentRole}";
+    
+    /// <inheritdoc />
+    public override void UpdatePlayerPerceptions(GamePlayer observer, CardContainer target, CardProbabilities probabilities)
+    {
+        // Do nothing
+    }
+
 }

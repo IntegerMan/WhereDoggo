@@ -17,4 +17,11 @@ public class SkippedNightActionEvent : GameEventBase
 
     /// <inheritdoc />
     public override string ToString() => $"{Player} chose to skip their night action.";
+    
+    /// <inheritdoc />
+    public override void UpdatePlayerPerceptions(GamePlayer observer, CardContainer target, CardProbabilities probabilities)
+    {
+        // Do nothing
+    }
+
 }

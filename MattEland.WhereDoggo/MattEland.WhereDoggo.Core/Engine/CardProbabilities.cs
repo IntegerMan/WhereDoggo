@@ -18,6 +18,7 @@ public class CardProbabilities
         Dictionary<RoleTypes, int> roleCounts = game.BuildRoleCounts();
 
         RecalculateProbability(roleCounts);
+        PossibleRoles = roleCounts.Keys;
     }
 
     /// <summary>
@@ -29,6 +30,7 @@ public class CardProbabilities
     {
         IsCenterCard = isCenterCard;
         RecalculateProbability(roleCounts);
+        PossibleRoles = roleCounts.Keys;
     }
 
     /// <summary>
@@ -140,7 +142,7 @@ public class CardProbabilities
     /// <summary>
     /// Gets the probable team the card belongs to
     /// </summary>
-    public Teams ProbableTeams
+    public Teams ProbableTeam
     {
         get
         {
@@ -218,4 +220,9 @@ public class CardProbabilities
     /// Gets whether or not the card represents a player card
     /// </summary>
     public bool IsPlayerCard => !IsCenterCard;
+
+    /// <summary>
+    /// Gets the unique roles in the game
+    /// </summary>
+    public IEnumerable<RoleTypes> PossibleRoles { get; }
 }

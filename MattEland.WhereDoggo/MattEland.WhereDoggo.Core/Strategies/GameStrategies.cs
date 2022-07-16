@@ -1,4 +1,4 @@
-﻿namespace MattEland.WhereDoggo.Core.Gamespace;
+﻿namespace MattEland.WhereDoggo.Core.Strategies;
 
 /// <summary>
 /// A container for game strategies for different events.
