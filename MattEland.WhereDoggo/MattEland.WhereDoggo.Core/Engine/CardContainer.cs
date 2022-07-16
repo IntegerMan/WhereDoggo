@@ -1,4 +1,4 @@
-﻿namespace MattEland.WhereDoggo.Core.Gamespace;
+﻿namespace MattEland.WhereDoggo.Core.Engine;
 
 /// <summary>
 /// Represents something that can have a card in it. This is typically going

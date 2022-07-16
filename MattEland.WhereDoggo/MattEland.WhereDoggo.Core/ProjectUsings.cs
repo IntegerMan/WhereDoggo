@@ -9,5 +9,4 @@ global using MattEland.WhereDoggo.Core.Engine;
 global using MattEland.Util;
 global using MattEland.WhereDoggo.Core.Roles;
 global using MattEland.WhereDoggo.Core.Events;
-global using MattEland.WhereDoggo.Core.Gamespace;
 global using MattEland.WhereDoggo.Core.Strategies;

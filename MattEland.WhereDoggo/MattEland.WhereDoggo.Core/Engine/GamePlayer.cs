@@ -1,4 +1,4 @@
-﻿namespace MattEland.WhereDoggo.Core.Gamespace;
+﻿namespace MattEland.WhereDoggo.Core.Engine;
 
 /// <summary>
 /// Represents a player within the game world.

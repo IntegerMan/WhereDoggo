@@ -1,5 +1,4 @@
 ﻿using MattEland.WhereDoggo.Core.Events;
-using MattEland.WhereDoggo.Core.Gamespace;
 
 namespace MattEland.WhereDoggo.WhereDoggoConsole;
 
