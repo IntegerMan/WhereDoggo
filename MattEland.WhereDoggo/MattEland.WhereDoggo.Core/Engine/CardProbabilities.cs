@@ -140,7 +140,7 @@ public class CardProbabilities
     /// <summary>
     /// Gets the probable team the card belongs to
     /// </summary>
-    public Teams ProbableTeams
+    public Teams ProbableTeam
     {
         get
         {

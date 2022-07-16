@@ -84,6 +84,7 @@ public class WerewolfTests : GameTestsBase
 
         // Assert
         GamePlayer player = game.Players.First();
+        player.Events.ShouldContain(e => e is OnlyWolfEvent);
         player.Events.ShouldContain(e => e is ObservedCenterCardEvent);
         player.Events.ShouldNotContain(e => e is SkippedNightActionEvent);
     }
@@ -109,6 +110,7 @@ public class WerewolfTests : GameTestsBase
         game.Run();
 
         // Assert
+        player.Events.ShouldContain(e => e is OnlyWolfEvent);
         player.Events.ShouldContain(e => e is SkippedNightActionEvent);
         player.Events.ShouldNotContain(e => e is ObservedCenterCardEvent);
     }

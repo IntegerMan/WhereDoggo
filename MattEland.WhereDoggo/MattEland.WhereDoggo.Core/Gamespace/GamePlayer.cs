@@ -59,7 +59,7 @@ public class GamePlayer : CardContainer
         IDictionary<CardContainer, CardProbabilities> probabilities = Brain.BuildFinalRoleProbabilities();
 
         // Try to figure out which team the player is on
-        Teams probableTeams = probabilities[this].ProbableTeams;
+        Teams probableTeams = probabilities[this].ProbableTeam;
 
         // Remove the player from the set of probabilities since self-voting is illegal
         probabilities.Remove(this);
