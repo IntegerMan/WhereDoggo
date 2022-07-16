@@ -11,12 +11,12 @@ public class SawAsWerewolfEvent : TargetedEventBase
     /// </summary>
     /// <param name="player">The player observing the <paramref name="target"/> as one of the werewolves</param>
     /// <param name="target">The player known to be one of the werewolves</param>
-    public SawAsWerewolfEvent(GamePlayer player, CardContainer target) : base(player, target)
+    public SawAsWerewolfEvent(GamePlayer player, IHasCard target) : base(player, target)
     {
     }
 
     /// <inheritdoc />
-    public override void UpdatePlayerPerceptions(GamePlayer observer, CardContainer target, CardProbabilities probabilities)
+    public override void UpdatePlayerPerceptions(GamePlayer observer, IHasCard target, CardProbabilities probabilities)
     {
         if (Target == target)
         {

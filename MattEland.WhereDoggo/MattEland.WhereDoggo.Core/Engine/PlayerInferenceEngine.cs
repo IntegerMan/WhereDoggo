@@ -30,7 +30,7 @@ public class PlayerInferenceEngine
     /// <returns>
     /// The set of probabilities around the initial role a card was.
     /// </returns>
-    public IDictionary<CardContainer, CardProbabilities> BuildInitialRoleProbabilities() 
+    public IDictionary<IHasCard, CardProbabilities> BuildInitialRoleProbabilities() 
         => BuildFinalRoleProbabilities();
 
     /// <summary>
@@ -39,9 +39,9 @@ public class PlayerInferenceEngine
     /// <returns>
     /// The set of probabilities around the final role a card was.
     /// </returns>
-    public IDictionary<CardContainer, CardProbabilities> BuildFinalRoleProbabilities()
+    public IDictionary<IHasCard, CardProbabilities> BuildFinalRoleProbabilities()
     {
-        Dictionary<CardContainer, CardProbabilities> cardProbabilities = new();
+        Dictionary<IHasCard, CardProbabilities> cardProbabilities = new();
         Dictionary<RoleTypes, int> counts = _game.BuildRoleCounts();
 
         // Initial pass
@@ -54,21 +54,21 @@ public class PlayerInferenceEngine
     }
 
     private void BuildInitialProbabilitiesAndUncertainCardCounts(
-        IDictionary<CardContainer, CardProbabilities> cardProbabilities,
+        IDictionary<IHasCard, CardProbabilities> cardProbabilities,
         IDictionary<RoleTypes, int> counts)
     {
-        foreach (CardContainer role in _game.Entities)
+        foreach (IHasCard holder in _game.Entities)
         {
-            cardProbabilities[role] = new CardProbabilities(_game, role is CenterCardSlot);
+            cardProbabilities[holder] = new CardProbabilities(_game, holder is CenterCardSlot);
 
             foreach (GameEventBase observedEvent in _player.Events)
             {
-                observedEvent.UpdatePlayerPerceptions(_player, role, cardProbabilities[role]);
+                observedEvent.UpdatePlayerPerceptions(_player, holder, cardProbabilities[holder]);
             }
 
-            if (cardProbabilities[role].IsCertain)
+            if (cardProbabilities[holder].IsCertain)
             {
-                counts[cardProbabilities[role].ProbableRole] -= 1;
+                counts[cardProbabilities[holder].ProbableRole] -= 1;
             }
         }
     }

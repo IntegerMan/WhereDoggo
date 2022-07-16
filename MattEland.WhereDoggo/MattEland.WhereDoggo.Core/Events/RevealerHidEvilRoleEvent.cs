@@ -10,7 +10,7 @@ public class RevealerHidEvilRoleEvent : TargetedEventBase
     /// </summary>
     /// <param name="player">The revealer</param>
     /// <param name="target">The card being hidden</param>
-    public RevealerHidEvilRoleEvent(GamePlayer player, CardContainer target) : base(player, target)
+    public RevealerHidEvilRoleEvent(GamePlayer player, IHasCard target) : base(player, target)
     {
     }
 
@@ -18,7 +18,7 @@ public class RevealerHidEvilRoleEvent : TargetedEventBase
     public override string ToString() => $"{Player} turned back over {Target}";
     
     /// <inheritdoc />
-    public override void UpdatePlayerPerceptions(GamePlayer observer, CardContainer target, CardProbabilities probabilities)
+    public override void UpdatePlayerPerceptions(GamePlayer observer, IHasCard target, CardProbabilities probabilities)
     {
         // Do nothing
     }

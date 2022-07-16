@@ -36,6 +36,6 @@ public abstract class GameEventBase
     /// <param name="observer">The <see cref="GamePlayer"/> privy to the event</param>
     /// <param name="target">The <see cref="CardContainer"/> the event occurred on</param>
     /// <param name="probabilities">The <see cref="CardProbabilities"/> for <paramref name="target" /></param>
-    public abstract void UpdatePlayerPerceptions(GamePlayer observer, CardContainer target,
+    public abstract void UpdatePlayerPerceptions(GamePlayer observer, IHasCard target,
         CardProbabilities probabilities);
 }

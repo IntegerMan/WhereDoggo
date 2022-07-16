@@ -27,7 +27,7 @@ public class SetupGamePhase : GamePhaseBase
     private static void DealRolesToPlayersAndCenterSlots(Game game)
     {
         GameOptions options = game.Options;
-        IList<RoleBase> roles = ShuffleRolesAsNeeded(game, options);
+        IList<CardBase> roles = ShuffleRolesAsNeeded(game, options);
 
         int centerIndex = 1;
         for (int i = 0; i < roles.Count; i++)
@@ -43,9 +43,9 @@ public class SetupGamePhase : GamePhaseBase
         }
     }
 
-    private static List<RoleBase> ShuffleRolesAsNeeded(Game game, GameOptions options)
+    private static List<CardBase> ShuffleRolesAsNeeded(Game game, GameOptions options)
     {
-        IEnumerable<RoleBase> roles = game.Roles;
+        IEnumerable<CardBase> roles = game.Roles;
 
         if (options.RandomizeSlots)
         {
@@ -59,7 +59,7 @@ public class SetupGamePhase : GamePhaseBase
     {
         foreach (GamePlayer player in game.Players)
         {
-            LogEvent(new DealtRoleEvent(player, player.InitialRole));
+            LogEvent(new DealtRoleEvent(player, player.InitialCard));
 
             player.Brain.BuildInitialRoleProbabilities();
         }

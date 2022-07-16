@@ -9,7 +9,7 @@ public class Game
 {
     private readonly List<GameEventBase> _events = new();
     private readonly List<GamePlayer> _players = new();
-    private readonly List<RoleBase> _roles;
+    private readonly List<CardBase> _roles;
     private readonly Queue<GamePhaseBase> _phases;
 
     /// <summary>
@@ -21,7 +21,7 @@ public class Game
     /// Gets the roles that were specified for the game.
     /// If roles occur more than once, they will be duplicated in this list.
     /// </summary>
-    public IEnumerable<RoleBase> Roles => _roles.AsReadOnly();
+    public IEnumerable<CardBase> Roles => _roles.AsReadOnly();
     
     /// <summary>
     /// Gets a list of cards in the center slots
@@ -31,11 +31,11 @@ public class Game
     /// <summary>
     /// Gets all players and center slots
     /// </summary>
-    public IEnumerable<CardContainer> Entities
+    public IEnumerable<IHasCard> Entities
     {
         get
         {
-            List<CardContainer> entities = new();
+            List<IHasCard> entities = new();
             entities.AddRange(_players);
             entities.AddRange(_centerSlots);
             

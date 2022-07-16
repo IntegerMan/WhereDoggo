@@ -32,6 +32,6 @@ public abstract class GameTestsBase
         return game;
     }
 
-    protected Func<IEnumerable<CardContainer>, CardContainer?> PickNothing => (_) => null;
-    protected Func<IEnumerable<CardContainer>, CardContainer?> PickFirstCard => (cards) => cards.First();
+    protected Func<IEnumerable<IHasCard>, IHasCard?> PickNothing => (_) => null;
+    protected Func<IEnumerable<IHasCard>, IHasCard?> PickFirstCard => (cards) => cards.First();
 }

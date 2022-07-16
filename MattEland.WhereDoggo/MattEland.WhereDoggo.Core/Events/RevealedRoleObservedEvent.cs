@@ -10,15 +10,15 @@ public class RevealedRoleObservedEvent : KnowsRoleEvent
     /// </summary>
     /// <param name="player">The player that observed the card.</param>
     /// <param name="target">The card being observed</param>
-    public RevealedRoleObservedEvent( GamePlayer player, CardContainer target) : base(player, target)
+    public RevealedRoleObservedEvent( GamePlayer player, IHasCard target) : base(player, target)
     {
     }
 
     /// <inheritdoc />
-    public override string ToString() => $"{Player} saw that {Target} was revealed as {ObservedRole}";
+    public override string ToString() => $"{Player} saw that {Target} was revealed as {ObservedCard}";
 
     /// <inheritdoc />
-    public override void UpdatePlayerPerceptions(GamePlayer observer, CardContainer target, CardProbabilities probabilities)
+    public override void UpdatePlayerPerceptions(GamePlayer observer, IHasCard target, CardProbabilities probabilities)
     {
         base.UpdatePlayerPerceptions(observer, target, probabilities);
 

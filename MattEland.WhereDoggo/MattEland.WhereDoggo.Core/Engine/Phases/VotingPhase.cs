@@ -26,26 +26,26 @@ public class VotingPhase : GamePhaseBase
         // Get votes for individual players
         CollectVotesFromPlayers(votes);
 
-        IEnumerable<GamePlayer> votedPlayers = CalculateVotedOutPlayers(votes);
+        IList<GamePlayer> votedPlayers = CalculateVotedOutPlayers(votes);
         foreach (GamePlayer votedPlayer in votedPlayers)
         {
             BroadcastEvent(new VotedOutEvent(votedPlayer));
         }
 
-        bool wwVoted = votedPlayers.Any(p => p.CurrentTeam == Teams.Werewolves); // Revisit for Minion
+        bool wwVoted = votedPlayers.Any(p => p.CurrentCard.Team == Teams.Werewolves); // Revisit for Minion
         
-        IList<GamePlayer> villagers = Game.Players.Where(p => p.CurrentTeam == Teams.Villagers).ToList();
-        IList<GamePlayer> wolves = Game.Players.Where(p => p.CurrentTeam == Teams.Werewolves).ToList();
+        IList<GamePlayer> villagers = Game.Players.Where(p => p.CurrentCard.Team == Teams.Villagers).ToList();
+        IList<GamePlayer> wolves = Game.Players.Where(p => p.CurrentCard.Team == Teams.Werewolves).ToList();
         IList<GamePlayer> winners = wwVoted ? villagers : wolves;
         
         Game.Result = new GameResult(wwVoted, winners);
 
         BroadcastEvent(Game.Result.Winners.Any()
-            ? $"The winners are {string.Join(", ", winners.Select(w => $"{w.Name} ({w.CurrentRole})"))}"
+            ? $"The winners are {string.Join(", ", winners.Select(w => $"{w.Name} ({w.CurrentCard})"))}"
             : "No players won.");        
     }
 
-    private static IEnumerable<GamePlayer> CalculateVotedOutPlayers(Dictionary<GamePlayer, int> votes)
+    private static IList<GamePlayer> CalculateVotedOutPlayers(Dictionary<GamePlayer, int> votes)
     {
         int maxVotes = votes.Values.Max();
         

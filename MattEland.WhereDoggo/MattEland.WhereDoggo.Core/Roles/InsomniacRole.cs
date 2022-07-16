@@ -6,7 +6,7 @@
 /// </summary>
 /// <href>http://onenightultimate.com/?p=70</href>
 [RoleFor(RoleTypes.Insomniac)]
-public class InsomniacRole : RoleBase
+public class InsomniacRole : CardBase
 {
     /// <inheritdoc />
     public override Teams Team => Teams.Villagers;

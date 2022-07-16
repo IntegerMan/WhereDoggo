@@ -28,7 +28,7 @@ public class SentinelTests : GameTestsBase
         GamePlayer player = game.Players.First();
 
         // Act
-        IDictionary<CardContainer, CardProbabilities> finalProbabilities = player.Brain.BuildFinalRoleProbabilities();
+        IDictionary<IHasCard, CardProbabilities> finalProbabilities = player.Brain.BuildFinalRoleProbabilities();
 
         // Assert
         finalProbabilities[player].Probabilities[RoleTypes.Sentinel].ShouldBe(1);
@@ -161,7 +161,7 @@ public class SentinelTests : GameTestsBase
 
         // Assert
         GamePlayer ww = game.Players[1];
-        IDictionary<CardContainer, CardProbabilities> probabilities = ww.Brain.BuildFinalRoleProbabilities();
+        IDictionary<IHasCard, CardProbabilities> probabilities = ww.Brain.BuildFinalRoleProbabilities();
         probabilities[game.CenterSlots.First()].Probabilities[RoleTypes.Sentinel].ShouldBe(0);
         probabilities[game.Players.First()].Probabilities[RoleTypes.Sentinel].ShouldBeGreaterThan(1M / assignedRoles.Length);
     }

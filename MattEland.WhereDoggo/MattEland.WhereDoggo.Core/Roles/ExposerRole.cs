@@ -6,7 +6,7 @@
 /// </summary>
 /// <href>https://one-night.fandom.com/wiki/Exposer</href>
 [RoleFor(RoleTypes.Exposer)]
-public class ExposerRole : RoleBase
+public class ExposerRole : CardBase
 {
     /// <inheritdoc />
     public override RoleTypes RoleType => RoleTypes.Exposer;
@@ -24,18 +24,18 @@ public class ExposerRole : RoleBase
 
         for (int i = 0; i < numToExpose; i++)
         {
-            CardContainer? card = player.PickSingleCard(game.CenterSlots.Where(c => !c.IsRevealed));
+            IHasCard? holder = player.PickSingleCard(game.CenterSlots.Where(s => !s.CurrentCard.IsRevealed));
 
             // Exposers may choose to skip exposing things
-            if (card == null)
+            if (holder == null)
             {
                 game.LogEvent(new SkippedNightActionEvent(player));
                 return;
             }
 
-            card.IsRevealed = true;
-            game.LogEvent(new RevealedRoleEvent(player, card));
-            game.LogEvent(new RevealedRoleObservedEvent(player, card));
+            holder.CurrentCard.IsRevealed = true;
+            game.LogEvent(new RevealedRoleEvent(player, holder));
+            game.LogEvent(new RevealedRoleObservedEvent(player, holder));
         }
     }
 }

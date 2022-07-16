@@ -7,9 +7,9 @@ public static class GameDisplayHelpers
 {
     public static void DisplayGameState(this Game game)
     {
-        foreach (CardContainer container in game.Entities)
+        foreach (IHasCard holder in game.Entities)
         {
-            Console.WriteLine($"\t{container} is a {container.CurrentRole}");
+            Console.WriteLine($"\t{holder} is a {holder.CurrentCard}");
         }
 
         Console.WriteLine();
@@ -47,9 +47,9 @@ public static class GameDisplayHelpers
             
             Console.WriteLine($"{player.Name} Assumed Probabilities:");
                 
-            IDictionary<CardContainer, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();
+            IDictionary<IHasCard, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();
 
-            foreach (KeyValuePair<CardContainer, CardProbabilities> kvp in probabilities)
+            foreach (KeyValuePair<IHasCard, CardProbabilities> kvp in probabilities)
             {
                 Console.WriteLine($"\t{kvp.Key.Name} probabilities ({kvp.Value})");
             }

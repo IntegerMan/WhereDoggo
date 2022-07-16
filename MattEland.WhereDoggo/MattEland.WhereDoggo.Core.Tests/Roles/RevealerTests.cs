@@ -31,7 +31,7 @@ public class RevealerTests : GameTestsBase
         game.Run();
 
         // Assert
-        game.Players[1].IsRevealed.ShouldBeTrue();
+        game.Players[1].CurrentCard.IsRevealed.ShouldBeTrue();
         player.Events.ShouldContain(e => e is RevealedRoleEvent);
         player.Events.ShouldContain(e => e is RevealedRoleObservedEvent);
     }
@@ -59,7 +59,7 @@ public class RevealerTests : GameTestsBase
         // Act
         foreach (GamePlayer p in game.Players)
         {
-            IDictionary<CardContainer, CardProbabilities> probabilities = p.Brain.BuildFinalRoleProbabilities();
+            IDictionary<IHasCard, CardProbabilities> probabilities = p.Brain.BuildFinalRoleProbabilities();
             // Assert
             probabilities[game.Players[1]].ProbableRole.ShouldBe(RoleTypes.Villager);
             probabilities[game.Players[1]].IsCertain.ShouldBeTrue();
@@ -120,7 +120,7 @@ public class RevealerTests : GameTestsBase
         // Assert
         foreach (GamePlayer p in game.Players.Where(p => p != player))
         {
-            IDictionary<CardContainer, CardProbabilities> probabilities = p.Brain.BuildFinalRoleProbabilities();
+            IDictionary<IHasCard, CardProbabilities> probabilities = p.Brain.BuildFinalRoleProbabilities();
             foreach (CenterCardSlot slot in game.CenterSlots)
             {
                 probabilities[slot].Probabilities[RoleTypes.Revealer].ShouldBe(0);
@@ -177,7 +177,7 @@ public class RevealerTests : GameTestsBase
         game.Run();
 
         // Assert
-        game.Players[2].IsRevealed.ShouldBeFalse();
+        game.Players[2].CurrentCard.IsRevealed.ShouldBeFalse();
         player.Events.ShouldContain(e => e is RevealedRoleEvent);
         player.Events.ShouldContain(e => e is RevealedRoleObservedEvent);
         player.Events.ShouldContain(e => e is RevealerHidEvilRoleEvent);
@@ -204,7 +204,7 @@ public class RevealerTests : GameTestsBase
         game.Run();
 
         // Act
-        IDictionary<CardContainer, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();
+        IDictionary<IHasCard, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();
         // Assert
         probabilities[game.Players[1]].ProbableRole.ShouldBe(RoleTypes.Werewolf);
         probabilities[game.Players[1]].IsCertain.ShouldBeTrue();

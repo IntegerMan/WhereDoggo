@@ -20,7 +20,7 @@ public class TextEvent : GameEventBase
     public override string ToString() => Message;
     
     /// <inheritdoc />
-    public override void UpdatePlayerPerceptions(GamePlayer observer, CardContainer target, CardProbabilities probabilities)
+    public override void UpdatePlayerPerceptions(GamePlayer observer, IHasCard target, CardProbabilities probabilities)
     {
         // Do nothing
     }

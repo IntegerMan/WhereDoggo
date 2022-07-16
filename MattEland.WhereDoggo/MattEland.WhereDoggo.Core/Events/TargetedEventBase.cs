@@ -8,9 +8,9 @@ public abstract class TargetedEventBase : GameEventBase
     /// <summary>
     /// Instantiates a new instance of the <see cref="TargetedEventBase"/> class.
     /// </summary>
-    /// <param name="player"></param>
-    /// <param name="target"></param>
-    protected TargetedEventBase(GamePlayer player, CardContainer target) : base(player)
+    /// <param name="player">The player performing the action</param>
+    /// <param name="target">The card holder targeted by the action</param>
+    protected TargetedEventBase(GamePlayer player, IHasCard target) : base(player)
     {
         Target = target;
     }
@@ -18,5 +18,5 @@ public abstract class TargetedEventBase : GameEventBase
     /// <summary>
     /// Gets the target of the event.
     /// </summary>
-    public CardContainer Target { get; }
+    public IHasCard Target { get; }
 }

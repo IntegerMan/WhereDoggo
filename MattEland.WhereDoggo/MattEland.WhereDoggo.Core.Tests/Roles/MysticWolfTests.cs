@@ -48,7 +48,7 @@ public class MysticWolfTests : GameTestsBase
         GamePlayer player = game.Players.First();
         
         // Act
-        IDictionary<CardContainer, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();
+        IDictionary<IHasCard, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();
 
         // Assert
         probabilities[game.Players[1]].ProbableTeam.ShouldBe(Teams.Werewolves);
@@ -75,7 +75,7 @@ public class MysticWolfTests : GameTestsBase
         GamePlayer player = game.Players.First();
         
         // Act
-        IDictionary<CardContainer, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();
+        IDictionary<IHasCard, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();
 
         // Assert
         probabilities[game.Players[1]].ProbableTeam.ShouldBe(Teams.Werewolves);
@@ -129,7 +129,7 @@ public class MysticWolfTests : GameTestsBase
         game.Run();
         
         // Act
-        IDictionary<CardContainer, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();
+        IDictionary<IHasCard, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();
 
         // Assert
         probabilities[game.Players[1]].IsCertain.ShouldBeTrue();
@@ -211,7 +211,7 @@ public class MysticWolfTests : GameTestsBase
         result.ShouldNotBeNull();
         result.WerewolfKilled.ShouldBeTrue();
         result.Winners.Count().ShouldBe(2);
-        result.Winners.ShouldAllBe(w => w.CurrentTeam == Teams.Villagers);
+        result.Winners.ShouldAllBe(w => w.CurrentCard.Team == Teams.Villagers);
     }    
     
     [Test]

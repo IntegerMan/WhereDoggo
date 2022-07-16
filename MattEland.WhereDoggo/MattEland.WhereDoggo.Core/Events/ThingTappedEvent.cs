@@ -18,7 +18,7 @@ public class ThingTappedEvent : TargetedEventBase
     public override string ToString() => $"{Player} tapped {Target} as The Thing.";
 
     /// <inheritdoc />
-    public override void UpdatePlayerPerceptions(GamePlayer observer, CardContainer target, CardProbabilities probabilities)
+    public override void UpdatePlayerPerceptions(GamePlayer observer, IHasCard target, CardProbabilities probabilities)
     {
         // If a player is tapped, they should be certain that the tapper is the Thing.
         if (target == Player && observer == Target)

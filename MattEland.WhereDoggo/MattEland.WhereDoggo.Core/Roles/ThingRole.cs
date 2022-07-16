@@ -5,7 +5,7 @@
 /// </summary>
 /// <href>http://onenightultimate.com/?p=273</href>
 [RoleFor(RoleTypes.Thing)]
-public class ThingRole : RoleBase
+public class ThingRole : CardBase
 {
     /// <inheritdoc />
     public override RoleTypes RoleType => RoleTypes.Thing;

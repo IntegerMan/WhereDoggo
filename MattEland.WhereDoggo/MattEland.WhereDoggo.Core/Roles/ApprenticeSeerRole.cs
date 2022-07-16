@@ -6,7 +6,7 @@
 /// </summary>
 /// <href>http://onenightultimate.com/?p=53</href>
 [RoleFor(RoleTypes.ApprenticeSeer)]
-public class ApprenticeSeerRole : RoleBase
+public class ApprenticeSeerRole : CardBase
 {
     /// <inheritdoc />
     public override RoleTypes RoleType => RoleTypes.ApprenticeSeer;
@@ -20,7 +20,7 @@ public class ApprenticeSeerRole : RoleBase
     /// <inheritdoc />
     public override void PerformNightAction(Game game, GamePlayer player)
     {
-        CardContainer? slot = player.PickSingleCard(game.CenterSlots.Cast<CardContainer>().ToList());
+        IHasCard? slot = player.PickSingleCard(game.CenterSlots.Cast<IHasCard>().ToList());
 
         if (slot == null)
         {

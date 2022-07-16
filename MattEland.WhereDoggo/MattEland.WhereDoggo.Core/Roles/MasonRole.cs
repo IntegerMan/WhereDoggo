@@ -8,7 +8,7 @@ namespace MattEland.WhereDoggo.Core.Roles;
 /// </summary>
 /// <href>http://onenightultimate.com/?p=48</href>
 [RoleFor(RoleTypes.Mason)]
-public class MasonRole : RoleBase
+public class MasonRole : CardBase
 {
     /// <inheritdoc />
     public override RoleTypes RoleType => RoleTypes.Mason;
@@ -25,7 +25,7 @@ public class MasonRole : RoleBase
         List<GamePlayer> otherPlayers = game.Players.Where(p => p != player).ToList();
 
         // If no other masons awoke, log an event indicating we know they're a mason
-        if (otherPlayers.All(p => p.InitialRole.RoleType != RoleTypes.Mason))
+        if (otherPlayers.All(p => p.InitialCard is not MasonRole))
         {
             game.LogEvent(new OnlyMasonEvent(player));
         }
@@ -33,7 +33,7 @@ public class MasonRole : RoleBase
         // Observe each other player and learn if they're a mason or not
         otherPlayers.ForEach(observedPlayer =>
         {
-            if (observedPlayer.InitialRole.RoleType == RoleTypes.Mason)
+            if (observedPlayer.InitialCard is MasonRole)
             {
                 // If they didn't wake up, we now know they can't be a mason
                 game.LogEvent(new KnowsRoleEvent(player, observedPlayer));

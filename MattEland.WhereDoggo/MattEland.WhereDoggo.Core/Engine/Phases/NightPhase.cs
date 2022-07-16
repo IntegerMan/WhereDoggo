@@ -20,10 +20,10 @@ public class NightPhase : GamePhaseBase
     /// <inheritdoc />
     public override void Run(Game game)
     {
-        foreach (GamePlayer player in game.Players.Where(p => p.InitialRole.HasNightAction).OrderBy(p => p.InitialRole.NightActionOrder))
+        foreach (GamePlayer player in game.Players.Where(p => p.InitialCard.HasNightAction).OrderBy(p => p.InitialCard.NightActionOrder))
         {
             player.Wake();
-            player.InitialRole.PerformNightAction(game, player);
+            player.InitialCard.PerformNightAction(game, player);
         }        
     }
 }

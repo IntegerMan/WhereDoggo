@@ -81,7 +81,7 @@ public class ThingTests : GameTestsBase
         game.Run();
         
         // Act
-        IDictionary<CardContainer, CardProbabilities> probabilities = target.Brain.BuildInitialRoleProbabilities();
+        IDictionary<IHasCard, CardProbabilities> probabilities = target.Brain.BuildInitialRoleProbabilities();
 
         // Assert
         probabilities[thing].IsCertain.ShouldBeTrue();

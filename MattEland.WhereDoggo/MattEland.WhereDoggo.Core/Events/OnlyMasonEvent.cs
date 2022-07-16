@@ -19,7 +19,7 @@ public class OnlyMasonEvent : GameEventBase
     public override string ToString() => $"{Player} saw that they were the only Mason";
 
     /// <inheritdoc />
-    public override void UpdatePlayerPerceptions(GamePlayer observer, CardContainer target, CardProbabilities probabilities)
+    public override void UpdatePlayerPerceptions(GamePlayer observer, IHasCard target, CardProbabilities probabilities)
     {
         // Do nothing
     }
