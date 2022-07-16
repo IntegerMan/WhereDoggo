@@ -16,15 +16,27 @@ public class GamePlayer : CardContainer
     /// <param name="playerNumber">The player number. Used for some abilities and calculating adjacency</param>
     /// <param name="initialRole">The role they were initially dealt</param>
     /// <param name="game">The game the player is in</param>
-    /// <param name="randomizer">The randomizer instance</param>
-    public GamePlayer(string name, int playerNumber, RoleBase initialRole, Game game, Random randomizer) : base(name, initialRole)
+    /// <param name="random">The randomizer instance</param>
+    public GamePlayer(string name, int playerNumber, RoleBase initialRole, Game game, Random random) : base(name, initialRole)
     {
         _game = game;
         Number = playerNumber;
-        Strategies = new GameStrategies(randomizer);
+        PickSingleCard = (targets) => targets.MinBy(_ => random.Next() * random.Next());
+        PickSeerCards = (_, slots) => slots.OrderBy(_ => random.Next() * random.Next()).Take(2).ToList();
         Brain = new PlayerInferenceEngine(this, game);
     }
+    
+    /// <summary>
+    /// The strategy to use when selecting a single card from multiple. Applies to multiple roles
+    /// </summary>
+    public Func<IEnumerable<CardContainer>, CardContainer?> PickSingleCard { get; set; }
 
+    /// <summary>
+    /// The function to use when picking cards for the <see cref="SeerRole"/>. A seer-specific function is required
+    /// because the seer gets the choice to skip, pick one card from a player, or pick two cards from the center.
+    /// </summary>
+    public Func<IEnumerable<CardContainer>, IEnumerable<CardContainer>, List<CardContainer>> PickSeerCards { get; set; }
+    
     /// <summary>
     /// Adds a new event to the game log
     /// </summary>
@@ -45,11 +57,6 @@ public class GamePlayer : CardContainer
     /// Whether or not the sentinel token has been placed on the card
     /// </summary>
     public bool HasSentinelToken { get; set;  }
-
-    /// <summary>
-    /// The strategies the player uses for various roles.
-    /// </summary>
-    public GameStrategies Strategies { get; }
 
     /// <summary>
     /// The player number

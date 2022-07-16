@@ -160,7 +160,7 @@ public class ExposerTests : GameTestsBase
         };
         Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
-        player.Strategies.PickSingleCard = (_) => null;
+        player.PickSingleCard = PickNothing;
 
         // Act
         game.Run();

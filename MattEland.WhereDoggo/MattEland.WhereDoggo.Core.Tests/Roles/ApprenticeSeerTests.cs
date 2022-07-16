@@ -1,4 +1,6 @@
-﻿namespace MattEland.WhereDoggo.Core.Tests.Roles;
+﻿using System;
+
+namespace MattEland.WhereDoggo.Core.Tests.Roles;
 
 /// <summary>
 /// Tests for the <see cref="ApprenticeSeerRole"/>
@@ -23,7 +25,7 @@ public class ApprenticeSeerTests : GameTestsBase
         };
         Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
-        player.Strategies.PickSingleCard = (cards) => cards.First();
+        player.PickSingleCard = (cards) => cards.First();
         game.Run();
 
         // Act
@@ -52,7 +54,7 @@ public class ApprenticeSeerTests : GameTestsBase
         };
         Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
-        player.Strategies.PickSingleCard = (cards) => cards.First();
+        player.PickSingleCard = PickFirstCard;
         game.Run();
 
         // Act
@@ -82,7 +84,7 @@ public class ApprenticeSeerTests : GameTestsBase
         };
         Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
-        player.Strategies.PickSingleCard = (_) => null;
+        player.PickSingleCard = PickNothing;
         game.Run();
 
         // Act
@@ -112,7 +114,7 @@ public class ApprenticeSeerTests : GameTestsBase
         };
         Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
-        player.Strategies.PickSingleCard = (_) => null;
+        player.PickSingleCard = PickNothing;
 
         // Act
         game.Run();

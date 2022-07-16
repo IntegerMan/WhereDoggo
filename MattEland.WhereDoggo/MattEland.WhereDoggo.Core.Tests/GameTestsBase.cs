@@ -1,3 +1,5 @@
+using System;
+
 namespace MattEland.WhereDoggo.Core.Tests;
 
 public abstract class GameTestsBase
@@ -24,5 +26,7 @@ public abstract class GameTestsBase
 
         return game;
     }
-    
+
+    protected Func<IEnumerable<CardContainer>, CardContainer?> PickNothing => (_) => null;
+    protected Func<IEnumerable<CardContainer>, CardContainer?> PickFirstCard => (cards) => cards.First();
 }

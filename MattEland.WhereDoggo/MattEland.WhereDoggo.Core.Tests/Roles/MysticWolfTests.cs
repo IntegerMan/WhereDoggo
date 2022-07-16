@@ -125,7 +125,7 @@ public class MysticWolfTests : GameTestsBase
         };
         Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
-        player.Strategies.PickSingleCard = (cards) => cards.First();
+        player.PickSingleCard = PickFirstCard;
         game.Run();
         
         // Act
@@ -177,7 +177,7 @@ public class MysticWolfTests : GameTestsBase
         };
         Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
-        player.Strategies.PickSingleCard = (_) => null;
+        player.PickSingleCard = PickNothing;
         
         // Act
         game.Run();

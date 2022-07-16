@@ -23,7 +23,7 @@ public class ThingTests : GameTestsBase
         };
         Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
-        player.Strategies.PickSingleCard = (cards) => cards.First();
+        player.PickSingleCard = PickFirstCard;
         
         // Act
         game.Run();
@@ -49,8 +49,8 @@ public class ThingTests : GameTestsBase
         };
         Game game = CreateGame(assignedRoles);
         GamePlayer thing = game.Players[0];
-        GamePlayer target = game.Players[1];
-        thing.Strategies.PickSingleCard = (cards) => cards.Last();
+        GamePlayer target = game.Players[2];
+        thing.PickSingleCard = PickFirstCard;
         
         // Act
         game.Run();
@@ -76,8 +76,8 @@ public class ThingTests : GameTestsBase
         };
         Game game = CreateGame(assignedRoles);
         GamePlayer thing = game.Players[0];
-        GamePlayer target = game.Players[1];
-        thing.Strategies.PickSingleCard = (cards) => cards.Last();
+        GamePlayer target = game.Players[2];
+        thing.PickSingleCard = PickFirstCard;
         game.Run();
         
         // Act
@@ -106,7 +106,7 @@ public class ThingTests : GameTestsBase
         };
         Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
-        player.Strategies.PickSingleCard = (_) => null;
+        player.PickSingleCard = PickNothing;
         
         // Act
         game.Run();

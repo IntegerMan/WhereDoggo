@@ -22,7 +22,7 @@ public class SentinelRole : RoleBase
     {
         // Sentinels may choose to skip placing their token
         List<CardContainer> otherPlayers = game.Players.Where(p => p != player).Cast<CardContainer>().ToList();
-        if (player.Strategies.PickSingleCard(otherPlayers) is GamePlayer target)
+        if (player.PickSingleCard(otherPlayers) is GamePlayer target)
         {
             target.HasSentinelToken = true;
             game.LogEvent(new SentinelTokenPlacedEvent(player, target));

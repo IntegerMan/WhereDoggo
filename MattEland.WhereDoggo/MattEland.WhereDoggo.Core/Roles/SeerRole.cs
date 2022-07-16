@@ -25,7 +25,7 @@ public class SeerRole : RoleBase
         // Choose whether we're skipping, getting another player, or getting 2 center cards
         IList<CardContainer> playerChoices = game.Players.Where(p => p != player).Cast<CardContainer>().ToList(); 
         IList<CardContainer> centerChoices = game.CenterSlots.Cast<CardContainer>().ToList();
-        List<CardContainer> cards = player.Strategies.PickSeerCards(playerChoices, centerChoices);
+        List<CardContainer> cards = player.PickSeerCards(playerChoices, centerChoices);
 
         switch (cards.Count)
         {

@@ -25,7 +25,7 @@ public class RevealerTests : GameTestsBase
         };
         Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
-        player.Strategies.PickSingleCard = (cards) => cards.First();
+        player.PickSingleCard = PickFirstCard;
 
         // Act
         game.Run();
@@ -53,7 +53,7 @@ public class RevealerTests : GameTestsBase
         };
         Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
-        player.Strategies.PickSingleCard = (cards) => cards.First();;
+        player.PickSingleCard = PickFirstCard;
         game.Run();
 
         // Act
@@ -83,7 +83,7 @@ public class RevealerTests : GameTestsBase
         };
         Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
-        player.Strategies.PickSingleCard = (cards) => cards.First();
+        player.PickSingleCard = PickFirstCard;
         
         // Act
         game.Run();
@@ -112,7 +112,7 @@ public class RevealerTests : GameTestsBase
         };
         Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
-        player.Strategies.PickSingleCard = (cards) => cards.First();
+        player.PickSingleCard = PickFirstCard;
         
         // Act
         game.Run();
@@ -145,7 +145,7 @@ public class RevealerTests : GameTestsBase
         };
         Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
-        player.Strategies.PickSingleCard = (_) => null;
+        player.PickSingleCard = PickNothing;
         
         // Act
         game.Run();
@@ -171,7 +171,7 @@ public class RevealerTests : GameTestsBase
         };
         Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
-        player.Strategies.PickSingleCard = (cards) => cards.First();
+        player.PickSingleCard = PickFirstCard;
 
         // Act
         game.Run();
@@ -200,7 +200,7 @@ public class RevealerTests : GameTestsBase
         };
         Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
-        player.Strategies.PickSingleCard = (cards) => cards.First();
+        player.PickSingleCard = PickFirstCard;
         game.Run();
 
         // Act
