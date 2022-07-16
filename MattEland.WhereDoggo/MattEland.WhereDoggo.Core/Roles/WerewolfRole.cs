@@ -46,7 +46,7 @@ public class WerewolfRole : RoleBase
             MarkTargetAsNonWolf(game, player, otherPlayer);
         }
 
-        CardContainer? slot = player.Strategies.PickSingleCardStrategy.SelectCard(game.CenterSlots);
+        CardContainer? slot = player.Strategies.PickSingleCard(game.CenterSlots);
 
         if (slot == null)
         {

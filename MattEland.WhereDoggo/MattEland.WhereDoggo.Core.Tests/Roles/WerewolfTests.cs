@@ -1,7 +1,4 @@
-﻿using MattEland.WhereDoggo.Core.Events;
-using MattEland.WhereDoggo.Core.Tests.Strategies;
-
-namespace MattEland.WhereDoggo.Core.Tests.Roles;
+﻿namespace MattEland.WhereDoggo.Core.Tests.Roles;
 
 [Category("Roles")]
 public class WerewolfTests : GameTestsBase
@@ -50,7 +47,7 @@ public class WerewolfTests : GameTestsBase
         };
         Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
-        player.Strategies.PickSingleCardStrategy = new SelectSpecificSlotPlacementStrategy(0);
+        player.Strategies.PickSingleCard = (cards) => cards.First();
         game.Run();
 
         // Act
@@ -107,7 +104,7 @@ public class WerewolfTests : GameTestsBase
         };
         Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
-        player.Strategies.PickSingleCardStrategy = new OptOutSlotSelectionStrategy();
+        player.Strategies.PickSingleCard = (_) => null;
         game.Run();
 
         // Assert
@@ -134,7 +131,7 @@ public class WerewolfTests : GameTestsBase
         };
         Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
-        player.Strategies.PickSingleCardStrategy = new SelectSpecificSlotPlacementStrategy(1);
+        player.Strategies.PickSingleCard = (cards) => cards.First();
         game.Start();
         game.PerformNightPhase();
 

@@ -24,8 +24,7 @@ public class ExposerRole : RoleBase
 
         for (int i = 0; i < numToExpose; i++)
         {
-            CardContainer? card =
-                player.Strategies.PickSingleCardStrategy.SelectCard(game.CenterSlots.Where(c => !c.IsRevealed));
+            CardContainer? card = player.Strategies.PickSingleCard(game.CenterSlots.Where(c => !c.IsRevealed));
 
             // Exposers may choose to skip exposing things
             if (card == null)

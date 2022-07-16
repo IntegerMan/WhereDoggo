@@ -1,19 +1,19 @@
 ﻿namespace MattEland.WhereDoggo.Core.Tests.Roles;
 
 /// <summary>
-/// Tests for the <see cref="ApprenticeSeerRole"/>
+/// Tests for the <see cref="SeerRole"/>
 /// </summary>
 [Category("Roles")]
-public class ApprenticeSeerTests : GameTestsBase
+public class SeerTests : GameTestsBase
 {
     [Test]
-    public void ApprenticeSeerShouldBeCertainOfTheCardTheySaw()
+    public void SeerWhoSkippedShouldHaveSkippedEvent()
     {
         // Arrange
         RoleTypes[] assignedRoles =
         {
             // Player Roles
-            RoleTypes.ApprenticeSeer,
+            RoleTypes.Seer,
             RoleTypes.Werewolf,
             RoleTypes.Villager,
             // Center Cards
@@ -23,96 +23,7 @@ public class ApprenticeSeerTests : GameTestsBase
         };
         Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
-        player.Strategies.PickSingleCard = (cards) => cards.First();
-        game.Run();
-
-        // Act
-        IDictionary<CardContainer, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();
-
-        // Assert
-        CardProbabilities cardProbs = probabilities[game.CenterSlots[0]];
-        cardProbs.Probabilities[RoleTypes.Insomniac].ShouldBe(1);
-        cardProbs.IsCertain.ShouldBeTrue();
-    }
-
-    [Test]
-    public void ApprenticeSeerShouldBeCertainSingleCardNotInPlay()
-    {
-        // Arrange
-        RoleTypes[] assignedRoles =
-        {
-            // Player Roles
-            RoleTypes.ApprenticeSeer,
-            RoleTypes.Werewolf,
-            RoleTypes.Villager,
-            // Center Cards
-            RoleTypes.Insomniac,
-            RoleTypes.Werewolf,
-            RoleTypes.Villager
-        };
-        Game game = CreateGame(assignedRoles);
-        GamePlayer player = game.Players.First();
-        player.Strategies.PickSingleCard = (cards) => cards.First();
-        game.Run();
-
-        // Act
-        IDictionary<CardContainer, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();
-
-        // Assert
-        foreach (GamePlayer slot in game.Players)
-        {
-            probabilities[slot].Probabilities[RoleTypes.Insomniac].ShouldBe(0);
-        }
-    }
-
-    [Test]
-    public void ApprenticeSeerWhoSkippedShouldHaveNoCertainKnowledgeOfCenter()
-    {
-        // Arrange
-        RoleTypes[] assignedRoles =
-        {
-            // Player Roles
-            RoleTypes.ApprenticeSeer,
-            RoleTypes.Werewolf,
-            RoleTypes.Villager,
-            // Center Cards
-            RoleTypes.Insomniac,
-            RoleTypes.Werewolf,
-            RoleTypes.Villager
-        };
-        Game game = CreateGame(assignedRoles);
-        GamePlayer player = game.Players.First();
-        player.Strategies.PickSingleCard = (_) => null;
-        game.Run();
-
-        // Act
-        IDictionary<CardContainer, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();
-
-        // Assert
-        foreach (CenterCardSlot slot in game.CenterSlots)
-        {
-            probabilities[slot].IsCertain.ShouldBeFalse();
-        }
-    }
-
-    [Test]
-    public void ApprenticeSeerWhoSkippedShouldHaveCorrectEvent()
-    {
-        // Arrange
-        RoleTypes[] assignedRoles =
-        {
-            // Player Roles
-            RoleTypes.ApprenticeSeer,
-            RoleTypes.Werewolf,
-            RoleTypes.Villager,
-            // Center Cards
-            RoleTypes.Insomniac,
-            RoleTypes.Werewolf,
-            RoleTypes.Villager
-        };
-        Game game = CreateGame(assignedRoles);
-        GamePlayer player = game.Players.First();
-        player.Strategies.PickSingleCard = (_) => null;
+        player.Strategies.PickSeerCards = (_, _) => new List<CardContainer>();
 
         // Act
         game.Run();
@@ -120,16 +31,17 @@ public class ApprenticeSeerTests : GameTestsBase
         // Assert
         player.Events.ShouldContain(e => e is SkippedNightActionEvent);
         player.Events.ShouldNotContain(e => e is ObservedCenterCardEvent);
+        player.Events.ShouldNotContain(e => e is ObservedPlayerCardEvent);
     }
 
     [Test]
-    public void ApprenticeSeerWhoUsedAbilityShouldHaveCorrectEvent()
+    public void SeerWhoLookedAtCenterCardsShouldHaveTwoObservedCenterCardEvents()
     {
         // Arrange
         RoleTypes[] assignedRoles =
         {
             // Player Roles
-            RoleTypes.ApprenticeSeer,
+            RoleTypes.Seer,
             RoleTypes.Werewolf,
             RoleTypes.Villager,
             // Center Cards
@@ -137,28 +49,101 @@ public class ApprenticeSeerTests : GameTestsBase
             RoleTypes.Werewolf,
             RoleTypes.Villager
         };
-
+        
         // Act
         Game game = RunGame(assignedRoles);
 
         // Assert
         GamePlayer player = game.Players.First();
-        player.Events.ShouldContain(e => e is ObservedCenterCardEvent);
+        player.Events.ShouldContain(e => e is ObservedCenterCardEvent, 2);
         player.Events.ShouldNotContain(e => e is SkippedNightActionEvent);
+        player.Events.ShouldNotContain(e => e is ObservedPlayerCardEvent);
     }
 
     [Test]
-    [Category("Claims")]
-    public void ApprenticeSeerShouldClaimToBeApprenticeSeer()
+    public void SeerWhoLookedAtCenterCardsShouldHaveKnowledgeOfCenterCards()
     {
-        Assert.Inconclusive();
+        // Arrange
+        RoleTypes[] assignedRoles =
+        {
+            // Player Roles
+            RoleTypes.Seer,
+            RoleTypes.Werewolf,
+            RoleTypes.Villager,
+            // Center Cards
+            RoleTypes.Insomniac,
+            RoleTypes.Werewolf,
+            RoleTypes.Villager
+        };
+        Game game = CreateGame(assignedRoles);
+        GamePlayer player = game.Players.First();
+        player.Strategies.PickSeerCards = (_, center) => center.Take(2).ToList();
+        game.Run();
+
+        // Act
+        IDictionary<CardContainer, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();
+
+        // Assert
+        probabilities[game.CenterSlots[0]].IsCertain.ShouldBeTrue();
+        probabilities[game.CenterSlots[0]].ProbableRole.ShouldBe(RoleTypes.Insomniac);
+        probabilities[game.CenterSlots[1]].IsCertain.ShouldBeTrue();
+        probabilities[game.CenterSlots[1]].ProbableRole.ShouldBe(RoleTypes.Werewolf);
     }
 
     [Test]
-    [Category("Claims")]
-    public void ApprenticeSeerShouldClaimToSeeTheCardTheySaw()
+    public void SeerWhoLookedAtOtherPlayerShouldHaveAppropriateEvent()
     {
-        Assert.Inconclusive("Not Implemented");
+        // Arrange
+        RoleTypes[] assignedRoles =
+        {
+            // Player Roles
+            RoleTypes.Seer,
+            RoleTypes.Werewolf,
+            RoleTypes.Villager,
+            // Center Cards
+            RoleTypes.Insomniac,
+            RoleTypes.Werewolf,
+            RoleTypes.Villager
+        };
+        Game game = CreateGame(assignedRoles);
+        GamePlayer player = game.Players.First();
+        player.Strategies.PickSeerCards = (players, _) => players.Take(1).ToList();
+        
+        // Act
+        game.Run();
+
+        // Assert
+        player.Events.ShouldContain(e => e is ObservedPlayerCardEvent, 1);
+        player.Events.ShouldNotContain(e => e is SkippedNightActionEvent);
+        player.Events.ShouldNotContain(e => e is ObservedCenterCardEvent);
     }
 
+    [Test]
+    public void SeerWhoLookedAtOtherPlayerShouldHaveKnowledgeAboutTheirRole()
+    {
+        // Arrange
+        RoleTypes[] assignedRoles =
+        {
+            // Player Roles
+            RoleTypes.Seer,
+            RoleTypes.Werewolf,
+            RoleTypes.Villager,
+            // Center Cards
+            RoleTypes.Insomniac,
+            RoleTypes.Werewolf,
+            RoleTypes.Villager
+        };
+        Game game = CreateGame(assignedRoles);
+        GamePlayer player = game.Players[0];
+        GamePlayer target = game.Players[1];
+        player.Strategies.PickSeerCards = (players, _) => players.Take(1).ToList();
+        game.Run();
+
+        // Act
+        var probabilities = player.Brain.BuildFinalRoleProbabilities();
+
+        // Assert
+        probabilities[target].IsCertain.ShouldBeTrue();
+        probabilities[target].ProbableRole.ShouldBe(target.InitialRole.RoleType);
+    }
 }

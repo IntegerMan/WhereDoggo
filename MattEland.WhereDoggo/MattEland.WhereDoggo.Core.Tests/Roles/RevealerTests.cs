@@ -1,6 +1,4 @@
 ﻿using System;
-using MattEland.WhereDoggo.Core.Events;
-using MattEland.WhereDoggo.Core.Tests.Strategies;
 
 namespace MattEland.WhereDoggo.Core.Tests.Roles;
 
@@ -27,7 +25,7 @@ public class RevealerTests : GameTestsBase
         };
         Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
-        player.Strategies.PickSingleCardStrategy = new SelectSpecificSlotPlacementStrategy(1);
+        player.Strategies.PickSingleCard = (cards) => cards.First();
 
         // Act
         game.Run();
@@ -36,29 +34,6 @@ public class RevealerTests : GameTestsBase
         game.Players[1].IsRevealed.ShouldBeTrue();
         player.Events.ShouldContain(e => e is RevealedRoleEvent);
         player.Events.ShouldContain(e => e is RevealedRoleObservedEvent);
-    }        
-    
-    [Test]
-    public void RevealerShouldNotBeAbleToRevealThemselves()
-    {
-        // Arrange
-        RoleTypes[] assignedRoles =
-        {
-            // Player Roles
-            RoleTypes.Revealer,
-            RoleTypes.Villager,
-            RoleTypes.Werewolf,
-            // Center Cards
-            RoleTypes.Insomniac,
-            RoleTypes.Werewolf,
-            RoleTypes.Villager
-        };
-        Game game = CreateGame(assignedRoles);
-        GamePlayer player = game.Players.First();
-        player.Strategies.PickSingleCardStrategy = new SelectSpecificSlotPlacementStrategy(0);
-
-        // Act / Assert
-        Assert.That(() => game.Run(), Throws.TypeOf<InvalidOperationException>());
     }
 
     [Test] 
@@ -78,7 +53,7 @@ public class RevealerTests : GameTestsBase
         };
         Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
-        player.Strategies.PickSingleCardStrategy = new SelectSpecificSlotPlacementStrategy(1);
+        player.Strategies.PickSingleCard = (cards) => cards.First();;
         game.Run();
 
         // Act
@@ -108,7 +83,7 @@ public class RevealerTests : GameTestsBase
         };
         Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
-        player.Strategies.PickSingleCardStrategy = new SelectSpecificSlotPlacementStrategy(1);
+        player.Strategies.PickSingleCard = (cards) => cards.First();
         
         // Act
         game.Run();
@@ -137,7 +112,7 @@ public class RevealerTests : GameTestsBase
         };
         Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
-        player.Strategies.PickSingleCardStrategy = new SelectSpecificSlotPlacementStrategy(1);
+        player.Strategies.PickSingleCard = (cards) => cards.First();
         
         // Act
         game.Run();
@@ -170,7 +145,7 @@ public class RevealerTests : GameTestsBase
         };
         Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
-        player.Strategies.PickSingleCardStrategy = new OptOutSlotSelectionStrategy();
+        player.Strategies.PickSingleCard = (_) => null;
         
         // Act
         game.Run();
@@ -187,8 +162,8 @@ public class RevealerTests : GameTestsBase
         {
             // Player Roles
             RoleTypes.Revealer,
-            RoleTypes.Villager,
             RoleTypes.Werewolf,
+            RoleTypes.Villager,
             // Center Cards
             RoleTypes.Insomniac,
             RoleTypes.Werewolf,
@@ -196,7 +171,7 @@ public class RevealerTests : GameTestsBase
         };
         Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
-        player.Strategies.PickSingleCardStrategy = new SelectSpecificSlotPlacementStrategy(2);
+        player.Strategies.PickSingleCard = (cards) => cards.First();
 
         // Act
         game.Run();
@@ -216,8 +191,8 @@ public class RevealerTests : GameTestsBase
         {
             // Player Roles
             RoleTypes.Revealer,
-            RoleTypes.Villager,
             RoleTypes.Werewolf,
+            RoleTypes.Villager,
             // Center Cards
             RoleTypes.Insomniac,
             RoleTypes.Werewolf,
@@ -225,14 +200,14 @@ public class RevealerTests : GameTestsBase
         };
         Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
-        player.Strategies.PickSingleCardStrategy = new SelectSpecificSlotPlacementStrategy(2);
+        player.Strategies.PickSingleCard = (cards) => cards.First();
         game.Run();
 
         // Act
         IDictionary<CardContainer, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();
         // Assert
-        probabilities[game.Players[2]].ProbableRole.ShouldBe(RoleTypes.Werewolf);
-        probabilities[game.Players[2]].IsCertain.ShouldBeTrue();
+        probabilities[game.Players[1]].ProbableRole.ShouldBe(RoleTypes.Werewolf);
+        probabilities[game.Players[1]].IsCertain.ShouldBeTrue();
     }
     
     [Test]

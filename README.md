@@ -33,6 +33,7 @@ Currently partial or complete support for the following roles is implemented:
 - Exposer
 - Mystic Wolf
 - The Thing (that goes bump in the night)
+- Seer
 
 ### Supported Capabilities
 
@@ -78,7 +79,7 @@ Planned roles in Phase 1 are:
 - [x] Exposer
 - [x] Mystic Wolf
 - [x] The Thing (that goes bump in the night)
-- [ ] Seer
+- [x] Seer
 
 _Note: the **Insomniac** and **Sentinel** roles don't make complete sense until paired with card moving abilities and will be expanded as features grow, but adding them early helped establish baseline AI deductive capabilities_
 
