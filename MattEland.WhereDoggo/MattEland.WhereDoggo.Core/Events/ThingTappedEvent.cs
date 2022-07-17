@@ -10,7 +10,7 @@ public class ThingTappedEvent : TargetedEventBase
     /// </summary>
     /// <param name="thing">The Thing player doing the tapping</param>
     /// <param name="target">The player that was tapped</param>
-    public ThingTappedEvent(GamePlayer thing, GamePlayer target) : base(GamePhase.Night, thing, target)
+    public ThingTappedEvent(GamePlayer thing, GamePlayer target) : base(thing, target)
     {
     }
 
@@ -18,7 +18,7 @@ public class ThingTappedEvent : TargetedEventBase
     public override string ToString() => $"{Player} tapped {Target} as The Thing.";
 
     /// <inheritdoc />
-    public override void UpdatePlayerPerceptions(GamePlayer observer, CardContainer target, CardProbabilities probabilities)
+    public override void UpdatePlayerPerceptions(GamePlayer observer, IHasCard target, CardProbabilities probabilities)
     {
         // If a player is tapped, they should be certain that the tapper is the Thing.
         if (target == Player && observer == Target)

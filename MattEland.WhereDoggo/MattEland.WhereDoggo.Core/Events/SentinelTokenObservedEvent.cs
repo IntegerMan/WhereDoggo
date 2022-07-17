@@ -10,13 +10,12 @@ public class SentinelTokenObservedEvent : TargetedEventBase
     /// </summary>
     /// <param name="player">The player observing the token</param>
     /// <param name="target">The player that has the token</param>
-    /// <param name="phase">The phase the token was first observed. Can be night or day.</param>
-    public SentinelTokenObservedEvent(GamePlayer player, GamePlayer target, GamePhase phase) : base(phase, player, target)
+    public SentinelTokenObservedEvent(GamePlayer player, GamePlayer target) : base(player, target)
     {
     }
 
     /// <inheritdoc />
-    public override void UpdatePlayerPerceptions(GamePlayer observer, CardContainer target, CardProbabilities probabilities)
+    public override void UpdatePlayerPerceptions(GamePlayer observer, IHasCard target, CardProbabilities probabilities)
     {
         // If we see a sentinel token, we know the sentinel cannot be in the center
         if (target is CenterCardSlot)

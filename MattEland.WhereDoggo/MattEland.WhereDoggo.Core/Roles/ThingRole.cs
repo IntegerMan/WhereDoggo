@@ -5,7 +5,7 @@
 /// </summary>
 /// <href>http://onenightultimate.com/?p=273</href>
 [RoleFor(RoleTypes.Thing)]
-public class ThingRole : RoleBase
+public class ThingRole : CardBase
 {
     /// <inheritdoc />
     public override RoleTypes RoleType => RoleTypes.Thing;
@@ -26,7 +26,7 @@ public class ThingRole : RoleBase
         
         GamePlayer[] options = {game.Players[prevIndex], game.Players[nextIndex]};
 
-        if (player.Strategies.PickSingleCard(options) is not GamePlayer target)
+        if (player.PickSingleCard(options) is not GamePlayer target)
         {
             game.LogEvent(new SkippedNightActionEvent(player));
         }

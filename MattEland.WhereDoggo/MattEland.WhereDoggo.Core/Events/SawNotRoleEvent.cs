@@ -17,8 +17,7 @@ public class SawNotRoleEvent : TargetedEventBase
     /// <param name="observer">The player making the deduction</param>
     /// <param name="target">The target that cannot be the role</param>
     /// <param name="impossibleRole">The role that is not possible for the target to have</param>
-    public SawNotRoleEvent(GamePlayer observer, CardContainer target, RoleTypes impossibleRole) 
-        : base(GamePhase.Night, observer, target)
+    public SawNotRoleEvent(GamePlayer observer, IHasCard target, RoleTypes impossibleRole) : base(observer, target)
     {
         ImpossibleRole = impossibleRole;
     }
@@ -27,7 +26,7 @@ public class SawNotRoleEvent : TargetedEventBase
     public override string ToString() => $"{Player} saw that {Target} is not a {ImpossibleRole.GetFriendlyName()}";
 
     /// <inheritdoc />
-    public override void UpdatePlayerPerceptions(GamePlayer observer, CardContainer target, CardProbabilities probabilities)
+    public override void UpdatePlayerPerceptions(GamePlayer observer, IHasCard target, CardProbabilities probabilities)
     {
         if (target == Target)
         {

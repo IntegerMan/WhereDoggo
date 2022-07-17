@@ -22,15 +22,15 @@ public class MysticWolfRole : WerewolfRole
     {
         base.PerformNightAction(game, player);
 
-        CardContainer? card = player.Strategies.PickSingleCard(game.Players.Where(p => p != player));
+        IHasCard? cardHolder = player.PickSingleCard(game.Players.Where(p => p != player));
 
-        if (card == null)
+        if (cardHolder == null)
         {
             game.LogEvent(new SkippedNightActionEvent(player));
         }
         else
         {
-            game.LogEvent(new ObservedPlayerCardEvent(player, card));
+            game.LogEvent(new ObservedPlayerCardEvent(player, cardHolder));
         }
     }
     

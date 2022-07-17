@@ -9,7 +9,7 @@
 /// </summary>
 /// <href>http://onenightultimate.com/?p=33</href>
 [RoleFor(RoleTypes.Werewolf)]
-public class WerewolfRole : RoleBase
+public class WerewolfRole : CardBase
 {
     /// <inheritdoc />
     public override Teams Team => Teams.Werewolves;
@@ -23,7 +23,7 @@ public class WerewolfRole : RoleBase
     /// <inheritdoc />
     public override void PerformNightAction(Game game, GamePlayer player)
     {
-        List<GamePlayer> wolves = game.Players.Where(p => p.InitialTeam == Teams.Werewolves).ToList();
+        List<GamePlayer> wolves = game.Players.Where(p => p.InitialCard.Team == Teams.Werewolves).ToList();
 
         switch (wolves.Count)
         {
@@ -46,15 +46,15 @@ public class WerewolfRole : RoleBase
             MarkTargetAsNonWolf(game, player, otherPlayer);
         }
 
-        CardContainer? slot = player.Strategies.PickSingleCard(game.CenterSlots);
+        IHasCard? cardHolder = player.PickSingleCard(game.CenterSlots);
 
-        if (slot == null)
+        if (cardHolder == null)
         {
             game.LogEvent(new SkippedNightActionEvent(player));
         }
         else
         {
-            game.LogEvent(new ObservedCenterCardEvent(player, slot));
+            game.LogEvent(new ObservedCenterCardEvent(player, cardHolder));
         }
     }
 
@@ -70,7 +70,7 @@ public class WerewolfRole : RoleBase
     {
         foreach (GamePlayer otherPlayer in wolves.Where(otherPlayer => otherPlayer != player))
         {
-            if (otherPlayer.InitialTeam == Teams.Werewolves)
+            if (otherPlayer.InitialCard.Team == Teams.Werewolves)
             {
                 game.LogEvent(new SawAsWerewolfEvent(player, otherPlayer));
             }

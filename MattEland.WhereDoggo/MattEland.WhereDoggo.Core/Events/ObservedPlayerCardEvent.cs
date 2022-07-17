@@ -10,25 +10,25 @@ public class ObservedPlayerCardEvent : TargetedEventBase
     /// </summary>
     /// <param name="player">The Mystic Wolf</param>
     /// <param name="target">The player who the Mystic Wolf observed</param>
-    public ObservedPlayerCardEvent(GamePlayer player, CardContainer target) : base(GamePhase.Night, player, target)
+    public ObservedPlayerCardEvent(GamePlayer player, IHasCard target) : base(player, target)
     {
-        ObservedRole = target.CurrentRole;
+        ObservedCard = target.CurrentCard;
     }
 
     /// <summary>
     /// The role the looked at card held
     /// </summary>
-    public RoleBase ObservedRole { get; set; }
+    public CardBase ObservedCard { get; set; }
 
     /// <inheritdoc />
-    public override void UpdatePlayerPerceptions(GamePlayer observer, CardContainer target, CardProbabilities probabilities)
+    public override void UpdatePlayerPerceptions(GamePlayer observer, IHasCard target, CardProbabilities probabilities)
     {
         if (Target == target)
         {
-            probabilities.MarkAsCertainOfRole(target.CurrentRole.RoleType);
+            probabilities.MarkAsCertainOfRole(target.CurrentCard.RoleType);
         }
     }
 
     /// <inheritdoc />
-    public override string ToString() => $"{Player} looked at {Target}'s card and saw it was a {ObservedRole}";
+    public override string ToString() => $"{Player} looked at {Target}'s card and saw it was a {ObservedCard}";
 }

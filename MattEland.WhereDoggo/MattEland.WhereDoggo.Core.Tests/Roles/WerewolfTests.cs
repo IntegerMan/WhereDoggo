@@ -23,7 +23,7 @@ public class WerewolfTests : GameTestsBase
         GamePlayer player = game.Players.First();
 
         // Act
-        IDictionary<CardContainer, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();
+        IDictionary<IHasCard, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();
 
         // Assert
         probabilities[player].Probabilities[RoleTypes.Werewolf].ShouldBe(1);
@@ -47,14 +47,14 @@ public class WerewolfTests : GameTestsBase
         };
         Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
-        player.Strategies.PickSingleCard = (cards) => cards.First();
+        player.PickSingleCard = PickFirstCard;
         game.Run();
 
         // Act
-        IDictionary<CardContainer, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();
+        IDictionary<IHasCard, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();
 
         // Assert
-        foreach (KeyValuePair<CardContainer, CardProbabilities> kvp in probabilities)
+        foreach (KeyValuePair<IHasCard, CardProbabilities> kvp in probabilities)
         {
             kvp.Value.IsCertain.ShouldBeTrue($"Was not certain of role {kvp.Value}");
         }
@@ -104,7 +104,7 @@ public class WerewolfTests : GameTestsBase
         };
         Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
-        player.Strategies.PickSingleCard = (_) => null;
+        player.PickSingleCard = PickNothing;
         game.Run();
 
         // Assert
@@ -131,12 +131,11 @@ public class WerewolfTests : GameTestsBase
         };
         Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
-        player.Strategies.PickSingleCard = (cards) => cards.First();
-        game.Start();
-        game.PerformNightPhase();
+        player.PickSingleCard = PickFirstCard;
+        game.Run();
 
         // Act
-        IDictionary<CardContainer, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();
+        IDictionary<IHasCard, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();
 
         // Assert
         GamePlayer player2 = game.Players[1];

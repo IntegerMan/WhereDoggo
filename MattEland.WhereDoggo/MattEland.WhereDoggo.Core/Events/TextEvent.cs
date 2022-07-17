@@ -13,15 +13,14 @@ public class TextEvent : GameEventBase
     /// <summary>
     /// Instantiates a new instance of the <see cref="TextEvent"/> class.
     /// </summary>
-    /// <param name="phase">The phase the event occurred in</param>
     /// <param name="message">The message to be logged</param>
-    public TextEvent(GamePhase phase, string message) : base(phase) => Message = message;
+    public TextEvent(string message) => Message = message;
 
     /// <inheritdoc />
     public override string ToString() => Message;
     
     /// <inheritdoc />
-    public override void UpdatePlayerPerceptions(GamePlayer observer, CardContainer target, CardProbabilities probabilities)
+    public override void UpdatePlayerPerceptions(GamePlayer observer, IHasCard target, CardProbabilities probabilities)
     {
         // Do nothing
     }

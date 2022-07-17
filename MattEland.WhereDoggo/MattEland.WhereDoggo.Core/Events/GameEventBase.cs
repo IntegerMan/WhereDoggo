@@ -8,7 +8,7 @@ public abstract class GameEventBase
     /// <summary>
     /// The game phase the event occurred on
     /// </summary>
-    public GamePhase Phase { get; }
+    public string? Phase { get; set; }
     
     /// <summary>
     /// The player the event occurred to. This may be null for some general events.
@@ -24,11 +24,9 @@ public abstract class GameEventBase
     /// <summary>
     /// Initializes a new instance of the <see cref="GameEventBase"/> class.
     /// </summary>
-    /// <param name="phase">The phase the event occurred</param>
     /// <param name="player">The player the game event occurred to. Optional and may be null.</param>
-    protected GameEventBase(GamePhase phase, GamePlayer? player = null)
+    protected GameEventBase(GamePlayer? player = null)
     {
-        Phase = phase;
         Player = player;
     }
 
@@ -38,6 +36,6 @@ public abstract class GameEventBase
     /// <param name="observer">The <see cref="GamePlayer"/> privy to the event</param>
     /// <param name="target">The <see cref="CardContainer"/> the event occurred on</param>
     /// <param name="probabilities">The <see cref="CardProbabilities"/> for <paramref name="target" /></param>
-    public abstract void UpdatePlayerPerceptions(GamePlayer observer, CardContainer target,
+    public abstract void UpdatePlayerPerceptions(GamePlayer observer, IHasCard target,
         CardProbabilities probabilities);
 }

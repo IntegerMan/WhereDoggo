@@ -1,4 +1,5 @@
-﻿using MattEland.WhereDoggo.Core.Events;
+﻿using MattEland.WhereDoggo.Core.Engine.Phases;
+using MattEland.WhereDoggo.Core.Events;
 
 namespace MattEland.WhereDoggo.WhereDoggoConsole;
 
@@ -6,9 +7,9 @@ public static class GameDisplayHelpers
 {
     public static void DisplayGameState(this Game game)
     {
-        foreach (CardContainer container in game.Entities)
+        foreach (IHasCard holder in game.Entities)
         {
-            Console.WriteLine($"{container} is a {container.CurrentRole}");
+            Console.WriteLine($"\t{holder} is a {holder.CurrentCard}");
         }
 
         Console.WriteLine();
@@ -20,7 +21,7 @@ public static class GameDisplayHelpers
     /// <param name="game">The game. Usable as an extension method</param>
     /// <param name="phase">The phase to search for</param>
     /// <returns>Events that occurred during that phase</returns>
-    public static List<GameEventBase> FindEventsForPhase(this Game game, GamePhase phase) =>
+    public static List<GameEventBase> FindEventsForPhase(this Game game, string phase) =>
         game.Events.Where(e => e.Phase == phase)
             .OrderBy(e => e.Id)
             .ToList();
@@ -28,7 +29,7 @@ public static class GameDisplayHelpers
     public static void DisplayNightActions(this Game game)
     {
         Console.WriteLine("During the Night:");
-        List<GameEventBase> events = game.FindEventsForPhase(GamePhase.Night);
+        List<GameEventBase> events = game.FindEventsForPhase("Night");
         foreach (GameEventBase e in events)
         {
             Console.WriteLine($"\t{e}");
@@ -46,9 +47,9 @@ public static class GameDisplayHelpers
             
             Console.WriteLine($"{player.Name} Assumed Probabilities:");
                 
-            IDictionary<CardContainer, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();
+            IDictionary<IHasCard, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();
 
-            foreach (KeyValuePair<CardContainer, CardProbabilities> kvp in probabilities)
+            foreach (KeyValuePair<IHasCard, CardProbabilities> kvp in probabilities)
             {
                 Console.WriteLine($"\t{kvp.Key.Name} probabilities ({kvp.Value})");
             }

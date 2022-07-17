@@ -7,7 +7,7 @@
 /// </summary>
 /// <href>http://onenightultimate.com/?p=73</href>
 [RoleFor(RoleTypes.Revealer)]
-public class RevealerRole : RoleBase
+public class RevealerRole : CardBase
 {
     /// <inheritdoc />
     public override RoleTypes RoleType => RoleTypes.Revealer;
@@ -21,7 +21,7 @@ public class RevealerRole : RoleBase
     /// <inheritdoc />
     public override void PerformNightAction(Game game, GamePlayer player)
     {
-        CardContainer? target = player.Strategies.PickSingleCard(game.Players.Where(p => p != player));
+        IHasCard? target = player.PickSingleCard(game.Players.Where(p => p != player));
 
         if (target == null)
         {
@@ -31,14 +31,14 @@ public class RevealerRole : RoleBase
         {
             GamePlayer targetPlayer = (GamePlayer)target;
 
-            targetPlayer.IsRevealed = true;
+            targetPlayer.CurrentCard.IsRevealed = true;
             game.LogEvent(new RevealedRoleEvent(player, targetPlayer));
-            game.LogEvent(new RevealedRoleObservedEvent(game.CurrentPhase, player, targetPlayer));
+            game.LogEvent(new RevealedRoleObservedEvent(player, targetPlayer));
 
-            // Werewolves should not be revealed
-            if (targetPlayer.CurrentTeam == Teams.Werewolves)
+            // Only villagers should be revealed
+            if (targetPlayer.CurrentCard.Team != Teams.Villagers)
             {
-                targetPlayer.IsRevealed = false;
+                targetPlayer.CurrentCard.IsRevealed = false;
                 game.LogEvent(new RevealerHidEvilRoleEvent(player, targetPlayer));
             }
         }

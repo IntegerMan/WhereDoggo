@@ -8,14 +8,14 @@ public class DealtRoleEvent : GameEventBase
     /// <summary>
     /// The role the player was dealt
     /// </summary>
-    public RoleBase Role { get; }
+    public CardBase Role { get; }
 
     /// <summary>
     /// Instantiates a new instance of the <see cref="DealtRoleEvent"/> class.
     /// </summary>
     /// <param name="player">The player receiving the role</param>
     /// <param name="role">The role receivedS</param>
-    public DealtRoleEvent(GamePlayer player, RoleBase role) : base(GamePhase.Setup, player)
+    public DealtRoleEvent(GamePlayer player, CardBase role) : base(player)
     {
         Role = role;
     }
@@ -25,7 +25,7 @@ public class DealtRoleEvent : GameEventBase
     
 
     /// <inheritdoc />
-    public override void UpdatePlayerPerceptions(GamePlayer observer, CardContainer target, CardProbabilities probabilities)
+    public override void UpdatePlayerPerceptions(GamePlayer observer, IHasCard target, CardProbabilities probabilities)
     {
         if (observer == target)
         {

@@ -23,7 +23,7 @@ public class SeerTests : GameTestsBase
         };
         Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
-        player.Strategies.PickSeerCards = (_, _) => new List<CardContainer>();
+        player.PickSeerCards = (_, _) => new List<IHasCard>();
 
         // Act
         game.Run();
@@ -77,11 +77,11 @@ public class SeerTests : GameTestsBase
         };
         Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
-        player.Strategies.PickSeerCards = (_, center) => center.Take(2).ToList();
+        player.PickSeerCards = (_, center) => center.Take(2).ToList();
         game.Run();
 
         // Act
-        IDictionary<CardContainer, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();
+        IDictionary<IHasCard, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();
 
         // Assert
         probabilities[game.CenterSlots[0]].IsCertain.ShouldBeTrue();
@@ -107,7 +107,7 @@ public class SeerTests : GameTestsBase
         };
         Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
-        player.Strategies.PickSeerCards = (players, _) => players.Take(1).ToList();
+        player.PickSeerCards = (players, _) => players.Take(1).ToList();
         
         // Act
         game.Run();
@@ -136,7 +136,7 @@ public class SeerTests : GameTestsBase
         Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players[0];
         GamePlayer target = game.Players[1];
-        player.Strategies.PickSeerCards = (players, _) => players.Take(1).ToList();
+        player.PickSeerCards = (players, _) => players.Take(1).ToList();
         game.Run();
 
         // Act
@@ -144,6 +144,6 @@ public class SeerTests : GameTestsBase
 
         // Assert
         probabilities[target].IsCertain.ShouldBeTrue();
-        probabilities[target].ProbableRole.ShouldBe(target.InitialRole.RoleType);
+        probabilities[target].ProbableRole.ShouldBe(target.InitialCard.RoleType);
     }
 }

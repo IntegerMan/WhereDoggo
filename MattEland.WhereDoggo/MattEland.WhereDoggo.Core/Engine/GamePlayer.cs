@@ -3,8 +3,8 @@
 /// <summary>
 /// Represents a player within the game world.
 /// </summary>
-[DebuggerDisplay("{Name} ({CurrentRole})")]
-public class GamePlayer : CardContainer
+[DebuggerDisplay("{Name} ({CurrentCard})")]
+public class GamePlayer : IHasCard
 {
     private readonly Game _game;
     private readonly List<GameEventBase> _events = new();
@@ -14,17 +14,32 @@ public class GamePlayer : CardContainer
     /// </summary>
     /// <param name="name">The name of the player</param>
     /// <param name="playerNumber">The player number. Used for some abilities and calculating adjacency</param>
-    /// <param name="initialRole">The role they were initially dealt</param>
+    /// <param name="initialCard">The role they were initially dealt</param>
     /// <param name="game">The game the player is in</param>
-    /// <param name="randomizer">The randomizer instance</param>
-    public GamePlayer(string name, int playerNumber, RoleBase initialRole, Game game, Random randomizer) : base(name, initialRole)
+    public GamePlayer(string name, int playerNumber, CardBase initialCard, Game game)
     {
         _game = game;
+        Name = name;
         Number = playerNumber;
-        Strategies = new GameStrategies(randomizer);
+        Random random = game.Randomizer;
+        InitialCard = initialCard;
+        CurrentCard = initialCard;
+        PickSingleCard = (targets) => targets.MinBy(_ => random.Next() * random.Next());
+        PickSeerCards = (_, slots) => slots.OrderBy(_ => random.Next() * random.Next()).Take(2).ToList();
         Brain = new PlayerInferenceEngine(this, game);
     }
+    
+    /// <summary>
+    /// The strategy to use when selecting a single card from multiple. Applies to multiple roles
+    /// </summary>
+    public Func<IEnumerable<IHasCard>, IHasCard?> PickSingleCard { get; set; }
 
+    /// <summary>
+    /// The function to use when picking cards for the <see cref="SeerRole"/>. A seer-specific function is required
+    /// because the seer gets the choice to skip, pick one card from a player, or pick two cards from the center.
+    /// </summary>
+    public Func<IEnumerable<IHasCard>, IEnumerable<IHasCard>, List<IHasCard>> PickSeerCards { get; set; }
+    
     /// <summary>
     /// Adds a new event to the game log
     /// </summary>
@@ -46,10 +61,8 @@ public class GamePlayer : CardContainer
     /// </summary>
     public bool HasSentinelToken { get; set;  }
 
-    /// <summary>
-    /// The strategies the player uses for various roles.
-    /// </summary>
-    public GameStrategies Strategies { get; }
+    /// <inheritdoc />
+    public string Name { get; }
 
     /// <summary>
     /// The player number
@@ -63,7 +76,7 @@ public class GamePlayer : CardContainer
     /// <returns>The player to vote for</returns>
     public GamePlayer DetermineVoteTarget(Random random)
     {
-        IDictionary<CardContainer, CardProbabilities> probabilities = Brain.BuildFinalRoleProbabilities();
+        IDictionary<IHasCard, CardProbabilities> probabilities = Brain.BuildFinalRoleProbabilities();
 
         // Try to figure out which team the player is on
         Teams probableTeams = probabilities[this].ProbableTeam;
@@ -71,13 +84,13 @@ public class GamePlayer : CardContainer
         // Remove the player from the set of probabilities since self-voting is illegal
         probabilities.Remove(this);
 
-        List<CardContainer> keys = probabilities.Keys.Where(k => k is CenterCardSlot).ToList();
-        foreach (CardContainer key in keys)
+        List<IHasCard> keys = probabilities.Keys.Where(k => k is CenterCardSlot).ToList();
+        foreach (IHasCard key in keys)
         {
             probabilities.Remove(key);
         }
 
-        List<CardContainer> options;
+        List<IHasCard> options;
         switch (probableTeams)
         {
             case Teams.Villagers:
@@ -109,7 +122,7 @@ public class GamePlayer : CardContainer
     /// </summary>
     public void Wake()
     {
-        _game.LogEvent(new WokeUpEvent(_game.CurrentPhase, this));
+        _game.LogEvent(new WokeUpEvent(this));
 
         // Allow for players to observe sentinel tokens
         foreach (GamePlayer player in _game.Players)
@@ -118,19 +131,25 @@ public class GamePlayer : CardContainer
 
             if (!Events.Any(e => e is SentinelTokenObservedEvent sto && sto.Target == player))
             {
-                _game.LogEvent(new SentinelTokenObservedEvent(this, player, _game.CurrentPhase));
+                _game.LogEvent(new SentinelTokenObservedEvent(this, player));
             }
         }
         
         // Allow for players to observe revealed roles
-        foreach (CardContainer card in _game.Entities)
+        foreach (IHasCard holder in _game.Entities)
         {
-            if (!card.IsRevealed) continue;
+            if (!holder.CurrentCard.IsRevealed) continue;
             
-            if (!Events.Any(e => e is RevealedRoleObservedEvent obs && obs.Target == card))
+            if (!Events.Any(e => e is RevealedRoleObservedEvent obs && obs.Target == holder))
             {
-                _game.LogEvent(new RevealedRoleObservedEvent(_game.CurrentPhase, this, card));
+                _game.LogEvent(new RevealedRoleObservedEvent(this, holder));
             }
         }
     }
+
+    /// <inheritdoc />
+    public CardBase InitialCard { get; }
+
+    /// <inheritdoc />
+    public CardBase CurrentCard { get; set; }
 }

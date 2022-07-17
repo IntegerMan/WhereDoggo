@@ -5,7 +5,7 @@
 /// Villagers have no night ability and have very little information but are on the village team.
 /// </summary>
 [RoleFor(RoleTypes.Villager)]
-public class VillagerRole : RoleBase
+public class VillagerRole : CardBase
 {
     /// <inheritdoc />
     public override Teams Team => Teams.Villagers;

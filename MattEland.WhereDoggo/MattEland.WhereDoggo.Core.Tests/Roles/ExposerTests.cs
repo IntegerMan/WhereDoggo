@@ -26,7 +26,7 @@ public class ExposerTests : GameTestsBase
         Game game = RunGame(assignedRoles);
 
         // Assert
-        game.CenterSlots.Count(s => s.IsRevealed).ShouldBeGreaterThan(0);
+        game.CenterSlots.Count(s => s.CurrentCard.IsRevealed).ShouldBeGreaterThan(0);
     }
     
     [TestCase(1)]
@@ -53,7 +53,7 @@ public class ExposerTests : GameTestsBase
         Game game = RunGame(assignedRoles, options);
 
         // Assert
-        game.CenterSlots.Count(s => s.IsRevealed).ShouldBe(numCards);
+        game.CenterSlots.Count(s => s.CurrentCard.IsRevealed).ShouldBe(numCards);
     }
     
     [TestCase(1)]
@@ -105,7 +105,7 @@ public class ExposerTests : GameTestsBase
         // Assert
         foreach (GamePlayer p in game.Players)
         {
-            IDictionary<CardContainer, CardProbabilities> probabilities = p.Brain.BuildFinalRoleProbabilities();
+            IDictionary<IHasCard, CardProbabilities> probabilities = p.Brain.BuildFinalRoleProbabilities();
             foreach (CenterCardSlot slot in game.CenterSlots)
             {
                 probabilities[slot].Probabilities[RoleTypes.Exposer].ShouldBe(0);
@@ -160,7 +160,7 @@ public class ExposerTests : GameTestsBase
         };
         Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
-        player.Strategies.PickSingleCard = (_) => null;
+        player.PickSingleCard = PickNothing;
 
         // Act
         game.Run();

@@ -10,7 +10,7 @@ public class SentinelTokenPlacedEvent : TargetedEventBase
     /// </summary>
     /// <param name="player">The sentinel player</param>
     /// <param name="target">The player receiving the token</param>
-    public SentinelTokenPlacedEvent(GamePlayer player, GamePlayer target) : base(GamePhase.Night, player, target)
+    public SentinelTokenPlacedEvent(GamePlayer player, GamePlayer target) : base(player, target)
     {
     }
 
@@ -18,7 +18,7 @@ public class SentinelTokenPlacedEvent : TargetedEventBase
     public override string ToString() => $"{Player} placed a sentinel token on {Target}";
     
     /// <inheritdoc />
-    public override void UpdatePlayerPerceptions(GamePlayer observer, CardContainer target, CardProbabilities probabilities)
+    public override void UpdatePlayerPerceptions(GamePlayer observer, IHasCard target, CardProbabilities probabilities)
     {
         // Do nothing
     }

@@ -36,12 +36,12 @@ public static class RoleExtensions
     }
 
     /// <summary>
-    /// Creates a <see cref="RoleBase"/> out of a <see cref="RoleTypes"/>.
+    /// Creates a <see cref="CardBase"/> out of a <see cref="RoleTypes"/>.
     /// </summary>
     /// <param name="roleType">The role to create</param>
-    /// <returns>A <see cref="RoleBase"/> representing the specified <paramref name="roleType"/></returns>
-    /// <exception cref="NotSupportedException">Thrown if no <see cref="RoleBase"/> is configured for this <see cref="RoleTypes"/></exception>
-    public static RoleBase BuildGameRole(this RoleTypes roleType)
+    /// <returns>A <see cref="CardBase"/> representing the specified <paramref name="roleType"/></returns>
+    /// <exception cref="NotSupportedException">Thrown if no <see cref="CardBase"/> is configured for this <see cref="RoleTypes"/></exception>
+    public static CardBase BuildGameRole(this RoleTypes roleType)
     {
         // If we haven't initialized yet, create a map of role classes to their attributes
         if (_roleInstances == null)
@@ -60,7 +60,7 @@ public static class RoleExtensions
 
         // Create the instance and return it
         return _roleInstances.ContainsKey(roleType)
-            ? (RoleBase)Activator.CreateInstance(_roleInstances[roleType])!
+            ? (CardBase)Activator.CreateInstance(_roleInstances[roleType])!
             : throw new NotSupportedException($"{nameof(BuildGameRole)} doesn't know how to create a role for {roleType}");
     }
 

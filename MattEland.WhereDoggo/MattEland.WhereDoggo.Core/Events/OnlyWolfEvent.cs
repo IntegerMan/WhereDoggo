@@ -10,7 +10,7 @@ public class OnlyWolfEvent : GameEventBase
     /// Initializes a new instance of the <see cref="OnlyWolfEvent"/> class.
     /// </summary>
     /// <param name="player">The player that is the lone wolf</param>
-    public OnlyWolfEvent(GamePlayer player) : base(GamePhase.Night, player)
+    public OnlyWolfEvent(GamePlayer player) : base(player)
     {
         
     }
@@ -19,7 +19,7 @@ public class OnlyWolfEvent : GameEventBase
     public override string ToString() => $"{Player} saw that they were the only player on the werewolf team";
     
     /// <inheritdoc />
-    public override void UpdatePlayerPerceptions(GamePlayer observer, CardContainer target, CardProbabilities probabilities)
+    public override void UpdatePlayerPerceptions(GamePlayer observer, IHasCard target, CardProbabilities probabilities)
     {
         // Do nothing
     }

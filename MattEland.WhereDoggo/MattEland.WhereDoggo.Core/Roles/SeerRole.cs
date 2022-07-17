@@ -6,7 +6,7 @@
 /// </summary>
 /// <href>http://onenightultimate.com/?p=51</href> 
 [RoleFor(RoleTypes.Seer)]
-public class SeerRole : RoleBase
+public class SeerRole : CardBase
 {
     /// <inheritdoc />
     public override RoleTypes RoleType => RoleTypes.Seer;
@@ -23,9 +23,9 @@ public class SeerRole : RoleBase
         base.PerformNightAction(game, player);
         
         // Choose whether we're skipping, getting another player, or getting 2 center cards
-        IList<CardContainer> playerChoices = game.Players.Where(p => p != player).Cast<CardContainer>().ToList(); 
-        IList<CardContainer> centerChoices = game.CenterSlots.Cast<CardContainer>().ToList();
-        List<CardContainer> cards = player.Strategies.PickSeerCards(playerChoices, centerChoices);
+        IList<IHasCard> playerChoices = game.Players.Where(p => p != player).Cast<IHasCard>().ToList(); 
+        IList<IHasCard> centerChoices = game.CenterSlots.Cast<IHasCard>().ToList();
+        List<IHasCard> cards = player.PickSeerCards(playerChoices, centerChoices);
 
         switch (cards.Count)
         {

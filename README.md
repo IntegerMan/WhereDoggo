@@ -64,11 +64,11 @@ In the future, AIs will be able to consider events they didn't witness directly 
 
 ## Roadmap
 
-### Phase 1 - Basic Roles
+### Phase 1 - Basic Roles (In Progress)
 
 Phase 1 focuses on the roles that do not involve swapping cards around. The focus for this 
 
-Planned roles in Phase 1 are:
+Completed roles in Phase 1 are:
 
 - [x] Werewolves
 - [x] Villager
@@ -90,16 +90,18 @@ Planned features in Phase 1 are:
 - [x] Day Phase
 - [x] Probabilistic model of what cards are at play start
 - [x] Simple voting
+- [ ] Random Game Generator
 - [ ] Claiming Roles
 - [ ] Wolves Falsely Claiming Roles (most probable center card given existing claims)
 - [ ] Suspecting fake claims
 - [ ] Seer / Apprentice Seer Claims share what card they viewed
 - [ ] Voting in a Circle (if thinking no werewolves present)
-- [ ] Random Game Generator
 
 ### Phase 2 - Added Duplicity
 
 This phase focuses on additional roles that want to be detected / voted.
+
+No card moving is going on yet, but the social / deductive engine is being refined during this phase.
 
 Planned roles:
 
@@ -114,7 +116,7 @@ Planned features:
 - [ ] Players sharing their suspicions
 - [ ] Voting factoring in suspicions of others
 - [ ] Tanner AI
-- [ ] Minion AI
+- [ ] Mortician AI
 - [ ] Mortician Randomness
 
 ### Phase 3 - Complex Roles

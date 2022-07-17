@@ -9,28 +9,28 @@ public class InsomniacSawOwnCardEvent : GameEventBase
     /// Initializes a new instance of the <see cref="InsomniacSawOwnCardEvent"/> class.
     /// </summary>
     /// <param name="player">The insomniac player</param>
-    public InsomniacSawOwnCardEvent(GamePlayer player) : base(GamePhase.Night, player)
+    public InsomniacSawOwnCardEvent(GamePlayer player) : base(player)
     {
-        FinalRole = player.CurrentRole;
+        FinalCard = player.CurrentCard;
     }
 
     /// <summary>
     /// Gets the final role that the Insomniac observed for their own card.
     /// </summary>
-    public RoleBase FinalRole { get; }
+    public CardBase FinalCard { get; }
 
     /// <inheritdoc />
-    public override void UpdatePlayerPerceptions(GamePlayer observer, CardContainer target, CardProbabilities probabilities)
+    public override void UpdatePlayerPerceptions(GamePlayer observer, IHasCard target, CardProbabilities probabilities)
     {
         if (observer == target)
         {
-            probabilities.MarkAsCertainOfRole(target.CurrentRole.RoleType);
+            probabilities.MarkAsCertainOfRole(target.CurrentCard.RoleType);
         }
     }
 
     /// <inheritdoc />
     public override string ToString() =>
-        FinalRole.RoleType == Player!.InitialRole.RoleType 
-            ? $"{Player} woke up and saw that they were still {FinalRole.RoleType}" 
-            : $"{Player} woke up and saw that they had become a {FinalRole.RoleType}";
+        FinalCard.RoleType == Player!.CurrentCard.RoleType 
+            ? $"{Player} woke up and saw that they were still {FinalCard.RoleType}" 
+            : $"{Player} woke up and saw that they had become a {FinalCard.RoleType}";
 }

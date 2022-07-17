@@ -11,7 +11,7 @@ public class SkippedNightActionEvent : GameEventBase
     /// Initializes a new instance of the <see cref="SkippedNightActionEvent"/>
     /// </summary>
     /// <param name="player">The player who skipped their action</param>
-    public SkippedNightActionEvent(GamePlayer player) : base(GamePhase.Night, player)
+    public SkippedNightActionEvent(GamePlayer player) : base(player)
     {
     }
 
@@ -19,7 +19,7 @@ public class SkippedNightActionEvent : GameEventBase
     public override string ToString() => $"{Player} chose to skip their night action.";
     
     /// <inheritdoc />
-    public override void UpdatePlayerPerceptions(GamePlayer observer, CardContainer target, CardProbabilities probabilities)
+    public override void UpdatePlayerPerceptions(GamePlayer observer, IHasCard target, CardProbabilities probabilities)
     {
         // Do nothing
     }

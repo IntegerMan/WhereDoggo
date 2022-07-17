@@ -1,4 +1,6 @@
-﻿namespace MattEland.WhereDoggo.Core.Engine;
+﻿using MattEland.WhereDoggo.Core.Engine.Phases;
+
+namespace MattEland.WhereDoggo.Core.Engine;
 
 /// <summary>
 /// Represents a single game of One Night Ultimate Werewolf
@@ -6,9 +8,9 @@
 public class Game
 {
     private readonly List<GameEventBase> _events = new();
-    private readonly List<CardContainer> _roleContainers;
-    private readonly List<GamePlayer> _players;
-    private readonly List<RoleBase> _roles;
+    private readonly List<GamePlayer> _players = new();
+    private readonly List<CardBase> _roles;
+    private readonly Queue<GamePhaseBase> _phases;
 
     /// <summary>
     /// Gets the players in the game
@@ -19,17 +21,27 @@ public class Game
     /// Gets the roles that were specified for the game.
     /// If roles occur more than once, they will be duplicated in this list.
     /// </summary>
-    public IEnumerable<RoleBase> Roles => _roles.AsReadOnly();
+    public IEnumerable<CardBase> Roles => _roles.AsReadOnly();
     
     /// <summary>
     /// Gets a list of cards in the center slots
     /// </summary>
     public IList<CenterCardSlot> CenterSlots => _centerSlots.AsReadOnly();
-    
+
     /// <summary>
     /// Gets all players and center slots
     /// </summary>
-    public IEnumerable<CardContainer> Entities => _roleContainers.AsReadOnly();
+    public IEnumerable<IHasCard> Entities
+    {
+        get
+        {
+            List<IHasCard> entities = new();
+            entities.AddRange(_players);
+            entities.AddRange(_centerSlots);
+            
+            return entities;
+        }
+    }
     
     /// <summary>
     /// Gets all events that have occurred in the game, regardless of player they occurred to.
@@ -47,41 +59,19 @@ public class Game
         this.NumPlayers = roles.Count - NumCenterCards;
 
         _roles = roles.Select(r => r.BuildGameRole()).ToList();
-        
-        _roleContainers = new List<CardContainer>(NumPlayers + NumCenterCards);
 
-        if (Options.RandomizeSlots)
-        {
-            _roles = _roles.OrderBy(r => Randomizer.Next() * Randomizer.Next()).ToList();
-        }
-
-        _players = InitializePlayersAndCenterCards(Options.PlayerNames);
+        _phases = new Queue<GamePhaseBase>();
+        _phases.Enqueue(new SetupGamePhase(this));
+        _phases.Enqueue(new NightPhase(this));
+        _phases.Enqueue(new DayPhase(this));
+        _phases.Enqueue(new VotingPhase(this));
+        CurrentPhase = _phases.Peek();
     }
 
     /// <summary>
     /// Gets the options this game was created with
     /// </summary>
     public GameOptions Options { get; }
-
-    private List<GamePlayer> InitializePlayersAndCenterCards(IReadOnlyList<string> playerNames)
-    {
-        int centerIndex = 1;
-        for (int i = 0; i < _roles.Count; i++)
-        {
-            if (i < NumPlayers)
-            {
-                _roleContainers.Add(new GamePlayer(playerNames[i], i + 1, _roles[i], this, Randomizer));
-            }
-            else
-            {
-                CenterCardSlot slot = new($"Center Card {centerIndex++}", _roles[i]);
-                _roleContainers.Add(slot);
-                _centerSlots.Add(slot);
-            }
-        }
-
-        return _roleContainers.OfType<GamePlayer>().ToList();
-    }
 
     /// <summary>
     /// Gets the number of players playing. This will be the number of cards minus the count of cards in the center
@@ -91,50 +81,40 @@ public class Game
     /// <summary>
     /// Carries out all phases of a game and returns the result of the game
     /// </summary>
-    /// <returns>The result of the game</returns>
-    public GameResult Run()
+    public void Run()
     {
-        Start();
         
-        PerformNightPhase();
-        PerformDayPhase();
-        
-        return PerformVotePhase();
+        while (_phases.Any())
+        {
+            RunNextPhase();
+        }
     }
 
     /// <summary>
-    /// Starts the game by assigning cards to players and the center slots.
+    /// Runs the next phase of the game and returns whether or not the game is over
     /// </summary>
-    /// <exception cref="InvalidOperationException">
-    ///Thrown if the game is not in the setup phase.
-    /// </exception>
-    public void Start()
+    /// <returns>Returns <c>true</c> if the game is over, otherwise <c>false</c>.</returns>
+    public bool RunNextPhase()
     {
-        if (CurrentPhase != GamePhase.Setup) throw new InvalidOperationException("Game must be in setup phase");
+        GamePhaseBase phase = _phases.Dequeue();
+        BroadcastEvent($"Starting {phase.Name} phase");
+        CurrentPhase = phase;
+        phase.Run(this);
 
-        LogEvent($"{Name} started");
-
-        foreach (GamePlayer player in _players)
-        {
-            LogEvent(new DealtRoleEvent(player, player.InitialRole));
-            
-            player.Brain.BuildInitialRoleProbabilities();
-        }
-
-        LogEvent($"{Name} initialized");
+        return Result != null;
     }
 
     /// <summary>
     /// Tracks the current phase of the game.
     /// </summary>
-    public GamePhase CurrentPhase { get; private set; } = GamePhase.Setup;
+    public GamePhaseBase CurrentPhase { get; private set; }
     private int _nextEventId;
 
     /// <summary>
     /// Logs a new <see cref="TextEvent"/> at the game level
     /// </summary>
     /// <param name="message">The message to log</param>
-    internal void LogEvent(string message) => LogEvent(new TextEvent(CurrentPhase, message));
+    internal void LogEvent(string message) => LogEvent(new TextEvent(message));
 
     /// <summary>
     /// Logs an event that occurred in the game
@@ -142,7 +122,7 @@ public class Game
     /// <param name="event">The event that occurred</param>
     internal void LogEvent(GameEventBase @event)
     {
-        @event.Id = _nextEventId++;
+        SetEventFields(@event);
 
         _events.Add(@event);
 
@@ -156,7 +136,7 @@ public class Game
     /// <param name="message">The message</param>
     internal void BroadcastEvent(string message)
     {
-        TextEvent @event = new(CurrentPhase, message);
+        TextEvent @event = new(message);
 
         BroadcastEvent(@event);
     }
@@ -167,7 +147,7 @@ public class Game
     /// <param name="event">The event to broadcast</param>
     internal void BroadcastEvent(GameEventBase @event)
     {
-        @event.Id = _nextEventId++;
+        SetEventFields(@event);
 
         _events.Add(@event);
 
@@ -176,6 +156,16 @@ public class Game
         {
             player.LogEvent(@event);
         }
+    }
+
+    private void SetEventFields(GameEventBase @event)
+    {
+        if (@event.Id <= 0)
+        {
+            @event.Id = _nextEventId++;
+        }
+        
+        @event.Phase = CurrentPhase.Name;
     }
 
     private readonly List<CenterCardSlot> _centerSlots = new(NumCenterCards);
@@ -189,94 +179,16 @@ public class Game
     /// Gets the name of the game
     /// </summary>
     public string Name => Options.GameName;
-
-    /// <summary>
-    /// Performs the day phase of the game where players wake up and look for events
-    /// and discuss their roles and actions.
-    /// </summary>
-    public void PerformDayPhase()
-    {
-        LogEvent("Day Phase Starting");
-        CurrentPhase = GamePhase.Day;
-
-        _players.ForEach(p => p.Wake());
-    }
-
-    /// <summary>
-    /// Carries out the voting phase of the game and returns the result of the game.
-    /// </summary>
-    /// <returns>The result of the game</returns>
-    public GameResult PerformVotePhase()
-    {
-        LogEvent("Voting Phase Starting");
-        CurrentPhase = GamePhase.Voting;
-
-        // Create a dictionary of votes without any votes in it
-        Dictionary<GamePlayer, int> votes = new();
-        foreach (GamePlayer player in Players)
-        {
-            votes[player] = 0;
-        }
-
-        // Get votes for individual players
-        foreach (GamePlayer player in Players)
-        {
-            GamePlayer votedPlayer = player.DetermineVoteTarget(Randomizer);
-
-            VotedEvent votedEvent = new(player, votedPlayer);
-            LogEvent(votedEvent);
-
-            votes[votedPlayer] += 1;
-        }
-
-        int maxVotes = votes.Values.Max();
-        IEnumerable<GamePlayer> votedPlayers = votes.Where(kvp => kvp.Value == maxVotes).Select(kvp => kvp.Key);
-        foreach (GamePlayer votedPlayer in votedPlayers)
-        {
-            BroadcastEvent(new VotedOutEvent(votedPlayer));
-        }
-
-        IEnumerable<GamePlayer> villagers = Players.Where(p => p.CurrentTeam == Teams.Villagers);
-        IEnumerable<GamePlayer> wolves = Players.Where(p => p.CurrentTeam == Teams.Werewolves);
-
-        bool wwVoted = votedPlayers.Any(p => p.CurrentTeam == Teams.Werewolves); // Revisit for Minion
-        Result = new GameResult(wwVoted, wwVoted ? villagers : wolves);
-
-        BroadcastEvent(wwVoted
-            ? "The village wins!"
-            : "The werewolves win!");
-
-        BroadcastEvent(Result.Winners.Any()
-            ? $"The winners are {string.Join(", ", Result.Winners.Select(w => $"{w.Name} ({w.CurrentRole})"))}"
-            : "No players won.");
-
-        return Result;
-    }
-
+    
     /// <summary>
     /// The result of the game. This will be null if the game is not over
     /// </summary>
-    public GameResult? Result { get; private set; }
+    public GameResult? Result { get; internal set; }
 
     /// <summary>
     /// The randomizer associated with this instance
     /// </summary>
     public Random Randomizer { get; } = new();
-
-    /// <summary>
-    /// Performs the night phase where players wake up and perform their night actions
-    /// </summary>
-    public void PerformNightPhase()
-    {
-        LogEvent("Night Phase Starting");
-        CurrentPhase = GamePhase.Night;
-
-        foreach (GamePlayer player in Players.Where(p => p.InitialRole.HasNightAction).OrderBy(p => p.InitialRole.NightActionOrder))
-        {
-            player.Wake();
-            player.InitialRole.PerformNightAction(this, player);
-        }
-    }
 
     /// <summary>
     /// Gets the index of the previous player. This is commonly used for adjacency abilities.
@@ -295,4 +207,7 @@ public class Game
     public int GetNextPlayerIndex(GamePlayer player) => player.Number == Players.Count 
             ? 0
             : player.Number;
+
+    internal void AddPlayer(GamePlayer gamePlayer) => _players.Add(gamePlayer);
+    internal void AddCenterCard(CenterCardSlot slot) => _centerSlots.Add(slot);
 }

@@ -10,7 +10,7 @@ public class VotedEvent : TargetedEventBase
     /// </summary>
     /// <param name="player">The player voting</param>
     /// <param name="target">The player they voted for</param>
-    public VotedEvent(GamePlayer player, GamePlayer target) : base(GamePhase.Voting, player, target)
+    public VotedEvent(GamePlayer player, GamePlayer target) : base(player, target)
     {
     }
 
@@ -18,7 +18,7 @@ public class VotedEvent : TargetedEventBase
     public override string ToString() => $"{Player} voted for {Target}";
     
     /// <inheritdoc />
-    public override void UpdatePlayerPerceptions(GamePlayer observer, CardContainer target, CardProbabilities probabilities)
+    public override void UpdatePlayerPerceptions(GamePlayer observer, IHasCard target, CardProbabilities probabilities)
     {
         // Do nothing
     }

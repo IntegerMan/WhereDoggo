@@ -1,4 +1,5 @@
 ﻿using System;
+using MattEland.WhereDoggo.Core.Engine.Phases;
 
 namespace MattEland.WhereDoggo.Core.Tests.Roles;
 
@@ -27,7 +28,7 @@ public class SentinelTests : GameTestsBase
         GamePlayer player = game.Players.First();
 
         // Act
-        IDictionary<CardContainer, CardProbabilities> finalProbabilities = player.Brain.BuildFinalRoleProbabilities();
+        IDictionary<IHasCard, CardProbabilities> finalProbabilities = player.Brain.BuildFinalRoleProbabilities();
 
         // Assert
         finalProbabilities[player].Probabilities[RoleTypes.Sentinel].ShouldBe(1);
@@ -52,7 +53,7 @@ public class SentinelTests : GameTestsBase
         };
         Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
-        player.Strategies.PickSingleCard = (cards) => cards.First();
+        player.PickSingleCard = PickFirstCard;
 
         // Act
         game.Run();
@@ -103,7 +104,7 @@ public class SentinelTests : GameTestsBase
         };
         Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
-        player.Strategies.PickSingleCard = (_) => null;
+        player.PickSingleCard = PickNothing;
 
         // Act
         game.Run();
@@ -129,7 +130,7 @@ public class SentinelTests : GameTestsBase
         };
         Game game = CreateGame(assignedRoles);
         GamePlayer player = game.Players.First();
-        player.Strategies.PickSingleCard = (_) => null;
+        player.PickSingleCard = PickNothing;
 
         // Act
         game.Run();
@@ -160,16 +161,16 @@ public class SentinelTests : GameTestsBase
 
         // Assert
         GamePlayer ww = game.Players[1];
-        IDictionary<CardContainer, CardProbabilities> probabilities = ww.Brain.BuildFinalRoleProbabilities();
+        IDictionary<IHasCard, CardProbabilities> probabilities = ww.Brain.BuildFinalRoleProbabilities();
         probabilities[game.CenterSlots.First()].Probabilities[RoleTypes.Sentinel].ShouldBe(0);
         probabilities[game.Players.First()].Probabilities[RoleTypes.Sentinel].ShouldBeGreaterThan(1M / assignedRoles.Length);
     }
 
     [Test]
-    [TestCase(0, GamePhase.Night)] // Sentinel
-    [TestCase(1, GamePhase.Night)] // Werewolf
-    [TestCase(2, GamePhase.Day)]   // Villager
-    public void SentinelTokenCausesPlayersToSeeTokenOnCard(int playerIndex, GamePhase expectedPhase)
+    [TestCase(0, "Night")] // Sentinel
+    [TestCase(1, "Night")] // Werewolf
+    [TestCase(2, "Day")]   // Villager
+    public void SentinelTokenCausesPlayersToSeeTokenOnCard(int playerIndex, string expectedPhase)
     {
         // Arrange
         RoleTypes[] assignedRoles =

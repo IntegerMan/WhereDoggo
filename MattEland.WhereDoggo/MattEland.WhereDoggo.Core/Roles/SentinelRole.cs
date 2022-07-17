@@ -6,7 +6,7 @@
 /// </summary>
 /// <href>http://onenightultimate.com/?p=43</href>
 [RoleFor(RoleTypes.Sentinel)]
-public class SentinelRole : RoleBase
+public class SentinelRole : CardBase
 {
     /// <inheritdoc />
     public override Teams Team => Teams.Villagers;
@@ -21,12 +21,12 @@ public class SentinelRole : RoleBase
     public override void PerformNightAction(Game game, GamePlayer player)
     {
         // Sentinels may choose to skip placing their token
-        List<CardContainer> otherPlayers = game.Players.Where(p => p != player).Cast<CardContainer>().ToList();
-        if (player.Strategies.PickSingleCard(otherPlayers) is GamePlayer target)
+        List<IHasCard> otherPlayers = game.Players.Where(p => p != player).Cast<IHasCard>().ToList();
+        if (player.PickSingleCard(otherPlayers) is GamePlayer target)
         {
             target.HasSentinelToken = true;
             game.LogEvent(new SentinelTokenPlacedEvent(player, target));
-            game.LogEvent(new SentinelTokenObservedEvent(player, target, game.CurrentPhase));
+            game.LogEvent(new SentinelTokenObservedEvent(player, target));
         }
         else
         {

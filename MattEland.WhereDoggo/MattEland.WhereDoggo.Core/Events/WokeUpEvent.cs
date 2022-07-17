@@ -8,19 +8,16 @@ public class WokeUpEvent : GameEventBase
     /// <summary>
     /// Instantiates a new instance of the <see cref="WokeUpEvent"/> class.
     /// </summary>
-    /// <param name="phase">The phase the event occurred. Can be night or day.</param>
     /// <param name="player">The player that woke up</param>
-    public WokeUpEvent(GamePhase phase, GamePlayer player) : base(phase, player)
+    public WokeUpEvent(GamePlayer player) : base(player)
     {
     }
 
     /// <inheritdoc />
-    public override string ToString() => Phase == GamePhase.Day 
-        ? $"{Player} woke up in the morning." 
-        : $"{Player} woke up in the {Phase}.";
+    public override string ToString() => $"{Player} woke up in the {Phase}.";
     
     /// <inheritdoc />
-    public override void UpdatePlayerPerceptions(GamePlayer observer, CardContainer target, CardProbabilities probabilities)
+    public override void UpdatePlayerPerceptions(GamePlayer observer, IHasCard target, CardProbabilities probabilities)
     {
         // Do nothing
     }
