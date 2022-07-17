@@ -210,4 +210,13 @@ public class Game
 
     internal void AddPlayer(GamePlayer gamePlayer) => _players.Add(gamePlayer);
     internal void AddCenterCard(CenterCardSlot slot) => _centerSlots.Add(slot);
+
+    /// <summary>
+    /// Gets a list of targets aside from the player.
+    /// </summary>
+    /// <param name="player">The player looking for targets</param>
+    /// <param name="omitProtected">Whether or not to include sentinel tokens</param>
+    /// <returns>Valid targets for the player</returns>
+    public IEnumerable<IHasCard> GetOtherPlayerTargets(GamePlayer player, bool omitProtected = true) 
+        => Players.Where(p => p != player && (!omitProtected || !p.HasSentinelToken));
 }
