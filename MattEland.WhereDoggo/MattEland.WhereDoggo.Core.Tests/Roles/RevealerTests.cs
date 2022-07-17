@@ -211,6 +211,36 @@ public class RevealerTests : GameTestsBase
     }
     
     [Test]
+    public void RevealerShouldNotBeAbleToRevealSentinelTokenCard()
+    {
+        // Arrange
+        RoleTypes[] assignedRoles =
+        {
+            // Player Roles
+            RoleTypes.Villager,
+            RoleTypes.Sentinel,
+            RoleTypes.Revealer,
+            // Center Cards
+            RoleTypes.MysticWolf,
+            RoleTypes.Exposer,
+            RoleTypes.Villager
+        };
+        Game game = CreateGame(assignedRoles);
+        GamePlayer revealer = game.Players[2];
+        revealer.PickSingleCard = PickFirstCard;
+        GamePlayer sentinel = game.Players[1];
+        sentinel.PickSingleCard = PickFirstCard;
+
+        // Act
+        game.Run();
+        
+        // Assert
+        game.Players[0].HasSentinelToken.ShouldBeTrue();
+        game.Players[0].CurrentCard.IsRevealed.ShouldBeFalse();
+        game.Players[1].CurrentCard.IsRevealed.ShouldBeTrue();
+    }      
+    
+    [Test]
     public void RevealerShouldNotRevealTanners()
     {
         Assert.Inconclusive("Not Implemented");
