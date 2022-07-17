@@ -9,10 +9,9 @@ The purpose of this project is to try to build AI bots that can make reasoned de
 
 [![CodeScene Code Health](https://codescene.io/projects/28024/status-badges/code-health)](https://codescene.io/projects/28024)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=IntegerMan_WhereDoggo&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=IntegerMan_WhereDoggo)
-[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=IntegerMan_WhereDoggo&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=IntegerMan_WhereDoggo)
 [![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=IntegerMan_WhereDoggo&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=IntegerMan_WhereDoggo)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=IntegerMan_WhereDoggo&metric=coverage)](https://sonarcloud.io/summary/new_code?id=IntegerMan_WhereDoggo)
-[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=IntegerMan_WhereDoggo&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=IntegerMan_WhereDoggo)
+
 
 ![File Chart](diagram.svg)
 
