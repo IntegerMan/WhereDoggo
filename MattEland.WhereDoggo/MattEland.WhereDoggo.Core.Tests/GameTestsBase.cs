@@ -32,7 +32,7 @@ public abstract class GameTestsBase
         return game;
     }
 
-    protected Func<IEnumerable<IHasCard>, IHasCard?> PickNothing => (_) => null;
-    protected Func<IEnumerable<IHasCard>, IHasCard?> PickFirstCard => (cards) => cards.First();
-    protected Func<IEnumerable<IHasCard>, IHasCard?> PickCardByIndex(int index) => (cards) => cards.ToList()[index];
+    protected static Func<IEnumerable<IHasCard>, IHasCard?> PickNothing => (_) => null;
+    protected static Func<IEnumerable<IHasCard>, IHasCard?> PickFirstCard => (cards) => cards.First();
+    protected static Func<IEnumerable<IHasCard>, IHasCard?> PickCardByIndex(int index) => (cards) => cards.ToList()[index];
 }
