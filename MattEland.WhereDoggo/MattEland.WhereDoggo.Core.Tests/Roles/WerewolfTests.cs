@@ -150,4 +150,65 @@ public class WerewolfTests : GameTestsBase
         wolf.Events.Any(e => e is DeferredClaimingRoleEvent).ShouldBeTrue();
     }
 
+    [TestCase(RoleTypes.Insomniac)]
+    [TestCase(RoleTypes.Mason)]
+    [TestCase(RoleTypes.Villager)]
+    [TestCase(RoleTypes.Seer)]
+    [TestCase(RoleTypes.ApprenticeSeer)]
+    public void LoneWolfShouldClaimSafeRolesSeenInCenter(RoleTypes safeRole)
+    {
+        // Arrange
+        RoleTypes[] assignedRoles =
+        {
+            // Player Roles
+            RoleTypes.Werewolf,
+            RoleTypes.Villager,
+            RoleTypes.Villager,
+            // Center Cards
+            RoleTypes.Mason,
+            RoleTypes.Werewolf,
+            safeRole
+        };
+        Game game = CreateGame(assignedRoles);
+        GamePlayer wolf = game.Players.First();
+        wolf.PickSingleCard = PickCardByIndex(2);
+
+        // Act
+        game.Run();
+
+        // Assert
+        wolf.Events.Any(e => e is DeferredClaimingRoleEvent).ShouldBeFalse();
+        wolf.Events.OfType<ClaimedRoleEvent>().ShouldContain(e => e.ClaimedRole == safeRole);
+    }
+    
+    [TestCase(RoleTypes.Exposer)]
+    [TestCase(RoleTypes.Thing)]
+    [TestCase(RoleTypes.Werewolf)]
+    [TestCase(RoleTypes.MysticWolf)]
+    public void LoneWolfShouldNotClaimUnsafeRolesSeenInCenter(RoleTypes unsafeRole)
+    {
+        // Arrange
+        RoleTypes[] assignedRoles =
+        {
+            // Player Roles
+            RoleTypes.Werewolf,
+            RoleTypes.Villager,
+            RoleTypes.Villager,
+            // Center Cards
+            RoleTypes.Mason,
+            RoleTypes.Werewolf,
+            unsafeRole
+        };
+        Game game = CreateGame(assignedRoles);
+        GamePlayer wolf = game.Players.First();
+        wolf.PickSingleCard = PickCardByIndex(2);
+
+        // Act
+        game.Run();
+
+        // Assert
+        wolf.Events.Any(e => e is DeferredClaimingRoleEvent).ShouldBeFalse();
+        wolf.Events.OfType<ClaimedRoleEvent>().ShouldNotContain(e => e.ClaimedRole == unsafeRole);
+    }
+    
 }
