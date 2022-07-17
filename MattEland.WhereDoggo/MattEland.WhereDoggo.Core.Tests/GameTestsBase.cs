@@ -16,13 +16,10 @@ public abstract class GameTestsBase
         return game;
     }
 
-    protected static GameOptions CreateGameOptions()
-    {
-        return new GameOptions
+    protected static GameOptions CreateGameOptions() => new()
         {
             RandomizeSlots = false
         };
-    }
 
     protected static Game RunGame(ICollection<RoleTypes> assignedRoles, GameOptions? gameOptions = null)
     {
