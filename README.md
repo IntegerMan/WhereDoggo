@@ -5,10 +5,14 @@ This project is an AI simulation of a variant of the popular One Night Ultimate 
 One Night Ultimate Werewolf is copyright by Bezier Games Inc. 
 This project is a non-commercial work intended for AI research only.
 
-The purpose of this project is to try to build AI bots that can make reasoned deductions in a social deduction type of game and decieve each other and potentially even human players.
+The purpose of this project is to try to build AI bots that can make reasoned deductions in a social deduction type of game and deceive each other and potentially even human players.
 
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=IntegerMan_WhereDoggo&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=IntegerMan_WhereDoggo)
 [![CodeScene Code Health](https://codescene.io/projects/28024/status-badges/code-health)](https://codescene.io/projects/28024)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=IntegerMan_WhereDoggo&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=IntegerMan_WhereDoggo)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=IntegerMan_WhereDoggo&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=IntegerMan_WhereDoggo)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=IntegerMan_WhereDoggo&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=IntegerMan_WhereDoggo)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=IntegerMan_WhereDoggo&metric=coverage)](https://sonarcloud.io/summary/new_code?id=IntegerMan_WhereDoggo)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=IntegerMan_WhereDoggo&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=IntegerMan_WhereDoggo)
 
 ![File Chart](diagram.svg)
 
