@@ -27,5 +27,5 @@ public class ClaimedRoleEvent : ClaimBase
     }
 
     /// <inheritdoc />
-    public override string ToString() => $"{Player} claimed to be a {ClaimedRole}";
+    public override string ToString() => $"{Player} claimed to be a {ClaimedRole.GetFriendlyName()}";
 }

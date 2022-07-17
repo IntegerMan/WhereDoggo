@@ -29,4 +29,7 @@ public class CenterCardSlot : IHasCard
     
     /// <inheritdoc />
     public CardBase CurrentCard { get; set; }
+
+    /// <inheritdoc />
+    public override string ToString() => $"{Name}";
 }

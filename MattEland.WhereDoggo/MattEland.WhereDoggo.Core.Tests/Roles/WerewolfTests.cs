@@ -5,7 +5,6 @@ namespace MattEland.WhereDoggo.Core.Tests.Roles;
 [Category("Roles")]
 public class WerewolfTests : GameTestsBase
 {
-
     [Test]
     public void WerewolvesShouldThinkTheyAreWerewolves()
     {
@@ -134,6 +133,21 @@ public class WerewolfTests : GameTestsBase
 
         // Assert
         wolf.Events.Any(e => e is ClaimedRoleEvent { ClaimedRole: RoleTypes.Werewolf }).ShouldBeFalse();
+    }
+
+    [Test]
+    [Category("Claims")]
+    public void WerewolvesShouldInitiallyDeferClaimingRoles()
+    {
+        // Arrange
+        Game game = SetupGame();
+        GamePlayer wolf = game.Players.First();
+
+        // Act
+        game.Run();
+
+        // Assert
+        wolf.Events.Any(e => e is DeferredClaimingRoleEvent).ShouldBeTrue();
     }
 
 }

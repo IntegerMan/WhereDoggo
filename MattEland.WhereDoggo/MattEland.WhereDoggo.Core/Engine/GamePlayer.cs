@@ -1,4 +1,6 @@
-﻿namespace MattEland.WhereDoggo.Core.Engine;
+﻿using MattEland.WhereDoggo.Core.Events.Claims;
+
+namespace MattEland.WhereDoggo.Core.Engine;
 
 /// <summary>
 /// Represents a player within the game world.
@@ -152,4 +154,16 @@ public class GamePlayer : IHasCard
 
     /// <inheritdoc />
     public CardBase CurrentCard { get; set; }
+
+
+    /// <inheritdoc />
+    public override string ToString() => $"{Name}";
+
+    /// <summary>
+    /// Gets the role that the player wants to claim, or null if they don't want to claim a role
+    /// </summary>
+    /// <returns>The role claimed, or null</returns>
+    public RoleTypes? GetRoleClaim() => InitialCard.Team == Teams.Villagers 
+        ? InitialCard.RoleType 
+        : null;
 }

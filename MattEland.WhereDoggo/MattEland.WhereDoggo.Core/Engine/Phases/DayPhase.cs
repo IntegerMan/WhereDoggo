@@ -22,18 +22,34 @@ public class DayPhase : GamePhaseBase
     public override void Run(Game game)
     {
         // Wake all players up
+        WakeAll(game);
+
+        // Each player should claim their role if they're good
+        PerformInitialRoleClaim(game);
+    }
+
+    private void PerformInitialRoleClaim(Game game)
+    {
+        foreach (GamePlayer player in game.Players)
+        {
+            RoleTypes? roleClaim = player.GetRoleClaim();
+
+            if (roleClaim == null)
+            {
+                LogEvent(new DeferredClaimingRoleEvent(player));
+            }
+            else
+            {
+                LogEvent(new ClaimedRoleEvent(player, roleClaim.Value));
+            }
+        }
+    }
+
+    private static void WakeAll(Game game)
+    {
         foreach (GamePlayer p in game.Players)
         {
             p.Wake();
         }
-        
-        // Each player should claim their role if they're good
-        foreach (GamePlayer player in game.Players)
-        {
-            if (player.InitialCard.Team == Teams.Villagers)
-            {
-                LogEvent(new ClaimedRoleEvent(player, player.InitialCard.RoleType));
-            }
-        }
-    }    
+    }
 }
