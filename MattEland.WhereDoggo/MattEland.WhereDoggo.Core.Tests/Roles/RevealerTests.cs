@@ -12,18 +12,7 @@ public class RevealerTests : GameTestsBase
     public void RevealerShouldRevealVillagers()
     {
         // Arrange
-        RoleTypes[] assignedRoles =
-        {
-            // Player Roles
-            RoleTypes.Revealer,
-            RoleTypes.Villager,
-            RoleTypes.Werewolf,
-            // Center Cards
-            RoleTypes.Insomniac,
-            RoleTypes.Werewolf,
-            RoleTypes.Villager
-        };
-        Game game = CreateGame(assignedRoles);
+        Game game = SetupGame();
         GamePlayer player = game.Players.First();
         player.PickSingleCard = PickFirstCard;
 
@@ -36,12 +25,8 @@ public class RevealerTests : GameTestsBase
         player.Events.ShouldContain(e => e is RevealedRoleObservedEvent);
     }
 
-    [Test] 
-    public void AllPlayersShouldKnowRevealedRoles()
-    {
-        // Arrange
-        RoleTypes[] assignedRoles =
-        {
+    private static Game SetupGame() =>
+        CreateGame(new[] {
             // Player Roles
             RoleTypes.Revealer,
             RoleTypes.Villager,
@@ -50,8 +35,13 @@ public class RevealerTests : GameTestsBase
             RoleTypes.Insomniac,
             RoleTypes.Werewolf,
             RoleTypes.Villager
-        };
-        Game game = CreateGame(assignedRoles);
+        });
+
+    [Test] 
+    public void AllPlayersShouldKnowRevealedRoles()
+    {
+        // Arrange
+        Game game = SetupGame();
         GamePlayer player = game.Players.First();
         player.PickSingleCard = PickFirstCard;
         game.Run();
@@ -70,18 +60,7 @@ public class RevealerTests : GameTestsBase
     public void AllPlayersShouldHaveSawRevealedRoleEventWhenRoleIsRevealed()
     {
         // Arrange
-        RoleTypes[] assignedRoles =
-        {
-            // Player Roles
-            RoleTypes.Revealer,
-            RoleTypes.Villager,
-            RoleTypes.Werewolf,
-            // Center Cards
-            RoleTypes.Insomniac,
-            RoleTypes.Werewolf,
-            RoleTypes.Villager
-        };
-        Game game = CreateGame(assignedRoles);
+        Game game = SetupGame();
         GamePlayer player = game.Players.First();
         player.PickSingleCard = PickFirstCard;
         
@@ -99,18 +78,7 @@ public class RevealerTests : GameTestsBase
     public void OtherPlayersShouldKnowRevealerInPlayWhenCardIsRevealed()
     {
         // Arrange
-        RoleTypes[] assignedRoles =
-        {
-            // Player Roles
-            RoleTypes.Revealer,
-            RoleTypes.Villager,
-            RoleTypes.Werewolf,
-            // Center Cards
-            RoleTypes.Insomniac,
-            RoleTypes.Werewolf,
-            RoleTypes.Villager
-        };
-        Game game = CreateGame(assignedRoles);
+        Game game = SetupGame();
         GamePlayer player = game.Players.First();
         player.PickSingleCard = PickFirstCard;
         
@@ -132,18 +100,7 @@ public class RevealerTests : GameTestsBase
     public void RevealerWhoDoesNotRevealShouldHaveSkippedEvent()
     {
         // Arrange
-        RoleTypes[] assignedRoles =
-        {
-            // Player Roles
-            RoleTypes.Revealer,
-            RoleTypes.Villager,
-            RoleTypes.Werewolf,
-            // Center Cards
-            RoleTypes.Insomniac,
-            RoleTypes.Werewolf,
-            RoleTypes.Villager
-        };
-        Game game = CreateGame(assignedRoles);
+        Game game = SetupGame();
         GamePlayer player = game.Players.First();
         player.PickSingleCard = PickNothing;
         
@@ -158,18 +115,7 @@ public class RevealerTests : GameTestsBase
     public void RevealerShouldNotRevealWerewolves()
     {
         // Arrange
-        RoleTypes[] assignedRoles =
-        {
-            // Player Roles
-            RoleTypes.Revealer,
-            RoleTypes.Werewolf,
-            RoleTypes.Villager,
-            // Center Cards
-            RoleTypes.Insomniac,
-            RoleTypes.Werewolf,
-            RoleTypes.Villager
-        };
-        Game game = CreateGame(assignedRoles);
+        Game game = SetupGame();
         GamePlayer player = game.Players.First();
         player.PickSingleCard = PickFirstCard;
 
@@ -187,18 +133,7 @@ public class RevealerTests : GameTestsBase
     public void RevealerShouldHaveKnowledgeOfWerewolfTheySaw()
     {
         // Arrange
-        RoleTypes[] assignedRoles =
-        {
-            // Player Roles
-            RoleTypes.Revealer,
-            RoleTypes.Werewolf,
-            RoleTypes.Villager,
-            // Center Cards
-            RoleTypes.Insomniac,
-            RoleTypes.Werewolf,
-            RoleTypes.Villager
-        };
-        Game game = CreateGame(assignedRoles);
+        Game game = SetupGame();
         GamePlayer player = game.Players.First();
         player.PickSingleCard = PickFirstCard;
         game.Run();
@@ -214,18 +149,7 @@ public class RevealerTests : GameTestsBase
     public void RevealerShouldNotBeAbleToRevealSentinelTokenCard()
     {
         // Arrange
-        RoleTypes[] assignedRoles =
-        {
-            // Player Roles
-            RoleTypes.Villager,
-            RoleTypes.Sentinel,
-            RoleTypes.Revealer,
-            // Center Cards
-            RoleTypes.MysticWolf,
-            RoleTypes.Exposer,
-            RoleTypes.Villager
-        };
-        Game game = CreateGame(assignedRoles);
+        Game game = SetupGame();
         GamePlayer revealer = game.Players[2];
         revealer.PickSingleCard = PickFirstCard;
         GamePlayer sentinel = game.Players[1];
