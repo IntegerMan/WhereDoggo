@@ -20,4 +20,8 @@
     <ProjectReference Include="..\MattEland.WhereDoggo.Core\MattEland.WhereDoggo.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Claims" />
+  </ItemGroup>
+
 </Project>

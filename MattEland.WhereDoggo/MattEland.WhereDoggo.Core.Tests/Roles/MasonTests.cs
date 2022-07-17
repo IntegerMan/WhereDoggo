@@ -1,4 +1,5 @@
 ﻿using MattEland.WhereDoggo.Core.Events;
+using MattEland.WhereDoggo.Core.Events.Claims;
 
 namespace MattEland.WhereDoggo.Core.Tests.Roles;
 
@@ -62,18 +63,7 @@ public class MasonTests : GameTestsBase
     public void LoneMasonShouldInferOtherMasonInCenter()
     {
         // Arrange
-        RoleTypes[] assignedRoles =
-        {
-            // Player Roles
-            RoleTypes.Mason,
-            RoleTypes.Villager,
-            RoleTypes.Werewolf,
-            // Center Cards
-            RoleTypes.Werewolf,
-            RoleTypes.Mason,
-            RoleTypes.Villager
-        };
-        Game game = RunGame(assignedRoles);
+        Game game = RunGame();
         GamePlayer player = game.Players.First();
 
         // Act
@@ -85,6 +75,18 @@ public class MasonTests : GameTestsBase
             probabilities[slot].Probabilities[RoleTypes.Mason].ShouldBe(0.2m);
         }
     }
+
+    private static Game RunGame() =>
+        RunGame(new[] {
+            // Player Roles
+            RoleTypes.Mason,
+            RoleTypes.Villager,
+            RoleTypes.Werewolf,
+            // Center Cards
+            RoleTypes.Werewolf,
+            RoleTypes.Mason,
+            RoleTypes.Villager
+        });
 
     [Test]
     public void DualMasonsShouldKnowOtherMason()
@@ -167,7 +169,14 @@ public class MasonTests : GameTestsBase
     [Category("Claims")]
     public void MasonShouldEventuallyClaimMason()
     {
-        Assert.Inconclusive("Not Implemented");
-    }
+        // Arrange
+        Game game = RunGame();
+        GamePlayer mason = game.Players.First();
 
+        // Act
+        game.Run();
+
+        // Assert
+        mason.Events.Any(e => e is ClaimedRoleEvent { ClaimedRole: RoleTypes.Mason }).ShouldBeTrue();
+    }
 }

@@ -1,4 +1,6 @@
-﻿namespace MattEland.WhereDoggo.Core.Engine.Phases;
+﻿using MattEland.WhereDoggo.Core.Events.Claims;
+
+namespace MattEland.WhereDoggo.Core.Engine.Phases;
 
 /// <summary>
 /// The day phase has all players wake up and look around
@@ -19,9 +21,35 @@ public class DayPhase : GamePhaseBase
     /// <inheritdoc />
     public override void Run(Game game)
     {
+        // Wake all players up
+        WakeAll(game);
+
+        // Each player should claim their role if they're good
+        PerformInitialRoleClaim(game);
+    }
+
+    private void PerformInitialRoleClaim(Game game)
+    {
+        foreach (GamePlayer player in game.Players)
+        {
+            RoleTypes? roleClaim = player.GetRoleClaim();
+
+            if (roleClaim == null)
+            {
+                LogEvent(new DeferredClaimingRoleEvent(player));
+            }
+            else
+            {
+                LogEvent(new ClaimedRoleEvent(player, roleClaim.Value));
+            }
+        }
+    }
+
+    private static void WakeAll(Game game)
+    {
         foreach (GamePlayer p in game.Players)
         {
             p.Wake();
         }
-    }    
+    }
 }
