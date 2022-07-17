@@ -93,11 +93,11 @@ Planned features in Phase 1 are:
 - [x] Day Phase
 - [x] Probabilistic model of what cards are at play start
 - [x] Simple voting
-- [ ] Random Game Generator
-- [ ] Claiming Roles
+- [x] Claiming Roles
 - [ ] Wolves Falsely Claiming Roles (most probable center card given existing claims)
-- [ ] Suspecting fake claims
 - [ ] Seer / Apprentice Seer Claims share what card they viewed
+- [ ] Random Game Generator
+- [ ] Suspecting fake claims
 - [ ] Voting in a Circle (if thinking no werewolves present)
 
 ### Phase 2 - Added Duplicity
