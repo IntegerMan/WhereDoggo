@@ -34,4 +34,5 @@ public abstract class GameTestsBase
 
     protected Func<IEnumerable<IHasCard>, IHasCard?> PickNothing => (_) => null;
     protected Func<IEnumerable<IHasCard>, IHasCard?> PickFirstCard => (cards) => cards.First();
+    protected Func<IEnumerable<IHasCard>, IHasCard?> PickCardByIndex(int index) => (cards) => cards.ToList()[index];
 }

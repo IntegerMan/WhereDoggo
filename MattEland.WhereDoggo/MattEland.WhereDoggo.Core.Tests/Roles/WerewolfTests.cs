@@ -1,4 +1,6 @@
-﻿namespace MattEland.WhereDoggo.Core.Tests.Roles;
+﻿using MattEland.WhereDoggo.Core.Events.Claims;
+
+namespace MattEland.WhereDoggo.Core.Tests.Roles;
 
 [Category("Roles")]
 public class WerewolfTests : GameTestsBase
@@ -8,18 +10,7 @@ public class WerewolfTests : GameTestsBase
     public void WerewolvesShouldThinkTheyAreWerewolves()
     {
         // Arrange
-        RoleTypes[] assignedRoles =
-        {
-            // Player Roles
-            RoleTypes.Werewolf,
-            RoleTypes.Villager,
-            RoleTypes.Villager,
-            // Center Cards
-            RoleTypes.Werewolf,
-            RoleTypes.Villager,
-            RoleTypes.Villager
-        };
-        Game game = RunGame(assignedRoles);
+        Game game = SetupGame();
         GamePlayer player = game.Players.First();
 
         // Act
@@ -34,18 +25,7 @@ public class WerewolfTests : GameTestsBase
     public void LoneWolfWhoSeesAWolfWithOnlyVillagersShouldKnowAllRoles()
     {
         // Arrange
-        RoleTypes[] assignedRoles =
-        {
-            // Player Roles
-            RoleTypes.Werewolf,
-            RoleTypes.Villager,
-            RoleTypes.Villager,
-            // Center Cards
-            RoleTypes.Werewolf,
-            RoleTypes.Villager,
-            RoleTypes.Villager
-        };
-        Game game = CreateGame(assignedRoles);
+        Game game = SetupGame();
         GamePlayer player = game.Players.First();
         player.PickSingleCard = PickFirstCard;
         game.Run();
@@ -65,20 +45,11 @@ public class WerewolfTests : GameTestsBase
     public void LoneWolfWhoLooksShouldHaveCorrectEvent()
     {
         // Arrange
-        RoleTypes[] assignedRoles =
-        {
-            // Player Roles
-            RoleTypes.Werewolf,
-            RoleTypes.Villager,
-            RoleTypes.Villager,
-            // Center Cards
-            RoleTypes.Werewolf,
-            RoleTypes.Villager,
-            RoleTypes.Villager
-        };
+        Game game = SetupGame();
+
 
         // Act
-        Game game = RunGame(assignedRoles);
+        game.Run();
 
         // Assert
         GamePlayer player = game.Players.First();
@@ -91,18 +62,7 @@ public class WerewolfTests : GameTestsBase
     public void LoneWolfWhoSkipsShouldHaveCorrectEvent()
     {
         // Arrange
-        RoleTypes[] assignedRoles =
-        {
-            // Player Roles
-            RoleTypes.Werewolf,
-            RoleTypes.Villager,
-            RoleTypes.Villager,
-            // Center Cards
-            RoleTypes.Werewolf,
-            RoleTypes.Villager,
-            RoleTypes.Villager
-        };
-        Game game = CreateGame(assignedRoles);
+        Game game = SetupGame();
         GamePlayer player = game.Players.First();
         player.PickSingleCard = PickNothing;
         game.Run();
@@ -112,6 +72,18 @@ public class WerewolfTests : GameTestsBase
         player.Events.ShouldContain(e => e is SkippedNightActionEvent);
         player.Events.ShouldNotContain(e => e is ObservedCenterCardEvent);
     }
+
+    private static Game SetupGame() =>
+        CreateGame(new[] {
+            // Player Roles
+            RoleTypes.Werewolf,
+            RoleTypes.Villager,
+            RoleTypes.Villager,
+            // Center Cards
+            RoleTypes.Werewolf,
+            RoleTypes.Villager,
+            RoleTypes.Villager
+        });
 
     [TestCase(RoleTypes.Werewolf)]
     [TestCase(RoleTypes.MysticWolf)]
@@ -147,6 +119,21 @@ public class WerewolfTests : GameTestsBase
         probabilities[player3].Probabilities[RoleTypes.Villager].ShouldBe(1);
         probabilities[player3].Probabilities[RoleTypes.Werewolf].ShouldBe(0);
         probabilities[player3].Probabilities[centerCardEvilRole].ShouldBe(0);
+    }
+
+    [Test]
+    [Category("Claims")]
+    public void WerewolvesShouldNotClaimWerewolf()
+    {
+        // Arrange
+        Game game = SetupGame();
+        GamePlayer wolf = game.Players.First();
+
+        // Act
+        game.Run();
+
+        // Assert
+        wolf.Events.Any(e => e is ClaimedRoleEvent { ClaimedRole: RoleTypes.Werewolf }).ShouldBeFalse();
     }
 
 }

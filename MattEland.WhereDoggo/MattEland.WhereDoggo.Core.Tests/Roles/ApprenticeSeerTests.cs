@@ -1,4 +1,5 @@
 ﻿using System;
+using MattEland.WhereDoggo.Core.Events.Claims;
 
 namespace MattEland.WhereDoggo.Core.Tests.Roles;
 
@@ -12,18 +13,7 @@ public class ApprenticeSeerTests : GameTestsBase
     public void ApprenticeSeerShouldBeCertainOfTheCardTheySaw()
     {
         // Arrange
-        RoleTypes[] assignedRoles =
-        {
-            // Player Roles
-            RoleTypes.ApprenticeSeer,
-            RoleTypes.Werewolf,
-            RoleTypes.Villager,
-            // Center Cards
-            RoleTypes.Insomniac,
-            RoleTypes.Werewolf,
-            RoleTypes.Villager
-        };
-        Game game = CreateGame(assignedRoles);
+        Game game = SetupGame();
         GamePlayer player = game.Players.First();
         player.PickSingleCard = (cards) => cards.First();
         game.Run();
@@ -41,18 +31,7 @@ public class ApprenticeSeerTests : GameTestsBase
     public void ApprenticeSeerShouldBeCertainSingleCardNotInPlay()
     {
         // Arrange
-        RoleTypes[] assignedRoles =
-        {
-            // Player Roles
-            RoleTypes.ApprenticeSeer,
-            RoleTypes.Werewolf,
-            RoleTypes.Villager,
-            // Center Cards
-            RoleTypes.Insomniac,
-            RoleTypes.Werewolf,
-            RoleTypes.Villager
-        };
-        Game game = CreateGame(assignedRoles);
+        Game game = SetupGame();
         GamePlayer player = game.Players.First();
         player.PickSingleCard = PickFirstCard;
         game.Run();
@@ -71,18 +50,7 @@ public class ApprenticeSeerTests : GameTestsBase
     public void ApprenticeSeerWhoSkippedShouldHaveNoCertainKnowledgeOfCenter()
     {
         // Arrange
-        RoleTypes[] assignedRoles =
-        {
-            // Player Roles
-            RoleTypes.ApprenticeSeer,
-            RoleTypes.Werewolf,
-            RoleTypes.Villager,
-            // Center Cards
-            RoleTypes.Insomniac,
-            RoleTypes.Werewolf,
-            RoleTypes.Villager
-        };
-        Game game = CreateGame(assignedRoles);
+        Game game = SetupGame();
         GamePlayer player = game.Players.First();
         player.PickSingleCard = PickNothing;
         game.Run();
@@ -101,6 +69,20 @@ public class ApprenticeSeerTests : GameTestsBase
     public void ApprenticeSeerWhoSkippedShouldHaveCorrectEvent()
     {
         // Arrange
+        Game game = SetupGame();
+        GamePlayer player = game.Players.First();
+        player.PickSingleCard = PickNothing;
+
+        // Act
+        game.Run();
+
+        // Assert
+        player.Events.ShouldContain(e => e is SkippedNightActionEvent);
+        player.Events.ShouldNotContain(e => e is ObservedCenterCardEvent);
+    }
+
+    private static Game SetupGame()
+    {
         RoleTypes[] assignedRoles =
         {
             // Player Roles
@@ -113,35 +95,17 @@ public class ApprenticeSeerTests : GameTestsBase
             RoleTypes.Villager
         };
         Game game = CreateGame(assignedRoles);
-        GamePlayer player = game.Players.First();
-        player.PickSingleCard = PickNothing;
-
-        // Act
-        game.Run();
-
-        // Assert
-        player.Events.ShouldContain(e => e is SkippedNightActionEvent);
-        player.Events.ShouldNotContain(e => e is ObservedCenterCardEvent);
+        return game;
     }
 
     [Test]
     public void ApprenticeSeerWhoUsedAbilityShouldHaveCorrectEvent()
     {
         // Arrange
-        RoleTypes[] assignedRoles =
-        {
-            // Player Roles
-            RoleTypes.ApprenticeSeer,
-            RoleTypes.Werewolf,
-            RoleTypes.Villager,
-            // Center Cards
-            RoleTypes.Insomniac,
-            RoleTypes.Werewolf,
-            RoleTypes.Villager
-        };
+        Game game = SetupGame();
 
         // Act
-        Game game = RunGame(assignedRoles);
+        game.Run();
 
         // Assert
         GamePlayer player = game.Players.First();
@@ -153,7 +117,15 @@ public class ApprenticeSeerTests : GameTestsBase
     [Category("Claims")]
     public void ApprenticeSeerShouldClaimToBeApprenticeSeer()
     {
-        Assert.Inconclusive();
+        // Arrange
+        Game game = SetupGame();
+        GamePlayer apprenticeSeer = game.Players.First();
+
+        // Act
+        game.Run();
+
+        // Assert
+        apprenticeSeer.Events.Any(e => e is ClaimedRoleEvent { ClaimedRole: RoleTypes.ApprenticeSeer }).ShouldBeTrue();
     }
 
     [Test]
@@ -162,5 +134,4 @@ public class ApprenticeSeerTests : GameTestsBase
     {
         Assert.Inconclusive("Not Implemented");
     }
-
 }

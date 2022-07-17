@@ -1,7 +1,7 @@
 namespace MattEland.WhereDoggo.Core.Engine;
 
 /// <summary>
-/// Represents the probabilities one player places on a <see cref="CardContainer"/> being each role that is in play
+/// Represents the probabilities one player places on a <see cref="IHasCard"/> being each role that is in play
 /// This allows us to track the perceived probability that a card (player or center card) is each role.
 /// This information is then used for deductive reasoning by AI agents.
 /// </summary>

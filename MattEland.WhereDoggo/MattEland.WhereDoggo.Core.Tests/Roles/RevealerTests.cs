@@ -1,4 +1,5 @@
 ﻿using System;
+using MattEland.WhereDoggo.Core.Events.Claims;
 
 namespace MattEland.WhereDoggo.Core.Tests.Roles;
 
@@ -117,7 +118,7 @@ public class RevealerTests : GameTestsBase
         // Arrange
         Game game = SetupGame();
         GamePlayer player = game.Players.First();
-        player.PickSingleCard = PickFirstCard;
+        player.PickSingleCard = PickCardByIndex(1);
 
         // Act
         game.Run();
@@ -135,21 +136,30 @@ public class RevealerTests : GameTestsBase
         // Arrange
         Game game = SetupGame();
         GamePlayer player = game.Players.First();
-        player.PickSingleCard = PickFirstCard;
+        player.PickSingleCard = PickCardByIndex(1);
         game.Run();
 
         // Act
         IDictionary<IHasCard, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();
         // Assert
-        probabilities[game.Players[1]].ProbableRole.ShouldBe(RoleTypes.Werewolf);
-        probabilities[game.Players[1]].IsCertain.ShouldBeTrue();
+        probabilities[game.Players[2]].ProbableRole.ShouldBe(RoleTypes.Werewolf);
+        probabilities[game.Players[2]].IsCertain.ShouldBeTrue();
     }
     
     [Test]
     public void RevealerShouldNotBeAbleToRevealSentinelTokenCard()
     {
         // Arrange
-        Game game = SetupGame();
+        Game game =  CreateGame(new[] {
+            // Player Roles
+            RoleTypes.Villager,
+            RoleTypes.Sentinel,
+            RoleTypes.Revealer,
+            // Center Cards
+            RoleTypes.Insomniac,
+            RoleTypes.Werewolf,
+            RoleTypes.Villager
+        });
         GamePlayer revealer = game.Players[2];
         revealer.PickSingleCard = PickFirstCard;
         GamePlayer sentinel = game.Players[1];
@@ -174,6 +184,14 @@ public class RevealerTests : GameTestsBase
     [Category("Claims")]
     public void RevealerShouldClaimRevealer()
     {
-        Assert.Inconclusive("Not Implemented");
+        // Arrange
+        Game game = SetupGame();
+        GamePlayer revealer = game.Players.First();
+    
+        // Act
+        game.Run();
+        
+        // Assert
+        revealer.Events.Any(e => e is ClaimedRoleEvent { ClaimedRole: RoleTypes.Revealer }).ShouldBeTrue();
     }
 }
