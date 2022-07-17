@@ -212,6 +212,42 @@ public class MysticWolfTests : GameTestsBase
         result.WerewolfKilled.ShouldBeTrue();
         result.Winners.Count().ShouldBe(2);
         result.Winners.ShouldAllBe(w => w.CurrentCard.Team == Teams.Villagers);
+    }     
+    
+    [Test]
+    public void MysticWolfShouldNotBeAbleToViewSentinelTokenCard()
+    {
+        // Arrange
+        RoleTypes[] assignedRoles =
+        {
+            // Player Roles
+            RoleTypes.Villager,
+            RoleTypes.Sentinel,
+            RoleTypes.MysticWolf,
+            RoleTypes.Werewolf,
+            // Center Cards
+            RoleTypes.Revealer,
+            RoleTypes.Exposer,
+            RoleTypes.Villager
+        };
+        Game game = CreateGame(assignedRoles);
+        GamePlayer mWolf = game.Players[2];
+        mWolf.PickSingleCard = PickFirstCard;
+        GamePlayer sentinel = game.Players[1];
+        sentinel.PickSingleCard = PickFirstCard;
+
+        // Act
+        game.Run();
+        
+        // Assert
+        game.Players.First(p => p.HasSentinelToken).InitialCard.RoleType.ShouldBe(RoleTypes.Villager);
+        
+        ObservedPlayerCardEvent card = (ObservedPlayerCardEvent)mWolf.Events.First(e => e is ObservedPlayerCardEvent);
+        card.ObservedCard.ShouldBe(game.Players[1].CurrentCard);
+        
+        IDictionary<IHasCard,CardProbabilities> probabilities = mWolf.Brain.BuildInitialRoleProbabilities();
+        probabilities[game.Players[0]].IsCertain.ShouldBeFalse();
+        probabilities[game.Players[1]].IsCertain.ShouldBeTrue();
     }    
     
     [Test]

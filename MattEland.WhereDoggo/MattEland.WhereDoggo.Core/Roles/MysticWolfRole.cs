@@ -22,7 +22,7 @@ public class MysticWolfRole : WerewolfRole
     {
         base.PerformNightAction(game, player);
 
-        IHasCard? cardHolder = player.PickSingleCard(game.Players.Where(p => p != player));
+        IHasCard? cardHolder = player.PickSingleCard(game.GetOtherPlayerTargets(player));
 
         if (cardHolder == null)
         {
