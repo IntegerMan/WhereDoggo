@@ -33,10 +33,14 @@ public class VotingPhase : GamePhaseBase
         }
 
         bool wwVoted = votedPlayers.Any(p => p.CurrentCard.Team == Teams.Werewolves); // Revisit for Minion
+        bool wwPresent = game.Players.Any(p => p.CurrentCard.Team == Teams.Werewolves);
         
         IList<GamePlayer> villagers = Game.Players.Where(p => p.CurrentCard.Team == Teams.Villagers).ToList();
         IList<GamePlayer> wolves = Game.Players.Where(p => p.CurrentCard.Team == Teams.Werewolves).ToList();
-        IList<GamePlayer> winners = wwVoted ? villagers : wolves;
+        
+        // Villagers win if they vote out at least one werewolf or if nobody dies and no werewolves are present
+        bool isCircleVote = votedPlayers.Count <= 0;
+        IList<GamePlayer> winners = wwVoted || (!wwPresent && isCircleVote) ? villagers : wolves;
         
         Game.Result = new GameResult(wwVoted, winners);
 
@@ -48,6 +52,9 @@ public class VotingPhase : GamePhaseBase
     private static IList<GamePlayer> CalculateVotedOutPlayers(Dictionary<GamePlayer, int> votes)
     {
         int maxVotes = votes.Values.Max();
+
+        // In the case where people voted in a circle, nobody dies.
+        if (maxVotes <= 1) { return new List<GamePlayer>(); }
         
         IEnumerable<GamePlayer> votedPlayers = votes.Where(kvp => kvp.Value == maxVotes).Select(kvp => kvp.Key);
         
