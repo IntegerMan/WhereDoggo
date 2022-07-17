@@ -81,4 +81,49 @@ public class PlayerInferenceEngine
             cardProbs.RecalculateProbability(counts);
         }
     }
+
+    /// <summary>
+    /// Generates a recommendation for a non-werewolf role that is likely to be in the center somewhere 
+    /// </summary>
+    /// <returns>The role recommendation or null</returns>
+    public RoleTypes? DetermineBestCenterRoleClaim()
+    {
+        IDictionary<IHasCard, CardProbabilities> probabilities = BuildFinalRoleProbabilities();
+        
+        IEnumerable<CenterCardSlot> centerSlots = probabilities.Keys.OfType<CenterCardSlot>().OrderBy(s => _game.Randomizer.Next());
+
+        Dictionary<RoleTypes, decimal> claimOptions = new();
+        foreach (CenterCardSlot centerSlot in centerSlots)
+        {
+            CardProbabilities cardProbabilities = probabilities[centerSlot];
+
+            // If we are certain of the card, we can claim it
+            if (cardProbabilities.IsCertain && cardProbabilities.ProbableTeam == Teams.Villagers)
+            {
+                return cardProbabilities.ProbableRole;
+            }
+
+            // We don't have certainty, so just factor its probabilities in and we'll guess later
+            foreach ((RoleTypes key, decimal value) in cardProbabilities.Probabilities)
+            {
+                // Do not attempt to claim unsafe roles
+                if (key.DetermineTeam() != Teams.Villagers) continue;
+                
+                // Add or increment the probability of a role being present
+                if (claimOptions.ContainsKey(key))
+                {
+                    claimOptions[key] += value;
+                }
+                else
+                {
+                    claimOptions[key] = value;
+                }
+            }
+        }
+        
+        decimal maxProbability = claimOptions.Values.Max();
+        KeyValuePair<RoleTypes, decimal>? kvp = claimOptions.FirstOrDefault(kvp => kvp.Value == maxProbability);
+                
+        return kvp?.Key;
+    }
 }

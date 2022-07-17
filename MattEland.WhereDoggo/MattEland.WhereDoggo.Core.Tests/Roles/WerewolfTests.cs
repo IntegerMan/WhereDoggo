@@ -9,7 +9,7 @@ public class WerewolfTests : GameTestsBase
     public void WerewolvesShouldThinkTheyAreWerewolves()
     {
         // Arrange
-        Game game = SetupGame();
+        Game game = SetupLoneWolfGame();
         GamePlayer player = game.Players.First();
 
         // Act
@@ -24,7 +24,7 @@ public class WerewolfTests : GameTestsBase
     public void LoneWolfWhoSeesAWolfWithOnlyVillagersShouldKnowAllRoles()
     {
         // Arrange
-        Game game = SetupGame();
+        Game game = SetupLoneWolfGame();
         GamePlayer player = game.Players.First();
         player.PickSingleCard = PickFirstCard;
         game.Run();
@@ -44,7 +44,7 @@ public class WerewolfTests : GameTestsBase
     public void LoneWolfWhoLooksShouldHaveCorrectEvent()
     {
         // Arrange
-        Game game = SetupGame();
+        Game game = SetupLoneWolfGame();
 
 
         // Act
@@ -61,7 +61,7 @@ public class WerewolfTests : GameTestsBase
     public void LoneWolfWhoSkipsShouldHaveCorrectEvent()
     {
         // Arrange
-        Game game = SetupGame();
+        Game game = SetupLoneWolfGame();
         GamePlayer player = game.Players.First();
         player.PickSingleCard = PickNothing;
         game.Run();
@@ -72,7 +72,7 @@ public class WerewolfTests : GameTestsBase
         player.Events.ShouldNotContain(e => e is ObservedCenterCardEvent);
     }
 
-    private static Game SetupGame() =>
+    private static Game SetupLoneWolfGame() =>
         CreateGame(new[] {
             // Player Roles
             RoleTypes.Werewolf,
@@ -82,6 +82,18 @@ public class WerewolfTests : GameTestsBase
             RoleTypes.Werewolf,
             RoleTypes.Villager,
             RoleTypes.Villager
+        });
+
+    private static Game SetupTwoWolfGame() =>
+        CreateGame(new[] {
+            // Player Roles
+            RoleTypes.Werewolf,
+            RoleTypes.Werewolf,
+            RoleTypes.Villager,
+            // Center Cards
+            RoleTypes.Revealer,
+            RoleTypes.ApprenticeSeer,
+            RoleTypes.Insomniac
         });
 
     [TestCase(RoleTypes.Werewolf)]
@@ -125,7 +137,7 @@ public class WerewolfTests : GameTestsBase
     public void WerewolvesShouldNotClaimWerewolf()
     {
         // Arrange
-        Game game = SetupGame();
+        Game game = SetupLoneWolfGame();
         GamePlayer wolf = game.Players.First();
 
         // Act
@@ -137,10 +149,10 @@ public class WerewolfTests : GameTestsBase
 
     [Test]
     [Category("Claims")]
-    public void WerewolvesShouldInitiallyDeferClaimingRoles()
+    public void WerewolvesWithoutSafeClaimsShouldInitiallyDeferClaimingRoles()
     {
         // Arrange
-        Game game = SetupGame();
+        Game game = SetupLoneWolfGame();
         GamePlayer wolf = game.Players.First();
 
         // Act
