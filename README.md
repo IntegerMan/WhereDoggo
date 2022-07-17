@@ -8,6 +8,7 @@ This project is a non-commercial work intended for AI research only.
 The purpose of this project is to try to build AI bots that can make reasoned deductions in a social deduction type of game and decieve each other and potentially even human players.
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=IntegerMan_WhereDoggo&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=IntegerMan_WhereDoggo)
+[![CodeScene Code Health](https://codescene.io/projects/28024/status-badges/code-health)](https://codescene.io/projects/28024)
 
 ![File Chart](diagram.svg)
 
