@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:MattEland.WhereDoggo.WPFClient.ViewModels" xmlns:controls="clr-namespace:MattEland.WhereDoggo.WPFClient.Controls"
         mc:Ignorable="d"       
-        Title="Where Doggo" 
+        Title="Where Doggo?" 
         MinWidth="800" MinHeight="600"
         Width="1024" Height="600">
     <Window.Resources>
@@ -22,14 +22,14 @@
                 <ComboBox ItemsSource="{Binding Path=Perspectives}" SelectedItem="{Binding Path=SelectedPerspective}" />
             </ToolBarPanel>
         </ToolBar>
-        
+
         <!-- Footer -->
         <StatusBar DockPanel.Dock="Bottom">
             <StatusBarItem>Created by Matt Eland (@IntegerMan)</StatusBarItem>
         </StatusBar>
 
         <!-- Main Game Area -->
-        <Grid Margin="8 0">
+        <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" MinWidth="400" />
                 <ColumnDefinition Width="5" />
@@ -37,7 +37,7 @@
             </Grid.ColumnDefinitions>
 
             <!-- Card Area -->
-            <Border>
+            <Viewbox VerticalAlignment="Top" HorizontalAlignment="Left">
                 <StackPanel Orientation="Vertical" Margin="8">
 
                     <!-- Center Cards -->
@@ -71,11 +71,11 @@
                     </ItemsControl>
 
                 </StackPanel>
-            </Border>
+            </Viewbox>
 
             <!-- Splitter -->
             <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" />
-        
+
             <!-- Log area -->
             <TabControl Grid.Column="2" DockPanel.Dock="Right" Padding="8">
                 <TabItem Header="Log">
@@ -83,5 +83,6 @@
                 </TabItem>
             </TabControl>
         </Grid>
+
     </DockPanel>
 </Window>
