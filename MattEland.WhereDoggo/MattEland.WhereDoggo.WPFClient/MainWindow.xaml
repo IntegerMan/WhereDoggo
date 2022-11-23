@@ -14,7 +14,36 @@
     <Window.DataContext>
         <Binding Source="{StaticResource vm}" />
     </Window.DataContext>
-    <Grid>
+    <DockPanel>
+        <!-- Controls area -->
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" VerticalAlignment="Center" Margin="8">
+            <Label Content="Perspective: " Target="{Binding ElementName=perspective}" />
+            <ComboBox SelectedIndex="0">
+                <!-- TODO: Contents of ComboBox should be dynamically bound -->
+                <ComboBoxItem x:Name="perspective" Content="Storyteller View" />
+            </ComboBox>
+        </StackPanel>
 
-    </Grid>
+        <!-- TODO: Adding a vertical resizer would be good -->
+        
+        <!-- Log area -->
+        <TabControl Height="200" DockPanel.Dock="Bottom" Margin="8" Padding="8">
+            <TabItem Header="Log">
+                <ListBox ItemsSource="{Binding Path=Log}" />
+            </TabItem>
+        </TabControl>
+        
+        <!-- Game area -->
+        <Border Background="DodgerBlue" >
+            <StackPanel Orientation="Vertical">
+                
+                <!-- Center Cards -->
+                <ListBox ItemsSource="{Binding Path=CenterCards}" />
+                
+                <!-- Player Cards -->
+                <ListBox ItemsSource="{Binding Path=PlayerCards}" />
+                
+            </StackPanel>
+        </Border>
+    </DockPanel>
 </Window>

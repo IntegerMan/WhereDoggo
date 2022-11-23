@@ -5,6 +5,10 @@ global using System.Linq;
 global using System.Text;
 global using System.Threading.Tasks;
 global using System.Windows;
+global using MattEland.WhereDoggo.Core.Engine;
+global using MattEland.WhereDoggo.Core.Events;
+global using MattEland.WhereDoggo.Core.Roles;
+global using System.Collections.ObjectModel;
 
 [assembly: ThemeInfo(
     ResourceDictionaryLocation.None, //where theme specific resource dictionaries are located
