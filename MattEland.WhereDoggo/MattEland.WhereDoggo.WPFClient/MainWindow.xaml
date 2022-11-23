@@ -42,33 +42,33 @@
 
                     <!-- Center Cards -->
                     <Label Content="Center Cards" FontWeight="Bold" Target="{Binding ElementName=cardsCenter}" />
-                    <ListBox ItemsSource="{Binding Path=CenterCards}" x:Name="cardsCenter" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="8">
-                        <ListBox.ItemsPanel>
+                    <ItemsControl ItemsSource="{Binding Path=CenterCards}" x:Name="cardsCenter" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="8">
+                        <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <StackPanel Orientation="Horizontal" />
                             </ItemsPanelTemplate>
-                        </ListBox.ItemsPanel>
-                        <ListBox.ItemTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <controls:CardControl />
+                                <controls:CardControl Margin="0 0 8 0" />
                             </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
 
                     <!-- Player Cards -->
                     <Label Content="Player Cards" FontWeight="Bold" Target="{Binding ElementName=cardsPlayer}" Margin="0 8 0 0" />
-                    <ListBox ItemsSource="{Binding Path=PlayerCards}" x:Name="cardsPlayer" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="8">
-                        <ListBox.ItemsPanel>
+                    <ItemsControl ItemsSource="{Binding Path=PlayerCards}" x:Name="cardsPlayer" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="8">
+                        <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <StackPanel Orientation="Horizontal" />
                             </ItemsPanelTemplate>
-                        </ListBox.ItemsPanel>
-                        <ListBox.ItemTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <controls:CardControl />
+                                <controls:CardControl Margin="0 0 8 0" />
                             </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
 
                 </StackPanel>
             </Border>
