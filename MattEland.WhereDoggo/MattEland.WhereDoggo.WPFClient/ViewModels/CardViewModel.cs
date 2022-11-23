@@ -15,6 +15,10 @@ namespace MattEland.WhereDoggo.WPFClient.ViewModels
             this.card = card;
         }
 
+        public CardViewModel() : this(new CenterCardSlot("Placeholder", new VillagerRole()))
+        {
+        }
+
         public string CardName => card.Name;
 
         public override string ToString() => CardName;

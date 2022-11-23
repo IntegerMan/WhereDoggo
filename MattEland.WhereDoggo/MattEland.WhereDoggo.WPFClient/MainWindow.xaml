@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:vm="clr-namespace:MattEland.WhereDoggo.WPFClient.ViewModels"
+        xmlns:vm="clr-namespace:MattEland.WhereDoggo.WPFClient.ViewModels" xmlns:controls="clr-namespace:MattEland.WhereDoggo.WPFClient.Controls"
         mc:Ignorable="d"       
         Title="Where Doggo" 
         MinWidth="800" MinHeight="600"
@@ -29,7 +29,7 @@
         </StatusBar>
 
         <!-- Main Game Area -->
-        <Grid Margin="8">
+        <Grid Margin="8 0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" MinWidth="400" />
                 <ColumnDefinition Width="5" />
@@ -48,16 +48,26 @@
                                 <StackPanel Orientation="Horizontal" />
                             </ItemsPanelTemplate>
                         </ListBox.ItemsPanel>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <controls:CardControl />
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
                     </ListBox>
 
                     <!-- Player Cards -->
-                    <Label Content="Player Cards" FontWeight="Bold" Target="{Binding ElementName=cardsPlayer}" Margin="0 16 0 0" />
+                    <Label Content="Player Cards" FontWeight="Bold" Target="{Binding ElementName=cardsPlayer}" Margin="0 8 0 0" />
                     <ListBox ItemsSource="{Binding Path=PlayerCards}" x:Name="cardsPlayer" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="8">
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <StackPanel Orientation="Horizontal" />
                             </ItemsPanelTemplate>
                         </ListBox.ItemsPanel>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <controls:CardControl />
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
                     </ListBox>
 
                 </StackPanel>
