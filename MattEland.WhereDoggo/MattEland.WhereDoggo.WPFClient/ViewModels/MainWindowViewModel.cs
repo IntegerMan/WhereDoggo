@@ -2,9 +2,11 @@
 
 public class MainWindowViewModel : ViewModelBase
 {
+    private const string StorytellerName = "Storyteller";
     private Game game;
     private readonly ObservableCollection<CardViewModel> centerCards = new();
     private readonly ObservableCollection<CardViewModel> playerCards = new();
+    private readonly ObservableCollection<string> perspectives = new();
     private readonly ObservableCollection<string> events = new();
 
     public MainWindowViewModel()
@@ -36,6 +38,19 @@ public class MainWindowViewModel : ViewModelBase
         };
 
         game = new Game(assignedRoles, options);
+        game.RunNextPhase(); // Move to the setup phase
+
+        // Update the perspective
+        perspectives.Clear();
+        perspectives.Add(StorytellerName);
+        foreach (var player in game.Players)
+        {
+            perspectives.Add(player.Name);
+        }
+        if (!perspectives.Contains(SelectedPerspective))
+        {
+            SelectedPerspective = StorytellerName;
+        }
 
         NotifyGamePropertiesChanged();
 
@@ -47,6 +62,8 @@ public class MainWindowViewModel : ViewModelBase
         NotifyPropertyChanged(nameof(Log));
         NotifyPropertyChanged(nameof(CenterCards));
         NotifyPropertyChanged(nameof(PlayerCards));
+        NotifyPropertyChanged(nameof(Perspectives));
+        NotifyPropertyChanged(nameof(SelectedPerspective));
     }
 
     private void ObserveGameEvents()
@@ -71,10 +88,11 @@ public class MainWindowViewModel : ViewModelBase
         }
     }
 
-    public string Title => "Where Doggo by Matt Eland (@IntegerMan)";
-
     public ObservableCollection<string> Log => events;
-
     public ObservableCollection<CardViewModel> CenterCards => centerCards;
     public ObservableCollection<CardViewModel> PlayerCards => playerCards;
+
+    public ObservableCollection<string> Perspectives => perspectives;
+
+    public string SelectedPerspective { get; set; } = StorytellerName;
 }
