@@ -25,7 +25,7 @@
 
         <!-- Footer -->
         <StatusBar DockPanel.Dock="Bottom">
-            <StatusBarItem>Created by Matt Eland (@IntegerMan)</StatusBarItem>
+            <StatusBarItem>One Night Ultimate Werewolf is trademarked by Bezier Games. Simulation &amp; AI by Matt Eland (@IntegerMan)</StatusBarItem>
         </StatusBar>
 
         <!-- Main Game Area -->
@@ -42,10 +42,10 @@
 
                     <!-- Center Cards -->
                     <Label Content="Center Cards" FontWeight="Bold" Target="{Binding ElementName=cardsCenter}" />
-                    <ItemsControl ItemsSource="{Binding Path=CenterCards}" x:Name="cardsCenter" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="8">
+                    <ItemsControl ItemsSource="{Binding Path=CenterCards}" x:Name="cardsCenter" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="8" HorizontalAlignment="Center">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <StackPanel Orientation="Horizontal" />
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" />
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
@@ -57,10 +57,10 @@
 
                     <!-- Player Cards -->
                     <Label Content="Player Cards" FontWeight="Bold" Target="{Binding ElementName=cardsPlayer}" Margin="0 8 0 0" />
-                    <ItemsControl ItemsSource="{Binding Path=PlayerCards}" x:Name="cardsPlayer" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="8">
+                    <ItemsControl ItemsSource="{Binding Path=PlayerCards}" x:Name="cardsPlayer" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="8"  HorizontalAlignment="Center">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <StackPanel Orientation="Horizontal" />
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" />
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
