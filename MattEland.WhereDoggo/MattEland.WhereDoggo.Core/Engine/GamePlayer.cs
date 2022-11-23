@@ -125,7 +125,13 @@ public class GamePlayer : IHasCard
     public void Wake()
     {
         _game.LogEvent(new WokeUpEvent(this));
+    }
 
+    /// <summary>
+    /// Has the player observe the visible tokens and face-up cards in the game area
+    /// </summary>
+    public void ObserveVisibleState()
+    {
         // Allow for players to observe sentinel tokens
         foreach (GamePlayer player in _game.Players)
         {
@@ -139,7 +145,7 @@ public class GamePlayer : IHasCard
                 _game.LogEvent(new SentinelTokenObservedEvent(this, player));
             }
         }
-        
+
         // Allow for players to observe revealed roles
         foreach (IHasCard holder in _game.Entities)
         {

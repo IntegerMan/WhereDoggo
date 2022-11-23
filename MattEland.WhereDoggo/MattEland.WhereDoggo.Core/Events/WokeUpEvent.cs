@@ -14,8 +14,18 @@ public class WokeUpEvent : GameEventBase
     }
 
     /// <inheritdoc />
-    public override string ToString() => $"{Player} woke up in the {Phase}.";
-    
+    public override string ToString()
+    {
+        if (Phase == "Day")
+        {
+            return $"{Player} woke up";
+        }
+        else
+        { 
+            return $"{Player} woke up in the {Phase} as the {Player!.InitialCard}";
+        }
+    }
+
     /// <inheritdoc />
     public override void UpdatePlayerPerceptions(GamePlayer observer, IHasCard target, CardProbabilities probabilities)
     {

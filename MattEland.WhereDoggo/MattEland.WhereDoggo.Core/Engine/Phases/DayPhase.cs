@@ -51,5 +51,10 @@ public class DayPhase : GamePhaseBase
         {
             p.Wake();
         }
+
+        foreach (GamePlayer p in game.Players)
+        {
+            p.ObserveVisibleState();
+        }
     }
 }
