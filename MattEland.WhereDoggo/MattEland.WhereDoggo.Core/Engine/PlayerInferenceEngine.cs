@@ -123,13 +123,32 @@ public class PlayerInferenceEngine
             }
         }
         
-        decimal maxProbability = claimOptions.Values.Max();
-        KeyValuePair<RoleTypes, decimal>? kvp = claimOptions.FirstOrDefault(kvp => kvp.Value == maxProbability);
-                
-        return kvp?.Key;
+        KeyValuePair<RoleTypes, decimal>? best;
+        
+        // Find the best option without side effects
+        best = claimOptions.Where(r => !HasSideEffects(r.Key))
+            .MaxBy(kvp => kvp.Value);
+
+        // If we found something safe, use it. Otherwise, use the best unsafe option
+        return best != null 
+            ? best?.Key 
+            : claimOptions.MaxBy(kvp => kvp.Value).Key;
     }
 
-    private bool HasSideEffects(RoleTypes role) =>
+    /// <summary>
+    /// Determines whether the specified role has undeniable side effects
+    /// that other players can witness. Claiming to be a role with side effects
+    /// is a lot more risky because the side effects will not be present.
+    /// </summary>
+    /// <remarks>
+    /// Roles like Robber and Troublemaker have side effects and these effects may
+    /// be witnessed by other players in rare circumstances, but these roles are
+    /// not considered to have obvious side effects since you need to have the right
+    /// role combinations for these to occur.
+    /// </remarks>
+    /// <param name="role">The role to evaluate</param>
+    /// <returns>Whether or not the role has obvious side effects that can be observed by players</returns>
+    private static bool HasSideEffects(RoleTypes role) =>
         role switch
         {
             RoleTypes.Mason => true,

@@ -163,7 +163,6 @@ public class WerewolfTests : GameTestsBase
     }
 
     [TestCase(RoleTypes.Insomniac)]
-    [TestCase(RoleTypes.Mason)]
     [TestCase(RoleTypes.Villager)]
     [TestCase(RoleTypes.Seer)]
     [TestCase(RoleTypes.ApprenticeSeer)]
@@ -206,9 +205,9 @@ public class WerewolfTests : GameTestsBase
             // Player Roles
             RoleTypes.Werewolf,
             RoleTypes.Villager,
-            RoleTypes.Mason,
-            // Center Cards
             RoleTypes.Villager,
+            // Center Cards
+            RoleTypes.Mason,
             RoleTypes.Werewolf,
             unsafeRole
         };
