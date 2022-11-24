@@ -13,16 +13,15 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MattEland.WhereDoggo.WPFClient.Controls
+namespace MattEland.WhereDoggo.WPFClient.Controls;
+
+/// <summary>
+/// Interaction logic for CardControl.xaml
+/// </summary>
+public partial class CardControl : UserControl
 {
-    /// <summary>
-    /// Interaction logic for CardControl.xaml
-    /// </summary>
-    public partial class CardControl : UserControl
+    public CardControl()
     {
-        public CardControl()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

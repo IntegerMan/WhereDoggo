@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:MattEland.WhereDoggo.WPFClient.ViewModels" xmlns:controls="clr-namespace:MattEland.WhereDoggo.WPFClient.Controls"
         mc:Ignorable="d"       
-        Title="Where Doggo?" 
+        Title="Where Doggo? by Matt Eland" 
         MinWidth="800" MinHeight="600"
         Width="1024" Height="600">
     <Window.Resources>
@@ -25,7 +25,7 @@
 
         <!-- Footer -->
         <StatusBar DockPanel.Dock="Bottom">
-            <StatusBarItem>One Night Ultimate Werewolf is trademarked by Bezier Games. Simulation &amp; AI by Matt Eland (@IntegerMan)</StatusBarItem>
+            <StatusBarItem>One Night Ultimate Werewolf is trademarked by Bezier Games.</StatusBarItem>
         </StatusBar>
 
         <!-- Main Game Area -->
@@ -40,24 +40,9 @@
             <Viewbox VerticalAlignment="Top" HorizontalAlignment="Left">
                 <StackPanel Orientation="Vertical" Margin="8">
 
-                    <!-- Center Cards -->
-                    <Label Content="Center Cards" FontWeight="Bold" Target="{Binding ElementName=cardsCenter}" />
-                    <ItemsControl ItemsSource="{Binding Path=CenterCards}" x:Name="cardsCenter" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="8" HorizontalAlignment="Center">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" />
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <controls:CardControl Margin="0 0 8 0" />
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-
                     <!-- Player Cards -->
-                    <Label Content="Player Cards" FontWeight="Bold" Target="{Binding ElementName=cardsPlayer}" Margin="0 8 0 0" />
-                    <ItemsControl ItemsSource="{Binding Path=PlayerCards}" x:Name="cardsPlayer" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="8"  HorizontalAlignment="Center">
+                    <Label Content="Player Cards" FontWeight="Bold" Target="{Binding ElementName=CardsPlayer}" />
+                    <ItemsControl ItemsSource="{Binding Path=PlayerCards}" x:Name="CardsPlayer" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="8"  HorizontalAlignment="Center">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" />
@@ -70,6 +55,20 @@
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
 
+                    <!-- Center Cards -->
+                    <Label Content="Center Cards" FontWeight="Bold" Target="{Binding ElementName=CardsCenter}" />
+                    <ItemsControl ItemsSource="{Binding Path=CenterCards}" x:Name="CardsCenter" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="8" HorizontalAlignment="Center">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <controls:CardControl Margin="0 0 8 0" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
                 </StackPanel>
             </Viewbox>
 
