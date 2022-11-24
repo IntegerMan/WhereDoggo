@@ -22,7 +22,10 @@
                    Visibility="{Binding Path=ShowText, Converter={StaticResource ShowIfTrue}}"
                    Foreground="{Binding Path=Foreground}" />
 
-        <TextBlock Text="{Binding Path=Type}" 
+        <TextBlock Text="{Binding Path=SuffixText}" Margin="4 0 0 0"
+                   Visibility="{Binding Path=ShowSuffix, Converter={StaticResource ShowIfTrue}}" />
+
+        <TextBlock Text="{Binding Path=Type}" Margin="4 0 0 0"
                    Visibility="{Binding Path=IsUnknownEventType, Converter={StaticResource ShowIfTrue}}" />
     </StackPanel>
 </UserControl>

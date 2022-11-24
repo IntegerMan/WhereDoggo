@@ -16,21 +16,45 @@ public class EventViewModel : ViewModelBase
     public string Tooltip => $"({Phase}) {Text}";
     public string Type => _sourceEvent.GetType().Name;
     public string? Text => _sourceEvent.ToString();
+    
+    public string? SuffixText
+    {
+        get
+        {
+            if (_sourceEvent is ClaimedRoleEvent {IsLie: true})
+            {
+                return " (Lie)";
+            }
+            
+            return string.Empty;
+        }
+    }
+    
+    public bool ShowSuffix => !string.IsNullOrWhiteSpace(SuffixText);
+
     public string Phase => _sourceEvent.Phase ?? "Unknown Phase";
     public FontWeight FontWeight => _sourceEvent is (TextEvent or VotedOutEvent) ? FontWeights.Bold : FontWeights.Normal;
 
-    public Brush Foreground => _sourceEvent switch
+    public Brush Foreground
+    {
+        get
         {
-            DealtRoleEvent dre => BrushHelpers.GetTeamBrush(dre.Role.Team),
-            _ => Phase switch
+            if (_sourceEvent.IsDeductiveEvent) return Brushes.DimGray;
+            
+            return _sourceEvent switch
             {
-                "Setup" => Brushes.DarkGreen,
-                "Night" => Brushes.DarkBlue,
-                "Day" => Brushes.DeepPink,
-                "Voting" => Brushes.Red,
-                _ => Brushes.BlueViolet
-            }
-        };
+                DealtRoleEvent dre => BrushHelpers.GetTeamBrush(dre.Role.Team),
+                _ => Phase switch
+                {
+                    "Setup" => Brushes.DarkGreen,
+                    "Night" => Brushes.DarkBlue,
+                    "Day" => Brushes.DeepPink,
+                    "Voting" => Brushes.Red,
+                    _ => Brushes.BlueViolet
+                }
+            };
+        }
+    }
 
     public string MainIcon => _sourceEvent switch
         {
