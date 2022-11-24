@@ -37,16 +37,26 @@ public class CardViewModel : ViewModelBase
     {
         get
         {
-            if (_mainVm.SelectedPerspective == MainWindowViewModel.StorytellerName)
-            {
-                return true;
-            }
+            CardProbabilities? probability = Probability;
 
-            GamePlayer? player = _mainVm.Game.Players.First(p => p.Name == _mainVm.SelectedPerspective);
+            return probability == null || probability.IsCertain;
+        }
+    }
+
+    public CardProbabilities? Probability
+    {
+        get
+        {
+            GamePlayer? player = _mainVm.Game.Players.FirstOrDefault(p => p.Name == _mainVm.SelectedPerspective);
+
+            if (player == null)
+            {
+                return null;
+            }
 
             IDictionary<IHasCard, CardProbabilities> probs = player.Brain.BuildFinalRoleProbabilities();
 
-            return probs[_card].IsCertain;
+            return probs[_card];
         }
     }
 
