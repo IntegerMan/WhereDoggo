@@ -70,6 +70,7 @@ public class EventViewModel : ViewModelBase
             ObservedCenterCardEvent => "Solid_Eye",
             ObservedPlayerCardEvent => "Solid_Eye",
             VotedOutEvent => "Solid_UserXMark",
+            DeferredClaimingRoleEvent => "Solid_Clock",
             OnlyWolfEvent => IconHelpers.GetRoleIcon(RoleTypes.Werewolf),
             OnlyMasonEvent => IconHelpers.GetRoleIcon(RoleTypes.Mason),
             InsomniacSawOwnCardEvent => IconHelpers.GetRoleIcon(RoleTypes.Insomniac),

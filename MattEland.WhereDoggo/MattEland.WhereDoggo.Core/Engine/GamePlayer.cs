@@ -175,12 +175,12 @@ public class GamePlayer : IHasCard
     /// Gets the role that the player wants to claim, or null if they don't want to claim a role
     /// </summary>
     /// <returns>The role claimed, or null</returns>
-    public RoleTypes? GetRoleClaim()
+    public RoleTypes? GetRoleClaim(bool requireCertainty)
     {
         return InitialCard.Team switch
         {
             Teams.Villagers => InitialCard.RoleType,
-            Teams.Werewolves => Brain.DetermineBestCenterRoleClaim(),
+            Teams.Werewolves => Brain.DetermineBestCenterRoleClaim(requireCertainty),
             _ => null,
         };
     }

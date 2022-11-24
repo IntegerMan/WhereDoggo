@@ -24,7 +24,7 @@ public class DayPhase : GamePhaseBase
         // Wake all players up
         WakeAll(game);
 
-        // Each player should claim their role if they're good
+        // Each player should make their initial claim
         PerformInitialRoleClaim(game);
     }
 
@@ -32,7 +32,7 @@ public class DayPhase : GamePhaseBase
     {
         foreach (GamePlayer player in game.Players)
         {
-            RoleTypes? roleClaim = player.GetRoleClaim();
+            RoleTypes? roleClaim = player.GetRoleClaim(true);
 
             if (roleClaim == null)
             {

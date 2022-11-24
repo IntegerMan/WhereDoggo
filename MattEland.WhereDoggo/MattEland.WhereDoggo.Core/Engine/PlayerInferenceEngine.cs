@@ -86,7 +86,7 @@ public class PlayerInferenceEngine
     /// Generates a recommendation for a non-werewolf role that is likely to be in the center somewhere 
     /// </summary>
     /// <returns>The role recommendation or null</returns>
-    public RoleTypes? DetermineBestCenterRoleClaim()
+    public RoleTypes? DetermineBestCenterRoleClaim(bool requireCertainty)
     {
         IDictionary<IHasCard, CardProbabilities> probabilities = BuildFinalRoleProbabilities();
         
@@ -121,6 +121,11 @@ public class PlayerInferenceEngine
                     claimOptions[key] = value;
                 }
             }
+        }
+
+        if (requireCertainty)
+        {
+            return null;
         }
         
         KeyValuePair<RoleTypes, decimal>? best;
