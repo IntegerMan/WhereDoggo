@@ -20,6 +20,11 @@
             <ToolBarPanel Orientation="Horizontal"  VerticalAlignment="Center">
                 <Label Content="Perspective: " Target="{Binding ElementName=perspective}" />
                 <ComboBox ItemsSource="{Binding Path=Perspectives}" SelectedItem="{Binding Path=SelectedPerspective}" />
+
+                <CheckBox Content="Show Deductive Events?" 
+                          VerticalAlignment="Center"
+                          Margin="8"
+                          IsChecked="{Binding Path=ShowDeductiveEvents}" />
             </ToolBarPanel>
         </ToolBar>
 

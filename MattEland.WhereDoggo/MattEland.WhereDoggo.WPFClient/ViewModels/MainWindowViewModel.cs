@@ -9,6 +9,7 @@ public class MainWindowViewModel : ViewModelBase
     private readonly ObservableCollection<string> _perspectives = new();
     private readonly ObservableCollection<EventViewModel> _events = new();
     private string _selectedPerspective = StorytellerName;
+    private bool _showDeductiveEvents;
 
     public MainWindowViewModel()
     {
@@ -86,6 +87,11 @@ public class MainWindowViewModel : ViewModelBase
         _events.Clear();
         foreach (GameEventBase evt in perpsective?.Events ?? _game.Events)
         {
+            if (evt.IsDeductiveEvent && !ShowDeductiveEvents)
+            {
+                continue;
+            }
+            
             _events.Add(new EventViewModel(evt));
         }
     }
@@ -95,6 +101,23 @@ public class MainWindowViewModel : ViewModelBase
     public ObservableCollection<CardViewModel> PlayerCards => _playerCards;
 
     public ObservableCollection<string> Perspectives => _perspectives;
+
+    public bool ShowDeductiveEvents
+    {
+        get => _showDeductiveEvents;
+        set
+        {
+            if (_showDeductiveEvents != value)
+            {
+                _showDeductiveEvents = value;
+                
+                NotifyPropertyChanged();
+                ObserveGameEvents();
+
+                NotifyGamePropertiesChanged();
+            }
+        }
+    }
 
     public string SelectedPerspective
     {
