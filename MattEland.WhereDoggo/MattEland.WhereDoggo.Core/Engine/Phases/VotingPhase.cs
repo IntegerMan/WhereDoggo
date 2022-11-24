@@ -68,7 +68,7 @@ public class VotingPhase : GamePhaseBase
             GamePlayer votedPlayer = player.DetermineVoteTarget(Game.Randomizer);
 
             VotedEvent votedEvent = new(player, votedPlayer);
-            LogEvent(votedEvent);
+            BroadcastEvent(votedEvent);
 
             votes[votedPlayer] += 1;
         }

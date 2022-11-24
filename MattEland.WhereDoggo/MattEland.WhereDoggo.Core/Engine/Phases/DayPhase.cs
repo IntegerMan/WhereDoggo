@@ -36,11 +36,11 @@ public class DayPhase : GamePhaseBase
 
             if (roleClaim == null)
             {
-                LogEvent(new DeferredClaimingRoleEvent(player));
+                BroadcastEvent(new DeferredClaimingRoleEvent(player));
             }
             else
             {
-                LogEvent(new ClaimedRoleEvent(player, roleClaim.Value));
+                BroadcastEvent(new ClaimedRoleEvent(player, roleClaim.Value));
             }
         }
     }

@@ -8,6 +8,7 @@ public class MainWindowViewModel : ViewModelBase
     private readonly ObservableCollection<CardViewModel> _playerCards = new();
     private readonly ObservableCollection<string> _perspectives = new();
     private readonly ObservableCollection<EventViewModel> _events = new();
+    private string _selectedPerspective = StorytellerName;
 
     public MainWindowViewModel()
     {
@@ -68,6 +69,8 @@ public class MainWindowViewModel : ViewModelBase
 
     private void ObserveGameEvents()
     {
+        GamePlayer? perpsective = _game.Players.FirstOrDefault(p => p.Name == SelectedPerspective);
+        
         _centerCards.Clear();
         foreach (CenterCardSlot slot in _game.CenterSlots)
         {
@@ -81,8 +84,7 @@ public class MainWindowViewModel : ViewModelBase
         }
 
         _events.Clear();
-
-        foreach (GameEventBase evt in _game.Events)
+        foreach (GameEventBase evt in perpsective?.Events ?? _game.Events)
         {
             _events.Add(new EventViewModel(evt));
         }
@@ -94,5 +96,17 @@ public class MainWindowViewModel : ViewModelBase
 
     public ObservableCollection<string> Perspectives => _perspectives;
 
-    public string SelectedPerspective { get; set; } = StorytellerName;
+    public string SelectedPerspective
+    {
+        get => _selectedPerspective;
+        set
+        {
+            if (_selectedPerspective != value)
+            {
+                _selectedPerspective = value;
+                ObserveGameEvents();
+                NotifyGamePropertiesChanged();
+            }
+        }
+    }
 }
