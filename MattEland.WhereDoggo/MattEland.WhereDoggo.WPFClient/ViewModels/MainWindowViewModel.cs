@@ -4,7 +4,7 @@ namespace MattEland.WhereDoggo.WPFClient.ViewModels;
 
 public class MainWindowViewModel : ViewModelBase
 {
-    private const string StorytellerName = "Storyteller";
+    public const string StorytellerName = "Storyteller";
     private Game _game;
     private readonly ObservableCollection<CardViewModel> _centerCards = new();
     private readonly ObservableCollection<CardViewModel> _playerCards = new();
@@ -89,7 +89,7 @@ public class MainWindowViewModel : ViewModelBase
                 continue;
             }
             
-            _events.Add(new EventViewModel(evt));
+            _events.Add(new EventViewModel(evt, this));
         }
     }
 

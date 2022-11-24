@@ -7,10 +7,12 @@ namespace MattEland.WhereDoggo.WPFClient.ViewModels;
 public class EventViewModel : ViewModelBase
 {
     private readonly GameEventBase _sourceEvent;
+    private readonly MainWindowViewModel _mainVm;
 
-    public EventViewModel(GameEventBase sourceEvent)
+    public EventViewModel(GameEventBase sourceEvent, MainWindowViewModel mainVM)
     {
         _sourceEvent = sourceEvent;
+        _mainVm = mainVM;
     }
 
     public string Tooltip => $"({Phase}) {Text}";
@@ -23,7 +25,11 @@ public class EventViewModel : ViewModelBase
         {
             if (_sourceEvent is ClaimedRoleEvent {IsLie: true})
             {
-                return " (Lie)";
+                if (_mainVm.SelectedPerspective == _sourceEvent?.Player?.Name || 
+                    _mainVm.SelectedPerspective == MainWindowViewModel.StorytellerName)
+                {
+                    return " (Lie)";
+                }
             }
             
             return string.Empty;
