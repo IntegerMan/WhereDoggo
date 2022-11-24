@@ -78,7 +78,13 @@
             <!-- Log area -->
             <TabControl Grid.Column="2" DockPanel.Dock="Right" Padding="8">
                 <TabItem Header="Log">
-                    <ListBox ItemsSource="{Binding Path=Log}" />
+                    <ListBox ItemsSource="{Binding Path=Events}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <controls:LogEventControl />
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
                 </TabItem>
             </TabControl>
         </Grid>

@@ -3,18 +3,18 @@
 public class MainWindowViewModel : ViewModelBase
 {
     private const string StorytellerName = "Storyteller";
-    private Game game;
-    private readonly ObservableCollection<CardViewModel> centerCards = new();
-    private readonly ObservableCollection<CardViewModel> playerCards = new();
-    private readonly ObservableCollection<string> perspectives = new();
-    private readonly ObservableCollection<string> events = new();
+    private Game _game;
+    private readonly ObservableCollection<CardViewModel> _centerCards = new();
+    private readonly ObservableCollection<CardViewModel> _playerCards = new();
+    private readonly ObservableCollection<string> _perspectives = new();
+    private readonly ObservableCollection<EventViewModel> _events = new();
 
     public MainWindowViewModel()
     {
-        game = SetupGame();
+        _game = SetupGame();
 
         // Simulate the entire game
-        game.Run();
+        _game.Run();
 
         ObserveGameEvents();
     }
@@ -37,29 +37,29 @@ public class MainWindowViewModel : ViewModelBase
             NumPlayers = 4
         };
 
-        game = new Game(assignedRoles, options);
-        game.RunNextPhase(); // Move to the setup phase
+        _game = new Game(assignedRoles, options);
+        _game.RunNextPhase(); // Move to the setup phase
 
         // Update the perspective
-        perspectives.Clear();
-        perspectives.Add(StorytellerName);
-        foreach (var player in game.Players)
+        _perspectives.Clear();
+        _perspectives.Add(StorytellerName);
+        foreach (var player in _game.Players)
         {
-            perspectives.Add(player.Name);
+            _perspectives.Add(player.Name);
         }
-        if (!perspectives.Contains(SelectedPerspective))
+        if (!_perspectives.Contains(SelectedPerspective))
         {
             SelectedPerspective = StorytellerName;
         }
 
         NotifyGamePropertiesChanged();
 
-        return game;
+        return _game;
     }
 
     private void NotifyGamePropertiesChanged()
     {
-        NotifyPropertyChanged(nameof(Log));
+        NotifyPropertyChanged(nameof(Events));
         NotifyPropertyChanged(nameof(CenterCards));
         NotifyPropertyChanged(nameof(PlayerCards));
         NotifyPropertyChanged(nameof(Perspectives));
@@ -68,31 +68,31 @@ public class MainWindowViewModel : ViewModelBase
 
     private void ObserveGameEvents()
     {
-        centerCards.Clear();
-        foreach (CenterCardSlot slot in game.CenterSlots)
+        _centerCards.Clear();
+        foreach (CenterCardSlot slot in _game.CenterSlots)
         {
-            centerCards.Add(new CardViewModel(slot));
+            _centerCards.Add(new CardViewModel(slot));
         }
 
-        playerCards.Clear();
-        foreach (GamePlayer player in game.Players)
+        _playerCards.Clear();
+        foreach (GamePlayer player in _game.Players)
         {
-            playerCards.Add(new CardViewModel(player));
+            _playerCards.Add(new CardViewModel(player));
         }
 
-        events.Clear();
+        _events.Clear();
 
-        foreach (GameEventBase evt in game.Events)
+        foreach (GameEventBase evt in _game.Events)
         {
-            events.Add(evt.ToString()!);
+            _events.Add(new EventViewModel(evt));
         }
     }
 
-    public ObservableCollection<string> Log => events;
-    public ObservableCollection<CardViewModel> CenterCards => centerCards;
-    public ObservableCollection<CardViewModel> PlayerCards => playerCards;
+    public ObservableCollection<EventViewModel> Events => _events;
+    public ObservableCollection<CardViewModel> CenterCards => _centerCards;
+    public ObservableCollection<CardViewModel> PlayerCards => _playerCards;
 
-    public ObservableCollection<string> Perspectives => perspectives;
+    public ObservableCollection<string> Perspectives => _perspectives;
 
     public string SelectedPerspective { get; set; } = StorytellerName;
 }
