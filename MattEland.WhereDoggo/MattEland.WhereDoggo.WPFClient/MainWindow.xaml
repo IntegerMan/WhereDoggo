@@ -19,12 +19,15 @@
         <ToolBar DockPanel.Dock="Top">
             <ToolBarPanel Orientation="Horizontal"  VerticalAlignment="Center">
                 <Label Content="Perspective: "  VerticalAlignment="Center" Target="{Binding ElementName=perspective}" />
-                <ComboBox ItemsSource="{Binding Path=Perspectives}"  VerticalAlignment="Center" SelectedItem="{Binding Path=SelectedPerspective}" />
+                <ComboBox ItemsSource="{Binding Path=Perspectives}"  VerticalAlignment="Center" SelectedItem="{Binding Path=SelectedPerspective}" 
+                          Margin="0 0 8 0" />
 
                 <CheckBox Content="Show Deductive Events?" 
                           VerticalAlignment="Center"
                           Margin="8"
                           IsChecked="{Binding Path=ShowDeductiveEvents}" />
+
+                <Button Content="New Game" Command="{Binding Path=NewGameCommand}" VerticalAlignment="Center" />
             </ToolBarPanel>
         </ToolBar>
 

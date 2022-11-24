@@ -1,4 +1,6 @@
-﻿namespace MattEland.WhereDoggo.WPFClient.ViewModels;
+﻿using System.Windows.Input;
+
+namespace MattEland.WhereDoggo.WPFClient.ViewModels;
 
 public class MainWindowViewModel : ViewModelBase
 {
@@ -13,12 +15,7 @@ public class MainWindowViewModel : ViewModelBase
 
     public MainWindowViewModel()
     {
-        _game = SetupGame();
-
-        // Simulate the entire game
-        _game.Run();
-
-        ObserveGameEvents();
+        NewGame();
     }
 
     private Game SetupGame()
@@ -117,6 +114,18 @@ public class MainWindowViewModel : ViewModelBase
                 NotifyGamePropertiesChanged();
             }
         }
+    }
+
+    public ICommand NewGameCommand => new RelayCommand(NewGame);
+
+    private void NewGame()
+    {
+        _game = SetupGame();
+
+        // Simulate the entire game
+        _game.Run();
+
+        ObserveGameEvents();
     }
 
     public string SelectedPerspective
