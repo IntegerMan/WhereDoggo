@@ -98,7 +98,9 @@ public class PlayerInferenceEngine
             CardProbabilities cardProbabilities = probabilities[centerSlot];
 
             // If we are certain of the card, we can claim it
-            if (cardProbabilities.IsCertain && cardProbabilities.ProbableTeam == Teams.Villagers)
+            if (cardProbabilities.IsCertain && 
+                cardProbabilities.ProbableTeam == Teams.Villagers && 
+                !HasSideEffects(cardProbabilities.ProbableRole))
             {
                 return cardProbabilities.ProbableRole;
             }
@@ -126,4 +128,15 @@ public class PlayerInferenceEngine
                 
         return kvp?.Key;
     }
+
+    private bool HasSideEffects(RoleTypes role) =>
+        role switch
+        {
+            RoleTypes.Mason => true,
+            RoleTypes.Thing => true,
+            RoleTypes.Exposer => true,
+            RoleTypes.Sentinel => true,
+            RoleTypes.Revealer => true,
+            _ => false
+        };
 }

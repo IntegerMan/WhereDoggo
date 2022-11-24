@@ -197,6 +197,7 @@ public class WerewolfTests : GameTestsBase
     [TestCase(RoleTypes.Thing)]
     [TestCase(RoleTypes.Werewolf)]
     [TestCase(RoleTypes.MysticWolf)]
+    [TestCase(RoleTypes.Mason)]
     public void LoneWolfShouldNotClaimUnsafeRolesSeenInCenter(RoleTypes unsafeRole)
     {
         // Arrange
@@ -205,9 +206,9 @@ public class WerewolfTests : GameTestsBase
             // Player Roles
             RoleTypes.Werewolf,
             RoleTypes.Villager,
-            RoleTypes.Villager,
-            // Center Cards
             RoleTypes.Mason,
+            // Center Cards
+            RoleTypes.Villager,
             RoleTypes.Werewolf,
             unsafeRole
         };
