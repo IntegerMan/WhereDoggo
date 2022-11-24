@@ -43,8 +43,11 @@ public static class GameDisplayHelpers
         {
             player.DisplayPlayerKnowledge();
 
-            if (!includeProbabilities) continue;
-            
+            if (!includeProbabilities)
+            {
+                continue;
+            }
+
             Console.WriteLine($"{player.Name} Assumed Probabilities:");
                 
             IDictionary<IHasCard, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();

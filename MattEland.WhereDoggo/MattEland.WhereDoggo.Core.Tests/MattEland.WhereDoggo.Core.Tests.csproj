@@ -1,11 +1,17 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
 
     <IsPackable>false</IsPackable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Claims\**" />
+    <EmbeddedResource Remove="Claims\**" />
+    <None Remove="Claims\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
@@ -18,10 +24,6 @@
   <ItemGroup>
     <ProjectReference Include="..\MattEland.Util\MattEland.Util.csproj" />
     <ProjectReference Include="..\MattEland.WhereDoggo.Core\MattEland.WhereDoggo.Core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Claims" />
   </ItemGroup>
 
 </Project>

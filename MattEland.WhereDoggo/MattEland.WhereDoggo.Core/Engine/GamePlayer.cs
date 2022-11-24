@@ -125,23 +125,35 @@ public class GamePlayer : IHasCard
     public void Wake()
     {
         _game.LogEvent(new WokeUpEvent(this));
+    }
 
+    /// <summary>
+    /// Has the player observe the visible tokens and face-up cards in the game area
+    /// </summary>
+    public void ObserveVisibleState()
+    {
         // Allow for players to observe sentinel tokens
         foreach (GamePlayer player in _game.Players)
         {
-            if (!player.HasSentinelToken) continue;
+            if (!player.HasSentinelToken)
+            {
+                continue;
+            }
 
             if (!Events.Any(e => e is SentinelTokenObservedEvent sto && sto.Target == player))
             {
                 _game.LogEvent(new SentinelTokenObservedEvent(this, player));
             }
         }
-        
+
         // Allow for players to observe revealed roles
         foreach (IHasCard holder in _game.Entities)
         {
-            if (!holder.CurrentCard.IsRevealed) continue;
-            
+            if (!holder.CurrentCard.IsRevealed)
+            {
+                continue;
+            }
+
             if (!Events.Any(e => e is RevealedRoleObservedEvent obs && obs.Target == holder))
             {
                 _game.LogEvent(new RevealedRoleObservedEvent(this, holder));
@@ -163,7 +175,13 @@ public class GamePlayer : IHasCard
     /// Gets the role that the player wants to claim, or null if they don't want to claim a role
     /// </summary>
     /// <returns>The role claimed, or null</returns>
-    public RoleTypes? GetRoleClaim() => InitialCard.Team == Teams.Villagers 
-        ? InitialCard.RoleType 
-        : null;
+    public RoleTypes? GetRoleClaim(bool requireCertainty)
+    {
+        return InitialCard.Team switch
+        {
+            Teams.Villagers => InitialCard.RoleType,
+            Teams.Werewolves => Brain.DetermineBestCenterRoleClaim(requireCertainty),
+            _ => null,
+        };
+    }
 }

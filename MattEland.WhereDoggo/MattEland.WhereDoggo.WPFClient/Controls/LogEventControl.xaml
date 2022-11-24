@@ -1,0 +1,31 @@
+﻿<UserControl x:Class="MattEland.WhereDoggo.WPFClient.Controls.LogEventControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:vm="clr-namespace:MattEland.WhereDoggo.WPFClient.ViewModels"
+             xmlns:fa6="http://schemas.fontawesome.com/icons/fonts"
+             d:DataContext="{d:DesignInstance vm:EventViewModel}"
+             ToolTip="{Binding Path=Tooltip}"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="ShowIfTrue" />
+    </UserControl.Resources>
+    <StackPanel Orientation="Horizontal" >
+        <Grid Width="24" Margin="0 0 4 0">
+            <fa6:FontAwesome Icon="{Binding Path=MainIcon}" Foreground="{Binding Path=Foreground}" 
+                             HorizontalAlignment="Center" VerticalAlignment="Center"  />
+        </Grid>
+
+        <TextBlock Text="{Binding Path=Text}"  FontWeight="{Binding Path=FontWeight}"
+                   Visibility="{Binding Path=ShowText, Converter={StaticResource ShowIfTrue}}"
+                   Foreground="{Binding Path=Foreground}" />
+
+        <TextBlock Text="{Binding Path=SuffixText}" Margin="4 0 0 0"
+                   Visibility="{Binding Path=ShowSuffix, Converter={StaticResource ShowIfTrue}}" />
+
+        <TextBlock Text="{Binding Path=Type}" Margin="4 0 0 0"
+                   Visibility="{Binding Path=IsUnknownEventType, Converter={StaticResource ShowIfTrue}}" />
+    </StackPanel>
+</UserControl>

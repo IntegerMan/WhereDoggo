@@ -20,10 +20,25 @@ public class NightPhase : GamePhaseBase
     /// <inheritdoc />
     public override void Run(Game game)
     {
-        foreach (GamePlayer player in game.Players.Where(p => p.InitialCard.HasNightAction).OrderBy(p => p.InitialCard.NightActionOrder))
+        List<IGrouping<decimal?, GamePlayer>> wakeGroups = game.Players.Where(p => p.InitialCard.HasNightAction)
+                                                 .OrderBy(p => p.InitialCard.NightActionOrder)
+                                                 .GroupBy(p => p.InitialCard.NightActionOrder)
+                                                 .ToList();
+
+        foreach (IGrouping<decimal?, GamePlayer> group in wakeGroups)
         {
-            player.Wake();
-            player.InitialCard.PerformNightAction(game, player);
+            // Wake everyone in the group together
+            foreach (GamePlayer player in group)
+            {
+                player.Wake();
+            }
+
+            // Now have them observe the board and take their actions
+            foreach (GamePlayer player in group)
+            {
+                player.ObserveVisibleState();
+                player.InitialCard.PerformNightAction(game, player);
+            }
         }        
     }
 }

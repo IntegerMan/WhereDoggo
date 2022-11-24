@@ -81,4 +81,86 @@ public class PlayerInferenceEngine
             cardProbs.RecalculateProbability(counts);
         }
     }
+
+    /// <summary>
+    /// Generates a recommendation for a non-werewolf role that is likely to be in the center somewhere 
+    /// </summary>
+    /// <returns>The role recommendation or null</returns>
+    public RoleTypes? DetermineBestCenterRoleClaim(bool requireCertainty)
+    {
+        IDictionary<IHasCard, CardProbabilities> probabilities = BuildFinalRoleProbabilities();
+        
+        IEnumerable<CenterCardSlot> centerSlots = probabilities.Keys.OfType<CenterCardSlot>().OrderBy(s => _game.Randomizer.Next());
+
+        Dictionary<RoleTypes, decimal> claimOptions = new();
+        foreach (CenterCardSlot centerSlot in centerSlots)
+        {
+            CardProbabilities cardProbabilities = probabilities[centerSlot];
+
+            // If we are certain of the card, we can claim it
+            if (cardProbabilities.IsCertain && 
+                cardProbabilities.ProbableTeam == Teams.Villagers && 
+                !HasSideEffects(cardProbabilities.ProbableRole))
+            {
+                return cardProbabilities.ProbableRole;
+            }
+
+            // We don't have certainty, so just factor its probabilities in and we'll guess later
+            foreach ((RoleTypes key, decimal value) in cardProbabilities.Probabilities)
+            {
+                // Do not attempt to claim unsafe roles
+                if (key.DetermineTeam() != Teams.Villagers) continue;
+                
+                // Add or increment the probability of a role being present
+                if (claimOptions.ContainsKey(key))
+                {
+                    claimOptions[key] += value;
+                }
+                else
+                {
+                    claimOptions[key] = value;
+                }
+            }
+        }
+
+        if (requireCertainty)
+        {
+            return null;
+        }
+        
+        KeyValuePair<RoleTypes, decimal>? best;
+        
+        // Find the best option without side effects
+        best = claimOptions.Where(r => !HasSideEffects(r.Key))
+            .MaxBy(kvp => kvp.Value);
+
+        // If we found something safe, use it. Otherwise, use the best unsafe option
+        return best != null 
+            ? best?.Key 
+            : claimOptions.MaxBy(kvp => kvp.Value).Key;
+    }
+
+    /// <summary>
+    /// Determines whether the specified role has undeniable side effects
+    /// that other players can witness. Claiming to be a role with side effects
+    /// is a lot more risky because the side effects will not be present.
+    /// </summary>
+    /// <remarks>
+    /// Roles like Robber and Troublemaker have side effects and these effects may
+    /// be witnessed by other players in rare circumstances, but these roles are
+    /// not considered to have obvious side effects since you need to have the right
+    /// role combinations for these to occur.
+    /// </remarks>
+    /// <param name="role">The role to evaluate</param>
+    /// <returns>Whether or not the role has obvious side effects that can be observed by players</returns>
+    private static bool HasSideEffects(RoleTypes role) =>
+        role switch
+        {
+            RoleTypes.Mason => true,
+            RoleTypes.Thing => true,
+            RoleTypes.Exposer => true,
+            RoleTypes.Sentinel => true,
+            RoleTypes.Revealer => true,
+            _ => false
+        };
 }

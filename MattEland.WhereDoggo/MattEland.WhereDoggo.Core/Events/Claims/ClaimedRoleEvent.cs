@@ -11,6 +11,11 @@ public class ClaimedRoleEvent : ClaimBase
     public RoleTypes ClaimedRole { get; }
 
     /// <summary>
+    /// Gets a value indicating whetheror not the claim is a lie
+    /// </summary>
+    public bool IsLie => ClaimedRole != Player.InitialCard.RoleType;
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="ClaimedRoleEvent"/> class.
     /// </summary>
     /// <param name="player">The player making the claim.</param>

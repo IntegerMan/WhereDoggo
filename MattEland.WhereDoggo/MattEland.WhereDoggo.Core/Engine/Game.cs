@@ -97,8 +97,8 @@ public class Game
     public bool RunNextPhase()
     {
         GamePhaseBase phase = _phases.Dequeue();
-        BroadcastEvent($"Starting {phase.Name} phase");
         CurrentPhase = phase;
+        BroadcastEvent($"Starting {phase.Name} phase");
         phase.Run(this);
 
         return Result != null;

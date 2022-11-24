@@ -22,6 +22,12 @@ public abstract class GameEventBase
     public int Id { get; set; }
 
     /// <summary>
+    /// Gets a value indicating whether this event is a player inferrence event.
+    /// This is used to determine if the event can be filtered out of the display.
+    /// </summary>
+    public virtual bool IsDeductiveEvent => false;
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="GameEventBase"/> class.
     /// </summary>
     /// <param name="player">The player the game event occurred to. Optional and may be null.</param>

@@ -11,6 +11,9 @@ public class SawNotRoleEvent : TargetedEventBase
     /// </summary>
     public RoleTypes ImpossibleRole { get; }
 
+    /// <inheritdoc />
+    public override bool IsDeductiveEvent => true;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="SawNotRoleEvent"/>
     /// </summary>

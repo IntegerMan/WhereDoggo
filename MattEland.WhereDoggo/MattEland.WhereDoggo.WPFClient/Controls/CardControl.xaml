@@ -1,0 +1,26 @@
+﻿<UserControl x:Class="MattEland.WhereDoggo.WPFClient.Controls.CardControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:vm="clr-namespace:MattEland.WhereDoggo.WPFClient.ViewModels"
+             xmlns:fa6="http://schemas.fontawesome.com/icons/fonts"
+             d:DataContext="{d:DesignInstance vm:CardViewModel }"
+             mc:Ignorable="d"
+             Width="123"
+             Height="189"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <FontFamily x:Key="FontAwesome">pack://application:,,,/Resources/#Font Awesome 6 Duotone Solid</FontFamily>
+    </UserControl.Resources>
+        <DockPanel Margin="8">
+            <TextBlock DockPanel.Dock="Bottom" Text="{Binding Path=CardName}" HorizontalAlignment="Center" />
+            <Border BorderBrush="{Binding Path=TeamForeground}" BorderThickness="1" CornerRadius="8" Background="{Binding Path=Background}" Margin="0 2">
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" >
+                    <fa6:FontAwesome Icon="{Binding Path=Icon}" FontSize="36" Margin="0 0 0 8" Foreground="{Binding Path=TeamForeground}" />
+                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Path=Text}" FontWeight="Bold"
+                               Foreground="{Binding Path=TeamForeground}" />
+                </StackPanel>
+                </Border>
+        </DockPanel>
+</UserControl>
