@@ -18,8 +18,8 @@
         <!-- Controls area -->
         <ToolBar DockPanel.Dock="Top">
             <ToolBarPanel Orientation="Horizontal"  VerticalAlignment="Center">
-                <Label Content="Perspective: " Target="{Binding ElementName=perspective}" />
-                <ComboBox ItemsSource="{Binding Path=Perspectives}" SelectedItem="{Binding Path=SelectedPerspective}" />
+                <Label Content="Perspective: "  VerticalAlignment="Center" Target="{Binding ElementName=perspective}" />
+                <ComboBox ItemsSource="{Binding Path=Perspectives}"  VerticalAlignment="Center" SelectedItem="{Binding Path=SelectedPerspective}" />
 
                 <CheckBox Content="Show Deductive Events?" 
                           VerticalAlignment="Center"

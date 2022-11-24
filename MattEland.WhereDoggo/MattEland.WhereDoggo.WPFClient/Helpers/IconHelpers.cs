@@ -12,7 +12,7 @@ namespace MattEland.WhereDoggo.WPFClient.Helpers
         public static string GetRoleIcon(RoleTypes role) => role switch
             {
                 RoleTypes.Werewolf => "Solid_Dog",
-                RoleTypes.MysticWolf => "Solid_ArrowsToEye", // Or Solid_ShieldDog, Solid_Paw, Solid_Bone
+                RoleTypes.MysticWolf => "Solid_Paw", // Or Solid_ShieldDog, Solid_Paw, Solid_Bone
                 RoleTypes.Seer => "Solid_Eye",
                 RoleTypes.ApprenticeSeer => "Solid_EyeLowVision",
                 RoleTypes.Mason => "Solid_PeopleCarryBox", // or Solid_TrowelBricks

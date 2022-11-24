@@ -12,6 +12,10 @@ public class WokeUpEvent : GameEventBase
     public WokeUpEvent(GamePlayer player) : base(player)
     {
     }
+    /// <summary>
+    ///  <inheritdoc />
+    /// </summary>
+    public override bool IsDeductiveEvent => Phase == "Day";
 
     /// <inheritdoc />
     public override string ToString()
