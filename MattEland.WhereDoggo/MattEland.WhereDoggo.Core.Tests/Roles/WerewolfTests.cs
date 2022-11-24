@@ -152,7 +152,18 @@ public class WerewolfTests : GameTestsBase
     public void WerewolvesWithoutSafeClaimsShouldInitiallyDeferClaimingRoles()
     {
         // Arrange
-        Game game = SetupLoneWolfGame();
+        RoleTypes[] assignedRoles =
+        {
+            // Player Roles
+            RoleTypes.Werewolf,
+            RoleTypes.Werewolf,
+            RoleTypes.Villager,
+            // Center Cards
+            RoleTypes.Mason,
+            RoleTypes.Insomniac,
+            RoleTypes.Mason
+        };
+        Game game = CreateGame(assignedRoles);
         GamePlayer wolf = game.Players.First();
 
         // Act
@@ -219,7 +230,6 @@ public class WerewolfTests : GameTestsBase
         game.Run();
 
         // Assert
-        wolf.Events.Any(e => e is DeferredClaimingRoleEvent).ShouldBeFalse();
         wolf.Events.OfType<ClaimedRoleEvent>().ShouldNotContain(e => e.ClaimedRole == unsafeRole);
     }
     
