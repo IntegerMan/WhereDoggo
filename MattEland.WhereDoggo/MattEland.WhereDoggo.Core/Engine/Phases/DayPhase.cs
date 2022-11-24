@@ -24,8 +24,10 @@ public class DayPhase : GamePhaseBase
         // Wake all players up
         WakeAll(game);
 
-        // Each player should make their initial claim
+        // Role Claim goes in two rounds: initial and final
+        // Players may defer in the initial, then must claim in the final
         PerformInitialRoleClaim(game);
+        PerformFinalRoleClaim(game);
     }
 
     private void PerformInitialRoleClaim(Game game)
@@ -42,6 +44,16 @@ public class DayPhase : GamePhaseBase
             {
                 BroadcastEvent(new ClaimedRoleEvent(player, roleClaim.Value));
             }
+        }
+    }
+
+    private void PerformFinalRoleClaim(Game game)
+    {
+        foreach (GamePlayer player in game.Players.Where(p => p.Events.OfType<DeferredClaimingRoleEvent>().Any(e => e.Player == p)))
+        {
+            RoleTypes roleClaim = player.GetRoleClaim(false)!.Value;
+
+            BroadcastEvent(new ClaimedRoleEvent(player, roleClaim));
         }
     }
 
