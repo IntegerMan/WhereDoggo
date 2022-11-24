@@ -27,7 +27,9 @@
                           Margin="8"
                           IsChecked="{Binding Path=ShowDeductiveEvents}" />
 
-                <Button Content="New Game" Command="{Binding Path=NewGameCommand}" VerticalAlignment="Center" />
+                <Button Content="New Game" 
+                        Padding="4"
+                        Command="{Binding Path=NewGameCommand}" VerticalAlignment="Center" />
             </ToolBarPanel>
         </ToolBar>
 

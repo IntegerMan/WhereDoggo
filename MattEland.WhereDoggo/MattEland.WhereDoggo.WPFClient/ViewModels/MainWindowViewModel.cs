@@ -72,13 +72,13 @@ public class MainWindowViewModel : ViewModelBase
         _centerCards.Clear();
         foreach (CenterCardSlot slot in _game.CenterSlots)
         {
-            _centerCards.Add(new CardViewModel(slot));
+            _centerCards.Add(new CardViewModel(slot, this));
         }
 
         _playerCards.Clear();
         foreach (GamePlayer player in _game.Players)
         {
-            _playerCards.Add(new CardViewModel(player));
+            _playerCards.Add(new CardViewModel(player, this));
         }
 
         _events.Clear();
@@ -141,4 +141,6 @@ public class MainWindowViewModel : ViewModelBase
             }
         }
     }
+
+    public Game Game => _game;
 }

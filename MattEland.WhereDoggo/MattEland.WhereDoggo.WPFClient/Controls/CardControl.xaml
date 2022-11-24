@@ -13,14 +13,14 @@
     <UserControl.Resources>
         <FontFamily x:Key="FontAwesome">pack://application:,,,/Resources/#Font Awesome 6 Duotone Solid</FontFamily>
     </UserControl.Resources>
-    <Border BorderBrush="Black" BorderThickness="1" CornerRadius="8" Background="LightGray" Margin="0 2">
         <DockPanel Margin="8">
             <TextBlock DockPanel.Dock="Bottom" Text="{Binding Path=CardName}" HorizontalAlignment="Center" />
-            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" >
-                <fa6:FontAwesome Icon="{Binding Path=Icon}" FontSize="36" Margin="0 0 0 8" Foreground="{Binding Path=TeamForeground}" />
-                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Path=Role}" FontWeight="Bold"
-                           Foreground="{Binding Path=TeamForeground}" />
-            </StackPanel>
+            <Border BorderBrush="{Binding Path=TeamForeground}" BorderThickness="1" CornerRadius="8" Background="{Binding Path=Background}" Margin="0 2">
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" >
+                    <fa6:FontAwesome Icon="{Binding Path=Icon}" FontSize="36" Margin="0 0 0 8" Foreground="{Binding Path=TeamForeground}" />
+                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Path=Text}" FontWeight="Bold"
+                               Foreground="{Binding Path=TeamForeground}" />
+                </StackPanel>
+                </Border>
         </DockPanel>
-    </Border>
 </UserControl>
