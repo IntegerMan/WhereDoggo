@@ -15,6 +15,7 @@ public class MainWindowViewModel : ViewModelBase
 
     public MainWindowViewModel()
     {
+        _game = new(new List<RoleTypes>());
         NewGame();
     }
 
@@ -63,11 +64,12 @@ public class MainWindowViewModel : ViewModelBase
         NotifyPropertyChanged(nameof(PlayerCards));
         NotifyPropertyChanged(nameof(Perspectives));
         NotifyPropertyChanged(nameof(SelectedPerspective));
+        NotifyPropertyChanged(nameof(Roles));
     }
 
     private void ObserveGameEvents()
     {
-        GamePlayer? perpsective = _game.Players.FirstOrDefault(p => p.Name == SelectedPerspective);
+        GamePlayer? perspective = _game.Players.FirstOrDefault(p => p.Name == SelectedPerspective);
         
         _centerCards.Clear();
         foreach (CenterCardSlot slot in _game.CenterSlots)
@@ -82,7 +84,7 @@ public class MainWindowViewModel : ViewModelBase
         }
 
         _events.Clear();
-        foreach (GameEventBase evt in perpsective?.Events ?? _game.Events)
+        foreach (GameEventBase evt in perspective?.Events ?? _game.Events)
         {
             if (evt.IsDeductiveEvent && !ShowDeductiveEvents)
             {
@@ -96,6 +98,7 @@ public class MainWindowViewModel : ViewModelBase
     public ObservableCollection<EventViewModel> Events => _events;
     public ObservableCollection<CardViewModel> CenterCards => _centerCards;
     public ObservableCollection<CardViewModel> PlayerCards => _playerCards;
+    public IEnumerable<RoleViewModel> Roles => _game.Roles.OrderBy(r => r.NightActionOrder).Select(r => new RoleViewModel(r.RoleType));
 
     public ObservableCollection<string> Perspectives => _perspectives;
 
