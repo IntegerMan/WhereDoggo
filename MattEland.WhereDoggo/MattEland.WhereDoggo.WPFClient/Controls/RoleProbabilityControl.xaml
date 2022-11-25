@@ -11,10 +11,10 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Border BorderBrush="{Binding Path=Foreground}" CornerRadius="2" BorderThickness="1" Padding="2" Margin="2">
         <StackPanel Orientation="Horizontal" >
-            <Grid Width="8" Height="8">
-                <fa6:FontAwesome Icon="{Binding Path=Icon}" FontSize="8" Foreground="{Binding Path=Foreground}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <Grid Width="16" Height="16">
+                <fa6:FontAwesome Icon="{Binding Path=Icon}" Foreground="{Binding Path=Foreground}" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Grid>
-            <TextBlock Text="{Binding Path=ProbabilityText}" FontSize="8" Margin="2 0 0 0 " FontWeight="SemiBold" Foreground="{Binding Path=Foreground}" />
+            <TextBlock Text="{Binding Path=ProbabilityText}" Margin="2 0 0 0 " FontWeight="SemiBold" Foreground="{Binding Path=Foreground}" />
         </StackPanel>
     </Border>
 </UserControl>
