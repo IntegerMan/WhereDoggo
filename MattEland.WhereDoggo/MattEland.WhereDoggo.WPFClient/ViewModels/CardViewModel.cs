@@ -7,13 +7,29 @@ namespace MattEland.WhereDoggo.WPFClient.ViewModels;
 public class CardViewModel : ViewModelBase
 {
     private readonly IHasCard _card;
-    private readonly MainWindowViewModel _mainVm;
+    private readonly MainWindowViewModel _mainVM;
+    private readonly IDictionary<IHasCard, CardProbabilities>? probabilities;
 
     public CardViewModel(IHasCard card, MainWindowViewModel mainVM)
     {
-        this._card = card;
-        _mainVm = mainVM;
+        _card = card;
+        _mainVM = mainVM;
+
+        GamePlayer? player = _mainVM.Game.Players.FirstOrDefault(p => p.Name == _mainVM.SelectedPerspective);
+
+        probabilities = player?.Brain.BuildFinalRoleProbabilities();
+        Probability = probabilities?[_card];
+
+        if (Probability != null)
+        {
+            foreach (KeyValuePair<RoleTypes, decimal> kvp in Probability.Probabilities)
+            {
+                RoleProbabilities.Add(new RoleProbabilityViewModel(kvp.Key, kvp.Value));
+            }
+        }
     }
+
+    public ObservableCollection<RoleProbabilityViewModel> RoleProbabilities { get; } = new();
 
     public string CardName => _card.Name;
     public RoleTypes Role => _card.CurrentCard.RoleType;
@@ -23,15 +39,9 @@ public class CardViewModel : ViewModelBase
         : "Unknown";
 
     public Teams Team => _card.CurrentCard.Team;
-    public string Icon
-    {
-        get
-        {
-            return ShowValue
-                ? IconHelpers.GetRoleIcon(Role)
-                : IconHelpers.GetRoleIcon(null);
-        }
-    }
+    public string Icon => ShowValue
+            ? IconHelpers.GetRoleIcon(Role)
+            : IconHelpers.GetRoleIcon(null);
 
     public bool ShowValue
     {
@@ -43,42 +53,15 @@ public class CardViewModel : ViewModelBase
         }
     }
 
-    public CardProbabilities? Probability
-    {
-        get
-        {
-            GamePlayer? player = _mainVm.Game.Players.FirstOrDefault(p => p.Name == _mainVm.SelectedPerspective);
+    public CardProbabilities? Probability { get; }
 
-            if (player == null)
-            {
-                return null;
-            }
+    public Brush TeamForeground => ShowValue 
+            ? BrushHelpers.GetTeamBrush(Team) 
+            : BrushHelpers.GetTeamBrush(null);
 
-            IDictionary<IHasCard, CardProbabilities> probs = player.Brain.BuildFinalRoleProbabilities();
-
-            return probs[_card];
-        }
-    }
-
-    public Brush TeamForeground
-    {
-        get
-        {
-            return ShowValue 
-                ? BrushHelpers.GetTeamBrush(Team) 
-                : BrushHelpers.GetTeamBrush(null);
-        }
-    }
-
-    public Brush Background
-    {
-        get
-        {
-            return ShowValue
-                ? BrushHelpers.GetTeamBackgroundBrush(Team)
-                : BrushHelpers.GetTeamBackgroundBrush(null);
-        }
-    }
+    public Brush Background => ShowValue
+            ? BrushHelpers.GetTeamBackgroundBrush(Team)
+            : BrushHelpers.GetTeamBackgroundBrush(null);
 
     public override string ToString() => CardName;
 }
