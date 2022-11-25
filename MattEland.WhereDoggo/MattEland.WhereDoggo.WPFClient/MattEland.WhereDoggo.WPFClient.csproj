@@ -22,4 +22,10 @@
     <ProjectReference Include="..\MattEland.WhereDoggo.Core\MattEland.WhereDoggo.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Controls\RoleProbabilityControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
 </Project>
