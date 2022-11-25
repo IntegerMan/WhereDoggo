@@ -20,12 +20,13 @@
         <Border BorderBrush="{Binding Path=TeamForeground}" BorderThickness="1" CornerRadius="8" Background="{Binding Path=Background}" Margin="0 2">
             <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" >
                 <fa6:FontAwesome Icon="{Binding Path=Icon}"
-                                 Visibility="{Binding Path=ShowValue, Converter={StaticResource ShowIfTrue}}"
+                                 Visibility="{Binding Path=ShowProbabilities, Converter={StaticResource ShowIfFalse}}"
                                  FontSize="36" Margin="0 0 0 8" Foreground="{Binding Path=TeamForeground}" />
+
                 <ItemsControl ItemsSource="{Binding Path=RoleProbabilities}" 
                               HorizontalAlignment="Center" HorizontalContentAlignment="Center"
                               Margin="0 4"
-                              Visibility="{Binding Path=ShowValue, Converter={StaticResource ShowIfFalse}}">
+                              Visibility="{Binding Path=ShowProbabilities, Converter={StaticResource ShowIfTrue}}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <controls:RoleProbabilityControl />

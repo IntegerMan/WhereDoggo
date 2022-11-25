@@ -12,6 +12,7 @@ public class MainWindowViewModel : ViewModelBase
     private readonly ObservableCollection<EventViewModel> _events = new();
     private string _selectedPerspective = StorytellerName;
     private bool _showDeductiveEvents;
+    private bool _showProbabilities;
 
     public MainWindowViewModel()
     {
@@ -41,16 +42,21 @@ public class MainWindowViewModel : ViewModelBase
         _game.RunNextPhase(); // Move to the setup phase
 
         // Update the perspective
-        _perspectives.Clear();
-        _perspectives.Add(StorytellerName);
-        foreach (var player in _game.Players)
+        if (_perspectives.Count == 0)
         {
-            _perspectives.Add(player.Name);
+            _perspectives.Add(StorytellerName);
+            foreach (GamePlayer player in _game.Players)
+            {
+                _perspectives.Add(player.Name);
+            }
+
+            if (!_perspectives.Contains(SelectedPerspective))
+            {
+                SelectedPerspective = StorytellerName;
+            }
         }
-        if (!_perspectives.Contains(SelectedPerspective))
-        {
-            SelectedPerspective = StorytellerName;
-        }
+
+        ObserveGameEvents();
 
         NotifyGamePropertiesChanged();
 
@@ -136,7 +142,7 @@ public class MainWindowViewModel : ViewModelBase
         get => _selectedPerspective;
         set
         {
-            if (_selectedPerspective != value)
+            if (_selectedPerspective != value && value != null)
             {
                 _selectedPerspective = value;
                 ObserveGameEvents();
@@ -146,4 +152,19 @@ public class MainWindowViewModel : ViewModelBase
     }
 
     public Game Game => _game;
+
+    public bool ShowProbabilities
+    {
+        get => _showProbabilities;
+        set
+        {
+            if (_showProbabilities != value)
+            {
+                _showProbabilities = value;
+                NotifyPropertyChanged();
+                ObserveGameEvents();
+                NotifyGamePropertiesChanged();
+            }
+        }
+    }
 }

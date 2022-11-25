@@ -46,6 +46,8 @@ public class CardViewModel : ViewModelBase
             ? IconHelpers.GetRoleIcon(Role)
             : IconHelpers.GetRoleIcon(null);
 
+    public bool ShowProbabilities => _mainVM.ShowProbabilities && Probability != null;
+
     public bool ShowValue
     {
         get

@@ -20,11 +20,19 @@
                           Margin="0 0 8 0" />
 
                 <CheckBox Content="Show Deductive Events?" 
+                          ToolTip="Shows deductive events such as knowing a role is impossible for a card in the log view."
                           VerticalAlignment="Center"
                           Margin="8"
                           IsChecked="{Binding Path=ShowDeductiveEvents}" />
 
+                <CheckBox Content="Show Probabilities?" 
+                          ToolTip="Shows the Probabilities of unknown roles on player perspective views."
+                          VerticalAlignment="Center"
+                          Margin="8"
+                          IsChecked="{Binding Path=ShowProbabilities}" />
+
                 <Button Content="New Game" 
+                        ToolTip="Runs a new simulation"
                         Padding="4"
                         Command="{Binding Path=NewGameCommand}" VerticalAlignment="Center" />
             </ToolBarPanel>
@@ -38,9 +46,9 @@
         <!-- Main Game Area -->
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" MinWidth="400" />
+                <ColumnDefinition Width="*" MinWidth="8" />
                 <ColumnDefinition Width="5" />
-                <ColumnDefinition Width="Auto" MinWidth="200" />
+                <ColumnDefinition Width="400" MinWidth="8" />
             </Grid.ColumnDefinitions>
 
             <!-- Card Area -->
