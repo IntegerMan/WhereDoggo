@@ -38,7 +38,7 @@ public class WerewolfTests : GameTestsBase
             kvp.Value.IsCertain.ShouldBeTrue($"Was not certain of role {kvp.Value}");
         }
     }
-    
+
 
     [Test]
     public void LoneWolfWhoLooksShouldHaveCorrectEvent()
@@ -202,7 +202,7 @@ public class WerewolfTests : GameTestsBase
         wolf.Events.Any(e => e is DeferredClaimingRoleEvent).ShouldBeFalse();
         wolf.Events.OfType<ClaimedRoleEvent>().ShouldContain(e => e.ClaimedRole == safeRole);
     }
-    
+
     [TestCase(RoleTypes.Exposer)]
     [TestCase(RoleTypes.Thing)]
     [TestCase(RoleTypes.Werewolf)]
@@ -232,5 +232,33 @@ public class WerewolfTests : GameTestsBase
         // Assert
         wolf.Events.OfType<ClaimedRoleEvent>().ShouldNotContain(e => e.ClaimedRole == unsafeRole);
     }
-    
+
+    [Test]
+    public void WolvesShouldNotBothClaimSameRole()
+    {
+        // Arrange
+        RoleTypes[] assignedRoles =
+        {
+            // Player Roles
+            RoleTypes.Werewolf,
+            RoleTypes.Werewolf,
+            RoleTypes.Insomniac,
+            // Center Cards
+            RoleTypes.Villager,
+            RoleTypes.Exposer,
+            RoleTypes.Sentinel
+        };
+        Game game = CreateGame(assignedRoles);
+        GamePlayer wolf1 = game.Players[0];
+        GamePlayer wolf2 = game.Players[1];
+
+        // Act
+        game.Run();
+
+        // Assert
+        var role1 = wolf1.Events.OfType<ClaimedRoleEvent>().First().ClaimedRole;
+        var role2 = wolf2.Events.OfType<ClaimedRoleEvent>().First().ClaimedRole;
+        role1.ShouldNotBe(role2);
+    }
+
 }
