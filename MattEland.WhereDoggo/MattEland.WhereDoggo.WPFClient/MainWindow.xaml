@@ -8,11 +8,8 @@
         Title="Where Doggo? by Matt Eland" 
         MinWidth="800" MinHeight="600"
         Width="1024" Height="600">
-    <Window.Resources>
-        <vm:MainWindowViewModel x:Key="vm" />
-    </Window.Resources>
     <Window.DataContext>
-        <Binding Source="{StaticResource vm}" />
+        <vm:MainWindowViewModel />
     </Window.DataContext>
     <DockPanel>
         <!-- Controls area -->
