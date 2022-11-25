@@ -82,6 +82,6 @@ public class EventViewModel : ViewModelBase
             _ => "Solid_Question"
         };
 
-    public bool ShowText => true;// _sourceEvent is (TextEvent or ClaimedRoleEvent or VotedEvent or InsomniacSawOwnCardEvent or VotedOutEvent or WokeUpEvent or DealtRoleEvent or OnlyWolfEvent);
+    public bool ShowText => true;
     public bool IsUnknownEventType => !ShowText;
 }

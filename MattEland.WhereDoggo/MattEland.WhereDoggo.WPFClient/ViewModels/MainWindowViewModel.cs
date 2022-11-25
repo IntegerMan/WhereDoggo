@@ -98,7 +98,7 @@ public class MainWindowViewModel : ViewModelBase
     public ObservableCollection<EventViewModel> Events => _events;
     public ObservableCollection<CardViewModel> CenterCards => _centerCards;
     public ObservableCollection<CardViewModel> PlayerCards => _playerCards;
-    public IEnumerable<RoleTypes> Roles => _game.Roles.Select(r => r.RoleType);
+    public IEnumerable<RoleViewModel> Roles => _game.Roles.Select(r => new RoleViewModel(r.RoleType));
 
     public ObservableCollection<string> Perspectives => _perspectives;
 
