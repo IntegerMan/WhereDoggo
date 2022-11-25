@@ -5,11 +5,15 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:vm="clr-namespace:MattEland.WhereDoggo.WPFClient.ViewModels"
              xmlns:fa6="http://schemas.fontawesome.com/icons/fonts"
+             xmlns:controls="clr-namespace:MattEland.WhereDoggo.WPFClient.Controls"
              d:DataContext="{d:DesignInstance vm:CardViewModel }"
              mc:Ignorable="d"
              Width="123"
              Height="189"
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <vm:InvertedBooleanToVisibilityConverter x:Key="ShowIfFalse" />
+    </UserControl.Resources>
     <DockPanel Margin="8">
         <TextBlock DockPanel.Dock="Bottom" Text="{Binding Path=CardName}" HorizontalAlignment="Center" />
         <Border BorderBrush="{Binding Path=TeamForeground}" BorderThickness="1" CornerRadius="8" Background="{Binding Path=Background}" Margin="0 2">
@@ -17,6 +21,20 @@
                 <fa6:FontAwesome Icon="{Binding Path=Icon}" FontSize="36" Margin="0 0 0 8" Foreground="{Binding Path=TeamForeground}" />
                 <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Path=Text}" FontWeight="Bold"
                                Foreground="{Binding Path=TeamForeground}" />
+
+                <ItemsControl ItemsSource="{Binding Path=RoleProbabilities}" 
+                              Visibility="{Binding Path=ShowValue, Converter={StaticResource ShowIfFalse}}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <controls:RoleProbabilityControl />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal"></WrapPanel>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
             </StackPanel>
         </Border>
     </DockPanel>

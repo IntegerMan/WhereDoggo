@@ -8,4 +8,8 @@ public class RoleProbabilityViewModel : RoleViewModel
     {
         _probability = probability;
     }
+
+    public string ProbabilityText => $"{_probability:P0}";
+
+    public override string ToolTip => $"{Text}: {ProbabilityText}";
 }

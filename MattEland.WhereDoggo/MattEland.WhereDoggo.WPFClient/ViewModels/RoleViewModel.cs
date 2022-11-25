@@ -20,7 +20,7 @@ public class RoleViewModel : ViewModelBase
 
     public Brush Foreground => BrushHelpers.GetTeamBrush(_role.DetermineTeam());
 
-    public string ToolTip => _role switch
+    public virtual string ToolTip => _role switch
         {
             RoleTypes.Werewolf =>
                 "The werewolf wakes up in the night to see if there are any other members of the werewolf team. " + Environment.NewLine +

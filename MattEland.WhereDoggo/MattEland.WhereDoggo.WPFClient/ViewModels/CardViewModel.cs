@@ -22,9 +22,12 @@ public class CardViewModel : ViewModelBase
 
         if (Probability != null)
         {
-            foreach (KeyValuePair<RoleTypes, decimal> kvp in Probability.Probabilities)
+            foreach (KeyValuePair<RoleTypes, decimal> kvp in Probability.Probabilities.OrderByDescending(kvp => kvp.Value))
             {
-                RoleProbabilities.Add(new RoleProbabilityViewModel(kvp.Key, kvp.Value));
+                if (kvp.Value > 0)
+                {
+                    RoleProbabilities.Add(new RoleProbabilityViewModel(kvp.Key, kvp.Value));
+                }
             }
         }
     }
