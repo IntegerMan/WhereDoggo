@@ -7,7 +7,7 @@
              xmlns:fa6="http://schemas.fontawesome.com/icons/fonts"
              d:DataContext="{d:DesignInstance vm:RoleViewModel}"
              mc:Ignorable="d" 
-             ToolTip="{Binding Path=Text}"
+             ToolTip="{Binding Path=ToolTip}"
              d:DesignHeight="450" d:DesignWidth="800">
     <Border BorderBrush="{Binding Path=Foreground}" CornerRadius="2" BorderThickness="1" Padding="4 2" Margin="0 0 0 4">
     <StackPanel Orientation="Horizontal" >
