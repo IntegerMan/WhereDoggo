@@ -30,6 +30,34 @@ public class MysticWolfTests : GameTestsBase
     }
     
     [Test]
+    public void MysticWolfShouldNeverPickOtherWerewolves()
+    {
+        for (int i = 0; i < 100; i++)
+        {
+            // Arrange
+            RoleTypes[] assignedRoles =
+            {
+                // Player Roles
+                RoleTypes.MysticWolf,
+                RoleTypes.Werewolf,
+                RoleTypes.Insomniac,
+                // Center Cards
+                RoleTypes.Revealer,
+                RoleTypes.Villager,
+                RoleTypes.Villager
+            };
+
+            // Act
+            Game game = RunGame(assignedRoles);
+
+            // Assert
+            GamePlayer player = game.Players.First();
+            player.Events.OfType<ObservedPlayerCardEvent>()
+                .ShouldContain(e => e.ObservedCard.RoleType == RoleTypes.Insomniac);
+        }
+    }
+    
+    [Test]
     public void MysticWolfShouldBeSeenByOtherWerewolves()
     {
         // Arrange

@@ -22,7 +22,9 @@ public class MysticWolfRole : WerewolfRole
     {
         base.PerformNightAction(game, player);
 
-        IHasCard? cardHolder = player.PickSingleCard(game.GetOtherPlayerTargets(player));
+        IEnumerable<IHasCard> otherPlayerTargets = game.GetOtherPlayerTargets(player);
+        IDictionary<IHasCard, CardProbabilities> probs = player.Brain.BuildInitialRoleProbabilities();
+        IHasCard? cardHolder = player.PickSingleCard(otherPlayerTargets.Where(t => probs[t].CalculateTeamProbability(Teams.Werewolves) < 1m));
 
         if (cardHolder == null)
         {
