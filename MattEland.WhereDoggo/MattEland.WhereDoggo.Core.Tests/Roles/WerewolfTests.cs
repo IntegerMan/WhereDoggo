@@ -246,7 +246,7 @@ public class WerewolfTests : GameTestsBase
             // Center Cards
             RoleTypes.Villager,
             RoleTypes.Exposer,
-            RoleTypes.Sentinel
+            RoleTypes.Seer
         };
         Game game = CreateGame(assignedRoles);
         GamePlayer wolf1 = game.Players[0];
@@ -256,8 +256,8 @@ public class WerewolfTests : GameTestsBase
         game.Run();
 
         // Assert
-        var role1 = wolf1.Events.OfType<ClaimedRoleEvent>().First().ClaimedRole;
-        var role2 = wolf2.Events.OfType<ClaimedRoleEvent>().First().ClaimedRole;
+        var role1 = wolf1.OwnEvents.OfType<ClaimedRoleEvent>().First().ClaimedRole;
+        var role2 = wolf2.OwnEvents.OfType<ClaimedRoleEvent>().First().ClaimedRole;
         role1.ShouldNotBe(role2);
     }
 

@@ -52,6 +52,11 @@ public class GamePlayer : IHasCard
     /// Gets all events for the player
     /// </summary>
     public IEnumerable<GameEventBase> Events => _events.AsReadOnly();
+
+    /// <summary>
+    /// Gets all events that stem from this player
+    /// </summary>
+    public IEnumerable<GameEventBase> OwnEvents => Events.Where(e => e.Player == this);
     
     /// <summary>
     /// Gets the <see cref="PlayerInferenceEngine"/> associated with the player.

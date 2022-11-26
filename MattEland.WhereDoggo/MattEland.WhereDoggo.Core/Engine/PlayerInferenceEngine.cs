@@ -134,7 +134,7 @@ public class PlayerInferenceEngine
         {
             if (player.ClaimedRole != null)
             {
-                claimOptions[player.ClaimedRole.Value] = claimOptions.GetValueOrDefault(player.ClaimedRole.Value) + 1;
+                claimOptions[player.ClaimedRole.Value] = claimOptions.GetValueOrDefault(player.ClaimedRole.Value) - 1;
             }
         }
 
