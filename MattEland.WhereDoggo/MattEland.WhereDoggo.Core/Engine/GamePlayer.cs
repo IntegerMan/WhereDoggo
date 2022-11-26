@@ -52,6 +52,11 @@ public class GamePlayer : IHasCard
     /// Gets all events for the player
     /// </summary>
     public IEnumerable<GameEventBase> Events => _events.AsReadOnly();
+
+    /// <summary>
+    /// Gets all events that stem from this player
+    /// </summary>
+    public IEnumerable<GameEventBase> OwnEvents => Events.Where(e => e.Player == this);
     
     /// <summary>
     /// Gets the <see cref="PlayerInferenceEngine"/> associated with the player.
@@ -167,6 +172,10 @@ public class GamePlayer : IHasCard
     /// <inheritdoc />
     public CardBase CurrentCard { get; set; }
 
+    /// <summary>
+    /// Represents the last role this player has publicly claimed.
+    /// </summary>
+    public RoleTypes? ClaimedRole => Events.OfType<ClaimedRoleEvent>().Where(cre => cre.Player == this).LastOrDefault()?.ClaimedRole;
 
     /// <inheritdoc />
     public override string ToString() => $"{Name}";
@@ -175,13 +184,27 @@ public class GamePlayer : IHasCard
     /// Gets the role that the player wants to claim, or null if they don't want to claim a role
     /// </summary>
     /// <returns>The role claimed, or null</returns>
-    public RoleTypes? GetRoleClaim(bool requireCertainty)
+    public RoleTypes? GetInitialRoleClaim()
     {
         return InitialCard.Team switch
         {
             Teams.Villagers => InitialCard.RoleType,
-            Teams.Werewolves => Brain.DetermineBestCenterRoleClaim(requireCertainty),
-            _ => null,
+            Teams.Werewolves => Brain.DetermineBestSafeRoleClaim(),
+            _ => throw new NotSupportedException($"Team {InitialCard.Team} is not supported for claiming roles"),
+        };
+    }
+    
+    /// <summary>
+    /// Gets the final role that the player wants to claim
+    /// </summary>
+    /// <returns>The role claimed</returns>
+    public RoleTypes GetFinalRoleClaim()
+    {
+        return InitialCard.Team switch
+        {
+            Teams.Villagers => InitialCard.RoleType,
+            Teams.Werewolves => Brain.DetermineBestRoleClaim(),
+            _ => throw new NotSupportedException($"Team {InitialCard.Team} is not supported for claiming roles"),
         };
     }
 }
