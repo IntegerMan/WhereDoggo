@@ -34,7 +34,7 @@ public class DayPhase : GamePhaseBase
     {
         foreach (GamePlayer player in game.Players)
         {
-            RoleTypes? roleClaim = player.GetRoleClaim(true);
+            RoleTypes? roleClaim = player.GetInitialRoleClaim();
 
             if (roleClaim == null)
             {
@@ -51,7 +51,7 @@ public class DayPhase : GamePhaseBase
     {
         foreach (GamePlayer player in game.Players.Where(p => p.Events.OfType<DeferredClaimingRoleEvent>().Any(e => e.Player == p)))
         {
-            RoleTypes roleClaim = player.GetRoleClaim(false)!.Value;
+            RoleTypes roleClaim = player.GetFinalRoleClaim();
 
             BroadcastEvent(new ClaimedRoleEvent(player, roleClaim));
         }

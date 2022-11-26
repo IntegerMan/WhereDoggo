@@ -83,10 +83,14 @@ public class PlayerInferenceEngine
     }
 
     /// <summary>
-    /// Generates a recommendation for a non-werewolf role that is likely to be in the center somewhere 
+    /// Generates a recommendation for a non-werewolf role that is likely to be safest to claim 
     /// </summary>
-    /// <returns>The role recommendation or null</returns>
-    public RoleTypes? DetermineBestCenterRoleClaim(bool requireCertainty)
+    /// <remarks>
+    /// Safe claims are typically in the center, but sometimes it might make sense for a wolf to
+    /// play aggressively and counter-claim a role that someone else has claimed.
+    /// </remarks>
+    /// <returns>The role recommendation or null for deferring a claim</returns>
+    public RoleTypes? DetermineBestSafeRoleClaim()
     {
         IDictionary<IHasCard, CardProbabilities> probabilities = BuildFinalRoleProbabilities();
         
@@ -104,6 +108,40 @@ public class PlayerInferenceEngine
             {
                 return cardProbabilities.ProbableRole;
             }
+        }
+
+        return null;
+    }
+
+    /// <summary>
+    /// Generates a recommendation for a non-werewolf role that is likely to be safest to claim 
+    /// </summary>
+    /// <remarks>
+    /// Safe claims are typically in the center, but sometimes it might make sense for a wolf to
+    /// play aggressively and counter-claim a role that someone else has claimed.
+    /// </remarks>
+    /// <returns>The role recommendation</returns>
+    public RoleTypes DetermineBestRoleClaim()
+    {
+        IDictionary<IHasCard, CardProbabilities> probabilities = BuildFinalRoleProbabilities();
+        
+        IEnumerable<CenterCardSlot> centerSlots = probabilities.Keys.OfType<CenterCardSlot>().OrderBy(s => _game.Randomizer.Next());
+
+        Dictionary<RoleTypes, decimal> claimOptions = new();
+
+        // Tally up existing claims on these options
+        foreach (GamePlayer player in _game.Players)
+        {
+            if (player.ClaimedRole != null)
+            {
+                claimOptions[player.ClaimedRole.Value] = claimOptions.GetValueOrDefault(player.ClaimedRole.Value) + 1;
+            }
+        }
+
+        // Factor in everything else we know
+        foreach (CenterCardSlot centerSlot in centerSlots)
+        {
+            CardProbabilities cardProbabilities = probabilities[centerSlot];
 
             // We don't have certainty, so just factor its probabilities in and we'll guess later
             foreach ((RoleTypes key, decimal value) in cardProbabilities.Probabilities)
@@ -123,21 +161,13 @@ public class PlayerInferenceEngine
             }
         }
 
-        if (requireCertainty)
-        {
-            return null;
-        }
-        
-        KeyValuePair<RoleTypes, decimal>? best;
-        
         // Find the best option without side effects
-        best = claimOptions.Where(r => !HasSideEffects(r.Key))
+        KeyValuePair<RoleTypes, decimal>? best = claimOptions
+            .Where(r => !HasSideEffects(r.Key))
             .MaxBy(kvp => kvp.Value);
 
         // If we found something safe, use it. Otherwise, use the best unsafe option
-        return best != null 
-            ? best?.Key 
-            : claimOptions.MaxBy(kvp => kvp.Value).Key;
+        return best?.Key ?? claimOptions.MaxBy(kvp => kvp.Value).Key;
     }
 
     /// <summary>
