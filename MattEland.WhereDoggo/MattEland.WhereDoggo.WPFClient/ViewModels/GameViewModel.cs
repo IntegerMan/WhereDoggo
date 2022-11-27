@@ -2,7 +2,7 @@
 
 namespace MattEland.WhereDoggo.WPFClient.ViewModels;
 
-public class MainWindowViewModel : ViewModelBase
+public class GameViewModel : ViewModelBase
 {
     public const string StorytellerName = "Storyteller";
     private Game _game;
@@ -14,7 +14,7 @@ public class MainWindowViewModel : ViewModelBase
     private bool _showDeductiveEvents;
     private bool _showProbabilities;
 
-    public MainWindowViewModel()
+    public GameViewModel()
     {
         _game = new(new List<RoleTypes>());
         NewGame();

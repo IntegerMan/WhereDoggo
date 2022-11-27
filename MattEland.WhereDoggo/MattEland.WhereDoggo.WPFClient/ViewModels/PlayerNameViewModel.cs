@@ -6,10 +6,10 @@ namespace MattEland.WhereDoggo.WPFClient.ViewModels;
 
 public class PlayerNameViewModel : ViewModelBase
 {
-    private readonly MainWindowViewModel _mainVM;
+    private readonly GameViewModel _mainVM;
     private readonly string _name;
 
-    public PlayerNameViewModel(string name, MainWindowViewModel mainVM)
+    public PlayerNameViewModel(string name, GameViewModel mainVM)
     {
         _name = name;
         _mainVM = mainVM;

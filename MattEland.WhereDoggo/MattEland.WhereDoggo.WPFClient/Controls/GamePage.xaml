@@ -1,0 +1,126 @@
+﻿<UserControl x:Class="MattEland.WhereDoggo.WPFClient.Controls.GamePage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             d:DataContext="{d:DesignInstance vm:GameViewModel }"
+             xmlns:controls="clr-namespace:MattEland.WhereDoggo.WPFClient.Controls"
+             xmlns:vm="clr-namespace:MattEland.WhereDoggo.WPFClient.ViewModels"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <DockPanel>
+        <!-- Controls area -->
+        <ToolBar DockPanel.Dock="Top">
+            <ToolBarPanel Orientation="Horizontal"  VerticalAlignment="Center">
+                <Label Content="Perspective: "  VerticalAlignment="Center" Target="{Binding ElementName=perspective}" />
+                <ComboBox ItemsSource="{Binding Path=Perspectives}"  VerticalAlignment="Center" SelectedItem="{Binding Path=SelectedPerspective}" 
+                          Margin="0 0 8 0" />
+
+                <CheckBox Content="Show Deductive Events?" 
+                          ToolTip="Shows deductive events such as knowing a role is impossible for a card in the log view."
+                          VerticalAlignment="Center"
+                          Margin="8"
+                          IsChecked="{Binding Path=ShowDeductiveEvents}" />
+
+                <CheckBox Content="Show Probabilities?" 
+                          ToolTip="Shows the Probabilities of unknown roles on player perspective views."
+                          VerticalAlignment="Center"
+                          Margin="8"
+                          IsChecked="{Binding Path=ShowProbabilities}" />
+
+                <Button Content="New Game" 
+                        ToolTip="Runs a new simulation"
+                        Padding="4"
+                        Command="{Binding Path=NewGameCommand}" VerticalAlignment="Center" />
+            </ToolBarPanel>
+        </ToolBar>
+
+        <!-- Footer -->
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBarItem>One Night Ultimate Werewolf is trademarked by Bezier Games.</StatusBarItem>
+        </StatusBar>
+
+        <!-- Main Game Area -->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" MinWidth="8" />
+                <ColumnDefinition Width="5" />
+                <ColumnDefinition Width="400" MinWidth="8" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Card Area -->
+            <Viewbox VerticalAlignment="Top" HorizontalAlignment="Left">
+                <StackPanel Orientation="Vertical" Margin="8">
+
+                    <!-- Player Cards -->
+                    <Label Content="Player Cards" FontWeight="Bold" Target="{Binding ElementName=CardsPlayer}" />
+                    <ItemsControl ItemsSource="{Binding Path=PlayerCards}" x:Name="CardsPlayer" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="8"  HorizontalAlignment="Center">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <controls:CardControl Margin="0 0 8 0" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+                    <DockPanel>
+
+                        <!-- Available Roles -->
+                        <StackPanel Orientation="Vertical" DockPanel.Dock="Right">
+                            <Label Content="In-Game Role Order" FontWeight="Bold" Target="{Binding ElementName=AvailableRoles}" />
+                            <ItemsControl ItemsSource="{Binding Path=Roles}" x:Name="AvailableRoles" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Padding="8" HorizontalAlignment="Left">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Vertical" HorizontalAlignment="Left" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <controls:RoleLabelControl />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+
+                        <!-- Center Cards -->
+                        <StackPanel Orientation="Vertical">
+                            <Label Content="Center Cards" FontWeight="Bold" Target="{Binding ElementName=CardsCenter}" />
+                            <ItemsControl ItemsSource="{Binding Path=CenterCards}" x:Name="CardsCenter" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Padding="8" HorizontalAlignment="Left">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <controls:CardControl Margin="0 0 8 0" />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </DockPanel>
+                </StackPanel>
+            </Viewbox>
+
+            <!-- Splitter -->
+            <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" />
+
+            <!-- Log area -->
+            <TabControl Grid.Column="2" DockPanel.Dock="Right" Padding="8">
+                <TabItem Header="Log">
+                    <ListBox ItemsSource="{Binding Path=Events}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <controls:LogEventControl />
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </TabItem>
+            </TabControl>
+        </Grid>
+
+    </DockPanel></UserControl>

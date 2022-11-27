@@ -7,10 +7,10 @@ namespace MattEland.WhereDoggo.WPFClient.ViewModels;
 public class CardViewModel : ViewModelBase
 {
     private readonly IHasCard _card;
-    private readonly MainWindowViewModel _mainVM;
+    private readonly GameViewModel _mainVM;
     private readonly IDictionary<IHasCard, CardProbabilities>? probabilities;
 
-    public CardViewModel(IHasCard card, MainWindowViewModel mainVM)
+    public CardViewModel(IHasCard card, GameViewModel mainVM)
     {
         _card = card;
         _mainVM = mainVM;
