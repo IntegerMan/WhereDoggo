@@ -1,7 +1,4 @@
-﻿using System.Windows.Input;
-using MattEland.WhereDoggo.WPFClient.Helpers;
-
-namespace MattEland.WhereDoggo.WPFClient.ViewModels;
+﻿namespace MattEland.WhereDoggo.WPFClient.ViewModels;
 
 public class GameViewModel : ViewModelBase
 {
@@ -18,6 +15,7 @@ public class GameViewModel : ViewModelBase
     public GameViewModel()
     {
         _game = new Game(new List<RoleTypes>());
+        NextCommand = new RelayCommand(Next);
         NewGame();
     }
 
@@ -72,6 +70,8 @@ public class GameViewModel : ViewModelBase
         NotifyPropertyChanged(nameof(Perspectives));
         NotifyPropertyChanged(nameof(SelectedPerspective));
         NotifyPropertyChanged(nameof(Roles));
+        NotifyPropertyChanged(nameof(NextCommand));
+        NextCommand.NotifyCanExecuteChanged();
     }
 
     private void ObserveGameEvents()
@@ -126,8 +126,8 @@ public class GameViewModel : ViewModelBase
         }
     }
 
-    public ICommand NewGameCommand => new RelayCommand(NewGame);
-    public ICommand NextCommand => new RelayCommand(Next);
+    public RelayCommand NewGameCommand => new(NewGame);
+    public RelayCommand NextCommand { get; private set; }
 
     private void Next()
     {
@@ -139,6 +139,7 @@ public class GameViewModel : ViewModelBase
     private void NewGame()
     {
         _game = SetupGame();
+        NextCommand = new RelayCommand(Next, () => !_game.IsCompleted);
 
         ObserveGameEvents();
     }

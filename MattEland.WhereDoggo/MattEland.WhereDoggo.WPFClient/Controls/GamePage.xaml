@@ -31,6 +31,7 @@
 
                 <Button ToolTip="Moves to the next phase of the game"
                         Padding="4"
+                        IsEnabled="{Binding Path=NextCommand.Enabled}"
                         Command="{Binding Path=NextCommand}" VerticalAlignment="Center">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                         <fa6:FontAwesome Icon="Solid_Play" VerticalAlignment="Center" />
