@@ -8,7 +8,7 @@ public class GameViewModel : ViewModelBase
     private readonly ObservableCollection<CardViewModel> _playerCards = new();
     private readonly ObservableCollection<string> _perspectives = new();
     private readonly ObservableCollection<EventViewModel> _events = new();
-    private string _selectedPerspective = StorytellerName;
+    private string? _selectedPerspective = null;
     private bool _showDeductiveEvents;
     private bool _showProbabilities;
 
@@ -51,7 +51,7 @@ public class GameViewModel : ViewModelBase
 
             if (!_perspectives.Contains(SelectedPerspective!))
             {
-                SelectedPerspective = StorytellerName;
+                SelectedPerspective = _game.Players.First().Name;
             }
         }
 
