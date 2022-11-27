@@ -14,6 +14,7 @@ public class CardViewModel : ViewModelBase
     {
         _card = card;
         _mainVM = mainVM;
+        PlayerNameVM = new PlayerNameViewModel(card.Name, mainVM);
 
         GamePlayer? player = _mainVM.Game.Players.FirstOrDefault(p => p.Name == _mainVM.SelectedPerspective);
 
@@ -33,12 +34,16 @@ public class CardViewModel : ViewModelBase
 
         foreach (VotedEvent vote in mainVM.Game.Events.OfType<VotedEvent>().Where(ve => ve.Target == card))
         {
-            VotedBy.Add(vote.Player.Name);
+            if (vote.Player?.Name != null)
+            {
+                VotedBy.Add(vote.Player.Name);
+            }
         }
     }
 
     public ObservableCollection<RoleProbabilityViewModel> RoleProbabilities { get; } = new();
 
+    public bool IsPlayer => _card is GamePlayer;
     public string CardName => _card.Name;
     public RoleTypes Role => _card.CurrentCard.RoleType;
 
@@ -75,5 +80,6 @@ public class CardViewModel : ViewModelBase
 
     public ObservableCollection<string> VotedBy { get; } = new();
 
+    public PlayerNameViewModel PlayerNameVM { get; }
     public override string ToString() => CardName;
 }
