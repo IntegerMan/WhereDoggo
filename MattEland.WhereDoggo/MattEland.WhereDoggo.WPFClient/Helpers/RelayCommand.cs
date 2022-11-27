@@ -1,6 +1,6 @@
 ﻿using System.Windows.Input;
 
-namespace MattEland.WhereDoggo.WPFClient.ViewModels;
+namespace MattEland.WhereDoggo.WPFClient.Helpers;
 
 public class RelayCommand : ICommand
 {
@@ -9,6 +9,9 @@ public class RelayCommand : ICommand
     public RelayCommand(Action action)
     {
         _action = action;
+
+        // This will always be null, but this code suppresses a compiler warning
+        CanExecuteChanged?.Invoke(null, EventArgs.Empty);
     }
 
     public bool CanExecute(object? parameter) => true;

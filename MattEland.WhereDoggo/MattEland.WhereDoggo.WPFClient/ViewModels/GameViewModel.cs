@@ -1,4 +1,5 @@
 ﻿using System.Windows.Input;
+using MattEland.WhereDoggo.WPFClient.Helpers;
 
 namespace MattEland.WhereDoggo.WPFClient.ViewModels;
 
@@ -50,7 +51,7 @@ public class GameViewModel : ViewModelBase
                 _perspectives.Add(player.Name);
             }
 
-            if (!_perspectives.Contains(SelectedPerspective))
+            if (!_perspectives.Contains(SelectedPerspective!))
             {
                 SelectedPerspective = StorytellerName;
             }
@@ -137,7 +138,7 @@ public class GameViewModel : ViewModelBase
         ObserveGameEvents();
     }
 
-    public string SelectedPerspective
+    public string? SelectedPerspective
     {
         get => _selectedPerspective;
         set

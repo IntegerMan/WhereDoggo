@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using System.Windows.Data;
 
-namespace MattEland.WhereDoggo.WPFClient;
+namespace MattEland.WhereDoggo.WPFClient.Helpers;
 
 public class InvertedBooleanToVisibilityConverter : IValueConverter
 {

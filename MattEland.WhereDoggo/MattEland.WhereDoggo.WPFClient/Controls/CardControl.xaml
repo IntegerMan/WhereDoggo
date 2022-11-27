@@ -6,7 +6,7 @@
              xmlns:vm="clr-namespace:MattEland.WhereDoggo.WPFClient.ViewModels"
              xmlns:fa6="http://schemas.fontawesome.com/icons/fonts"
              xmlns:controls="clr-namespace:MattEland.WhereDoggo.WPFClient.Controls"
-             xmlns:client="clr-namespace:MattEland.WhereDoggo.WPFClient"
+             xmlns:helpers="clr-namespace:MattEland.WhereDoggo.WPFClient.Helpers"
              x:Name="Card"
              d:DataContext="{d:DesignInstance vm:CardViewModel }"
              mc:Ignorable="d"
@@ -14,7 +14,7 @@
              Height="189"
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <client:InvertedBooleanToVisibilityConverter x:Key="ShowIfFalse" />
+        <helpers:InvertedBooleanToVisibilityConverter x:Key="ShowIfFalse" />
         <BooleanToVisibilityConverter x:Key="ShowIfTrue" />
     </UserControl.Resources>
     <DockPanel Margin="8">
