@@ -6,6 +6,7 @@
              d:DataContext="{d:DesignInstance vm:GameViewModel }"
              xmlns:controls="clr-namespace:MattEland.WhereDoggo.WPFClient.Controls"
              xmlns:vm="clr-namespace:MattEland.WhereDoggo.WPFClient.ViewModels"
+             xmlns:fa6="http://schemas.fontawesome.com/icons/fonts"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <DockPanel>
@@ -28,10 +29,24 @@
                           Margin="8"
                           IsChecked="{Binding Path=ShowProbabilities}" />
 
-                <Button Content="New Game" 
-                        ToolTip="Runs a new simulation"
+                <Button ToolTip="Moves to the next phase of the game"
                         Padding="4"
-                        Command="{Binding Path=NewGameCommand}" VerticalAlignment="Center" />
+                        Command="{Binding Path=NextCommand}" VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <fa6:FontAwesome Icon="Solid_Play" VerticalAlignment="Center" />
+                        <TextBlock Text="Next" VerticalAlignment="Center" Margin="4 0 0 0"/>
+                    </StackPanel>
+                </Button>
+
+                <Button ToolTip="Starts a new simulation with new role assignments"
+                        Padding="4"
+                        Margin="8 0 0 0 "
+                        Command="{Binding Path=NewGameCommand}" VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <fa6:FontAwesome Icon="Solid_CirclePlus" VerticalAlignment="Center"/>
+                        <TextBlock Text="New Game" VerticalAlignment="Center" Margin="4 0 0 0" />
+                    </StackPanel>
+                </Button>
             </ToolBarPanel>
         </ToolBar>
 

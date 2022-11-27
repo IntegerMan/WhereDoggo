@@ -17,7 +17,7 @@ public class GameViewModel : ViewModelBase
 
     public GameViewModel()
     {
-        _game = new(new List<RoleTypes>());
+        _game = new Game(new List<RoleTypes>());
         NewGame();
     }
 
@@ -127,13 +127,18 @@ public class GameViewModel : ViewModelBase
     }
 
     public ICommand NewGameCommand => new RelayCommand(NewGame);
+    public ICommand NextCommand => new RelayCommand(Next);
+
+    private void Next()
+    {
+        _game.RunNextPhase();
+
+        ObserveGameEvents();
+    }
 
     private void NewGame()
     {
         _game = SetupGame();
-
-        // Simulate the entire game
-        _game.Run();
 
         ObserveGameEvents();
     }
