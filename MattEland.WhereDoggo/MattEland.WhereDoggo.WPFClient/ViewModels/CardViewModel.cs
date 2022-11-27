@@ -30,6 +30,11 @@ public class CardViewModel : ViewModelBase
                 }
             }
         }
+
+        foreach (VotedEvent vote in mainVM.Game.Events.OfType<VotedEvent>().Where(ve => ve.Target == card))
+        {
+            VotedBy.Add(vote.Player.Name);
+        }
     }
 
     public ObservableCollection<RoleProbabilityViewModel> RoleProbabilities { get; } = new();
@@ -67,6 +72,8 @@ public class CardViewModel : ViewModelBase
     public Brush Background => ShowValue
             ? BrushHelpers.GetTeamBackgroundBrush(Team)
             : BrushHelpers.GetTeamBackgroundBrush(null);
+
+    public ObservableCollection<string> VotedBy { get; } = new();
 
     public override string ToString() => CardName;
 }

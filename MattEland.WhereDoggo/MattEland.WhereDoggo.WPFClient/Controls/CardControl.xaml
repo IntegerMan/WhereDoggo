@@ -18,6 +18,7 @@
     <DockPanel Margin="8">
         <TextBlock DockPanel.Dock="Bottom" Text="{Binding Path=CardName}" HorizontalAlignment="Center" />
         <Border BorderBrush="{Binding Path=TeamForeground}" BorderThickness="1" CornerRadius="8" Background="{Binding Path=Background}" Margin="0 2">
+            <Grid>
             <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" >
                 <fa6:FontAwesome Icon="{Binding Path=Icon}"
                                  Visibility="{Binding Path=ShowProbabilities, Converter={StaticResource ShowIfFalse}}"
@@ -42,6 +43,24 @@
                 <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Path=Text}" FontWeight="Bold"
                                Foreground="{Binding Path=TeamForeground}" />
             </StackPanel>
+                <ItemsControl ItemsSource="{Binding Path=VotedBy}" VerticalAlignment="Bottom" Margin="2">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border CornerRadius="8" Margin="1" Background="DarkBlue" HorizontalAlignment="Center" Padding="6 0" >
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <TextBlock Text="{Binding}" FontWeight="Bold" FontSize="10" Foreground="White"></TextBlock>
+                                    <TextBlock Text=" Voted" FontWeight="Bold" FontSize="10" Foreground="White"></TextBlock>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center"></StackPanel>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+</Grid>
         </Border>
     </DockPanel>
 </UserControl>
