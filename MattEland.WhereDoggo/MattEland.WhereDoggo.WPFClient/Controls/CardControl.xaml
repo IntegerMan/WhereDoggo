@@ -6,17 +6,25 @@
              xmlns:vm="clr-namespace:MattEland.WhereDoggo.WPFClient.ViewModels"
              xmlns:fa6="http://schemas.fontawesome.com/icons/fonts"
              xmlns:controls="clr-namespace:MattEland.WhereDoggo.WPFClient.Controls"
+             xmlns:helpers="clr-namespace:MattEland.WhereDoggo.WPFClient.Helpers"
+             x:Name="Card"
              d:DataContext="{d:DesignInstance vm:CardViewModel }"
              mc:Ignorable="d"
              Width="123"
              Height="189"
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <vm:InvertedBooleanToVisibilityConverter x:Key="ShowIfFalse" />
+        <helpers:InvertedBooleanToVisibilityConverter x:Key="ShowIfFalse" />
         <BooleanToVisibilityConverter x:Key="ShowIfTrue" />
     </UserControl.Resources>
     <DockPanel Margin="8">
-        <TextBlock DockPanel.Dock="Bottom" Text="{Binding Path=CardName}" HorizontalAlignment="Center" />
+
+        <TextBlock HorizontalAlignment="Center" DockPanel.Dock="Bottom" Text="{Binding Path=CardName}" Visibility="{Binding Path=IsPlayer, Converter={StaticResource ShowIfFalse}}" />
+        <StackPanel Visibility="{Binding Path=IsPlayer, Converter={StaticResource ShowIfTrue}}" DockPanel.Dock="Bottom">
+            <controls:PlayerNameControl DataContext="{Binding PlayerNameVM}"  />
+        </StackPanel>
+
+
         <Border BorderBrush="{Binding Path=TeamForeground}" BorderThickness="1" CornerRadius="8" Background="{Binding Path=Background}" Margin="0 2">
             <Grid>
             <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" >
@@ -60,7 +68,7 @@
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                 </ItemsControl>
-</Grid>
+            </Grid>
         </Border>
     </DockPanel>
 </UserControl>

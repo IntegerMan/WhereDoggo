@@ -191,6 +191,11 @@ public class Game
     public Random Randomizer { get; } = new();
 
     /// <summary>
+    /// Gets a value indicating whether or not the game is currently over
+    /// </summary>
+    public bool IsCompleted => _phases.Count <= 0;
+
+    /// <summary>
     /// Gets the index of the previous player. This is commonly used for adjacency abilities.
     /// </summary>
     /// <param name="player">The player</param>

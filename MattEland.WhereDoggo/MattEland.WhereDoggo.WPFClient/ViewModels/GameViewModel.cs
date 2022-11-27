@@ -1,8 +1,6 @@
-﻿using System.Windows.Input;
+﻿namespace MattEland.WhereDoggo.WPFClient.ViewModels;
 
-namespace MattEland.WhereDoggo.WPFClient.ViewModels;
-
-public class MainWindowViewModel : ViewModelBase
+public class GameViewModel : ViewModelBase
 {
     public const string StorytellerName = "Storyteller";
     private Game _game;
@@ -10,13 +8,14 @@ public class MainWindowViewModel : ViewModelBase
     private readonly ObservableCollection<CardViewModel> _playerCards = new();
     private readonly ObservableCollection<string> _perspectives = new();
     private readonly ObservableCollection<EventViewModel> _events = new();
-    private string _selectedPerspective = StorytellerName;
+    private string? _selectedPerspective = null;
     private bool _showDeductiveEvents;
     private bool _showProbabilities;
 
-    public MainWindowViewModel()
+    public GameViewModel()
     {
-        _game = new(new List<RoleTypes>());
+        _game = new Game(new List<RoleTypes>());
+        NextCommand = new RelayCommand(Next);
         NewGame();
     }
 
@@ -50,9 +49,9 @@ public class MainWindowViewModel : ViewModelBase
                 _perspectives.Add(player.Name);
             }
 
-            if (!_perspectives.Contains(SelectedPerspective))
+            if (!_perspectives.Contains(SelectedPerspective!))
             {
-                SelectedPerspective = StorytellerName;
+                SelectedPerspective = _game.Players.First().Name;
             }
         }
 
@@ -71,6 +70,8 @@ public class MainWindowViewModel : ViewModelBase
         NotifyPropertyChanged(nameof(Perspectives));
         NotifyPropertyChanged(nameof(SelectedPerspective));
         NotifyPropertyChanged(nameof(Roles));
+        NotifyPropertyChanged(nameof(NextCommand));
+        NextCommand.NotifyCanExecuteChanged();
     }
 
     private void ObserveGameEvents()
@@ -125,19 +126,25 @@ public class MainWindowViewModel : ViewModelBase
         }
     }
 
-    public ICommand NewGameCommand => new RelayCommand(NewGame);
+    public RelayCommand NewGameCommand => new(NewGame);
+    public RelayCommand NextCommand { get; private set; }
 
-    private void NewGame()
+    private void Next()
     {
-        _game = SetupGame();
-
-        // Simulate the entire game
-        _game.Run();
+        _game.RunNextPhase();
 
         ObserveGameEvents();
     }
 
-    public string SelectedPerspective
+    private void NewGame()
+    {
+        _game = SetupGame();
+        NextCommand = new RelayCommand(Next, () => !_game.IsCompleted);
+
+        ObserveGameEvents();
+    }
+
+    public string? SelectedPerspective
     {
         get => _selectedPerspective;
         set

@@ -1,14 +1,17 @@
 global using System;
 global using System.Collections.Generic;
+global using System.Collections.ObjectModel;
 global using System.ComponentModel;
 global using System.Linq;
 global using System.Text;
 global using System.Threading.Tasks;
 global using System.Windows;
+global using System.Windows.Input;
+
 global using MattEland.WhereDoggo.Core.Engine;
 global using MattEland.WhereDoggo.Core.Events;
 global using MattEland.WhereDoggo.Core.Roles;
-global using System.Collections.ObjectModel;
+global using MattEland.WhereDoggo.WPFClient.Helpers;
 
 [assembly: ThemeInfo(
     ResourceDictionaryLocation.None, //where theme specific resource dictionaries are located

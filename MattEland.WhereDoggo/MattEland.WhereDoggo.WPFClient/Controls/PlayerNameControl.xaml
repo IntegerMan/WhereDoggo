@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="MattEland.WhereDoggo.WPFClient.Controls.PlayerNameControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:vm="clr-namespace:MattEland.WhereDoggo.WPFClient.ViewModels"
+             d:DataContext="{d:DesignInstance vm:PlayerNameViewModel}"
+             x:Name="NameControl"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Button Content="{Binding Path=Name}"
+            Command="{Binding Path=ClickCommand}"
+            Background="Transparent"
+            HorizontalAlignment="Stretch"
+            HorizontalContentAlignment="Center"
+            Cursor="Hand"
+            ToolTip="{Binding Path=Tooltip}">
+        <Button.Template>
+            <ControlTemplate>
+                <TextBlock Text="{Binding Path=Name}" 
+                           HorizontalAlignment="Center"
+                           Foreground="DarkBlue"
+                           FontWeight="{Binding Path=Weight}" />
+            </ControlTemplate>
+        </Button.Template>
+    </Button>
+</UserControl>
