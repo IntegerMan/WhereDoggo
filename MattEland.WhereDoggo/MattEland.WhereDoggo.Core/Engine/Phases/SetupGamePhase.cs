@@ -17,11 +17,13 @@ public class SetupGamePhase : GamePhaseBase
     public override string Name => "Setup";
 
     /// <inheritdoc />
-    public override void Run(Game game)
+    public override void RunNext(Game game)
     {
         DealRolesToPlayersAndCenterSlots(game);
 
         HavePlayersLookAtInitialRoles(game);
+
+        IsFinished = true;
     }
 
     private static void DealRolesToPlayersAndCenterSlots(Game game)

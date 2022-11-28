@@ -13,22 +13,16 @@ public class DayPhase : GamePhaseBase
     /// <param name="game">The game instance</param>
     public DayPhase(Game game) : base(game)
     {
+        EnqueueAction(() => WakeAll(game));
+
+        // Role Claim goes in two rounds: initial and final
+        // Players may defer in the initial, then must claim in the final
+        EnqueueAction(() => PerformInitialRoleClaim(game));
+        EnqueueAction(() => PerformFinalRoleClaim(game));
     }
 
     /// <inheritdoc />
     public override string Name => "Day";
-    
-    /// <inheritdoc />
-    public override void Run(Game game)
-    {
-        // Wake all players up
-        WakeAll(game);
-
-        // Role Claim goes in two rounds: initial and final
-        // Players may defer in the initial, then must claim in the final
-        PerformInitialRoleClaim(game);
-        PerformFinalRoleClaim(game);
-    }
 
     private void PerformInitialRoleClaim(Game game)
     {

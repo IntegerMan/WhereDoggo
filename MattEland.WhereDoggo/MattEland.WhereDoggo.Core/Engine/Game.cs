@@ -105,6 +105,23 @@ public class Game
     }
 
     /// <summary>
+    /// Runs the next step of the current phase (advancing to the next phase as needed) and returns whether or not the game is over
+    /// </summary>
+    /// <returns>Returns <c>true</c> if the game is over, otherwise <c>false</c>.</returns>
+    public bool RunNextStep()
+    {
+        if (CurrentPhase == null || CurrentPhase.IsFinished)
+        {
+            CurrentPhase = _phases.Dequeue();
+            BroadcastEvent($"Starting {CurrentPhase.Name} phase");
+        }
+
+        CurrentPhase!.RunNext(this);
+
+        return Result != null;
+    }
+
+    /// <summary>
     /// Tracks the current phase of the game.
     /// </summary>
     public GamePhaseBase CurrentPhase { get; private set; }

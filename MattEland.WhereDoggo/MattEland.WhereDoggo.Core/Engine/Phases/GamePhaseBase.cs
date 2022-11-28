@@ -1,10 +1,14 @@
-﻿namespace MattEland.WhereDoggo.Core.Engine.Phases;
+﻿using System;
+
+namespace MattEland.WhereDoggo.Core.Engine.Phases;
 
 /// <summary>
 /// Represents a phase within a game of One Night Ultimate Werewolf.
 /// </summary>
 public abstract class GamePhaseBase
 {
+    private readonly Queue<Action> _actions = new();
+
     /// <summary>
     /// The game being simulated.
     /// </summary>
@@ -21,6 +25,11 @@ public abstract class GamePhaseBase
     /// </summary>
     public abstract string Name { get; }
 
+    /// <summary>
+    /// Gets or sets whether or not the phase has completed
+    /// </summary>
+    public bool IsFinished { get; protected set; }
+
     /// <inheritdoc />
     public override string ToString() => $"{Name} Phase";
 
@@ -28,7 +37,27 @@ public abstract class GamePhaseBase
     /// Runs the game phase
     /// </summary>
     /// <param name="game">The current game</param>
-    public abstract void Run(Game game);
+    public virtual void Run(Game game)
+    {
+        while (!IsFinished)
+        {
+            RunNext(game);
+        }
+    }
+
+    /// <summary>
+    /// Runs the next event in the game phase
+    /// </summary>
+    /// <param name="game">The current game</param>
+    /// <inheritdoc />
+    public virtual void RunNext(Game game)
+    {
+        while (_actions.TryDequeue(out var action))
+        {
+            action();
+        }
+    }
+
 
     /// <summary>
     /// Logs a new game event.
@@ -53,4 +82,11 @@ public abstract class GamePhaseBase
     /// </summary>
     /// <param name="event">The event to log</param>
     protected void BroadcastEvent(string @event) => Game.BroadcastEvent(@event);
+
+    /// <summary>
+    /// Enqueues an action to take place sequentially in the phase
+    /// </summary>
+    /// <param name="action">The Action to execute</param>
+    protected void EnqueueAction(Action action) => _actions.Enqueue(action);
+
 }
