@@ -115,6 +115,11 @@ public class CardProbabilities
     public bool IsCertain { get; private set; }
 
     /// <summary>
+    /// Gets a value indicating whether or not we are certain of the card's team
+    /// </summary>
+    public bool IsTeamCertain => TeamProbabilities.Any(t => t.Value == 1);
+
+    /// <summary>
     /// The probability of the card belonging to various teams
     /// </summary>
     public IDictionary<Teams, decimal> TeamProbabilities
@@ -225,4 +230,5 @@ public class CardProbabilities
     /// Gets the unique roles in the game
     /// </summary>
     public IEnumerable<RoleTypes> PossibleRoles { get; }
+
 }
