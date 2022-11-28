@@ -70,13 +70,35 @@ public class CardViewModel : ViewModelBase
 
     public CardProbabilities? Probability { get; }
 
-    public Brush TeamForeground => ShowValue 
-            ? BrushHelpers.GetTeamBrush(Team) 
-            : BrushHelpers.GetTeamBrush(null);
+    public Brush TeamForeground
+    {
+        get
+        {
+            if (Probability != null && Probability.IsTeamCertain)
+            {
+                return BrushHelpers.GetTeamBrush(Probability.ProbableTeam);
+            }
 
-    public Brush Background => ShowValue
+            return ShowValue
+            ? BrushHelpers.GetTeamBrush(Team)
+            : BrushHelpers.GetTeamBrush(null);
+        }
+    }
+
+    public Brush Background
+    {
+        get
+        {
+            if (Probability != null && Probability.IsTeamCertain)
+            {
+                return BrushHelpers.GetTeamBackgroundBrush(Probability.ProbableTeam);
+            }
+
+            return ShowValue
             ? BrushHelpers.GetTeamBackgroundBrush(Team)
             : BrushHelpers.GetTeamBackgroundBrush(null);
+        }
+    }
 
     public ObservableCollection<string> VotedBy { get; } = new();
 
