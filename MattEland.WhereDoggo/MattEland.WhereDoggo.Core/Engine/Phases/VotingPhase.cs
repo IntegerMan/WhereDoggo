@@ -67,10 +67,7 @@ public class VotingPhase : GamePhaseBase
         if (maxVotes > 1)
         {
             votedOutPlayers.AddRange(votes.Where(kvp => kvp.Value == maxVotes).Select(kvp => kvp.Key));
-        }
 
-        if (votedOutPlayers.Any())
-        {
             foreach (GamePlayer votedPlayer in votedOutPlayers)
             {
                 BroadcastEvent(new VotedOutEvent(votedPlayer));
