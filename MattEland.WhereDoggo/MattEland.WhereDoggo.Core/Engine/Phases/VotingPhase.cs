@@ -28,8 +28,11 @@ public class VotingPhase : GamePhaseBase
         {
             EnqueueAction(() => CollectVote(player));
         }
-        EnqueueAction(() => TabulateVotes());
-        EnqueueAction(() => DetermineWinners(game));
+
+        EnqueueAction(() => {
+            TabulateVotes();
+            DetermineWinners(game);
+        });
     }
 
     /// <inheritdoc />

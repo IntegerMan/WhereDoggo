@@ -27,21 +27,20 @@ public class NightPhase : GamePhaseBase
             // Wake everyone in the group together
             EnqueueAction(() =>
             {
+                BroadcastEvent($"Night phase for {game.Roles.First(r => r.NightActionOrder == group.Key).RoleType.GetFriendlyName()}");
                 foreach (GamePlayer player in group)
                 {
                     player.Wake();
                 }
-            });
 
-            // Now have them observe the board and take their actions
-            foreach (GamePlayer player in group)
-            {
-                EnqueueAction(() =>
+                // Now have them observe the board and take their actions
+                foreach (GamePlayer player in group)
                 {
                     player.ObserveVisibleState();
                     player.InitialCard.PerformNightAction(game, player);
-                });
-            }
+                }
+            });
+
         }
     }
 
