@@ -69,9 +69,16 @@ public class VotingPhase : GamePhaseBase
             votedOutPlayers.AddRange(votes.Where(kvp => kvp.Value == maxVotes).Select(kvp => kvp.Key));
         }
 
-        foreach (GamePlayer votedPlayer in votedOutPlayers)
+        if (votedOutPlayers.Any())
         {
-            BroadcastEvent(new VotedOutEvent(votedPlayer));
+            foreach (GamePlayer votedPlayer in votedOutPlayers)
+            {
+                BroadcastEvent(new VotedOutEvent(votedPlayer));
+            }
+        }
+        else
+        {
+            BroadcastEvent("Nobody was executed");
         }
     }
 
