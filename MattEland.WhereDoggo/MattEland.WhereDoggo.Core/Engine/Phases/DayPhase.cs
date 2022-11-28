@@ -13,6 +13,11 @@ public class DayPhase : GamePhaseBase
     /// <param name="game">The game instance</param>
     public DayPhase(Game game) : base(game)
     {
+    }
+
+    /// <inheritdoc />
+    protected internal override void Initialize(Game game)
+    {
         EnqueueAction(() => WakeAll(game));
 
         // Role Claim goes in two rounds: initial and final

@@ -12,6 +12,11 @@ public class NightPhase : GamePhaseBase
     /// <param name="game">The game instance</param>
     public NightPhase(Game game) : base(game)
     {
+    }
+
+    /// <inheritdoc />
+    protected internal override void Initialize(Game game)
+    {
         List<IGrouping<decimal?, GamePlayer>> wakeGroups = game.Players.Where(p => p.InitialCard.HasNightAction)
                                                  .OrderBy(p => p.InitialCard.NightActionOrder)
                                                  .GroupBy(p => p.InitialCard.NightActionOrder)

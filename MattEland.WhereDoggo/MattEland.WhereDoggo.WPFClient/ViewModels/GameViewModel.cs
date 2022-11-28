@@ -131,7 +131,7 @@ public class GameViewModel : ViewModelBase
 
     private void Next()
     {
-        _game.RunNextPhase();
+        _game.RunNextStep();
 
         ObserveGameEvents();
     }

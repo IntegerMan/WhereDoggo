@@ -28,7 +28,7 @@ public abstract class GamePhaseBase
     /// <summary>
     /// Gets or sets whether or not the phase has completed
     /// </summary>
-    public bool IsFinished { get; protected set; }
+    public bool IsFinished { get; private set; }
 
     /// <inheritdoc />
     public override string ToString() => $"{Name} Phase";
@@ -52,9 +52,14 @@ public abstract class GamePhaseBase
     /// <inheritdoc />
     public virtual void RunNext(Game game)
     {
-        while (_actions.TryDequeue(out var action))
+        if (_actions.TryDequeue(out var action))
         {
             action();
+
+            if (_actions.Count <= 0)
+            {
+                IsFinished = true;
+            }
         }
     }
 
@@ -89,4 +94,12 @@ public abstract class GamePhaseBase
     /// <param name="action">The Action to execute</param>
     protected void EnqueueAction(Action action) => _actions.Enqueue(action);
 
+    /// <summary>
+    /// Initializes data needed by the phase for an in-progress game
+    /// </summary>
+    /// <param name="game">The game</param>
+    protected internal virtual void Initialize(Game game)
+    {
+        // Do nothing by default is fine
+    }
 }

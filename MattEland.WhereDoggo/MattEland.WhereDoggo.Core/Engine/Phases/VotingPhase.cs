@@ -13,6 +13,11 @@ public class VotingPhase : GamePhaseBase
     /// <param name="game">The game.</param>
     public VotingPhase(Game game) : base(game)
     {
+    }
+
+    /// <inheritdoc />
+    protected internal override void Initialize(Game game)
+    {
         // Create a dictionary of votes without any votes in it
         foreach (GamePlayer player in Game.Players)
         {
@@ -47,8 +52,6 @@ public class VotingPhase : GamePhaseBase
         BroadcastEvent(Game.Result.Winners.Any()
             ? $"The winners are {string.Join(", ", winners.Select(w => $"{w.Name} ({w.CurrentCard})"))}"
             : "No players won.");
-
-        IsFinished = true;
     }
 
     private readonly List<GamePlayer> votedOutPlayers = new();

@@ -47,7 +47,7 @@ public class Game
     /// Gets all events that have occurred in the game, regardless of player they occurred to.
     /// </summary>
     public IEnumerable<GameEventBase> Events => _events.AsReadOnly();
-
+    
     /// <summary>
     /// Instantiates a new game with the specified roles.
     /// </summary>
@@ -82,8 +82,7 @@ public class Game
     /// Carries out all phases of a game and returns the result of the game
     /// </summary>
     public void Run()
-    {
-        
+    {        
         while (_phases.Any())
         {
             RunNextPhase();
@@ -97,11 +96,19 @@ public class Game
     public bool RunNextPhase()
     {
         GamePhaseBase phase = _phases.Dequeue();
-        CurrentPhase = phase;
-        BroadcastEvent($"Starting {phase.Name} phase");
+        StartPhase(phase);
         phase.Run(this);
 
         return Result != null;
+    }
+
+    private void StartPhase(GamePhaseBase phase)
+    {
+        CurrentPhase = phase;
+
+        BroadcastEvent($"Starting {phase.Name} phase");
+
+        phase.Initialize(this);
     }
 
     /// <summary>
@@ -112,8 +119,7 @@ public class Game
     {
         if (CurrentPhase == null || CurrentPhase.IsFinished)
         {
-            CurrentPhase = _phases.Dequeue();
-            BroadcastEvent($"Starting {CurrentPhase.Name} phase");
+            StartPhase(_phases.Dequeue());
         }
 
         CurrentPhase!.RunNext(this);
@@ -210,7 +216,7 @@ public class Game
     /// <summary>
     /// Gets a value indicating whether or not the game is currently over
     /// </summary>
-    public bool IsCompleted => _phases.Count <= 0;
+    public bool IsCompleted => _phases.Count <= 0 && CurrentPhase.IsFinished;
 
     /// <summary>
     /// Gets the index of the previous player. This is commonly used for adjacency abilities.
