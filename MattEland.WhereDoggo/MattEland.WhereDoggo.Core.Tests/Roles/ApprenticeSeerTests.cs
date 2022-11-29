@@ -53,7 +53,7 @@ public class ApprenticeSeerTests : GameTestsBase
         Game game = SetupGame();
         GamePlayer player = game.Players.First();
         player.PickSingleCard = PickNothing;
-        game.Run();
+        game.RunUntil("Voting");
 
         // Act
         IDictionary<IHasCard, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();

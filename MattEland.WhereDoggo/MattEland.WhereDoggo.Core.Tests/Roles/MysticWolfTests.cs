@@ -230,7 +230,7 @@ public class MysticWolfTests : GameTestsBase
             RoleTypes.Werewolf,
             RoleTypes.Villager
         };
-        Game game = RunGame(assignedRoles);
+        Game game = RunFullGame(assignedRoles);
         
         // Act
         GameResult? result = game.Result;

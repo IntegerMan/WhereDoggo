@@ -98,6 +98,22 @@ public class Game
     }
 
     /// <summary>
+    /// Carries out all phases of a game until the specified phase is about to run
+    /// </summary>
+    public void RunUntil(string phase)
+    {        
+        while (_phases.Any() && CurrentPhase.Name != phase)
+        {
+            StartPhase(_phases.Dequeue());
+
+            if (CurrentPhase.Name != phase)
+            {
+                CurrentPhase.Run(this);
+            }
+        }
+    }
+
+    /// <summary>
     /// Runs the next phase of the game and returns whether or not the game is over
     /// </summary>
     /// <returns>Returns <c>true</c> if the game is over, otherwise <c>false</c>.</returns>
