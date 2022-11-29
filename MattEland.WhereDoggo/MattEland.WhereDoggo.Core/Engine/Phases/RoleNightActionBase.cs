@@ -2,13 +2,18 @@
 
 public abstract class RoleNightActionBase : NightActionBase
 {
-    private readonly RoleTypes _role;
+    private readonly IEnumerable<RoleTypes> _roles;
 
     protected RoleNightActionBase(RoleTypes role)
     {
-        _role = role;
+        _roles = new[] {role};
+    }
+
+    protected RoleNightActionBase(IEnumerable<RoleTypes> roles)
+    {
+        _roles = roles.ToArray();
     }
 
     public override IEnumerable<GamePlayer> RelevantPlayers(IEnumerable<GamePlayer> players) 
-        => players.Where(p => p.InitialCard.RoleType == _role);
+        => players.Where(p => _roles.Contains(p.InitialCard.RoleType));
 }

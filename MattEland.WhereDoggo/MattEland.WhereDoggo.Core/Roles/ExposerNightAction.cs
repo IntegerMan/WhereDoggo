@@ -9,9 +9,13 @@ public class ExposerNightAction : RoleNightActionBase
 
     }
 
+    /// <inheritdoc />
     public override decimal NightActionOrder => 10.2m;
+
+    /// <inheritdoc />
     public override string WakeInstructions => "Exposer, wake up and turn over one center card, leaving its role exposed";
 
+    /// <inheritdoc />
     public override void PerformNightAction(Game game, GamePlayer player)
     {
         int numToExpose = game.Options.ExposerOptions.DetermineCardsToExpose(game.Randomizer);

@@ -1,4 +1,6 @@
-﻿namespace MattEland.WhereDoggo.Core.Roles;
+﻿using MattEland.WhereDoggo.Core.Engine.Phases;
+
+namespace MattEland.WhereDoggo.Core.Roles;
 
 /// <summary>
 /// The Thing is a villager role that may tap the shoulder of the player to their left or right (adjacent).
@@ -14,27 +16,11 @@ public class ThingRole : CardBase
     public override Teams Team => Teams.Villagers;
 
     /// <inheritdoc />
-    public override decimal? NightActionOrder => 4.2m;
-    
-    /// <inheritdoc />
-    public override void PerformNightAction(Game game, GamePlayer player)
+    public override IEnumerable<NightActionBase> NightActions
     {
-        base.PerformNightAction(game, player);
-        
-        int prevIndex = game.GetPreviousPlayerIndex(player);
-        int nextIndex = game.GetNextPlayerIndex(player);
-        
-        GamePlayer[] options = {game.Players[prevIndex], game.Players[nextIndex]};
-
-        if (player.PickSingleCard(options) is not GamePlayer target)
+        get
         {
-            game.LogEvent(new SkippedNightActionEvent(player));
-        }
-        else
-        {
-            ThingTappedEvent tappedEvent = new(player, target);
-            game.LogEvent(tappedEvent);
-            target.LogEvent(tappedEvent);
+            yield return new ThingNightAction();
         }
     }
 }

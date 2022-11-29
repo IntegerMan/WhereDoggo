@@ -1,4 +1,6 @@
-﻿namespace MattEland.WhereDoggo.Core.Roles;
+﻿using MattEland.WhereDoggo.Core.Engine.Phases;
+
+namespace MattEland.WhereDoggo.Core.Roles;
 
 /// <summary>
 /// The Exposer role from One Night Ultimate Werewolf Alien expansion.
@@ -13,4 +15,13 @@ public class ExposerRole : CardBase
 
     /// <inheritdoc />
     public override Teams Team => Teams.Villagers;
+
+    /// <inheritdoc />
+    public override IEnumerable<NightActionBase> NightActions
+    {
+        get
+        {
+            yield return new ExposerNightAction();
+        }
+    }
 }

@@ -1,4 +1,6 @@
-﻿namespace MattEland.WhereDoggo.WPFClient.ViewModels;
+﻿using MattEland.Util;
+
+namespace MattEland.WhereDoggo.WPFClient.ViewModels;
 
 public class GameViewModel : ViewModelBase
 {
@@ -8,7 +10,7 @@ public class GameViewModel : ViewModelBase
     private readonly ObservableCollection<CardViewModel> _playerCards = new();
     private readonly ObservableCollection<string> _perspectives = new();
     private readonly ObservableCollection<EventViewModel> _events = new();
-    private string? _selectedPerspective = null;
+    private string? _selectedPerspective;
     private bool _showDeductiveEvents;
     private bool _showProbabilities;
 
@@ -105,7 +107,7 @@ public class GameViewModel : ViewModelBase
     public ObservableCollection<EventViewModel> Events => _events;
     public ObservableCollection<CardViewModel> CenterCards => _centerCards;
     public ObservableCollection<CardViewModel> PlayerCards => _playerCards;
-    public IEnumerable<RoleViewModel> Roles => _game.Roles.OrderBy(r => r.NightActionOrder).Select(r => new RoleViewModel(r.RoleType));
+    public IEnumerable<RoleViewModel> Roles => _game.Roles.OrderBy(r => r.RoleType.GetFriendlyName()).Select(r => new RoleViewModel(r.RoleType));
 
     public ObservableCollection<string> Perspectives => _perspectives;
 
