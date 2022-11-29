@@ -1,4 +1,6 @@
-﻿using MattEland.WhereDoggo.Core.Engine.Phases;
+﻿using System.Collections.Immutable;
+using MattEland.WhereDoggo.Core.Engine.Phases;
+using Microsoft.ML.Probabilistic.Collections;
 
 namespace MattEland.WhereDoggo.Core.Engine;
 
@@ -55,10 +57,16 @@ public class Game
     /// <param name="options">Options related to launching the game</param>
     public Game(ICollection<RoleTypes> roles, GameOptions? options = null)
     {
-        this.Options = options ?? new GameOptions();
-        this.NumPlayers = roles.Count - NumCenterCards;
+        Options = options ?? new GameOptions();
+        NumPlayers = roles.Count - NumCenterCards;
 
         _roles = roles.Select(r => r.BuildGameRole()).ToList();
+
+        // Prepare our night actions list
+        NightActions = _roles.SelectMany(r => r.NightActions)
+                             .DistinctBy(r => r.GetType())
+                             .OrderBy(r => r.NightActionOrder)
+                             .ToReadOnlyList();
 
         _phases = new Queue<GamePhaseBase>();
         _phases.Enqueue(new SetupGamePhase(this));
@@ -217,6 +225,11 @@ public class Game
     /// Gets a value indicating whether or not the game is currently over
     /// </summary>
     public bool IsCompleted => _phases.Count <= 0 && CurrentPhase.IsFinished;
+
+    /// <summary>
+    /// Gets an ordered collection of night actions relevant to this game
+    /// </summary>
+    public IReadOnlyList<NightActionBase> NightActions { get; private set; }
 
     /// <summary>
     /// Gets the index of the previous player. This is commonly used for adjacency abilities.

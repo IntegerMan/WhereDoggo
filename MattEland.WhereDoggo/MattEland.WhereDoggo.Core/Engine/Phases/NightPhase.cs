@@ -17,27 +17,24 @@ public class NightPhase : GamePhaseBase
     /// <inheritdoc />
     protected internal override void Initialize(Game game)
     {
-        List<IGrouping<decimal?, GamePlayer>> wakeGroups = game.Players.Where(p => p.InitialCard.HasNightAction)
-                                                 .OrderBy(p => p.InitialCard.NightActionOrder)
-                                                 .GroupBy(p => p.InitialCard.NightActionOrder)
-                                                 .ToList();
-
-        foreach (IGrouping<decimal?, GamePlayer> group in wakeGroups)
+        foreach (NightActionBase nightAction in game.NightActions)
         {
             // Wake everyone in the group together
             EnqueueAction(() =>
             {
-                BroadcastEvent($"Night phase for {game.Roles.First(r => r.NightActionOrder == group.Key).RoleType.GetFriendlyName()}");
-                foreach (GamePlayer player in group)
+                IEnumerable<GamePlayer> relevantPlayers = nightAction.RelevantPlayers(game.Players).ToList();
+
+                BroadcastEvent(nightAction.WakeInstructions);
+                foreach (GamePlayer player in relevantPlayers)
                 {
                     player.Wake();
                 }
 
                 // Now have them observe the board and take their actions
-                foreach (GamePlayer player in group)
+                foreach (GamePlayer player in relevantPlayers)
                 {
                     player.ObserveVisibleState();
-                    player.InitialCard.PerformNightAction(game, player);
+                    nightAction.PerformNightAction(game, player);
                 }
             });
 
