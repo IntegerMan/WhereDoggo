@@ -1,4 +1,6 @@
-﻿namespace MattEland.WhereDoggo.Core.Roles;
+﻿using MattEland.WhereDoggo.Core.Engine.Phases;
+
+namespace MattEland.WhereDoggo.Core.Roles;
 
 /// <summary>
 /// The insomniac from One Night Ultimate Werewolf.
@@ -15,9 +17,12 @@ public class InsomniacRole : CardBase
     public override RoleTypes RoleType => RoleTypes.Insomniac;
 
     /// <inheritdoc />
-    public override decimal? NightActionOrder => 9.0m;
+    public override IEnumerable<NightActionBase> NightActions
+    {
+        get
+        {
+            yield return new InsomniacNightAction();
+        }
+    }
 
-    /// <inheritdoc />
-    public override void PerformNightAction(Game game, GamePlayer player) 
-        => game.LogEvent(new InsomniacSawOwnCardEvent(player));
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.ML.Probabilistic.Collections;
+﻿using MattEland.WhereDoggo.Core.Engine.Phases;
+using Microsoft.ML.Probabilistic.Collections;
 
 namespace MattEland.WhereDoggo.Core.Roles;
 
@@ -17,32 +18,11 @@ public class MasonRole : CardBase
     public override Teams Team => Teams.Villagers;
 
     /// <inheritdoc />
-    public override decimal? NightActionOrder => 4m;
-
-    /// <inheritdoc />
-    public override void PerformNightAction(Game game, GamePlayer player)
+    public override IEnumerable<NightActionBase> NightActions
     {
-        List<GamePlayer> otherPlayers = game.Players.Where(p => p != player).ToList();
-
-        // If no other masons awoke, log an event indicating we know they're a mason
-        if (otherPlayers.All(p => p.InitialCard is not MasonRole))
+        get
         {
-            game.LogEvent(new OnlyMasonEvent(player));
+            yield return new MasonNightAction();
         }
-        
-        // Observe each other player and learn if they're a mason or not
-        otherPlayers.ForEach(observedPlayer =>
-        {
-            if (observedPlayer.InitialCard is MasonRole)
-            {
-                // If they didn't wake up, we now know they can't be a mason
-                game.LogEvent(new KnowsRoleEvent(player, observedPlayer));
-            }
-            else
-            {
-                // If we saw another mason, record it
-                game.LogEvent(new SawNotRoleEvent(player, observedPlayer, RoleTypes.Mason));
-            }
-        });
     }
 }

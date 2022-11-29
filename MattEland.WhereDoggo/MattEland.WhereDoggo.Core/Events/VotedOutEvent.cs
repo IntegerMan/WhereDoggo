@@ -20,7 +20,8 @@ public class VotedOutEvent : GameEventBase
     /// <inheritdoc />
     public override void UpdatePlayerPerceptions(GamePlayer observer, IHasCard target, CardProbabilities probabilities)
     {
-        // Do nothing
+        // The game is now over, so the player should know about everything
+        probabilities.MarkAsCertainOfRole(target.CurrentCard.RoleType);
     }
 
 }

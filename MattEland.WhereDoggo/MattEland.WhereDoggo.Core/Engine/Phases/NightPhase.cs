@@ -15,30 +15,32 @@ public class NightPhase : GamePhaseBase
     }
 
     /// <inheritdoc />
-    public override string Name => "Night";
-    
-    /// <inheritdoc />
-    public override void Run(Game game)
+    protected internal override void Initialize(Game game)
     {
-        List<IGrouping<decimal?, GamePlayer>> wakeGroups = game.Players.Where(p => p.InitialCard.HasNightAction)
-                                                 .OrderBy(p => p.InitialCard.NightActionOrder)
-                                                 .GroupBy(p => p.InitialCard.NightActionOrder)
-                                                 .ToList();
-
-        foreach (IGrouping<decimal?, GamePlayer> group in wakeGroups)
+        foreach (NightActionBase nightAction in game.NightActions)
         {
             // Wake everyone in the group together
-            foreach (GamePlayer player in group)
+            EnqueueAction(() =>
             {
-                player.Wake();
-            }
+                IEnumerable<GamePlayer> relevantPlayers = nightAction.RelevantPlayers(game.Players).ToList();
 
-            // Now have them observe the board and take their actions
-            foreach (GamePlayer player in group)
-            {
-                player.ObserveVisibleState();
-                player.InitialCard.PerformNightAction(game, player);
-            }
-        }        
+                BroadcastEvent(nightAction.WakeInstructions);
+                foreach (GamePlayer player in relevantPlayers)
+                {
+                    player.Wake();
+                }
+
+                // Now have them observe the board and take their actions
+                foreach (GamePlayer player in relevantPlayers)
+                {
+                    player.ObserveVisibleState();
+                    nightAction.PerformNightAction(game, player);
+                }
+            });
+
+        }
     }
+
+    /// <inheritdoc />
+    public override string Name => "Night";
 }

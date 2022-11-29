@@ -14,15 +14,19 @@ public class SetupGamePhase : GamePhaseBase
     }
 
     /// <inheritdoc />
-    public override string Name => "Setup";
+    protected internal override void Initialize(Game game)
+    {
+        EnqueueAction(() =>
+        {
+            DealRolesToPlayersAndCenterSlots(game);
+
+            HavePlayersLookAtInitialRoles(game);
+        });
+    }
 
     /// <inheritdoc />
-    public override void Run(Game game)
-    {
-        DealRolesToPlayersAndCenterSlots(game);
+    public override string Name => "Setup";
 
-        HavePlayersLookAtInitialRoles(game);
-    }
 
     private static void DealRolesToPlayersAndCenterSlots(Game game)
     {

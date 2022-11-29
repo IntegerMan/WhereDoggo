@@ -1,4 +1,6 @@
-﻿namespace MattEland.WhereDoggo.Core.Engine;
+﻿using MattEland.WhereDoggo.Core.Engine.Phases;
+
+namespace MattEland.WhereDoggo.Core.Engine;
 
 /// <summary>
 /// Represents an instance of a specific card in the game. This is the base class for all roles.
@@ -6,6 +8,8 @@
 /// </summary>
 public abstract class CardBase
 {
+    public virtual IEnumerable<NightActionBase> NightActions => Enumerable.Empty<NightActionBase>();
+
     /// <inheritdoc />
     public override string ToString() => RoleType.GetFriendlyName();
     
@@ -18,16 +22,6 @@ public abstract class CardBase
     /// The team the role is on
     /// </summary>
     public abstract Teams Team { get; }
-
-    /// <summary>
-    /// Determines whether or not the role has a night action
-    /// </summary>
-    public bool HasNightAction => NightActionOrder.HasValue;
-
-    /// <summary>
-    /// The order in which the night action of the role occurs. Lower numbers will go sooner.
-    /// </summary>
-    public virtual decimal? NightActionOrder => null;
     
     /// <summary>
     /// Whether or not the card is revealed. Defaults to false but may be true if a <see cref="RevealerRole"/> or
@@ -35,13 +29,4 @@ public abstract class CardBase
     /// </summary>
     public bool IsRevealed { get; set; }    
 
-    /// <summary>
-    /// Handles the night action of the particular role. This should be overriden for roles with a night action
-    /// </summary>
-    /// <param name="game">The game instance.</param>
-    /// <param name="player">The player woken up.</param>
-    public virtual void PerformNightAction(Game game, GamePlayer player)
-    {
-        // Does nothing
-    }
 }

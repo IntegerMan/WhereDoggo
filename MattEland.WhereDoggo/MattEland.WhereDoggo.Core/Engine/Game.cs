@@ -1,4 +1,6 @@
-﻿using MattEland.WhereDoggo.Core.Engine.Phases;
+﻿using System.Collections.Immutable;
+using MattEland.WhereDoggo.Core.Engine.Phases;
+using Microsoft.ML.Probabilistic.Collections;
 
 namespace MattEland.WhereDoggo.Core.Engine;
 
@@ -47,7 +49,7 @@ public class Game
     /// Gets all events that have occurred in the game, regardless of player they occurred to.
     /// </summary>
     public IEnumerable<GameEventBase> Events => _events.AsReadOnly();
-
+    
     /// <summary>
     /// Instantiates a new game with the specified roles.
     /// </summary>
@@ -55,10 +57,16 @@ public class Game
     /// <param name="options">Options related to launching the game</param>
     public Game(ICollection<RoleTypes> roles, GameOptions? options = null)
     {
-        this.Options = options ?? new GameOptions();
-        this.NumPlayers = roles.Count - NumCenterCards;
+        Options = options ?? new GameOptions();
+        NumPlayers = roles.Count - NumCenterCards;
 
         _roles = roles.Select(r => r.BuildGameRole()).ToList();
+
+        // Prepare our night actions list
+        NightActions = _roles.SelectMany(r => r.NightActions)
+                             .DistinctBy(r => r.GetType())
+                             .OrderBy(r => r.NightActionOrder)
+                             .ToReadOnlyList();
 
         _phases = new Queue<GamePhaseBase>();
         _phases.Enqueue(new SetupGamePhase(this));
@@ -82,11 +90,26 @@ public class Game
     /// Carries out all phases of a game and returns the result of the game
     /// </summary>
     public void Run()
-    {
-        
+    {        
         while (_phases.Any())
         {
             RunNextPhase();
+        }
+    }
+
+    /// <summary>
+    /// Carries out all phases of a game until the specified phase is about to run
+    /// </summary>
+    public void RunUntil(string phase)
+    {        
+        while (_phases.Any() && CurrentPhase.Name != phase)
+        {
+            StartPhase(_phases.Dequeue());
+
+            if (CurrentPhase.Name != phase)
+            {
+                CurrentPhase.Run(this);
+            }
         }
     }
 
@@ -97,9 +120,33 @@ public class Game
     public bool RunNextPhase()
     {
         GamePhaseBase phase = _phases.Dequeue();
-        CurrentPhase = phase;
-        BroadcastEvent($"Starting {phase.Name} phase");
+        StartPhase(phase);
         phase.Run(this);
+
+        return Result != null;
+    }
+
+    private void StartPhase(GamePhaseBase phase)
+    {
+        CurrentPhase = phase;
+
+        BroadcastEvent($"Starting {phase.Name} phase");
+
+        phase.Initialize(this);
+    }
+
+    /// <summary>
+    /// Runs the next step of the current phase (advancing to the next phase as needed) and returns whether or not the game is over
+    /// </summary>
+    /// <returns>Returns <c>true</c> if the game is over, otherwise <c>false</c>.</returns>
+    public bool RunNextStep()
+    {
+        if (CurrentPhase == null || CurrentPhase.IsFinished)
+        {
+            StartPhase(_phases.Dequeue());
+        }
+
+        CurrentPhase!.RunNext(this);
 
         return Result != null;
     }
@@ -193,7 +240,12 @@ public class Game
     /// <summary>
     /// Gets a value indicating whether or not the game is currently over
     /// </summary>
-    public bool IsCompleted => _phases.Count <= 0;
+    public bool IsCompleted => _phases.Count <= 0 && CurrentPhase.IsFinished;
+
+    /// <summary>
+    /// Gets an ordered collection of night actions relevant to this game
+    /// </summary>
+    public IReadOnlyList<NightActionBase> NightActions { get; private set; }
 
     /// <summary>
     /// Gets the index of the previous player. This is commonly used for adjacency abilities.

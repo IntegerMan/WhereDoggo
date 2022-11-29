@@ -1,4 +1,6 @@
-﻿namespace MattEland.WhereDoggo.Core.Roles;
+﻿using MattEland.WhereDoggo.Core.Engine.Phases;
+
+namespace MattEland.WhereDoggo.Core.Roles;
 
 /// <summary>
 /// A villager in One Night Ultimate Werewolf.
@@ -12,4 +14,14 @@ public class VillagerRole : CardBase
     
     /// <inheritdoc />
     public override RoleTypes RoleType => RoleTypes.Villager;
+
+
+    /// <inheritdoc />
+    public override IEnumerable<NightActionBase> NightActions
+    {
+        get
+        {
+            yield break;
+        }
+    }
 }

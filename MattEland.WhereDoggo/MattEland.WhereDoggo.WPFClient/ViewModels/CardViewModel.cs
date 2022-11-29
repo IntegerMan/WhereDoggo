@@ -1,6 +1,5 @@
 ﻿using System.Windows.Media;
 using MattEland.Util;
-using MattEland.WhereDoggo.WPFClient.Helpers;
 
 namespace MattEland.WhereDoggo.WPFClient.ViewModels;
 
@@ -74,29 +73,45 @@ public class CardViewModel : ViewModelBase
     {
         get
         {
+            if (IsDead && Team == Teams.Villagers)
+            {
+                return Brushes.White;
+            }
+            if (IsDead && Team == Teams.Werewolves)
+            {
+                return Brushes.Green;
+            }
+
             if (Probability != null && Probability.IsTeamCertain)
             {
                 return BrushHelpers.GetTeamBrush(Probability.ProbableTeam);
             }
 
             return ShowValue
-            ? BrushHelpers.GetTeamBrush(Team)
-            : BrushHelpers.GetTeamBrush(null);
+                ? BrushHelpers.GetTeamBrush(Team)
+                : BrushHelpers.GetTeamBrush(null);
         }
     }
+
+    public bool IsDead => _mainVM.Game.Events.OfType<VotedOutEvent>().Any(voe => voe.Player == _card);
 
     public Brush Background
     {
         get
         {
+            if (IsDead)
+            {
+                return Brushes.Black;
+            }
+
             if (Probability != null && Probability.IsTeamCertain)
             {
                 return BrushHelpers.GetTeamBackgroundBrush(Probability.ProbableTeam);
             }
 
             return ShowValue
-            ? BrushHelpers.GetTeamBackgroundBrush(Team)
-            : BrushHelpers.GetTeamBackgroundBrush(null);
+                ? BrushHelpers.GetTeamBackgroundBrush(Team)
+                : BrushHelpers.GetTeamBackgroundBrush(null);
         }
     }
 

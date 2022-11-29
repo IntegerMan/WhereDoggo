@@ -1,4 +1,6 @@
-﻿namespace MattEland.WhereDoggo.Core.Roles;
+﻿using MattEland.WhereDoggo.Core.Engine.Phases;
+
+namespace MattEland.WhereDoggo.Core.Roles;
 
 /// <summary>
 /// The Exposer role from One Night Ultimate Werewolf Alien expansion.
@@ -15,27 +17,11 @@ public class ExposerRole : CardBase
     public override Teams Team => Teams.Villagers;
 
     /// <inheritdoc />
-    public override decimal? NightActionOrder => 10.2m;
-
-    /// <inheritdoc />
-    public override void PerformNightAction(Game game, GamePlayer player)
+    public override IEnumerable<NightActionBase> NightActions
     {
-        int numToExpose = game.Options.ExposerOptions.DetermineCardsToExpose(game.Randomizer);
-
-        for (int i = 0; i < numToExpose; i++)
+        get
         {
-            IHasCard? holder = player.PickSingleCard(game.CenterSlots.Where(s => !s.CurrentCard.IsRevealed));
-
-            // Exposers may choose to skip exposing things
-            if (holder == null)
-            {
-                game.LogEvent(new SkippedNightActionEvent(player));
-                return;
-            }
-
-            holder.CurrentCard.IsRevealed = true;
-            game.LogEvent(new RevealedRoleEvent(player, holder));
-            game.LogEvent(new RevealedRoleObservedEvent(player, holder));
+            yield return new ExposerNightAction();
         }
     }
 }

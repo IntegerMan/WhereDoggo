@@ -24,6 +24,13 @@ public abstract class GameTestsBase
     protected static Game RunGame(ICollection<RoleTypes> assignedRoles, GameOptions? gameOptions = null)
     {
         Game game = CreateGame(assignedRoles, gameOptions);
+        game.RunUntil("Voting");
+
+        return game;
+    }
+    protected static Game RunFullGame(ICollection<RoleTypes> assignedRoles, GameOptions? gameOptions = null)
+    {
+        Game game = CreateGame(assignedRoles, gameOptions);
         game.Run();
 
         return game;

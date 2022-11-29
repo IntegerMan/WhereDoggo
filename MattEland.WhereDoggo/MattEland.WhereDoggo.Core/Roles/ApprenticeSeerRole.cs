@@ -1,4 +1,6 @@
-﻿namespace MattEland.WhereDoggo.Core.Roles;
+﻿using MattEland.WhereDoggo.Core.Engine.Phases;
+
+namespace MattEland.WhereDoggo.Core.Roles;
 
 /// <summary>
 /// The sentinel from One Night Ultimate Werewolf Daybreak
@@ -15,20 +17,11 @@ public class ApprenticeSeerRole : CardBase
     public override Teams Team => Teams.Villagers;
 
     /// <inheritdoc />
-    public override decimal? NightActionOrder => 5.1m;
-
-    /// <inheritdoc />
-    public override void PerformNightAction(Game game, GamePlayer player)
+    public override IEnumerable<NightActionBase> NightActions
     {
-        IHasCard? slot = player.PickSingleCard(game.CenterSlots.Cast<IHasCard>().ToList());
-
-        if (slot == null)
+        get
         {
-            game.LogEvent(new SkippedNightActionEvent(player));
-        }
-        else
-        {
-            game.LogEvent(new ObservedCenterCardEvent(player, slot));
+            yield return new ApprenticeSeerNightAction();
         }
     }
 }
