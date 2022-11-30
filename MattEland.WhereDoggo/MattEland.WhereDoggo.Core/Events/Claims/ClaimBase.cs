@@ -12,4 +12,17 @@ public abstract class ClaimBase : GameEventBase
     protected ClaimBase(GamePlayer player) : base(player)
     {
     }
+
+    /// <summary>
+    /// Gets a value indicating whether or not the claim is a lie
+    /// </summary>
+    public virtual bool IsLie => false;
+
+    /// <summary>
+    /// The textual description of the event
+    /// </summary>
+    public abstract string Text { get; }
+
+    /// <inheritdoc />
+    public override string ToString() => Text;
 }

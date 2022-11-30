@@ -9,6 +9,9 @@ namespace MattEland.WhereDoggo.Core.Engine;
 /// </summary>
 public abstract class CardBase
 {
+    /// <summary>
+    /// Gets the night actions associated with this card.
+    /// </summary>
     public virtual IEnumerable<NightActionBase> NightActions => Enumerable.Empty<NightActionBase>();
 
     /// <inheritdoc />
@@ -30,18 +33,22 @@ public abstract class CardBase
     /// </summary>
     public bool IsRevealed { get; set; }
 
+    /// <summary>
+    /// Gets all claims related to a player.
+    /// This is used in discussion prior to voting.
+    /// </summary>
+    /// <param name="player">The player taking the action</param>
+    /// <returns>Any claims</returns>
     public IEnumerable<ClaimBase> GetClaims(GamePlayer player)
     {
         yield return new ClaimedRoleEvent(player, RoleType);
 
-        foreach (ClaimBase? claim in GetClaimDetails(player))
+        foreach (NightActionBase action in NightActions)
         {
-            yield return claim;
+            foreach (ClaimBase claim in action.GenerateClaims(player))
+            {
+                yield return claim;
+            }
         }
-    }
-
-    protected virtual IEnumerable<ClaimBase> GetClaimDetails(GamePlayer player)
-    {
-        yield break;
     }
 }

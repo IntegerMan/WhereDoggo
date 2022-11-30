@@ -10,7 +10,7 @@ public class ObservedCenterCardEvent : TargetedEventBase
     /// <summary>
     /// The role that was observed in that slot
     /// </summary>
-    public CardBase ObservedRole { get; }
+    public RoleTypes ObservedRole { get; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ObservedCenterCardEvent"/> class.
@@ -21,7 +21,7 @@ public class ObservedCenterCardEvent : TargetedEventBase
     public ObservedCenterCardEvent(GamePlayer player, IHasCard observedSlot) 
         : base(player, observedSlot)
     {
-        ObservedRole = observedSlot.CurrentCard;
+        ObservedRole = observedSlot.CurrentCard.RoleType;
     }
 
     /// <inheritdoc />
@@ -32,7 +32,7 @@ public class ObservedCenterCardEvent : TargetedEventBase
     {
         if (target == Target)
         {
-            probabilities.MarkAsCertainOfRole(ObservedRole.RoleType);
+            probabilities.MarkAsCertainOfRole(ObservedRole);
         }
     }
 }

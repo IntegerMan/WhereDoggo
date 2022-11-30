@@ -23,7 +23,7 @@ public class EventViewModel : ViewModelBase
     {
         get
         {
-            if (_sourceEvent is ClaimedRoleEvent {IsLie: true})
+            if (_sourceEvent is ClaimBase {IsLie: true})
             {
                 if (_mainVm.SelectedPerspective == _sourceEvent?.Player?.Name || 
                     _mainVm.SelectedPerspective == GameViewModel.StorytellerName)
@@ -67,6 +67,8 @@ public class EventViewModel : ViewModelBase
             DealtRoleEvent dre => IconHelpers.GetRoleIcon(dre.Role.RoleType),
             KnowsRoleEvent => "Solid_Eye",
             SawNotRoleEvent => "Solid_EyeSlash",
+            SkippedNightActionClaim => "Solid_Ban",
+            SawCardClaim => IconHelpers.GetRoleIcon(_sourceEvent.Player!.ClaimedRole),
             ObservedCenterCardEvent => "Solid_Eye",
             ObservedPlayerCardEvent => "Solid_Eye",
             VotedOutEvent => "Solid_UserXMark",
