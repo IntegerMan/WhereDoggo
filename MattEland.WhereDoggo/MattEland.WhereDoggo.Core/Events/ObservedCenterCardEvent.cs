@@ -1,4 +1,7 @@
-﻿namespace MattEland.WhereDoggo.Core.Events;
+﻿using MattEland.WhereDoggo.Core.Events.Claims;
+using System.Data;
+
+namespace MattEland.WhereDoggo.Core.Events;
 
 /// <summary>
 /// An event that occurs when a role gets to look at a card in the center.
@@ -34,5 +37,12 @@ public class ObservedCenterCardEvent : TargetedEventBase
         {
             probabilities.MarkAsCertainOfRole(ObservedRole);
         }
+    }
+
+    /// <inheritdoc />
+    public override IEnumerable<ClaimBase> GenerateClaims()
+    {
+        // This may need to be reigned in
+        yield return new SawCardClaim(Player!, Target, ObservedRole);
     }
 }

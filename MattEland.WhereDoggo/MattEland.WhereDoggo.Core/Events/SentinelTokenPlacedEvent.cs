@@ -1,4 +1,7 @@
-﻿namespace MattEland.WhereDoggo.Core.Events;
+﻿using MattEland.WhereDoggo.Core.Events.Claims;
+using System.Data;
+
+namespace MattEland.WhereDoggo.Core.Events;
 
 /// <summary>
 /// This event is generated for the sentinel only when they place a token.
@@ -21,6 +24,12 @@ public class SentinelTokenPlacedEvent : TargetedEventBase
     public override void UpdatePlayerPerceptions(GamePlayer observer, IHasCard target, CardProbabilities probabilities)
     {
         // Do nothing
+    }
+
+    /// <inheritdoc />
+    public override IEnumerable<ClaimBase> GenerateClaims()
+    {
+        yield return new SentinelTokenPlacedClaim(Player!, Target);
     }
 
 }

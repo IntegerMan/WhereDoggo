@@ -1,4 +1,7 @@
-﻿namespace MattEland.WhereDoggo.Core.Events;
+﻿using MattEland.WhereDoggo.Core.Events.Claims;
+using System.Data;
+
+namespace MattEland.WhereDoggo.Core.Events;
 
 /// <summary>
 /// This event occurs when the <see cref="InsomniacRole"/> looks at her own card at the end of the night.
@@ -26,6 +29,12 @@ public class InsomniacSawOwnCardEvent : GameEventBase
         {
             probabilities.MarkAsCertainOfRole(target.CurrentCard.RoleType);
         }
+    }
+
+    /// <inheritdoc />
+    public override IEnumerable<ClaimBase> GenerateClaims()
+    {
+        yield return new InsomniacClaim(Player!, FinalCard.RoleType);
     }
 
     /// <inheritdoc />

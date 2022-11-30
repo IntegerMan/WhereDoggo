@@ -1,4 +1,7 @@
-﻿namespace MattEland.WhereDoggo.Core.Events;
+﻿using MattEland.WhereDoggo.Core.Events.Claims;
+using System.Data;
+
+namespace MattEland.WhereDoggo.Core.Events;
 
 /// <summary>
 /// Occurs when a <see cref="RevealerRole"/> or an <see cref="ExposerRole"/> reveals a card.
@@ -22,5 +25,12 @@ public class RevealedRoleEvent : TargetedEventBase
     {
         // Do nothing
     }
+
+    /// <inheritdoc />
+    public override IEnumerable<ClaimBase> GenerateClaims()
+    {
+        yield return new RevealedGoodRoleClaim(Player!, Target);
+    }
+
 
 }

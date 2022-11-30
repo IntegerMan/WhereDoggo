@@ -41,11 +41,9 @@ public abstract class CardBase
     /// <returns>Any claims</returns>
     public IEnumerable<ClaimBase> GetClaims(GamePlayer player)
     {
-        yield return new ClaimedRoleEvent(player, RoleType);
-
-        foreach (NightActionBase action in NightActions)
+        foreach (GameEventBase observedEvent in player.OwnEvents.ToList())
         {
-            foreach (ClaimBase claim in action.GenerateClaims(player))
+            foreach (ClaimBase claim in observedEvent.GenerateClaims())
             {
                 yield return claim;
             }

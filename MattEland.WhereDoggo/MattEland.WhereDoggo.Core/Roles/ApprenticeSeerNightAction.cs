@@ -1,5 +1,4 @@
 ﻿using MattEland.WhereDoggo.Core.Engine.Phases;
-using MattEland.WhereDoggo.Core.Events.Claims;
 
 namespace MattEland.WhereDoggo.Core.Roles;
 
@@ -30,21 +29,4 @@ public class ApprenticeSeerNightAction : RoleNightActionBase
         }
     }
 
-    /// <inheritdoc />
-    public override IEnumerable<ClaimBase> GenerateClaims(GamePlayer player)
-    {
-        SkippedNightActionEvent? skipped = player.Events.OfType<SkippedNightActionEvent>().FirstOrDefault();
-        if (skipped != null)
-        {
-            yield return new SkippedNightActionClaim(player);
-        }
-        else
-        {
-            ObservedCenterCardEvent? saw = player.Events.OfType<ObservedCenterCardEvent>().FirstOrDefault();
-            if (saw != null)
-            {
-                yield return new SawCardClaim(player, saw.Target, saw.ObservedRole);
-            }
-        }
-    }
 }

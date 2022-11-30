@@ -11,9 +11,4 @@ public abstract class NightActionBase
     public abstract IEnumerable<GamePlayer> RelevantPlayers(IEnumerable<GamePlayer> players);
 
     public abstract void PerformNightAction(Game game, GamePlayer player);
-
-    public virtual IEnumerable<ClaimBase> GenerateClaims(GamePlayer player)
-    {
-        yield break;
-    }
 }

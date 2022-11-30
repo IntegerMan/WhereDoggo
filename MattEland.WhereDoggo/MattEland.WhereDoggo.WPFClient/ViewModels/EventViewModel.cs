@@ -68,7 +68,6 @@ public class EventViewModel : ViewModelBase
             KnowsRoleEvent => "Solid_Eye",
             SawNotRoleEvent => "Solid_EyeSlash",
             SkippedNightActionClaim => "Solid_Ban",
-            SawCardClaim => IconHelpers.GetRoleIcon(_sourceEvent.Player!.ClaimedRole),
             ObservedCenterCardEvent => "Solid_Eye",
             ObservedPlayerCardEvent => "Solid_Eye",
             VotedOutEvent => "Solid_UserXMark",
@@ -81,7 +80,9 @@ public class EventViewModel : ViewModelBase
             VotedEvent => IconHelpers.GetPhaseIcon(Phase),
             WokeUpEvent => IconHelpers.GetPhaseIcon(Phase),
             TextEvent => IconHelpers.GetPhaseIcon(Phase),
-            _ => "Solid_Question"
+            _ => _sourceEvent.Player!.ClaimedRole != null 
+                ? IconHelpers.GetRoleIcon(_sourceEvent.Player!.ClaimedRole)
+                : "Solid_Question",
         };
 
     public bool ShowText => true;
