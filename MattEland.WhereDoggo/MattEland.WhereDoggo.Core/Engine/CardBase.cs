@@ -1,4 +1,5 @@
 ﻿using MattEland.WhereDoggo.Core.Engine.Phases;
+using MattEland.WhereDoggo.Core.Events.Claims;
 
 namespace MattEland.WhereDoggo.Core.Engine;
 
@@ -27,6 +28,20 @@ public abstract class CardBase
     /// Whether or not the card is revealed. Defaults to false but may be true if a <see cref="RevealerRole"/> or
     /// <see cref="ExposerRole"/>is present.
     /// </summary>
-    public bool IsRevealed { get; set; }    
+    public bool IsRevealed { get; set; }
 
+    public IEnumerable<ClaimBase> GetClaims(GamePlayer player)
+    {
+        yield return new ClaimedRoleEvent(player, RoleType);
+
+        foreach (ClaimBase? claim in GetClaimDetails(player))
+        {
+            yield return claim;
+        }
+    }
+
+    protected virtual IEnumerable<ClaimBase> GetClaimDetails(GamePlayer player)
+    {
+        yield break;
+    }
 }

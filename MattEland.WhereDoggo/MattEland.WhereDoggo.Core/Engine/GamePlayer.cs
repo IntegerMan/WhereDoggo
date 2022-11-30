@@ -189,7 +189,10 @@ public class GamePlayer : IHasCard
         switch (InitialCard.Team)
         {
             case Teams.Villagers:
-                yield return new ClaimedRoleEvent(this, InitialCard.RoleType);
+                foreach (ClaimBase claim in InitialCard.GetClaims(this))
+                {
+                    yield return claim;
+                }
                 break;
 
             case Teams.Werewolves:
