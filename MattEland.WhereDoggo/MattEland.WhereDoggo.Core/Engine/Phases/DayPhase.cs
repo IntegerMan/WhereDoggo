@@ -33,15 +33,11 @@ public class DayPhase : GamePhaseBase
     {
         foreach (GamePlayer player in game.Players)
         {
-            RoleTypes? roleClaim = player.GetInitialRoleClaim();
+            IEnumerable<ClaimBase> claims = player.GetInitialRoleClaims();
 
-            if (roleClaim == null)
+            foreach (ClaimBase claim in claims)
             {
-                BroadcastEvent(new DeferredClaimingRoleEvent(player));
-            }
-            else
-            {
-                BroadcastEvent(new ClaimedRoleEvent(player, roleClaim.Value));
+                BroadcastEvent(claim);
             }
         }
     }
@@ -50,9 +46,12 @@ public class DayPhase : GamePhaseBase
     {
         foreach (GamePlayer player in game.Players.Where(p => p.Events.OfType<DeferredClaimingRoleEvent>().Any(e => e.Player == p)))
         {
-            RoleTypes roleClaim = player.GetFinalRoleClaim();
+            IEnumerable<ClaimBase> claims = player.GetFinalRoleClaims();
 
-            BroadcastEvent(new ClaimedRoleEvent(player, roleClaim));
+            foreach (ClaimBase claim in claims)
+            {
+                BroadcastEvent(claim);
+            }
         }
     }
 

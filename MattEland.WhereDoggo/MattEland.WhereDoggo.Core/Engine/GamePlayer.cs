@@ -184,27 +184,49 @@ public class GamePlayer : IHasCard
     /// Gets the role that the player wants to claim, or null if they don't want to claim a role
     /// </summary>
     /// <returns>The role claimed, or null</returns>
-    public RoleTypes? GetInitialRoleClaim()
+    public IEnumerable<ClaimBase> GetInitialRoleClaims()
     {
-        return InitialCard.Team switch
+        switch (InitialCard.Team)
         {
-            Teams.Villagers => InitialCard.RoleType,
-            Teams.Werewolves => Brain.DetermineBestSafeRoleClaim(),
-            _ => throw new NotSupportedException($"Team {InitialCard.Team} is not supported for claiming roles"),
-        };
+            case Teams.Villagers:
+                yield return new ClaimedRoleEvent(this, InitialCard.RoleType);
+                break;
+
+            case Teams.Werewolves:
+                RoleTypes? claim = Brain.DetermineBestSafeRoleClaim();
+                if (claim != null)
+                {
+                    yield return new ClaimedRoleEvent(this, claim.Value);
+                }
+                else
+                {
+                    yield return new DeferredClaimingRoleEvent(this);
+                }
+                break;
+            
+            default:
+                throw new NotSupportedException($"Team {InitialCard.Team} is not supported for claiming roles");
+        }
     }
     
     /// <summary>
     /// Gets the final role that the player wants to claim
     /// </summary>
     /// <returns>The role claimed</returns>
-    public RoleTypes GetFinalRoleClaim()
+    public IEnumerable<ClaimBase> GetFinalRoleClaims()
     {
-        return InitialCard.Team switch
+        switch (InitialCard.Team)
         {
-            Teams.Villagers => InitialCard.RoleType,
-            Teams.Werewolves => Brain.DetermineBestRoleClaim(),
-            _ => throw new NotSupportedException($"Team {InitialCard.Team} is not supported for claiming roles"),
-        };
+            case Teams.Villagers:
+                yield return new ClaimedRoleEvent(this, InitialCard.RoleType);
+                break;
+
+            case Teams.Werewolves:
+                yield return new ClaimedRoleEvent(this, Brain.DetermineBestRoleClaim());
+                break;
+            
+            default:
+                throw new NotSupportedException($"Team {InitialCard.Team} is not supported for claiming roles");
+        }
     }
 }
