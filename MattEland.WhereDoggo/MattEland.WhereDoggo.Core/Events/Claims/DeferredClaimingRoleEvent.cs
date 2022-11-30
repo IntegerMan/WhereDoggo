@@ -20,5 +20,5 @@ public class DeferredClaimingRoleEvent : ClaimBase
     }
 
     /// <inheritdoc />
-    public override string ToString() => $"{Player} decided to wait before claiming their role.";
+    public override string Text => $"{Player} decided to wait before claiming their role.";
 }

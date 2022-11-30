@@ -1,4 +1,7 @@
-﻿namespace MattEland.WhereDoggo.Core.Events;
+﻿using MattEland.WhereDoggo.Core.Events.Claims;
+using System.Numerics;
+
+namespace MattEland.WhereDoggo.Core.Events;
 
 /// <summary>
 /// Occurs at the beginning of the game and lets the player know what their role is.
@@ -31,5 +34,12 @@ public class DealtRoleEvent : GameEventBase
         {
             probabilities.MarkAsCertainOfRole(Role.RoleType);
         }
+    }
+
+    /// <inheritdoc />
+    public override IEnumerable<ClaimBase> GenerateClaims()
+    {
+        // This may need to be reigned in for wolves
+        yield return new ClaimedRoleEvent(Player!, Role.RoleType);
     }
 }

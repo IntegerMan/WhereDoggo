@@ -1,4 +1,6 @@
-﻿namespace MattEland.WhereDoggo.Core.Events;
+﻿using MattEland.WhereDoggo.Core.Events.Claims;
+
+namespace MattEland.WhereDoggo.Core.Events;
 
 /// <summary>
 /// An event that occurs if a <see cref="MasonRole"/> wakes up and sees that
@@ -23,4 +25,11 @@ public class OnlyMasonEvent : GameEventBase
     {
         // Do nothing
     }
+
+    /// <inheritdoc />
+    public override IEnumerable<ClaimBase> GenerateClaims()
+    {
+        yield return new OnlyMasonClaim(Player!);
+    }
+
 }

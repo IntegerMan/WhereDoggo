@@ -73,16 +73,19 @@ public class CardViewModel : ViewModelBase
     {
         get
         {
-            if (IsDead && Team == Teams.Villagers)
+            if (IsDead)
             {
-                return Brushes.White;
-            }
-            if (IsDead && Team == Teams.Werewolves)
-            {
-                return Brushes.Green;
+                switch (Team)
+                {
+                    case Teams.Villagers:
+                        return Brushes.White;
+
+                    case Teams.Werewolves:
+                        return BrushHelpers.GetTeamBrush(Team);
+                }
             }
 
-            if (Probability != null && Probability.IsTeamCertain)
+            if (Probability is {IsTeamCertain: true})
             {
                 return BrushHelpers.GetTeamBrush(Probability.ProbableTeam);
             }

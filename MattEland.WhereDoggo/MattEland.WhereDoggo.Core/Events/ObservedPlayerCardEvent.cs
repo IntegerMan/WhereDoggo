@@ -1,4 +1,6 @@
-﻿namespace MattEland.WhereDoggo.Core.Events;
+﻿using MattEland.WhereDoggo.Core.Events.Claims;
+
+namespace MattEland.WhereDoggo.Core.Events;
 
 /// <summary>
 /// An event that occurs when the <see cref="MysticWolfRole"/> or <see cref="SeerRole"/> observes the card of another player in the night.
@@ -31,4 +33,12 @@ public class ObservedPlayerCardEvent : TargetedEventBase
 
     /// <inheritdoc />
     public override string ToString() => $"{Player} looked at {Target}'s card and saw it was a {ObservedCard}";
+
+
+    /// <inheritdoc />
+    public override IEnumerable<ClaimBase> GenerateClaims()
+    {
+        // This may need to be reigned in for the mystic wolf
+        yield return new SawCardClaim(Player!, Target, ObservedCard.RoleType);
+    }
 }

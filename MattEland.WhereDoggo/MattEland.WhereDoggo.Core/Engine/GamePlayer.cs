@@ -30,7 +30,7 @@ public class GamePlayer : IHasCard
         PickSeerCards = (_, slots) => slots.OrderBy(_ => random.Next() * random.Next()).Take(2).ToList();
         Brain = new PlayerInferenceEngine(this, game);
     }
-    
+
     /// <summary>
     /// The strategy to use when selecting a single card from multiple. Applies to multiple roles
     /// </summary>
@@ -41,7 +41,7 @@ public class GamePlayer : IHasCard
     /// because the seer gets the choice to skip, pick one card from a player, or pick two cards from the center.
     /// </summary>
     public Func<IEnumerable<IHasCard>, IEnumerable<IHasCard>, List<IHasCard>> PickSeerCards { get; set; }
-    
+
     /// <summary>
     /// Adds a new event to the game log
     /// </summary>
@@ -57,7 +57,7 @@ public class GamePlayer : IHasCard
     /// Gets all events that stem from this player
     /// </summary>
     public IEnumerable<GameEventBase> OwnEvents => Events.Where(e => e.Player == this);
-    
+
     /// <summary>
     /// Gets the <see cref="PlayerInferenceEngine"/> associated with the player.
     /// </summary>
@@ -66,7 +66,7 @@ public class GamePlayer : IHasCard
     /// <summary>
     /// Whether or not the sentinel token has been placed on the card
     /// </summary>
-    public bool HasSentinelToken { get; set;  }
+    public bool HasSentinelToken { get; set; }
 
     /// <inheritdoc />
     public string Name { get; }
@@ -101,27 +101,27 @@ public class GamePlayer : IHasCard
         switch (probableTeams)
         {
             case Teams.Villagers:
-            {
-                decimal max = probabilities.Values.Max(p => p.CalculateTeamProbability(Teams.Werewolves));
-                options = probabilities.Where(kvp => kvp.Value.CalculateTeamProbability(Teams.Werewolves) == max)
-                    .Select(kvp => kvp.Key)
-                    .ToList();
-                break;
-            }
+                {
+                    decimal max = probabilities.Values.Max(p => p.CalculateTeamProbability(Teams.Werewolves));
+                    options = probabilities.Where(kvp => kvp.Value.CalculateTeamProbability(Teams.Werewolves) == max)
+                        .Select(kvp => kvp.Key)
+                        .ToList();
+                    break;
+                }
             case Teams.Werewolves:
-            {
-                decimal max = probabilities.Values.Max(p => p.CalculateTeamProbability(Teams.Villagers));
-                options = probabilities.Where(kvp => kvp.Value.CalculateTeamProbability(Teams.Villagers) == max)
-                    .Select(kvp => kvp.Key)
-                    .ToList();
-                break;
-            }
+                {
+                    decimal max = probabilities.Values.Max(p => p.CalculateTeamProbability(Teams.Villagers));
+                    options = probabilities.Where(kvp => kvp.Value.CalculateTeamProbability(Teams.Villagers) == max)
+                        .Select(kvp => kvp.Key)
+                        .ToList();
+                    break;
+                }
             default:
                 options = probabilities.Select(p => p.Key).ToList();
                 break;
         }
 
-        return (GamePlayer) options.GetRandomElement(random)!;
+        return (GamePlayer)options.GetRandomElement(random)!;
     }
 
     /// <summary>
@@ -184,27 +184,56 @@ public class GamePlayer : IHasCard
     /// Gets the role that the player wants to claim, or null if they don't want to claim a role
     /// </summary>
     /// <returns>The role claimed, or null</returns>
-    public RoleTypes? GetInitialRoleClaim()
+    public IEnumerable<ClaimBase> GetInitialRoleClaims()
     {
-        return InitialCard.Team switch
+        switch (InitialCard.Team)
         {
-            Teams.Villagers => InitialCard.RoleType,
-            Teams.Werewolves => Brain.DetermineBestSafeRoleClaim(),
-            _ => throw new NotSupportedException($"Team {InitialCard.Team} is not supported for claiming roles"),
-        };
+            case Teams.Villagers:
+                {
+                    foreach (ClaimBase claim in InitialCard.GetClaims(this))
+                    {
+                        yield return claim;
+                    }
+                }
+                break;
+
+            case Teams.Werewolves:
+                {
+                    RoleTypes? claim = Brain.DetermineBestSafeRoleClaim();
+                    if (claim != null)
+                    {
+                        yield return new ClaimedRoleEvent(this, claim.Value);
+                    }
+                    else
+                    {
+                        yield return new DeferredClaimingRoleEvent(this);
+                    }
+                }
+                break;
+
+            default:
+                throw new NotSupportedException($"Team {InitialCard.Team} is not supported for claiming roles");
+        }
     }
-    
+
     /// <summary>
     /// Gets the final role that the player wants to claim
     /// </summary>
     /// <returns>The role claimed</returns>
-    public RoleTypes GetFinalRoleClaim()
+    public IEnumerable<ClaimBase> GetFinalRoleClaims()
     {
-        return InitialCard.Team switch
+        switch (InitialCard.Team)
         {
-            Teams.Villagers => InitialCard.RoleType,
-            Teams.Werewolves => Brain.DetermineBestRoleClaim(),
-            _ => throw new NotSupportedException($"Team {InitialCard.Team} is not supported for claiming roles"),
-        };
+            case Teams.Villagers:
+                yield return new ClaimedRoleEvent(this, InitialCard.RoleType);
+                break;
+
+            case Teams.Werewolves:
+                yield return new ClaimedRoleEvent(this, Brain.DetermineBestRoleClaim());
+                break;
+
+            default:
+                throw new NotSupportedException($"Team {InitialCard.Team} is not supported for claiming roles");
+        }
     }
 }

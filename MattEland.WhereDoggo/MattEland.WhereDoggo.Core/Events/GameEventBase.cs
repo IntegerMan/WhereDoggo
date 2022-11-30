@@ -1,4 +1,6 @@
-﻿namespace MattEland.WhereDoggo.Core.Events;
+﻿using MattEland.WhereDoggo.Core.Events.Claims;
+
+namespace MattEland.WhereDoggo.Core.Events;
 
 /// <summary>
 /// An event that occurs in the game, often pertaining to a single player.
@@ -44,4 +46,10 @@ public abstract class GameEventBase
     /// <param name="probabilities">The <see cref="CardProbabilities"/> for <paramref name="target" /></param>
     public abstract void UpdatePlayerPerceptions(GamePlayer observer, IHasCard target,
         CardProbabilities probabilities);
+
+    /// <summary>
+    /// Gets the claims associated with the event for the player (if any)
+    /// </summary>
+    /// <returns>Any claims associated with the event</returns>
+    public virtual IEnumerable<ClaimBase> GenerateClaims() => Enumerable.Empty<ClaimBase>();
 }

@@ -10,10 +10,8 @@ public class ClaimedRoleEvent : ClaimBase
     /// </summary>
     public RoleTypes ClaimedRole { get; }
 
-    /// <summary>
-    /// Gets a value indicating whetheror not the claim is a lie
-    /// </summary>
-    public bool IsLie => Player != null && ClaimedRole != Player.InitialCard.RoleType;
+    /// <inheritdoc />
+    public override bool IsLie => Player != null && ClaimedRole != Player.InitialCard.RoleType;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ClaimedRoleEvent"/> class.
@@ -31,6 +29,5 @@ public class ClaimedRoleEvent : ClaimBase
         // Not sure if this is necessary...
     }
 
-    /// <inheritdoc />
-    public override string ToString() => $"{Player} claimed to be a {ClaimedRole.GetFriendlyName()}";
+    public override string Text => $"{Player} claimed to be a {ClaimedRole.GetFriendlyName()}";
 }
