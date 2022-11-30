@@ -128,13 +128,30 @@
             <!-- Log area -->
             <TabControl Grid.Column="2" DockPanel.Dock="Right" Padding="8">
                 <TabItem Header="Log">
-                    <ListBox ItemsSource="{Binding Path=Events}">
-                        <ListBox.ItemTemplate>
+                    <ItemsControl ItemsSource="{Binding Path=Events}" HorizontalContentAlignment="Left">
+                        <ItemsControl.Template>
+                            <ControlTemplate>
+                                <Border SnapsToDevicePixels="true" 
+                                        Background="{TemplateBinding Background}" 
+                                        BorderBrush="{TemplateBinding BorderBrush}" 
+                                        BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}">
+                                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                                        <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                    </ScrollViewer>
+                                </Border>
+                            </ControlTemplate>
+                        </ItemsControl.Template>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Vertical" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <controls:LogEventControl />
                             </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
                 </TabItem>
             </TabControl>
         </Grid>

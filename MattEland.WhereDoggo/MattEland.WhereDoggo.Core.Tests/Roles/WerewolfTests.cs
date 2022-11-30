@@ -229,6 +229,9 @@ public class WerewolfTests : GameTestsBase
         // Act
         game.Run();
 
+        // Validate that the wolf has deferred voting
+        
+
         // Assert
         wolf.Events.OfType<ClaimedRoleEvent>().ShouldNotContain(e => e.ClaimedRole == unsafeRole);
     }
