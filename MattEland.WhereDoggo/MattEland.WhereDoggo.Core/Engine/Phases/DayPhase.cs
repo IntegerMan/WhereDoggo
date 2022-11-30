@@ -23,7 +23,6 @@ public class DayPhase : GamePhaseBase
         // Role Claim goes in two rounds: initial and final
         // Players may defer in the initial, then must claim in the final
         EnqueueAction(() => PerformInitialRoleClaim(game));
-        EnqueueAction(() => PerformFinalRoleClaim(game));
     }
 
     /// <inheritdoc />
@@ -38,20 +37,23 @@ public class DayPhase : GamePhaseBase
             foreach (ClaimBase claim in claims)
             {
                 BroadcastEvent(claim);
+
+                // If the player just deferred, enqueue them to go again later. This will be their last chance
+                if (claim is DeferredClaimingRoleEvent)
+                {
+                    EnqueueAction(() => PerformFinalRoleClaim(game, player));
+                }
             }
         }
     }
 
-    private void PerformFinalRoleClaim(Game game)
+    private void PerformFinalRoleClaim(Game game, GamePlayer player)
     {
-        foreach (GamePlayer player in game.Players.Where(p => p.Events.OfType<DeferredClaimingRoleEvent>().Any(e => e.Player == p)))
-        {
-            IEnumerable<ClaimBase> claims = player.GetFinalRoleClaims();
+        IEnumerable<ClaimBase> claims = player.GetFinalRoleClaims();
 
-            foreach (ClaimBase claim in claims)
-            {
-                BroadcastEvent(claim);
-            }
+        foreach (ClaimBase claim in claims)
+        {
+            BroadcastEvent(claim);
         }
     }
 
