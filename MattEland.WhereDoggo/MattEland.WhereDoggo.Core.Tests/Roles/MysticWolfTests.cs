@@ -52,8 +52,7 @@ public class MysticWolfTests : GameTestsBase
 
             // Assert
             GamePlayer player = game.Players.First();
-            player.Events.OfType<ObservedPlayerCardEvent>()
-                .ShouldContain(e => e.ObservedCard.RoleType == RoleTypes.Insomniac);
+            player.Events.OfType<ObservedPlayerCardEvent>().All(ope => ope.ObservedCard.RoleType == RoleTypes.Insomniac);
         }
     }
     
@@ -265,7 +264,7 @@ public class MysticWolfTests : GameTestsBase
         sentinel.PickSingleCard = PickFirstCard;
 
         // Act
-        game.Run();
+        game.RunUntil("Voting");
         
         // Assert
         game.Players.First(p => p.HasSentinelToken).InitialCard.RoleType.ShouldBe(RoleTypes.Villager);

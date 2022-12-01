@@ -203,39 +203,6 @@ public class WerewolfTests : GameTestsBase
         wolf.Events.OfType<ClaimedRoleEvent>().ShouldContain(e => e.ClaimedRole == safeRole);
     }
 
-    [TestCase(RoleTypes.Exposer)]
-    [TestCase(RoleTypes.Thing)]
-    [TestCase(RoleTypes.Werewolf)]
-    [TestCase(RoleTypes.MysticWolf)]
-    [TestCase(RoleTypes.Mason)]
-    public void LoneWolfShouldNotClaimUnsafeRolesSeenInCenter(RoleTypes unsafeRole)
-    {
-        // Arrange
-        RoleTypes[] assignedRoles =
-        {
-            // Player Roles
-            RoleTypes.Werewolf,
-            RoleTypes.Villager,
-            RoleTypes.Villager,
-            // Center Cards
-            RoleTypes.Mason,
-            RoleTypes.Werewolf,
-            unsafeRole
-        };
-        Game game = CreateGame(assignedRoles);
-        GamePlayer wolf = game.Players.First();
-        wolf.PickSingleCard = PickCardByIndex(2);
-
-        // Act
-        game.Run();
-
-        // Validate that the wolf has deferred voting
-        
-
-        // Assert
-        wolf.Events.OfType<ClaimedRoleEvent>().ShouldNotContain(e => e.ClaimedRole == unsafeRole);
-    }
-
     [Test]
     public void WolvesShouldNotBothClaimSameRole()
     {
