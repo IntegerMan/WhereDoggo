@@ -25,12 +25,4 @@ public class RevealerHidEvilRoleEvent : TargetedEventBase
     {
         // Do nothing
     }
-
-
-    /// <inheritdoc />
-    public override IEnumerable<ClaimBase> GenerateClaims()
-    {
-        yield return new RevealedEvilRoleClaim(Player!, Target, _role);
-    }
-
 }

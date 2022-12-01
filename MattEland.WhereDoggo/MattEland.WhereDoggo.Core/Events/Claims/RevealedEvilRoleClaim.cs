@@ -22,6 +22,7 @@ public class RevealedEvilRoleClaim : ClaimBase
     /// <inheritdoc />
     public override string Text => $"{Player} claims to be the {Player.InitialCard.RoleType.GetFriendlyName()} that saw {Target} as {ObservedRole} and had to flip it back over";
 }
+
 public class SentinelTokenPlacedClaim : ClaimBase
 {
     public IHasCard Target { get; }
