@@ -1,7 +1,4 @@
-﻿using MattEland.WhereDoggo.Core.Engine.Phases;
-using Microsoft.ML.Probabilistic.Collections;
-
-namespace MattEland.WhereDoggo.Core.Roles;
+﻿namespace MattEland.WhereDoggo.Core.Roles;
 
 /// <summary>
 /// Represents a Mason role from One Night Ultimate Werewolf (base game).

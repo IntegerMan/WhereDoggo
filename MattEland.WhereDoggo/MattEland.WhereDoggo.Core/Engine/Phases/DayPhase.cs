@@ -1,6 +1,4 @@
-﻿using MattEland.WhereDoggo.Core.Events.Claims;
-
-namespace MattEland.WhereDoggo.Core.Engine.Phases;
+﻿namespace MattEland.WhereDoggo.Core.Engine.Phases;
 
 /// <summary>
 /// The day phase has all players wake up and look around

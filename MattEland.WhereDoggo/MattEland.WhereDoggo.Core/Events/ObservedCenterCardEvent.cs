@@ -1,7 +1,4 @@
-﻿using MattEland.WhereDoggo.Core.Events.Claims;
-using System.Data;
-
-namespace MattEland.WhereDoggo.Core.Events;
+﻿namespace MattEland.WhereDoggo.Core.Events;
 
 /// <summary>
 /// An event that occurs when a role gets to look at a card in the center.

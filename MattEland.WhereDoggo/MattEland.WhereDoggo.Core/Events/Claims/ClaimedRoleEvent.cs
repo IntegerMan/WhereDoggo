@@ -10,9 +10,6 @@ public class ClaimedRoleEvent : ClaimBase
     /// </summary>
     public RoleTypes ClaimedRole { get; }
 
-    /// <inheritdoc />
-    public override bool IsLie => Player != null && ClaimedRole != Player.InitialCard.RoleType;
-
     /// <summary>
     /// Initializes a new instance of the <see cref="ClaimedRoleEvent"/> class.
     /// </summary>
@@ -21,6 +18,7 @@ public class ClaimedRoleEvent : ClaimBase
     public ClaimedRoleEvent(GamePlayer player, RoleTypes claimedRole) : base(player)
     {
         ClaimedRole = claimedRole;
+        IsLie = Player != null && ClaimedRole != Player.InitialCard.RoleType;
     }
 
     /// <inheritdoc />

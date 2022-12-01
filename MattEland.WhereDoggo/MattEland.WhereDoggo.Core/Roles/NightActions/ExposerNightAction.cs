@@ -1,6 +1,4 @@
-﻿using MattEland.WhereDoggo.Core.Engine.Phases;
-
-namespace MattEland.WhereDoggo.Core.Roles;
+﻿namespace MattEland.WhereDoggo.Core.Roles.NightActions;
 
 public class ExposerNightAction : RoleNightActionBase
 {
@@ -32,7 +30,7 @@ public class ExposerNightAction : RoleNightActionBase
             }
 
             holder.CurrentCard.IsRevealed = true;
-            game.LogEvent(new RevealedRoleEvent(player, holder));
+            game.LogEvent(new RevealedRoleEvent(player, holder, holder.CurrentCard.RoleType));
             game.LogEvent(new RevealedRoleObservedEvent(player, holder));
         }
     }

@@ -1,14 +1,12 @@
 ﻿namespace MattEland.WhereDoggo.Core.Events.Claims;
 
-public class SawCardClaim : ClaimBase
+public class SawFellowMasonClaim : ClaimBase
 {
-    public IHasCard Card { get; }
-    public RoleTypes Role { get; }
+    public IHasCard Target { get; }
 
-    public SawCardClaim(GamePlayer player, IHasCard card, RoleTypes observedRole) : base(player)
+    public SawFellowMasonClaim(GamePlayer player, IHasCard target) : base(player)
     {
-        Card = card;
-        Role = observedRole;
+        Target = target;
     }
 
     /// <inheritdoc />
@@ -20,5 +18,5 @@ public class SawCardClaim : ClaimBase
     }
 
     /// <inheritdoc />
-    public override string Text => $"{Player} claims to have seen that {Card} was {Role.GetFriendlyName()}";
+    public override string Text => $"{Player} claims to have seen {Target} as a fellow {RoleTypes.Mason.GetFriendlyName()}";
 }

@@ -3,10 +3,12 @@
 public class RevealedGoodRoleClaim : ClaimBase
 {
     public IHasCard Target { get; }
+    public RoleTypes Role { get; }
 
-    public RevealedGoodRoleClaim(GamePlayer player, IHasCard target) : base(player)
+    public RevealedGoodRoleClaim(GamePlayer player, IHasCard target, RoleTypes role) : base(player)
     {
         Target = target;
+        Role = role;
     }
 
     /// <inheritdoc />
@@ -18,5 +20,5 @@ public class RevealedGoodRoleClaim : ClaimBase
     }
 
     /// <inheritdoc />
-    public override string Text => $"{Player} claims to be the {Player!.InitialCard.RoleType.GetFriendlyName()} that revealed {Target}";
+    public override string Text => $"{Player} claims to be the {Player!.ClaimedRole!.GetFriendlyName()} that revealed {Target}";
 }

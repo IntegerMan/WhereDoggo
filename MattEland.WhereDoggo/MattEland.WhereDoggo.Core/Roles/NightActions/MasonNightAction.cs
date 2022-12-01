@@ -1,6 +1,4 @@
-﻿using MattEland.WhereDoggo.Core.Engine.Phases;
-
-namespace MattEland.WhereDoggo.Core.Roles;
+﻿namespace MattEland.WhereDoggo.Core.Roles.NightActions;
 
 public class MasonNightAction : RoleNightActionBase
 {
@@ -31,12 +29,12 @@ public class MasonNightAction : RoleNightActionBase
         {
             if (observedPlayer.InitialCard is MasonRole)
             {
-                // If they didn't wake up, we now know they can't be a mason
-                game.LogEvent(new KnowsRoleEvent(player, observedPlayer));
+                // If we saw another mason, record it
+                game.LogEvent(new SawFellowMasonEvent(player, observedPlayer));
             }
             else
             {
-                // If we saw another mason, record it
+                // If they didn't wake up, we now know they can't be a mason
                 game.LogEvent(new SawNotRoleEvent(player, observedPlayer, RoleTypes.Mason));
             }
         });

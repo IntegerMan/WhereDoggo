@@ -1,7 +1,4 @@
-﻿using MattEland.WhereDoggo.Core.Events.Claims;
-using System.Data;
-
-namespace MattEland.WhereDoggo.Core.Events;
+﻿namespace MattEland.WhereDoggo.Core.Events;
 
 /// <summary>
 /// This event occurs when the <see cref="InsomniacRole"/> looks at her own card at the end of the night.
