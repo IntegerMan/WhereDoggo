@@ -1,6 +1,4 @@
-﻿using MattEland.WhereDoggo.Core.Events.Claims;
-
-namespace MattEland.WhereDoggo.Core.Engine;
+﻿namespace MattEland.WhereDoggo.Core.Engine;
 
 /// <summary>
 /// Represents a player within the game world.

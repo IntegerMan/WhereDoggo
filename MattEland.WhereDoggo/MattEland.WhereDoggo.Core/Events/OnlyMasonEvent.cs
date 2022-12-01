@@ -1,6 +1,4 @@
-﻿using MattEland.WhereDoggo.Core.Events.Claims;
-
-namespace MattEland.WhereDoggo.Core.Events;
+﻿namespace MattEland.WhereDoggo.Core.Events;
 
 /// <summary>
 /// An event that occurs if a <see cref="MasonRole"/> wakes up and sees that

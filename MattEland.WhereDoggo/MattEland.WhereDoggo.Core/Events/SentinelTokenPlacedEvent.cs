@@ -1,6 +1,4 @@
-﻿using MattEland.WhereDoggo.Core.Events.Claims;
-
-namespace MattEland.WhereDoggo.Core.Events;
+﻿namespace MattEland.WhereDoggo.Core.Events;
 
 /// <summary>
 /// This event is generated for the sentinel only when they place a token.

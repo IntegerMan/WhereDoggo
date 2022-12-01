@@ -1,6 +1,4 @@
-﻿using MattEland.WhereDoggo.Core.Events.Claims;
-
-namespace MattEland.WhereDoggo.Core.Events;
+﻿namespace MattEland.WhereDoggo.Core.Events;
 
 /// <summary>
 /// Occurs at the beginning of the game and lets the player know what their role is.

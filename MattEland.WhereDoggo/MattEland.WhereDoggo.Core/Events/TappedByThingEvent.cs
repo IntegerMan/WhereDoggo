@@ -1,6 +1,4 @@
-﻿using MattEland.WhereDoggo.Core.Events.Claims;
-
-namespace MattEland.WhereDoggo.Core.Events;
+﻿namespace MattEland.WhereDoggo.Core.Events;
 
 /// <summary>
 /// An event that occurs on a targeted player when a <see cref="ThingRole"/> uses its night ability to tap that player.

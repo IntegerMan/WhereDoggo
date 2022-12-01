@@ -11,3 +11,4 @@ global using MattEland.WhereDoggo.Core.Roles;
 global using MattEland.WhereDoggo.Core.Events;
 global using MattEland.WhereDoggo.Core.Engine.Phases;
 global using MattEland.WhereDoggo.Core.Roles.NightActions;
+global using MattEland.WhereDoggo.Core.Events.Claims;
