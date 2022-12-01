@@ -94,10 +94,11 @@ Planned features in Phase 1 are:
 - [x] Probabilistic model of what cards are at play start
 - [x] Simple voting
 - [x] Claiming Roles
-- [ ] Wolves Falsely Claiming Roles (most probable center card given existing claims)
-- [ ] Seer / Apprentice Seer Claims share what card they viewed
-- [ ] Random Game Generator
+- [x] Wolves Falsely Claiming Roles (most probable center card given existing claims)
+- [x] Seer / Apprentice Seer Claims share what card they viewed
+- [x] Windows Client
 - [ ] Suspecting fake claims
+- [ ] Players sharing their suspicions
 - [ ] Voting in a Circle (if thinking no werewolves present)
 
 ### Phase 2 - Added Duplicity
@@ -116,7 +117,7 @@ Planned roles:
 
 Planned features:
 
-- [ ] Players sharing their suspicions
+- [ ] Random Game Generator
 - [ ] Voting factoring in suspicions of others
 - [ ] Tanner AI
 - [ ] Mortician AI
@@ -136,10 +137,6 @@ Planned roles:
 
 _Note: the **beholder**, and **squire** roles don't make complete sense until paired with card moving abilities and will be expanded as features grow, but adding them early helped establish baseline AI deductive capabilities_
 
-Planned features:
-
-- [ ] Windows Client
-
 ### Phase 4 - Shifting Alliances (Small Scale)
 
 Planned roles:
@@ -155,7 +152,6 @@ Planned features:
 
 - [ ] Phase by phase probabilistic model of the board
 - [ ] AI Agents attempt to determine which team they're on
-- [ ] Ex-apprentice tanner will identify old tanner
 
 ### Phase 5 - Card Moving
 
