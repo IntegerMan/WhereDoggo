@@ -96,15 +96,12 @@ public class PlayerInferenceEngine
         
         IEnumerable<CenterCardSlot> centerSlots = probabilities.Keys.OfType<CenterCardSlot>().OrderBy(s => _game.Randomizer.Next());
 
-        Dictionary<RoleTypes, decimal> claimOptions = new();
         foreach (CenterCardSlot centerSlot in centerSlots)
         {
             CardProbabilities cardProbabilities = probabilities[centerSlot];
 
             // If we are certain of the card, we can claim it
-            if (cardProbabilities.IsCertain && 
-                cardProbabilities.ProbableTeam == Teams.Villagers && 
-                !HasSideEffects(cardProbabilities.ProbableRole))
+            if (cardProbabilities.IsCertain && cardProbabilities.ProbableTeam == Teams.Villagers)
             {
                 return cardProbabilities.ProbableRole;
             }
@@ -163,34 +160,9 @@ public class PlayerInferenceEngine
 
         // Find the best option without side effects
         KeyValuePair<RoleTypes, decimal>? best = claimOptions
-            .Where(r => !HasSideEffects(r.Key))
             .MaxBy(kvp => kvp.Value);
 
         // If we found something safe, use it. Otherwise, use the best unsafe option
         return best?.Key ?? claimOptions.MaxBy(kvp => kvp.Value).Key;
     }
-
-    /// <summary>
-    /// Determines whether the specified role has undeniable side effects
-    /// that other players can witness. Claiming to be a role with side effects
-    /// is a lot more risky because the side effects will not be present.
-    /// </summary>
-    /// <remarks>
-    /// Roles like Robber and Troublemaker have side effects and these effects may
-    /// be witnessed by other players in rare circumstances, but these roles are
-    /// not considered to have obvious side effects since you need to have the right
-    /// role combinations for these to occur.
-    /// </remarks>
-    /// <param name="role">The role to evaluate</param>
-    /// <returns>Whether or not the role has obvious side effects that can be observed by players</returns>
-    private static bool HasSideEffects(RoleTypes role) =>
-        role switch
-        {
-            RoleTypes.Mason => true,
-            RoleTypes.Thing => true,
-            RoleTypes.Exposer => true,
-            RoleTypes.Sentinel => true,
-            RoleTypes.Revealer => true,
-            _ => false
-        };
 }
