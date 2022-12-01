@@ -4,7 +4,7 @@ public class InsomniacClaim : ClaimBase
 {
     public RoleTypes Role { get; }
 
-    public InsomniacClaim(GamePlayer player, RoleTypes observedRole) : base(player)
+    public InsomniacClaim(GamePlayer player, RoleTypes observedRole = RoleTypes.Insomniac) : base(player)
     {
         Role = observedRole;
     }
@@ -18,7 +18,7 @@ public class InsomniacClaim : ClaimBase
     }
 
     /// <inheritdoc />
-    public override string Text => Role == Player!.InitialCard.RoleType 
-        ? $"{Player} claims to have seen themselves as still the {Player.InitialCard.RoleType.GetFriendlyName()}"
-        : $"{Player} claims they were the {Player.InitialCard.RoleType.GetFriendlyName()} but are now the {Role.GetFriendlyName()}";
+    public override string Text => Role == RoleTypes.Insomniac
+        ? $"{Player} claims to have seen themselves as still the {RoleTypes.Insomniac.GetFriendlyName()}"
+        : $"{Player} claims they were the {RoleTypes.Insomniac.GetFriendlyName()} but are now the {Role.GetFriendlyName()}";
 }

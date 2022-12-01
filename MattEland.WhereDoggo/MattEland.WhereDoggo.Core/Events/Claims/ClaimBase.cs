@@ -14,9 +14,9 @@ public abstract class ClaimBase : GameEventBase
     }
 
     /// <summary>
-    /// Gets a value indicating whether or not the claim is a lie
+    /// Gets or sets a value indicating whether or not the claim is a lie
     /// </summary>
-    public virtual bool IsLie => false;
+    public bool IsLie { get; set; }
 
     /// <summary>
     /// The textual description of the event

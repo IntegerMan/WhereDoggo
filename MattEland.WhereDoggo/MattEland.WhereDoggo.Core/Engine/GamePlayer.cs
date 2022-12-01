@@ -1,4 +1,7 @@
-﻿namespace MattEland.WhereDoggo.Core.Engine;
+﻿using System.Diagnostics.CodeAnalysis;
+using MattEland.WhereDoggo.Core.Roles.Strategies;
+
+namespace MattEland.WhereDoggo.Core.Engine;
 
 /// <summary>
 /// Represents a player within the game world.
@@ -173,7 +176,7 @@ public class GamePlayer : IHasCard
     /// <summary>
     /// Represents the last role this player has publicly claimed.
     /// </summary>
-    public RoleTypes? ClaimedRole => Events.OfType<ClaimedRoleEvent>().Where(cre => cre.Player == this).LastOrDefault()?.ClaimedRole;
+    public RoleTypes? ClaimedRole => Events.OfType<ClaimedRoleEvent>().LastOrDefault(cre => cre.Player == this)?.ClaimedRole;
 
     /// <inheritdoc />
     public override string ToString() => $"{Name}";
@@ -197,10 +200,13 @@ public class GamePlayer : IHasCard
 
             case Teams.Werewolves:
                 {
-                    RoleTypes? claim = Brain.DetermineBestSafeRoleClaim();
-                    if (claim != null)
+                    RoleTypes? roleClaim = Brain.DetermineBestSafeRoleClaim();
+                    if (roleClaim != null)
                     {
-                        yield return new ClaimedRoleEvent(this, claim.Value);
+                        foreach (ClaimBase claim in GenerateFakeClaims(roleClaim.Value))
+                        {
+                            yield return claim;
+                        }
                     }
                     else
                     {
@@ -212,6 +218,27 @@ public class GamePlayer : IHasCard
             default:
                 throw new NotSupportedException($"Team {InitialCard.Team} is not supported for claiming roles");
         }
+    }
+
+    private IEnumerable<ClaimBase> GenerateFakeClaims(RoleTypes roleClaim)
+    {
+        yield return new ClaimedRoleEvent(this, roleClaim);
+
+        IClaimProvider? provider = roleClaim.GetClaimProvider();
+        if (provider != null)
+        {
+            foreach (ClaimBase claim in provider.GenerateClaims(_game, this))
+            {
+                // It might be better to set this on individual claim generators since some statements might
+                // not technically be lies, but be offered under false pretenses.
+                // E.G. a lone wolf might claim apprentice seer and claim to have seen a card known in the
+                // center as itself
+                claim.IsLie = true;
+
+                yield return claim;
+            }
+        }
+
     }
 
     /// <summary>
@@ -227,7 +254,11 @@ public class GamePlayer : IHasCard
                 break;
 
             case Teams.Werewolves:
-                yield return new ClaimedRoleEvent(this, Brain.DetermineBestRoleClaim());
+                RoleTypes roleClaim = Brain.DetermineBestRoleClaim();
+                foreach (ClaimBase claim in GenerateFakeClaims(roleClaim))
+                {
+                    yield return claim;
+                }
                 break;
 
             default:

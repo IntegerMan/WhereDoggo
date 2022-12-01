@@ -28,7 +28,7 @@ public class RevealerNightAction : RoleNightActionBase
             GamePlayer targetPlayer = (GamePlayer)target;
 
             targetPlayer.CurrentCard.IsRevealed = true;
-            game.LogEvent(new RevealedRoleEvent(player, targetPlayer));
+            game.LogEvent(new RevealedRoleEvent(player, targetPlayer, target.CurrentCard.RoleType));
             game.LogEvent(new RevealedRoleObservedEvent(player, targetPlayer));
 
             // Only villagers should be revealed
