@@ -25,7 +25,7 @@ public class ObservedCenterCardEvent : TargetedEventBase
     }
 
     /// <inheritdoc />
-    public override string ToString() => $"{Player} saw {ObservedRole} in {Target}";
+    public override string ToString() => $"{Player} saw {ObservedRole.GetFriendlyName()} in {Target}";
 
     /// <inheritdoc />
     public override void UpdatePlayerPerceptions(GamePlayer observer, IHasCard target, CardProbabilities probabilities)

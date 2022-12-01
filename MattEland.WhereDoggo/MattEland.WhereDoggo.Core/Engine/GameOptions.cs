@@ -22,7 +22,7 @@ public class GameOptions
     /// <remarks>
     /// It is safe to clear, add, and remove entries from this list before creating a game
     /// </remarks>
-    public List<string> PlayerNames { get; } = new() { "Alice", "Bob", "Rufus", "Jimothy", "Wonko the Sane" };
+    public List<string> PlayerNames { get; } = new() { "Santa", "Rudolf", "Comet", "Blitzen", "Cupid" };
 
     /// <summary>
     /// Gets or sets the name of the game
