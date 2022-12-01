@@ -1,6 +1,4 @@
-﻿using MattEland.WhereDoggo.Core.Engine.Phases;
-
-namespace MattEland.WhereDoggo.Core.Roles;
+﻿namespace MattEland.WhereDoggo.Core.Roles;
 
 /// <summary>
 /// The Mystic Wolf is a werewolf that may look at one player's card during the night 

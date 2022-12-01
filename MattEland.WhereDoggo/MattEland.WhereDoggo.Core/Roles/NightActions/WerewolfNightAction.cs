@@ -1,6 +1,4 @@
-﻿using MattEland.WhereDoggo.Core.Engine.Phases;
-
-namespace MattEland.WhereDoggo.Core.Roles;
+﻿namespace MattEland.WhereDoggo.Core.Roles.NightActions;
 
 /// <summary>
 /// This action applies to any member of team Werewolf that wakes in the night
@@ -10,7 +8,7 @@ namespace MattEland.WhereDoggo.Core.Roles;
 /// </summary>
 public class WerewolfNightAction : RoleNightActionBase
 {
-    public WerewolfNightAction() : base(new []{RoleTypes.Werewolf, RoleTypes.MysticWolf})
+    public WerewolfNightAction() : base(new[] { RoleTypes.Werewolf, RoleTypes.MysticWolf })
     {
     }
 

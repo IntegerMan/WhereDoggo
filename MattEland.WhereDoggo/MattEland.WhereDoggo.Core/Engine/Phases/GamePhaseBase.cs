@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MattEland.WhereDoggo.Core.Engine.Phases;
+﻿namespace MattEland.WhereDoggo.Core.Engine.Phases;
 
 /// <summary>
 /// Represents a phase within a game of One Night Ultimate Werewolf.

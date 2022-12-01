@@ -1,6 +1,4 @@
-﻿using MattEland.WhereDoggo.Core.Engine.Phases;
-
-namespace MattEland.WhereDoggo.Core.Roles;
+﻿namespace MattEland.WhereDoggo.Core.Roles.NightActions;
 
 public class InsomniacNightAction : RoleNightActionBase
 {

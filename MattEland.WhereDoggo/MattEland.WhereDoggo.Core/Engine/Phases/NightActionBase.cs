@@ -1,6 +1,4 @@
-﻿using MattEland.WhereDoggo.Core.Events.Claims;
-
-namespace MattEland.WhereDoggo.Core.Engine.Phases;
+﻿namespace MattEland.WhereDoggo.Core.Engine.Phases;
 
 public abstract class NightActionBase
 {

@@ -1,5 +1,4 @@
 ﻿using MattEland.WhereDoggo.Core.Events.Claims;
-using System.Data;
 
 namespace MattEland.WhereDoggo.Core.Events;
 

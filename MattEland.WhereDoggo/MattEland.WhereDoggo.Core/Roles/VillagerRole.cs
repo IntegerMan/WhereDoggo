@@ -1,6 +1,4 @@
-﻿using MattEland.WhereDoggo.Core.Engine.Phases;
-
-namespace MattEland.WhereDoggo.Core.Roles;
+﻿namespace MattEland.WhereDoggo.Core.Roles;
 
 /// <summary>
 /// A villager in One Night Ultimate Werewolf.

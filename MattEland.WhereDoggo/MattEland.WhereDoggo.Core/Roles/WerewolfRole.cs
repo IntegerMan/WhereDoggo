@@ -1,6 +1,4 @@
-﻿using MattEland.WhereDoggo.Core.Engine.Phases;
-
-namespace MattEland.WhereDoggo.Core.Roles;
+﻿namespace MattEland.WhereDoggo.Core.Roles;
 
 /// <summary>
 /// Represents a werewolf from One Night Ultimate Werewolf (base game).
