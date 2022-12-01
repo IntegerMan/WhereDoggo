@@ -31,7 +31,7 @@ public class GameViewModel : ViewModelBase
             RoleTypes.MysticWolf,
             RoleTypes.Villager,
             RoleTypes.ApprenticeSeer,
-            RoleTypes.Seer,
+            RoleTypes.Insomniac,
         };
 
         GameOptions options = new()

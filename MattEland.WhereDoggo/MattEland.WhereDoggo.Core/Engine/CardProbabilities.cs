@@ -231,4 +231,8 @@ public class CardProbabilities
     /// </summary>
     public IEnumerable<RoleTypes> PossibleRoles { get; }
 
+    /// <summary>
+    /// Gets the maximum certainty associated with any single role
+    /// </summary>
+    public decimal MaxCertainty => Probabilities.Values.Max();
 }
