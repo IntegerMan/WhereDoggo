@@ -99,7 +99,10 @@ Planned features in Phase 1 are:
 - [x] Windows Client
 - [ ] Suspecting fake claims
 - [ ] Players sharing their suspicions
+- [ ] Voting factoring in suspicions of others
 - [ ] Voting in a Circle (if thinking no werewolves present)
+- [ ] Player Control
+- [ ] Game Setup (pre-defined games)
 
 ### Phase 2 - Added Duplicity
 
@@ -112,16 +115,21 @@ Planned roles:
 - [ ] Hunter
 - [ ] Bodyguard
 - [ ] Tanner
+- [ ] Apprentice Tanner
 - [ ] Mortician
 - [ ] Prince
+- [ ] Minion
 
 Planned features:
 
-- [ ] Random Game Generator
-- [ ] Voting factoring in suspicions of others
 - [ ] Tanner AI
 - [ ] Mortician AI
 - [ ] Mortician Randomness
+- [ ] Game Setup (custom games)
+- [ ] Random Game Generator
+- [ ] Batch Game Simulation
+- [ ] Class Win / Loss Ratio Stats
+- [ ] Team Win / Loss Ratio Stats
 
 ### Phase 3 - Complex Roles
 
@@ -142,9 +150,7 @@ _Note: the **beholder**, and **squire** roles don't make complete sense until pa
 Planned roles:
 
 - [ ] Alpha Wolf
-- [ ] Minion
 - [ ] Blob
-- [ ] Apprentice Tanner
 - [ ] Paranormal Investigator
 - [ ] Cursed
 
