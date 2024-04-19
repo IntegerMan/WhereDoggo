@@ -11,5 +11,8 @@
     <ProjectReference Include="..\MattEland.Util\MattEland.Util.csproj" />
     <ProjectReference Include="..\MattEland.WhereDoggo.Core\MattEland.WhereDoggo.Core.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Spectre.Console" Version="0.48.0" />
+  </ItemGroup>
 
 </Project>

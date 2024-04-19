@@ -1,5 +1,6 @@
 ﻿using MattEland.WhereDoggo.Core.Engine.Phases;
 using MattEland.WhereDoggo.Core.Roles;
+using Spectre.Console;
 
 static GameResult RunAndShowGame(bool showUi)
 {
@@ -17,35 +18,34 @@ static GameResult RunAndShowGame(bool showUi)
 
     if (showUi)
     {
-        Console.WriteLine($"Starting a new game of \"{game.Name}\"");
-        Console.WriteLine();
+        AnsiConsole.MarkupLine($"Starting a new game of [Yellow]{game.Name}[/]");
+        AnsiConsole.WriteLine();
     }
 
-    GamePhaseBase phase = game.CurrentPhase;
+    GamePhaseBase phase;
     while (!game.RunNextPhase())
     {
         phase = game.CurrentPhase;
-        
-        if (showUi)
-        {
-            if (phase.Name == "Night")
-            {
-                game.DisplayNightActions();
-            }
 
-            if (phase.Name != "Day")
-            {
-                Console.WriteLine($"After {phase} Phase...");
-                game.DisplayGameState();
-            }
-            else
-            {
-                game.DisplayPlayerKnowledge(includeProbabilities: true);
-            }
+        if (!showUi) continue;
+        
+        if (phase.Name == "Night")
+        {
+            game.DisplayNightActions();
+        }
+
+        if (phase.Name != "Day")
+        {
+            AnsiConsole.MarkupLine($"After [Cyan]{phase}[/]...");
+            game.DisplayGameState();
+        }
+        else
+        {
+            game.DisplayPlayerKnowledge(includeProbabilities: true);
         }
     }
 
-    // Log all game events
+    // Log all game events 
     if (showUi)
     {
         game.DisplayAllEvents();
@@ -72,4 +72,4 @@ for (int i = 0; i < numRuns; i++)
     }
 }
 
-Console.WriteLine($"After {numRuns} runs, there were {villageWins} village wins and {wolfWins} wolf wins.");
+AnsiConsole.MarkupLine($"After [Yellow]{numRuns}[/] runs, there were [Blue]{villageWins} village wins[/] and [Red]{wolfWins} wolf team[/] wins.");

@@ -1,5 +1,5 @@
-﻿using MattEland.WhereDoggo.Core.Engine.Phases;
-using MattEland.WhereDoggo.Core.Events;
+﻿using MattEland.WhereDoggo.Core.Events;
+using Spectre.Console;
 
 namespace MattEland.WhereDoggo.WhereDoggoConsole;
 
@@ -28,13 +28,13 @@ public static class GameDisplayHelpers
     
     public static void DisplayNightActions(this Game game)
     {
-        Console.WriteLine("During the Night:");
+        AnsiConsole.MarkupLine("During the [Cyan]Night[/]:");
         List<GameEventBase> events = game.FindEventsForPhase("Night");
         foreach (GameEventBase e in events)
         {
-            Console.WriteLine($"\t{e}");
+            AnsiConsole.WriteLine($"\t{e}");
         }
-        Console.WriteLine();
+        AnsiConsole.WriteLine();
     }
 
     public static void DisplayPlayerKnowledge(this Game game, bool includeProbabilities)
@@ -48,40 +48,40 @@ public static class GameDisplayHelpers
                 continue;
             }
 
-            Console.WriteLine($"{player.Name} Assumed Probabilities:");
+            AnsiConsole.MarkupLine($"[Orange1]{player.Name}[/] Assumed Probabilities:");
                 
             IDictionary<IHasCard, CardProbabilities> probabilities = player.Brain.BuildFinalRoleProbabilities();
 
             foreach (KeyValuePair<IHasCard, CardProbabilities> kvp in probabilities)
             {
-                Console.WriteLine($"\t{kvp.Key.Name} probabilities ({kvp.Value})");
+                AnsiConsole.WriteLine($"\t{kvp.Key.Name} probabilities ({kvp.Value})");
             }
 
-            Console.WriteLine();
+            AnsiConsole.WriteLine();
         }
     }
 
     public static void DisplayPlayerKnowledge(this GamePlayer player)
     {
-        Console.WriteLine(player.Name + " knows:");
+        AnsiConsole.MarkupLine($"[Orange1]{player.Name}[/] knows:");
 
         foreach (GameEventBase @event in player.Events)
         {
-            Console.WriteLine($"\t{@event}");
+            AnsiConsole.WriteLine($"\t{@event}");
         }
 
-        Console.WriteLine();
+        AnsiConsole.WriteLine();
     }
 
     public static void DisplayAllEvents(this Game game)
     {
-        Console.WriteLine("All Game Events:");
+        AnsiConsole.WriteLine("All Game Events:");
 
         foreach (GameEventBase @event in game.Events)
         {
-            Console.WriteLine($"\t{@event}");
+            AnsiConsole.WriteLine($"\t{@event}");
         }
 
-        Console.WriteLine();
+        AnsiConsole.WriteLine();
     }
 }

@@ -18,8 +18,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MattEland.WhereDoggo.Core.T
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MattEland.Util", "MattEland.Util\MattEland.Util.csproj", "{A59B7B80-B3B6-4771-9740-491921257ACB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MattEland.WhereDoggo.WPFClient", "MattEland.WhereDoggo.WPFClient\MattEland.WhereDoggo.WPFClient.csproj", "{6A029BA6-6587-49D1-A7E1-F0580FE3DD7A}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,10 +40,6 @@ Global
 		{A59B7B80-B3B6-4771-9740-491921257ACB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A59B7B80-B3B6-4771-9740-491921257ACB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A59B7B80-B3B6-4771-9740-491921257ACB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6A029BA6-6587-49D1-A7E1-F0580FE3DD7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6A029BA6-6587-49D1-A7E1-F0580FE3DD7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6A029BA6-6587-49D1-A7E1-F0580FE3DD7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6A029BA6-6587-49D1-A7E1-F0580FE3DD7A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
